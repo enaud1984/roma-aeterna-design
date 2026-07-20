@@ -50,6 +50,12 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-205 | Quali retention e granularità del journal sono sostenibili nella demo? | salvataggi, replay, disco e recovery | Tech + Design | benchmark e budget approvati |
 | Q-206 | Qual è il massimo confine transazionale tra sistemi e città? | atomicità, deadlock e recovery | Software Architecture | scenari critici e ADR |
 
+| Q-207 | Quali filiere e professioni sono P0 nella demo oltre alla spina grano-pane? | scope, luoghi, contenuti e test | Game Design + Production | scenario end-to-end e budget approvati |
+| Q-208 | Quali unità di conto, denominazioni e regole di arrotondamento usa la data canonica? | prezzi, pagamenti, UI e save | Historical + Economy Design | dossier numismatico locale validato |
+| Q-209 | Quali panieri e profili household calibrano accessibilità e inflazione locale? | bilanciamento e crisi | Economy Design + Historical | campioni, intervalli e sensitivity review |
+| Q-210 | Quali valori di resa, capacità, salario, interesse, affitto e trasporto sono sostenibili e documentati? | tutte le filiere e carriere | Historical + Economy + QA | dossier tematico e test 90 giorni |
+| Q-211 | Quali regole di proprietà, contratto e credito valgono per ciascuno status demo? | percorsi cittadino/liberto/schiavo | Legal History + Design | matrice status-atto-rimedio approvata |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

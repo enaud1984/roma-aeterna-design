@@ -1,62 +1,76 @@
-# Economia della demo
+# Economia della demo di Pompei
 
 **ID:** DEM-ECO-001
-**Stato:** Draft
-
-## Catena verticale primaria
-
-Grano → trasporto/stoccaggio → molitura → farina → panificazione → pane → distribuzione/credito → consumo/scarto. È scelta perché attraversa logistica, lavoro, proprietà, bisogni, prezzi, politica e ritualità.
-
-## Catene di supporto candidate
-
-Combustibile, acqua, sale/condimenti, contenitori, animali da trasporto e manutenzione. Vino, tessile, garum e edilizia sono candidati successivi, non promesse del primo slice.
-
-## Attori
-
-Importatori/intermediari, trasportatori, proprietari di scorte, mugnai/panettieri, lavoratori liberi e schiavizzati, venditori, household, creditori e autorità. Le identità precise dipendono dalla ricerca sugli edifici.
-
-## Shock dimostrativo
-
-Un ritardo di approvvigionamento, generato anche senza player, riduce scorte. Le attività usano riserve, rinegoziano, sostituiscono, razionano o chiudono; prezzi e credito reagiscono; notizie e accuse entrano nella politica. Nessuna conseguenza è pre-scriptata come unica quest.
-
-## Metriche
-
-Copertura scorte; throughput; prezzi per qualità/luogo; accessibilità per household; insolvenza; tempo di trasporto; sostituzioni; spreco; concentrazione proprietaria. Sono strumenti interni, non necessariamente HUD.
-
-Collegamenti: [economia](../04-simulation/economy.md), [città](../03-world/living-city.md), [narrazione](../06-content/emergent-narrative.md).
+**Stato:** Specifica S3 — valori storici e budget da validare
 
 ## Scopo
 
-Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
+Dimostrare con una catena verticale leggibile che il mondo produce, trasporta, contratta, consuma e reagisce anche senza il giocatore.
 
 ## Descrizione
 
-Il contenuto preesistente costituisce la baseline del dominio. Questa sezione normalizza il documento secondo il contratto minimo della nuova architettura senza sostituirne le informazioni.
+La spina P0 è grano → stoccaggio → molitura → farina → panificazione → distribuzione/credito → consumo/scarto. Attraversa lavoro, proprietà, bisogni, prezzi, relazioni, diritto e folla. Vino, olio, ceramica e tessili sono P1 candidati; le altre filiere restano condizioni aggregate o contenuto futuro.
 
 ## Ambito
 
-Il perimetro è quello definito nelle sezioni precedenti; implementazione e asset restano esclusi finché non saranno autorizzati da milestone e decisioni formali.
+Un mercato cittadino E2, imprese E1 selezionate, azioni E0 attorno al giocatore e corridoi E3/E4 verso hinterland e porti. E5 fornisce soltanto condizioni esterne. Nessun raccolto del giocatore altera l'Impero.
+
+## Ciclo dimostrativo
+
+```mermaid
+flowchart LR
+    A[Informazione e lavoro] --> B[Guadagno o credito]
+    B --> C[Acquisto input/strumenti]
+    C --> D[Produzione o trasporto]
+    D --> E[Consegna e vendita]
+    E --> F[Consumo, reinvestimento o debito]
+    F --> A
+```
+
+## Percorsi per status
+
+| Status | Ingresso candidato | Progressione possibile | Vincoli da mostrare |
+|---|---|---|---|
+| Cittadino | lavoro, investimento o piccola proprietà | specializzazione, contratto, bottega, quota | capitale, reputazione, rischio e obblighi |
+| Liberto | mestiere/rete del patronato e lavoro autonomo | clientela, collegium, bottega, investimento | obblighi, stigma/opportunità contestuali, credito |
+| Schiavo | mansione assegnata e relazioni coercitive | competenza, responsabilità, peculio solo se storicamente/configurativamente valido, manomissione non garantita | assenza di libertà contrattuale piena, violenza e conseguenze; mai inventario |
+
+## Attori, luoghi e dati
+
+Intermediari, trasportatori, proprietari di scorte, mugnai/panettieri, lavoratori liberi e schiavizzati, venditori, household, creditori e autorità. Luoghi P0: almeno un magazzino, mulino/panificio, mercato, abitazioni clienti e rotta d'ingresso. Persistono lotti rilevanti, scorte E1/E2, contratti, debiti, diritti, capacità, prezzi, shock e storico del player.
+
+## Shock dimostrativo
+
+Un ritardo di approvvigionamento autonomo riduce scorte. Attori usano riserve, sostituiscono, rinegoziano, razionano, importano o chiudono secondo mezzi e conoscenze. Prezzi, credito, pettegolezzi e folla reagiscono; non esiste un'unica quest risolutiva.
+
+## Bilanciamento, performance e test
+
+Metriche: copertura scorte, throughput, prezzo per qualità/luogo, accessibilità per household, insolvenza, tempi, spreco, concentrazione e quota player. Test: baseline 90 giorni, shock, incendio, fallimento, doppia transazione, time-skip, save/load, E0↔E2 e grande raccolto personale. Budget numerici dipendono dal benchmark tecnico.
 
 ## Dipendenze
 
-- [Standard documentale](../00-governance/documentation-standard.md)
-- [Visione creativa](../01-vision/creative-vision.md)
+- [Modello economico](../04-simulation/economy-production/economic-model.md)
+- [Filiere](../04-simulation/economy-production/supply-chains.md)
+- [Carriere](../04-simulation/professions-education/career-framework.md)
+- [Pompei](README.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../README.md)
-- [Mappa documentale](../00-governance/documentation-map.md)
-- [Registro decisioni](../00-governance/decision-log.md)
-- [Questioni aperte](../00-governance/open-questions.md)
+- [Prezzi](../04-simulation/economy-production/prices.md)
+- [Contratti](../04-simulation/economy-production/contracts.md)
+- [Bilanciamento](../04-simulation/economy-production/economic-balancing.md)
+- [Readiness](../11-production/roadmap-backlog/implementation-readiness-matrix.md)
+
+## Criteri di completamento
+
+Catena P0 end-to-end, tre percorsi su carta, shock autonomo, conservazione chiusa, aggregazione riconciliata, fallimento recuperabile, fonti collegate e budget approvati.
 
 ## Decisioni ancora aperte
 
-- Owner e reviewer nominali.
-- Stato di approvazione e profondità richiesta dalla roadmap documentale.
-- Eventuali confini da riallineare con i nuovi sottodomini canonici.
+- Edifici e imprese P0 dopo verifica archeologica.
+- Professioni disponibili, paniere, valori e durata dello shock.
 
 ## TODO
 
-- Collegare il contenuto ai nuovi documenti specializzati pertinenti.
-- Assegnare ownership, versione e milestone.
-- Aggiungere requisiti, fonti, rischi, test e Definition of Done durante l'approfondimento.
+- Collegare imprese a coordinate e dossier edilizi.
+- Preparare scenari di accettazione interdisciplinari.

@@ -49,7 +49,7 @@ Include i documenti elencati sotto; sistemi esterni restano nei rispettivi domin
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** modello economico, moneta, prezzi, lavoro, salari, proprietà, contratti, credito, tasse/affitti, filiere e bilanciamento a S3; logistica, produzione, mercato nero e crisi richiedono ulteriore approfondimento.
 
 ## Decisioni ancora aperte
 
@@ -58,6 +58,6 @@ Include i documenti elencati sotto; sistemi esterni restano nei rispettivi domin
 
 ## TODO
 
-- Approvare l'indice.
-- Assegnare owner e reviewer.
-- Collegare fonti, ADR, test e Definition of Done.
+- Approvare valori e perimetro P0 della demo.
+- Approfondire lavoro, salari, tasse, commercio, logistica, produzione, mercato nero e crisi secondo i contratti canonici.
+- Collegare dossier storici tematici e budget tecnici.

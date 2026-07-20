@@ -41,10 +41,10 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-REL | relazioni | S3 | budget edge e review dati sensibili | Simulazione sociale |
 | SYS-HH | famiglia/successione | S2 | casi giuridici e atomizzazione | Simulazione sociale |
 | SYS-STAT | status | S2 | matrice epoca/luogo/diritto | Istituzioni |
-| SYS-ECO | economia | S2 | formule, aggregazione e budget | Economia Pompei |
-| SYS-PROP | proprietà | S2 | transazioni e titoli | Economia Pompei |
+| SYS-ECO | economia | S3 | valori storici, budget e tuning | Economia Pompei |
+| SYS-PROP | proprietà | S3 | catasto e regole per status demo | Economia Pompei |
 | SYS-INV | inventario | S2 | lotti, custodia, decadimento | Economia Pompei |
-| SYS-WORK | professioni/produzione | S2 | contratti output e scheduling | Economia Pompei |
+| SYS-WORK | professioni/produzione | S3 | professioni P0, valori e luoghi | Economia Pompei |
 | SYS-INT | interazione | S2 | stati di contesa/interruzione | Gameplay slice |
 | SYS-CONT | contratti | S2 | modello obbligazioni | Istituzioni |
 | SYS-REP | reputazione | S2 | separazione da conoscenza | Simulazione sociale |

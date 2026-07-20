@@ -32,10 +32,11 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-REL-001 | Relazioni | legami multidimensionali ed evidenze | P1 | S3 | [Relazioni](../04-simulation/npc-population-ai/relationships.md) |
 | SYS-HH-001 | Household/famiglia | membri, autorità, risorse, successione | P1 | S0 | [Household](../04-simulation/family-social/household.md) |
 | SYS-STAT-001 | Status e diritto | capacità, diritti, obblighi, procedure | P1 | S1 | [Status](../04-simulation/social-status-and-law.md) |
-| SYS-ECO-001 | Economia | beni, attività, transazioni, prezzi | P1 | S1 | [Economia](../04-simulation/economy.md) |
-| SYS-PROP-001 | Proprietà | titolarità, possesso, uso, trasferimenti | P1 | S0 | [Proprietà](../04-simulation/economy-production/property.md) |
+| SYS-ECO-001 | Economia | beni, attività, transazioni, prezzi | P1 | S3 | [Economia](../04-simulation/economy-production/economic-model.md) |
+| SYS-PROP-001 | Proprietà | titolarità, possesso, uso, trasferimenti | P1 | S3 | [Proprietà](../04-simulation/economy-production/property.md) |
 | SYS-INV-001 | Inventario | contenitori e custodia fisica | P1 | S0 | [Inventario](../05-player/items/inventory.md) |
-| SYS-WORK-001 | Lavoro/produzione | capacità, processi, turni, output | P1 | S0 | [Produzione](../04-simulation/economy-production/production.md) |
+| SYS-WORK-001 | Lavoro/produzione | capacità, processi, turni, output | P1 | S3 | [Carriere](../04-simulation/professions-education/career-framework.md) |
+| SYS-OBL-001 | Contratti e obbligazioni | accordi, prestazioni, prove, scadenze e controversie | P1 | S3 | [Contratti](../04-simulation/economy-production/contracts.md) |
 | SYS-INT-001 | Interazione | affordance, comandi, risoluzione | P1 | S0 | [Interazione](../05-player/gameplay/interaction-model.md) |
 | SYS-CONT-001 | Situazioni/missioni | condizioni, stati, binding, conseguenze | P1 | S1 | [Contenuti](../06-content/content-framework.md) |
 | SYS-REP-001 | Reputazione | credenze contestuali delle comunità | P1 | S1 | [Informazione](../04-simulation/information-and-reputation.md) |

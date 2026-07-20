@@ -1,39 +1,65 @@
-# Moneta
+# Moneta, pagamenti e unità di conto
 
 ## Scopo
 
-Definire la futura specifica canonica di **Moneta**.
+Definire denominazioni, mezzi di pagamento, resto, qualità e aggregazione senza inventare prezzi storici.
 
 ## Descrizione
 
-Organizza valute, denominazioni, qualità, disponibilità e conversioni.
+La moneta è bene e mezzo di pagamento; il valore contabile può essere espresso in un'unità di riferimento configurata. Credito, baratto e pagamento in natura restano possibili.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Pompei flavia come primo profilo; future epoche/province hanno cataloghi versionati.
+
+## Modello
+
+CoinDefinition: autorità/zecca, denominazione, metallo, finestra, massa/tolleranza, corso/accettazione. CoinLot: quantità, qualità, provenienza, custode. Payment: parti, obbligo, componenti monetarie/in natura/credito, resto e prova.
+
+## Regole
+
+- Nessun wallet astratto vicino al player: quantità e custodia contano.
+- A livelli lontani i lotti monetari diventano saldo per denominazione/qualità.
+- Resto insufficiente può generare credito, sostituzione, rifiuto o arrotondamento contestuale.
+- Monete fuori periodo non compaiono; qualità/accettazione possono variare.
+- Unità di conto UI è licenza D e non implica moneta fisica corrispondente.
+
+## Stati pagamento
+
+Proposed → Tendered → Validated → Settled oppure Rejected/PartiallySettled/ConvertedToDebt.
+
+## Casi limite
+
+Falso, moneta danneggiata, denominazione non accettata, resto, pagamento misto, furto durante scambio, cambio data/zecca, saldo aggregato raffinato.
+
+## Test e persistenza
+
+Conservazione per denominazione, resto, pagamento misto, E0↔E3, eredità, furto, save. Persistono holdings e transazioni salienti.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Modello economico](economic-model.md)
+- [Inventario](../../05-player/items/inventory.md)
+- [Credito](credit-and-debt.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Prezzi](prices.md)
+- [Compravendite](trade.md)
+- [Fonti economiche](../../02-historical-foundation/sources/bibliography.md)
+
+## Criteri di completamento
+
+Catalogo per data, unità UI, pagamenti misti, resto, aggregazione e test approvati.
+
+## Definition of Done
+
+Dossier numismatico e parametri demo revisionati; nessuna denominazione anacronistica.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Unità contabile UI e granularità fisica delle monete.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Creare catalogo flavio con fonti puntuali.

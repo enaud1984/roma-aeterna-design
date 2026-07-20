@@ -109,6 +109,12 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 
 **Conseguenze.** Promuovere un NPC non gli concede conoscenza; aggregare non può perdere debiti, parentela, casi o proprietà; la morte conserva tombstone e apre successione. Il costo è maggiore disciplina contrattuale e tooling di diagnostica.
 
+## ADR-0016 — Conservazione economica e livelli E0–E5
+
+**Decisione.** Beni, moneta, diritti e obbligazioni hanno autorità distinte; ogni mutazione economica ha causale e controparti. La simulazione usa livelli E0 transazione osservata, E1 impresa, E2 mercato cittadino, E3 città remota, E4 regione/rotta ed E5 condizioni imperiali. Aggregazione e disaggregazione conservano saldi e identità rilevanti.
+
+**Conseguenze.** Prezzi non creano merci; contratti non creano capitale; il raccolto del giocatore pesa soltanto quanto la sua quota reale. Proprietà, custodia, debiti, persone, casi e lotti P0 non vengono cancellati dall'aggregazione. La schiavitù è modellata come regime coercitivo su NPC persistenti, mai come inventario.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

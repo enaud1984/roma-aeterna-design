@@ -1,39 +1,65 @@
-# Prezzi
+# Prezzi, domanda, offerta e inflazione locale
 
 ## Scopo
 
-Definire la futura specifica canonica di **Prezzi**.
+Definire formazione e comunicazione dei prezzi senza listino globale o oscillazioni ingestibili.
 
 ## Descrizione
 
-Definisce formazione locale, informazione, negoziazione e variazione.
+Il prezzo è proprietà di una transazione o osservazione: bene, qualità, quantità, luogo, tempo, parti e termini. Il mercato conserva distribuzioni e memoria, non “il vero prezzo”.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Negoziazione E0, mercati E1/E2 e indici E3–E5.
+
+## Formazione
+
+Prezzo di riserva del venditore: costo atteso + scarsità + rischio + margine/obblighi. Disponibilità acquirente: utilità + urgenza + sostituti + liquidità/credito. Relazione, informazione, status e autorità influenzano il range; la transazione avviene se compatibile.
+
+## Stabilità
+
+Memoria a finestra, smoothing, quantità minime, cooldown e limiti di reazione evitano ping-pong. Lo shock reale può superare i limiti. Nessun rubber-banding occulto contro il player.
+
+## Inflazione locale
+
+Indice di paniere per mercato/household, ponderato e versionato. Distinguere rincaro relativo, inflazione monetaria, svalutazione qualitativa e scarsità. In assenza di serie storica il paniere è D per bilanciamento, non fatto A.
+
+## Informazione e speculazione
+
+Prezzi conosciuti derivano da osservazione, contatti e voci con ritardo. Arbitraggio richiede trasporto, capitale, rischio e accesso. La speculazione trattiene o anticipa stock e lascia esposizione al rischio.
+
+## Casi limite
+
+Nessuna vendita, bene unico, prezzo outlier, qualità sconosciuta, mercato chiuso, domanda senza denaro, razionamento, tetto imposto, valuta mista, indice con bene assente.
+
+## Test
+
+Shock domanda/offerta, sostituti, arbitraggio, monopolio locale, relazione, festival, 180 giorni, outlier, E0↔E4 e confronto con range target.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Modello](economic-model.md)
+- [Scorte](warehousing.md)
+- [Trasporto](transport.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Moneta](currency.md)
+- [Crisi](economic-crises.md)
+- [Bilanciamento](economic-balancing.md)
+
+## Criteri di completamento
+
+Prezzi contestuali, indici locali, smoothing, informazione, sostituti e test di stabilità approvati.
+
+## Definition of Done
+
+Range demo e UX di prezzo revisionati, nessun prezzo universale o fonte storica inventata.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Paniere e volatilità target.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Costruire dataset di calibrazione sintetico dichiarato D.

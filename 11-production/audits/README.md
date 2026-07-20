@@ -18,6 +18,7 @@ Qualità editoriale, struttura, collegamenti, autorità, completezza, terminolog
 - [Audit accuratezza storica — 2026-07-20](historical-accuracy-audit-2026-07-20.md)
 - [Audit progettazione del mondo — 2026-07-20](world-design-audit-2026-07-20.md)
 - [Audit NPC e simulazione sociale — 2026-07-20](npc-social-simulation-audit-2026-07-20.md)
+- [Audit economia simulata — 2026-07-20](economy-simulation-audit-2026-07-20.md)
 - [Audit completo Game Bible — 2026-07-20](game-bible-audit-2026-07-20.md)
 
 - [Audit completo 2026-07-20](game-bible-audit-2026-07-20.md)

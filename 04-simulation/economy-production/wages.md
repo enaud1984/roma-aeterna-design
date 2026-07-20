@@ -1,39 +1,60 @@
-# Salari e Compensi
+# Salari e compensi
 
 ## Scopo
 
-Definire la futura specifica canonica di **Salari e Compensi**.
+Definire compensi monetari, in natura, a risultato o misti coerenti con lavoro, status e mercato locale.
 
 ## Descrizione
 
-Definisce paga monetaria, natura, favori, periodicità e negoziazione.
+Il compenso è un'obbligazione prodotta da prestazione, accordo o autorità; non è generato automaticamente dal trascorrere del tempo. Tariffe e potere d'acquisto sono intervalli contestuali da validare storicamente.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Paga per tempo/compito, vitto/alloggio, anticipi, trattenute lecite o contestate, premi, quote, mora e reclami. Non equipara tutte le forme di lavoro al salario moderno.
+
+## Regole
+
+- Base, unità, qualità, scadenza, mezzo e prova sono espliciti.
+- Il datore riserva liquidità/beni o assume debito; l'insolvenza non cancella il credito.
+- Paga nominale e reale sono distinte tramite paniere locale.
+- Competenza, rischio, rarità, stagione, patronato, status e potere negoziale influenzano condizioni.
+- Lavoro coercitivo e compensi eventuali restano modellati separatamente dallo status.
+
+## Flusso e dati
+
+Accordo → prestazione verificata/parziale → obbligazione → pagamento totale/parziale/mora → ricevuta o controversia. `CompensationTerm` possiede base, quantità, denaro/beni, calendario, tolleranze e prova; `Payable` possiede saldo e priorità; `Payment` usa il ledger monetario/inventario.
+
+## Casi limite, bilanciamento e test
+
+Datore senza fondi, paga in bene deteriorato, qualità contestata, anticipo superiore, giornata interrotta, morte e cambio di unità aprono rimedio esplicito. Testare conservazione, pagamento misto, parziale, mora, inflazione locale, aggregazione e save/load. Vietato bilanciare sottraendo paga invisibilmente.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Lavoro](labor.md)
+- [Moneta](currency.md)
+- [Prezzi](prices.md)
+- [Credito](credit-and-debt.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Carriere](../professions-education/career-framework.md)
+- [Contratti](contracts.md)
+- [Bilanciamento](economic-balancing.md)
+
+## Prestazioni e persistenza
+
+Paghe P0 individuali; payroll remoto per lotti idempotenti con eccezioni individuali. Persistono termini, prestazioni, saldi, pagamenti, arretrati e controversie.
+
+## Criteri di completamento
+
+Ogni lavoro P0 produce un compenso o una ragione storico-giuridica della sua assenza; potere d'acquisto e insolvenza sono testati su 90 giorni.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Panieri, intervalli e frequenze di pagamento della demo.
+- Forme di compenso per professione e status.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Collegare dataset e fonti economiche approvate.
+- Definire scenari di arretrato e reclamo.

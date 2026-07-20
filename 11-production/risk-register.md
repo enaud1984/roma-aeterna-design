@@ -41,6 +41,13 @@
 | R-034 | Folla come mente unica | Media | Alto | panico/fuga uniformi | individui, gruppi, conoscenza e uscite differenziati |
 | R-035 | Demografia falsa o instabile | Media | Critico | coorti negative o correlazioni impossibili | conservazione massa e dossier storico |
 | R-036 | Planner in stallo/ciclo | Alta | Alto | NPC idle o replan continui | backoff, isteresi, fallback finiti e inspector |
+| R-037 | Duplicazione o perdita di valore | Media | Critico | bilanci non chiudono dopo transazione/save | invarianti, ledger e test property-based |
+| R-038 | Oscillazione dei mercati | Alta | Alto | prezzi alternano senza shock | smoothing, isteresi, capacità e soak test |
+| R-039 | Dominio economico prematuro del player | Media | Alto | un raccolto muove regione/Impero | quota reale e confini E0–E5 |
+| R-040 | Spirale di debito senza uscita | Media | Alto | insolvenza diventa game over differito | rinegoziazione, conseguenze plurali e test longitudinali |
+| R-041 | Falsa precisione di prezzi e salari | Alta | Alto | numero singolo privo di corpus | intervalli, provenance e sensitivity analysis |
+| R-042 | Persone schiavizzate trattate come inventario | Media | Critico | aggregazione cancella identità o trauma | NPC persistenti, guardrail e review etico-storica |
+| R-043 | Esplosione di lotti e ordini | Alta | Alto | RAM/save/tick crescono con transazioni | livelli E0–E5, coalescenza conservativa e budget |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 
