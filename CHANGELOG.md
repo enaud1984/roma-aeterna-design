@@ -1,5 +1,12 @@
 # Changelog documentale
 
+## 1.3.0-social-simulation — 2026-07-20
+
+- Separati persona, agente, conoscenza, relazioni e popolazione aggregata.
+- Definiti livelli N0–N5 con raffinamento, aggregazione e invarianti.
+- Completati lifecycle, bisogni, routine, decisione, memoria, voci e folle.
+- Documentate reazioni a feste, giochi, incendi, epidemie, funerali, processi e rivolte.
+
 ## 1.2.0-world-design — 2026-07-20
 
 - Definiti framework regionali G0–G5 e livelli di insediamento W0–W5.

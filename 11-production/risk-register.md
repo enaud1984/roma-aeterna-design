@@ -34,6 +34,13 @@
 | R-027 | Spina urbana lunga ma poco densa | Media | Alto | attraversamento senza decisioni | profondità selettiva e metriche per tratto |
 | R-028 | Paleo-geografia errata | Media | Alto | costa/fiume moderni usati nel 79 | dossier geoarcheologico e precision class |
 | R-029 | Costo di folle ed edifici P0 | Alta | Critico | budget superato durante eventi | livelli W/G, access tier e benchmark |
+| R-030 | NPC onniscienti | Alta | Critico | agenti reagiscono a fatti non percepiti | SYS-KNOW, provenance e leak test |
+| R-031 | Routine artificiali o sincronizzate | Alta | Alto | flussi identici ogni giorno | finestre, impegni, fallback e varianza controllata |
+| R-032 | Perdita cross-level | Alta | Critico | beni, persone o eventi duplicati/spariti | invarianti N0–N5 e reconciliation |
+| R-033 | Memoria ingestibile | Alta | Alto | save e RAM crescono senza limite | retention, sintesi, top-K e ledger critico |
+| R-034 | Folla come mente unica | Media | Alto | panico/fuga uniformi | individui, gruppi, conoscenza e uscite differenziati |
+| R-035 | Demografia falsa o instabile | Media | Critico | coorti negative o correlazioni impossibili | conservazione massa e dossier storico |
+| R-036 | Planner in stallo/ciclo | Alta | Alto | NPC idle o replan continui | backoff, isteresi, fallback finiti e inspector |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

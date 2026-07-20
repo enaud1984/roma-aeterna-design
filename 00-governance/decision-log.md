@@ -23,6 +23,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0012 | Classificazione storica A–E e claim atomici | Accepted | separa attestazione, probabilità, ricostruzione, design e verifica |
 | ADR-0013 | Livelli geografici W0–W5 e G0–G5 | Accepted | scala produzione e simulazione senza uniformare gli insediamenti |
 | ADR-0014 | Spina urbana PVS-1 per Pompei | Proposed | Foro–Via dell'Abbondanza–Anfiteatro con profondità selettiva |
+| ADR-0015 | Persona persistente separata da agente, conoscenza e coorti | Accepted | evita oggetti onniscienti e consente N0–N5 |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -101,6 +102,12 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 ## ADR-0014 — Proposta PVS-1
 
 **Stato: Proposed.** La demo candidata usa una spina 1:1 continua dal Foro all'Anfiteatro lungo Via dell'Abbondanza, con cluster Stabian Baths, teatri/Iside e profondità domestico-produttiva selettiva. Mura, necropoli e hinterland restano nodi o mappe locali. Approvazione subordinata a GIS, budget e Q-101.
+
+## ADR-0015 — Separazione delle autorità sociali
+
+**Decisione.** SYS-PER possiede identità e lifecycle; SYS-NPC decisione e attività; SYS-KNOW credenze e memoria; SYS-REL legami; SYS-POP/coorti conservano distribuzioni. Una vista NPC compone i dati senza duplicarne l'autorità. Sei livelli N0–N5 riducono dettaglio mantenendo invarianti.
+
+**Conseguenze.** Promuovere un NPC non gli concede conoscenza; aggregare non può perdere debiti, parentela, casi o proprietà; la morte conserva tombstone e apre successione. Il costo è maggiore disciplina contrattuale e tooling di diagnostica.
 
 ## Scopo
 

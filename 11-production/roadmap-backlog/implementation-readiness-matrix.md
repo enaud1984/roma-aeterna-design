@@ -34,11 +34,11 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-ID | identità | S2 | lifecycle di alias/tombstone | Fondazioni AAA |
 | SYS-WORLD | mondo e spazio | S3 | budget GIS/streaming e autorità delle trasformazioni | Vertical slice Pompei |
 | SYS-SIM | orchestrazione simulazione | S3 | budget quantitativi e recovery | Fondazioni AAA |
-| SYS-PER | persona/ciclo di vita | S2 | invarianti salute-morte | Simulazione sociale |
+| SYS-PER | persona/ciclo di vita | S3 | regole storiche e UX successione | Simulazione sociale |
 | SYS-SAVE | persistenza | S1 | snapshot, migrazione e recovery | Fondazioni AAA |
-| SYS-KNOW | conoscenza | S2 | oblio, fonti e conflitti | Simulazione sociale |
-| SYS-NPC | decisione NPC | S2 | contratti scheduler/routine | Simulazione sociale |
-| SYS-REL | relazioni | S2 | ownership dei tipi di legame | Simulazione sociale |
+| SYS-KNOW | conoscenza | S3 | budget memoria e policy di sintesi | Simulazione sociale |
+| SYS-NPC | decisione NPC | S3 | budget e catalogo azioni demo | Simulazione sociale |
+| SYS-REL | relazioni | S3 | budget edge e review dati sensibili | Simulazione sociale |
 | SYS-HH | famiglia/successione | S2 | casi giuridici e atomizzazione | Simulazione sociale |
 | SYS-STAT | status | S2 | matrice epoca/luogo/diritto | Istituzioni |
 | SYS-ECO | economia | S2 | formule, aggregazione e budget | Economia Pompei |

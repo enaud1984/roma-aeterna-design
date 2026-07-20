@@ -7,6 +7,8 @@
 
 La popolazione usa tre livelli: NPC nominati con continuità completa; NPC persistenti con dettaglio medio; coorti aggregate che rappresentano flussi lontani senza false biografie. Il passaggio di livello conserva identità quando il giocatore crea una relazione significativa.
 
+La strategia è ora estesa ai sei [livelli N0–N5](../04-simulation/npc-population-ai/simulation-levels.md). Nessun numero è approvato prima di Q-102/HV-003; il piano di benchmark deve confrontare profili Small, Recommended, Crowd e Crisis.
+
 ## Distribuzioni da ricercare
 
 Età, genere, status giuridico, cittadinanza/origine, lingua, occupazione, household, abitazione, salute e mobilità. Nessuna distribuzione sarà scelta solo per varietà estetica; ogni stima dichiara confidenza e sensibilità.

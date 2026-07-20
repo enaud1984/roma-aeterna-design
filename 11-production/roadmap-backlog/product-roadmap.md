@@ -16,6 +16,7 @@ Inquadra orizzonti, dipendenze, risultati e livelli di certezza.
 | 2 | Simulazione fondazionale | tempo, identità, autorità, orchestrazione e salvataggi | dipendenze P0 S4 |
 | 2A | Mondo e Pompei | framework W/G, GIS, snapshot, PVS-1, edifici e rete regionale | ADR-0014, Q-101/106–109 e dossier P0 chiusi |
 | 3 | Persona e società | persona, conoscenza, NPC, relazioni, famiglia, status | flussi longitudinali e casi giuridici S4 |
+| 3A | Simulazione sociale Pompei | N0–N5, azioni, routine, memoria, folle ed eventi | Q-102/110–113, benchmark e scenari 30 giorni chiusi |
 | 4 | Economia di Pompei | proprietà, inventario, mercati, lavoro, contratti | scenario economico end-to-end S4 |
 | 5 | Esperienza vertical slice | interazione, bisogni, UI, religione, crimine, combattimento | percorsi demo e budget S4 |
 | 6 | Readiness implementativa | audit interdisciplinare completo | READY_FOR_IMPLEMENTATION oggettiva |

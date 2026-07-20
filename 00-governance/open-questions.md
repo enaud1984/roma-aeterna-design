@@ -27,6 +27,10 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-107 | Quali porte, necropoli e villa suburbana diventano mappe locali? | [Rete regionale](../07-pompeii-demo/design/regional-connections.md) |
 | Q-108 | Quali edifici economici e case sono P0 utilizzabili? | [Edifici](../07-pompeii-demo/design/accessible-buildings.md) |
 | Q-109 | Quale modello geoarcheologico adottare per porto, Sarno e paleo-costa? | [Framework geografico](../03-world/geography/geographic-framework.md) |
+| Q-110 | Quali target numerici N0–N5 e quanti NPC persistenti per Pompei? | [Livelli NPC](../04-simulation/npc-population-ai/simulation-levels.md) |
+| Q-111 | Quali bisogni e azioni sono P0 nella demo? | [Bisogni](../04-simulation/npc-population-ai/needs-ai.md) |
+| Q-112 | Quale budget di ricordi ed edge sociali per individuo? | [Memoria](../04-simulation/npc-population-ai/memory.md) |
+| Q-113 | Quali grandi eventi sociali entrano nel vertical slice? | [Risposte eventi](../04-simulation/npc-population-ai/social-event-responses.md) |
 
 ## Ricerca e sensibilità
 

@@ -26,6 +26,7 @@ Sono inclusi i temi elencati nell'indice seguente; dettagli implementativi e ass
 - [Relazioni](relationships.md)
 - [Comunicazione e Pettegolezzo](communication-gossip.md)
 - [Folle](crowds.md)
+- [Risposte agli Eventi Sociali](social-event-responses.md)
 - [Ciclo di Vita NPC](npc-lifecycle.md)
 - [Generazione NPC](npc-generation.md)
 - [Prestazioni AI](ai-performance.md)
@@ -43,7 +44,7 @@ Sono inclusi i temi elencati nell'indice seguente; dettagli implementativi e ass
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** fondazioni persona, AI, conoscenza, relazioni, livelli, lifecycle, folle e performance completate a S3; generazione e distribuzioni demografiche richiedono approfondimento e budget.
 
 ## Decisioni ancora aperte
 

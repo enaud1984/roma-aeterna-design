@@ -49,6 +49,8 @@ I personaggi attestati hanno una scheda di provenienza; le lacune biografiche no
 
 Collegamenti: [status](social-status-and-law.md), [economia](economy.md), [contenuti](../06-content/content-framework.md), [popolazione demo](../07-pompeii-demo/demo-population.md).
 
+Le specifiche canoniche sono: [modello persona](npc-population-ai/npc-model.md), [livelli N0–N5](npc-population-ai/simulation-levels.md), [AI](npc-population-ai/ai-architecture.md), [lifecycle](npc-population-ai/npc-lifecycle.md), [memoria](npc-population-ai/memory.md), [relazioni](npc-population-ai/relationships.md) e [risposte agli eventi](npc-population-ai/social-event-responses.md).
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

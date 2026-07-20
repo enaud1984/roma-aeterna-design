@@ -25,11 +25,11 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-ID-001 | Identità | ID persistenti e lifecycle | P0 | S1 | [Modello dati](../10-technical/data-model.md) |
 | SYS-WORLD-001 | Mondo/spazio | luoghi, gerarchie, accessi, livelli | P0 | S3 | [Framework](../03-world/settlements/settlement-framework.md) |
 | SYS-SIM-001 | Orchestratore simulazione | clock di dominio, risoluzione, budget | P0 | S2 | [Simulazione](../04-simulation/simulation-architecture.md) |
-| SYS-PER-001 | Persona e ciclo di vita | identità biografica, corpo, nascita, invecchiamento, morte | P0 | S1 | [Ciclo di vita](../04-simulation/npc-population-ai/npc-lifecycle.md) |
+| SYS-PER-001 | Persona e ciclo di vita | identità biografica, corpo, nascita, invecchiamento, morte | P0 | S3 | [Modello persona](../04-simulation/npc-population-ai/npc-model.md) |
 | SYS-SAVE-001 | Persistenza | snapshot, migrazione, recovery | P0 | S1 | [Save](../10-technical/save-system/save-architecture.md) |
-| SYS-KNOW-001 | Conoscenza | fatti, osservazioni, credenze, diffusione | P1 | S1 | [Informazione](../04-simulation/information-and-reputation.md) |
-| SYS-NPC-001 | Agenti | stato, bisogni, intenti, impegni | P1 | S1 | [NPC](../04-simulation/npc-life-simulation.md) |
-| SYS-REL-001 | Relazioni | legami multidimensionali ed evidenze | P1 | S0 | [Relazioni](../04-simulation/npc-population-ai/relationships.md) |
+| SYS-KNOW-001 | Conoscenza | fatti, osservazioni, credenze, diffusione | P1 | S3 | [Memoria](../04-simulation/npc-population-ai/memory.md) |
+| SYS-NPC-001 | Agenti | stato, bisogni, intenti, impegni | P1 | S3 | [AI](../04-simulation/npc-population-ai/ai-architecture.md) |
+| SYS-REL-001 | Relazioni | legami multidimensionali ed evidenze | P1 | S3 | [Relazioni](../04-simulation/npc-population-ai/relationships.md) |
 | SYS-HH-001 | Household/famiglia | membri, autorità, risorse, successione | P1 | S0 | [Household](../04-simulation/family-social/household.md) |
 | SYS-STAT-001 | Status e diritto | capacità, diritti, obblighi, procedure | P1 | S1 | [Status](../04-simulation/social-status-and-law.md) |
 | SYS-ECO-001 | Economia | beni, attività, transazioni, prezzi | P1 | S1 | [Economia](../04-simulation/economy.md) |
