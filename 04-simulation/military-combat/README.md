@@ -55,7 +55,7 @@ Include i documenti elencati sotto; sistemi esterni restano nei rispettivi domin
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** combattimento, trauma, gruppi, contesti, esercito, livelli M0–M5 e trionfi a S3; moduli specialistici attendono profili storici e budget P0.
 
 ## Decisioni ancora aperte
 

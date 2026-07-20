@@ -1,39 +1,62 @@
-# Stanchezza, Paura e Morale
+# Fatica, paura e morale
 
 ## Scopo
 
-Definire la futura specifica canonica di **Stanchezza, Paura e Morale**.
+Definire limiti fisici e decisionali che rendono fuga, resa e rotta esiti razionali e leggibili.
 
 ## Descrizione
 
-Organizza stress fisico, psicologico, coesione, fuga e resa.
+Fatica è costo fisiologico; paura è risposta individuale a minaccia percepita; morale è disponibilità situata a continuare un obiettivo. Non sono un'unica barra né debuff casuali.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Sforzo, recupero, stress, minaccia, coraggio appreso, disciplina, coesione, panico, rotta, resa e impatto di dolore/ferite/comando.
+
+## Dati e aggiornamento
+
+`ExertionState`: carico breve/lungo, calore, sonno e recupero. `ThreatAppraisal`: fonte, probabilità creduta, gravità, vie d'uscita e sostegno. `CommitmentState`: obiettivo, obbligo, fiducia, coesione e soglia decisionale. Input: sprint, attacchi, equipaggiamento, ferite, numero percepito, leader, perdite, rumore, terreno e ordini.
+
+```mermaid
+flowchart LR
+    A[Stimolo e conoscenza] --> B[Valutazione minaccia]
+    B --> C[Fatica, dolore, sostegno e obbligo]
+    C --> D{Decisione}
+    D --> E[Continuare/cambiare tattica]
+    D --> F[Fuga/disimpegno]
+    D --> G[Resa/crollo]
+```
+
+## Regole e casi limite
+
+Fatica riduce frequenza, precisione di controllo e recovery; non sottrae vita. Paura può focalizzare, esitare o causare fuga secondo persona/contesto. Morale di gruppo deriva da individui e segnali, non telepatia. Leader morto ma non osservato non ha effetto immediato. Stimoli simultanei, fuga senza uscita, ordine suicida e passaggio M0↔M2 preservano conoscenza e stato.
+
+## Bilanciamento, performance e persistenza
+
+Feedback audiovisivi anticipano crisi; assistenze non nascondono costo. Recupero richiede tempo e condizioni. M0 aggiorna continuamente/eventi, M1 a intervalli, M2+ aggrega distribuzioni mantenendo individui P0. Persistono fatica significativa, trauma/paure apprese, rotta, resa e memoria; arousal momentaneo può decadere.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Combattimento](combat-vision.md)
+- [Ferite](injuries.md)
+- [Gruppi](group-combat.md)
+- [NPC](../npc-population-ai/ai-architecture.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Bisogni](../npc-population-ai/needs-ai.md)
+- [Esercito](army.md)
+- [Audio](../../09-art-audio/audio/README.md)
+
+## Test e Definition of Done
+
+Testare sforzo/recupero, minaccia non percepita, superiorità, leader, perdita, via di fuga, resa, rotta e aggregazione. DoD: nessun knowledge leak, stati spiegabili e scenari senza oscillazione.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Curve e segnali P0.
+- Persistenza di paure/trauma fuori dal combattimento.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Definire scenari longitudinali e accessibilità feedback.
+- Collegare personalità, disciplina e memoria.

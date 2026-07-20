@@ -45,8 +45,8 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-RELIG-001 | Religione | pratiche, calendari, comunità, autorità | P2 | S3 | [Religione](../04-simulation/religion-calendar/religious-system.md) |
 | SYS-POL-001 | Politica | agenda, coalizioni, decisioni, cariche | P2 | S3 | [Politica](../04-simulation/politics-law/political-system.md) |
 | SYS-CRIME-001 | Illeciti/risposta | atti, prove, denuncia, procedura | P2 | S3 | [Criminalità](../04-simulation/politics-law/criminality.md) |
-| SYS-COMBAT-001 | Combattimento | conflitto fisico, ferite, resa | P2 | S0 | [Combattimento](../04-simulation/military-combat/combat-vision.md) |
-| SYS-WAR-001 | Guerra | campagne e impatti aggregati | P3 | S1 | [Guerra](../04-simulation/war-and-military.md) |
+| SYS-COMBAT-001 | Combattimento | conflitto fisico, trauma, resa e cattura | P2 | S3 | [Combattimento](../04-simulation/military-combat/combat-vision.md) |
+| SYS-WAR-001 | Guerra | formazioni, campagne, logistica e impatti aggregati | P3 | S3 | [Esercito](../04-simulation/military-combat/army.md) |
 | SYS-AUTH-001 | Autorità e transazioni | autorizzazioni, commit, rollback, audit delle mutazioni | P0 | S3 | [Architettura tecnica](../10-technical/technical-architecture.md) |
 | SYS-HIST-001 | Provenienza storica | fonti, claim, certezza, licenze | P0 Tool | S1 | [Framework storico](../02-historical-foundation/historical-framework.md) |
 | SYS-DBG-001 | Osservabilità | inspector, causal trace, replay | P0 Tool | S1 | [Strumenti](../10-technical/tools-and-observability.md) |

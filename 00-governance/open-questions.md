@@ -62,6 +62,13 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-215 | Quali forme di manomissione e capacità dei liberti sono P0? | schiavitù, mobilità, famiglia, lavoro | Legal/Social History + Ethics | scenari e review specialistica |
 | Q-216 | Quali illeciti, procedure e pene possono essere rappresentati nella demo? | crimine, UX, sicurezza e rating | Legal History + Narrative + Safety | matrice e policy contenuti approvate |
 
+| Q-217 | Quali armi, armature e forme di scontro sono P0 a Pompei? | combat, animazione, audio, legge | Combat + Historical + Production | matrice equipaggiamento/scenario approvata |
+| Q-218 | Quali camera, controllo direzionale e assistenze rendono il combattimento leggibile? | UX, accessibilità e animazione | Combat + UX + Accessibility | prototipo documentale e test utenti |
+| Q-219 | Quale granularità anatomica e policy di morte usa la demo? | trauma, rating, eredità e save | Health + Narrative + Safety | golden scenarios e policy approvati |
+| Q-220 | Quali livelli M0–M5 e budget di combattenti/folle sono attivi nella demo? | performance e scope | Technical + AI + Production | benchmark e soglie approvati |
+| Q-221 | Quale profilo militare data/provincia governa organici, paga e carriera? | esercito e storia | Military History + Design | dossier A–E approvato |
+| Q-222 | Il trionfo resta evento remoto nell'orizzonte Pompei? | scope, Roma, folla e produzione | Game Direction + Historical | decisione formale di milestone |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

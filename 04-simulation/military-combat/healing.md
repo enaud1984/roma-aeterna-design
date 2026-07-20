@@ -1,39 +1,61 @@
-# Guarigione
+# Stabilizzazione, cura e guarigione
 
 ## Scopo
 
-Definire la futura specifica canonica di **Guarigione**.
+Definire interventi e recupero credibili, fallibili e storicamente contestualizzati.
 
 ## Descrizione
 
-Collega primo soccorso, medicina, riposo, complicazioni e recupero.
+La cura modifica condizioni specifiche con mezzi, competenza, tempo e rischio. Guarigione è processo biologico sostenuto da riposo, nutrizione, igiene e assistenza; non ripristino istantaneo.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Valutazione, controllo del sanguinamento, pulizia, bendaggio, immobilizzazione, gestione del dolore, trasporto, convalescenza, infezione, riabilitazione e fine vita P0/P1 secondo fonti e safety.
+
+## Flusso e dati
+
+```mermaid
+flowchart LR
+    A[Osservazione/triage] --> B[Pericolo immediato]
+    B --> C[Stabilizzazione]
+    C --> D[Trasporto e cura]
+    D --> E[Convalescenza]
+    E --> F[Recupero, esito persistente o morte]
+```
+
+`CareEpisode` registra paziente, praticante, luogo, conoscenza, strumenti/sostanze, azioni, osservazioni ed esito. Trattamento consuma beni e tempo; una diagnosi è credenza. Intervento errato, contaminato o interrotto può non aiutare o peggiorare senza risultato predeterminato.
+
+## Regole, casi limite e bilanciamento
+
+Priorità su pericoli osservabili; nessun praticante onnisciente. Trasporto può aggravare ma salvare. Riposo accelerato solo tramite time-skip con costi/opportunità e simulazione del mondo. Guaritore assente/ferito, risorse mancanti, più pazienti, rifiuto, prigioniero, infezione tardiva e save/load conservano cronologia.
+
+## Accuratezza, performance e persistenza
+
+Pratiche, terminologia, strumenti e accesso hanno profilo A–E; evitare ospedale/antibiotico/diagnosi moderna impliciti. Milestone programmate sostituiscono tick lontani. Persistono lesioni, interventi, responsabili, materiali, prognosi credute, complicazioni e capacità.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Ferite](injuries.md)
+- [Salute](../health-medicine/health-system.md)
+- [Medicina](../health-medicine/medicine.md)
+- [Economia](../economy-production/supply-chains.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Famiglia](../family-social/family.md)
+- [Esercito](army.md)
+- [Carriere](../professions-education/career-framework.md)
+
+## Test e Definition of Done
+
+Testare triage, stabilizzazione, trasporto, risorse, infezione, convalescenza, esito persistente, morte e time-skip. S4 con pratiche P0 storicamente validate e golden scenarios bilanciati.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Pratiche/ruoli disponibili a Pompei e granularità del recupero.
+- Tempi e rischi, subordinati a fonti e ritmo demo.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Collegare oggetti, professioni e luoghi di cura P0.
+- Definire UX e filtri per contenuti medici.

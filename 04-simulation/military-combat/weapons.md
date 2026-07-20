@@ -1,39 +1,65 @@
-# Armi
+# Armi e strumenti offensivi
 
 ## Scopo
 
-Definire la futura specifica canonica di **Armi**.
+Definire armi come oggetti fisici, culturali e giuridici con uso, manutenzione e provenienza, non come valori di danno lineari.
 
 ## Descrizione
 
-Cataloga tipologie, uso, accesso, manutenzione, rischio e contesto.
+Un'arma offre modalità tecniche entro portata, spazio e competenza. Geometria, massa, velocità relativa, zona colpita e protezione determinano il trauma; qualità e abilità migliorano affidabilità e controllo.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Armi da taglio, punta, impatto e improvvisate P0; uso a una/due mani, presa, transizioni, porto, estrazione, integrità, manutenzione, sequestro e produzione. Armi a distanza richiedono un'estensione approvata.
+
+## Dati e regole
+
+| Campo | Funzione |
+|---|---|
+| geometria/portata | distanza efficace, collisione e spazio |
+| massa/baricentro | inerzia, fatica e recovery |
+| modalità | punta, taglio, impatto, controllo |
+| presa/mano | tecniche, compatibilità scudo e perdita |
+| materiale/qualità | integrità, flessione e manutenzione |
+| provenienza/custodia | proprietà, legalità, crimine e storia |
+
+Attacco fuori misura o contro parete degrada efficacia; arma lunga soffre spazio stretto; disarmo deriva da presa, leva, sorpresa e stato, non RNG puro. Nessuna arma ignora armatura per rarità. Deterioramento è lento e causale, non tassa per colpo.
+
+## Flussi ed eventi
+
+Acquisizione → equipaggiamento → estrazione → tecnica → contatto/nessun contatto → recovery → manutenzione/riparazione/sequestro. Produce `WeaponDrawn`, `ContactResolved`, `WeaponDropped/Broken`, `WeaponMaintained`; ascolta ordine, disarmo, ferita mano, spazio e legge.
+
+## Casi limite, bilanciamento e persistenza
+
+Doppio contatto, arma incastrata, cambio mano, oggetto improvvisato, rottura durante parata e transizione livello devono conservare causalità. Trade-off di portata, controllo, occultabilità e fatica evitano tier assoluti. Persistono identità P0, qualità, custodia, integrità, modifiche e provenienza.
+
+## Accuratezza storica
+
+Tipi, dimensioni, materiali, distribuzione e contesto d'uso sono profili data/area A–E. Niente arsenale gladiatorio/militare universale per civili pompeiani.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Combattimento](combat-vision.md)
+- [Ferite](injuries.md)
+- [Scudi e armature](shields-and-armor.md)
+- [Oggetti](../../05-player/items/README.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Produzione](../economy-production/production.md)
+- [Criminalità](../politics-law/criminality.md)
+- [Equipaggiamento militare](military-pay-equipment.md)
+
+## Test e Definition of Done
+
+Testare portata, spazio stretto, ogni modalità P0, parata, disarmo, rottura, custodia e save/load. S4 dopo corpus archeologico/iconografico, matrice tecnica-trauma e test leggibilità.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Arsenale P0 civile, arena e militare.
+- Granularità di integrità e manutenzione.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Creare catalogo P0 con fonti e misure a intervallo.
+- Collegare animazioni e audio richiesti.

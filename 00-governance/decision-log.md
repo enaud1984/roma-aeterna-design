@@ -121,6 +121,12 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 
 **Conseguenze.** Denaro o fama non comprano automaticamente status o cariche; famiglia non implica proprietà; crimine non genera una risposta onnisciente; carriera pubblica resta fallibile. La schiavitù opera come relazione coercitiva su persone persistenti e la manomissione non cancella biografia o dipendenze.
 
+## ADR-0018 — Conseguenze corporee e livelli militari M0–M5
+
+**Decisione.** Il combattimento risolve spazio, intenzione, contatto, protezione e trauma senza hit point autoritativi. Dolore, sangue, fatica, paura e morale sono assi distinti. Esercito e guerre scalano da M0 individui a M5 teatro, conservando persone P0, scorte, perdite, ordini e causalità.
+
+**Conseguenze.** Player e NPC usano le stesse regole; resa, cattura, fuga e morte sono esiti persistenti. Grandi battaglie e trionfi sono rari e condizionati; il raccolto di eventi non sostituisce requisiti politici, religiosi, logistici o storici.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

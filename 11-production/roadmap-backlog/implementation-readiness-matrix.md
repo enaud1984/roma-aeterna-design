@@ -53,8 +53,8 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-RELIG | religione | S3 | culti, autorità e calendario P0 | Istituzioni |
 | SYS-POL | politica | S3 | competenze e procedure Pompei | Istituzioni |
 | SYS-CRIME | criminalità | S3 | casi e pene P0 validati | Istituzioni |
-| SYS-COMBAT | combattimento | S2 | modello lesioni e leggibilità | Gameplay slice |
-| SYS-WAR | guerra | S1 | confini demo/futuro | Post-slice |
+| SYS-COMBAT | combattimento | S3 | controllo P0, budget, animazione e UX | Gameplay slice |
+| SYS-WAR | guerra | S3 | profilo storico, budget M0–M5 e confini demo | Post-slice |
 | SYS-AUTH | autorizzazioni/transazioni | S3 | modello di rollback | Fondazioni AAA |
 | SYS-HIST | provenienza storica | S1 | schema claim e gate di revisione | Fondazioni AAA |
 | SYS-DBG | diagnostica | S2 | SLO e retention | Fondazioni AAA |

@@ -54,6 +54,13 @@
 | R-047 | Religione come magia o fazione unica | Media | Critico | rito produce buff/divinità certificata | interpretazioni separate e pluralità attestata |
 | R-048 | Schiavitù romanticizzata o decorativa | Media | Critico | coercizione senza danni/agency | invarianti etici, conseguenze e sensitivity review |
 | R-049 | Giustizia onnisciente | Alta | Alto | reato genera pena senza conoscenza | prove, denuncia, autorità e knowledge graph |
+| R-050 | Combattimento illeggibile o arbitrario | Alta | Critico | morte senza telegraph/causalità | segnali, trace e test utenti |
+| R-051 | Realismo punitivo e grind medico | Media | Alto | ogni ferita interrompe il gioco senza alternative | resa, fuga, recupero e tuning conseguenze |
+| R-052 | Desincronizzazione animazione-contatto | Alta | Critico | hit senza geometria o doppio danno | autorità contatto e test property-based |
+| R-053 | Esplosione CPU di gruppi/folle | Alta | Critico | M0 scala con tutti i partecipanti | livelli M0–M5 e budget |
+| R-054 | Esercito anacronistico uniforme | Alta | Critico | organici/equipaggiamento universali | profili data-provincia A–E |
+| R-055 | Grandi eventi troppo frequenti | Media | Alto | battaglie/trionfi diventano routine | gate storici, risorse e calendario |
+| R-056 | Prigionieri ridotti a props | Media | Critico | identità cancellate in battaglia/trionfo | NPC persistenti e review etica |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 
