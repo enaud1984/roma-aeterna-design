@@ -38,6 +38,9 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-201 | Quali metadata documentali saranno validati automaticamente? | autorità, stato, owner, versioni | Technical Writing + Tools | schema e validatore approvati |
 | Q-202 | Qual è la soglia per unire uno scheletro troppo piccolo al documento genitore? | navigabilità e frammentazione | Game Direction | regola basata su responsabilità e lifecycle |
 | Q-203 | Con quale frequenza eseguire l'audit globale? | deriva e costo di manutenzione | Production | cadence inserita nella roadmap |
+| Q-204 | Quale tecnologia UE5 realizzerà dispatch, storage e schema registry? | implementazione di SYS-EVT senza alterarne la semantica | Technical Direction | ADR comparativa dopo target piattaforma |
+| Q-205 | Quali retention e granularità del journal sono sostenibili nella demo? | salvataggi, replay, disco e recovery | Tech + Design | benchmark e budget approvati |
+| Q-206 | Qual è il massimo confine transazionale tra sistemi e città? | atomicità, deadlock e recovery | Software Architecture | scenari critici e ADR |
 
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 

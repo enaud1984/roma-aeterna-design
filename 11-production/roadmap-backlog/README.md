@@ -8,6 +8,8 @@ Definire l'architettura documentale del dominio **Roadmap e Backlog**.
 
 Indice delle specifiche modulari e dei registri da sviluppare nelle fasi successive.
 
+Gate operativi: [Definition of Ready](definition-of-ready.md) e [matrice di readiness](implementation-readiness-matrix.md).
+
 ## Ambito
 
 Include i documenti elencati; non autorizza implementazione, asset o ampliamenti di scope.

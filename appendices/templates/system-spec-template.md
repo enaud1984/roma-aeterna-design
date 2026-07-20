@@ -1,92 +1,205 @@
-# Template — Specifica di sistema
+# Template — Specifica AAA di sistema
 
-**ID:** [DOMINIO]-[SISTEMA]-NNN
-**Stato:** Draft | Review | Approved | Superseded
-**Owner:** ruolo
-**Reviewer:** ruoli
-**Versione/Data:**
-**Genitori/Dipendenti/ADR:**
+> Copiare questo file per creare una specifica. Eliminare le istruzioni tra parentesi quadre, conservare gli identificatori e collegare ogni requisito a test e criteri di accettazione.
 
-## Intento e risultato per il giocatore
+**System ID:** `SYS-[DOMINIO]`
 
-Quale promessa rende vera? Cosa percepisce il giocatore?
+**Stato:** S0 | S1 | S2 | S3 | S4 | S5
 
-## Scope e non-obiettivi
+**Owner / reviewer:** [ruoli]
 
-Confini, scala, casi esplicitamente esclusi.
+**Priorità:** P0 | P1 | P2 | P3 | P4
 
-## Fondazione storica
+**Complessità:** XS | S | M | L | XL
 
-Periodo, luogo, fonti, classi H, controversie e adattamenti.
-
-## Modello di dominio
-
-Entità, proprietà, stati, identità, ownership e invarianti.
-
-## Loop e transizioni
-
-Trigger, input, decisione, risoluzione, output, frequenza e ordine.
-
-## Interazioni
-
-Contratti con altri sistemi, side effect autorizzati e prevenzione cicli.
-
-## Risoluzione e degradazione
-
-Comportamento L0–L4, aggregazione, raffinamento ed errore ammesso.
-
-## UX e accessibilità
-
-Segnali, spiegazione, conoscenza, input e opzioni.
-
-## Contenuti e strumenti
-
-Schema authoring, validazioni, inspector, telemetria.
-
-## Rischi e failure modes
-
-Storici, etici, tecnici, produttivi e di exploit.
-
-## Scenari e criteri di accettazione
-
-Given/When/Then, soak, casi limite e metriche.
-
-## Domande aperte, decisioni e riferimenti
-
-Owner, criterio di chiusura, link relativi e bibliografia.
+**Versione / ultima review:** [semver / data]
 
 ## Scopo
 
-Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
+[Responsabilità unica e risultato verificabile.]
 
 ## Descrizione
 
-Il contenuto preesistente costituisce la baseline del dominio. Questa sezione normalizza il documento secondo il contratto minimo della nuova architettura senza sostituirne le informazioni.
+[Visione del sistema, valore per giocatore e team, sintesi del modello mentale.]
 
 ## Ambito
 
-Il perimetro è quello definito nelle sezioni precedenti; implementazione e asset restano esclusi finché non saranno autorizzati da milestone e decisioni formali.
+### Incluso
+
+- [Funzioni possedute.]
+
+### Escluso e non-obiettivi
+
+- [Responsabilità delegate e feature esplicitamente escluse.]
+
+## Contesto e vincoli storici
+
+| ID | Regola | Periodo/luogo | Classe evidenza | Fonte canonica | Adattamento ammesso |
+|---|---|---|---|---|---|
+| HIS-[SYS]-001 | [regola] | [contesto] | A–E | [link] | [limite] |
+
+## Requisiti funzionali
+
+| ID | Requisito verificabile | Priorità | Fonte | Criterio associato |
+|---|---|---:|---|---|
+| FR-[SYS]-001 | Il sistema deve… | P0 | [link] | ACC-[SYS]-001 |
+
+## Requisiti non funzionali
+
+| ID | Attributo | Soglia o metodo di misura | Scenario | Piattaforma |
+|---|---|---|---|---|
+| NFR-[SYS]-001 | [latenza/determinismo/usabilità] | [budget] | [carico] | [target] |
+
+## Vincoli progettuali
+
+- `CON-[SYS]-001` — [guardrail non negoziabile].
 
 ## Dipendenze
 
-- [Standard documentale](../../00-governance/documentation-standard.md)
-- [Visione creativa](../../01-vision/creative-vision.md)
+### Sistemi utilizzati
+
+| Sistema | Contratto usato | Criticità | Modalità | Degradazione |
+|---|---|---|---|---|
+| [SYS-X] | [CMD/QRY/EVT] | hard/soft | sync/async | [fallback] |
+
+### Sistemi dipendenti
+
+| Sistema | Contratto esposto | Compatibilità richiesta |
+|---|---|---|
+| [SYS-Y] | [contratto] | [versione/policy] |
+
+## Input e output
+
+| ID | Direzione | Tipo logico | Origine/destinazione | Validazione | Errore |
+|---|---|---|---|---|---|
+| CMD-[SYS]-001 | input | [comando] | [sistema] | [regole] | ERR-[categoria] |
+| QRY-[SYS]-001 | output | [vista] | [consumer] | [policy] | [fallback] |
+
+## Dati e autorità
+
+| Dato | Possiede | Legge | Modifica | Persistenza | Retention/migrazione |
+|---|---:|---|---|---|---|
+| [aggregato] | sì/no | [fonti] | [modalità] | [scope] | [policy] |
+
+Invarianti:
+
+- `INV-[SYS]-001` — [condizione sempre vera].
+
+## Eventi generati
+
+| ID evento | Condizione | Payload minimo | Consumatori | Persistenza |
+|---|---|---|---|---|
+| EVT.[Dominio].[Fatto].v1 | [trigger] | [campi] | [sistemi] | [policy] |
+
+## Eventi ricevuti
+
+| ID evento | Produttore | Reazione | Idempotenza | Fuori ordine |
+|---|---|---|---|---|
+| [evento] | [sistema] | [effetto] | [chiave] | [policy] |
+
+## Stati e transizioni
+
+| Stato | Ingresso | Uscita | Timeout | Stato persistito |
+|---|---|---|---|---:|
+| ST-[SYS]-001 | [guardia] | [trigger] | [policy] | sì/no |
+
+```mermaid
+stateDiagram-v2
+    [*] --> StatoIniziale
+    StatoIniziale --> StatoFinale: trigger [guardia]
+```
+
+## Flussi principali
+
+### FL-[SYS]-001 — [nome]
+
+1. [Precondizione e iniziatore.]
+2. [Validazione.]
+3. [Mutazione autorevole.]
+4. [Evento ed esito osservabile.]
+
+## Flussi alternativi e casi limite
+
+| ID | Condizione | Comportamento | Dati preservati | Segnale al giocatore/team |
+|---|---|---|---|---|
+| EDGE-[SYS]-001 | [caso] | [risoluzione] | [stato] | [feedback] |
+
+## Gestione degli errori
+
+| Categoria | Rilevazione | Recovery | Retry | Telemetria |
+|---|---|---|---|---|
+| validazione | [regola] | nessuna mutazione | no | contatore |
+
+## Persistenza dei dati
+
+[Snapshot, journal, versionamento, migrazione, recovery, compatibilità e ricostruzione.]
+
+## Configurabilità e bilanciamento
+
+| ID | Parametro | Range | Default | Owner | Runtime |
+|---|---|---|---|---|---:|
+| CFG-[SYS]-001 | [nome] | [range] | [valore] | [ruolo] | sì/no |
+
+## Prestazioni attese e scalabilità
+
+[Budget misurabile, profili L0–L4, frequenza, carico massimo, back-pressure e comportamento degradato.]
+
+## Modularità e documenti impattati
+
+- API/contratti pubblici: [elenco].
+- Dettagli sostituibili: [elenco].
+- Documenti da aggiornare se cambia il contratto: [link].
+
+## Priorità e complessità
+
+[Motivazione della priorità, driver di complessità, dipendenze di delivery e fasi.]
+
+## Rischi progettuali
+
+| ID | Rischio/failure mode | Probabilità | Impatto | Trigger | Mitigazione | Contingency |
+|---|---|---:|---:|---|---|---|
+| R-[SYS]-001 | [rischio] | [L/M/H] | [L/M/H/C] | [segnale] | [azione] | [fallback] |
+
+## Strategie di test
+
+- unità del modello e invarianti;
+- contratti di input/output/evento;
+- integrazione e transazioni;
+- simulazione longitudinale e soak;
+- performance ai livelli di carico;
+- migrazione, recovery e determinismo;
+- UX/accessibilità e validazione storica, quando applicabili.
+
+## Criteri di accettazione
+
+- `ACC-[SYS]-001` — Given [contesto], when [azione], then [esito misurabile].
+
+## Definition of Done
+
+- [ ] Requisiti P0/P1 tracciati e approvati.
+- [ ] Dati, autorità, contratti ed eventi coerenti con i registri canonici.
+- [ ] Flussi nominali, alternativi, errori e casi limite coperti.
+- [ ] Budget, configurazione e livelli di simulazione definiti.
+- [ ] Test e criteri di accettazione verificabili.
+- [ ] Rischi, decisioni e debito residuo registrati.
+- [ ] Link, diagrammi e documenti impattati validati.
+- [ ] Review interdisciplinare conclusa.
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Standard di specifica](../../00-governance/system-specification-standard.md)
+- [Catalogo dei sistemi](../../00-governance/system-catalog.md)
+- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
+- [Proprietà dei dati](../../10-technical/data/data-ownership-matrix.md)
+- [Contratti degli eventi](../../10-technical/architecture/event-contracts.md)
+- [Matrice di readiness](../../11-production/roadmap-backlog/implementation-readiness-matrix.md)
 
 ## Decisioni ancora aperte
 
-- Owner e reviewer nominali.
-- Stato di approvazione e profondità richiesta dalla roadmap documentale.
-- Eventuali confini da riallineare con i nuovi sottodomini canonici.
+| ID | Decisione bloccante | Owner | Scadenza/gate | Criterio di chiusura |
+|---|---|---|---|---|
+| Q-[SYS]-001 | [domanda] | [ruolo] | [milestone] | [evidenza] |
 
 ## TODO
 
-- Collegare il contenuto ai nuovi documenti specializzati pertinenti.
-- Assegnare ownership, versione e milestone.
-- Aggiungere requisiti, fonti, rischi, test e Definition of Done durante l'approfondimento.
+- [Attività documentale concreta, owner e criterio di chiusura.]

@@ -8,6 +8,8 @@ Definire l'architettura documentale del dominio **Architettura Tecnica**.
 
 Indice delle specifiche modulari della futura Game Bible e Technical Design Bible.
 
+Fonti operative mature: [architettura degli eventi](event-architecture.md) e [contratti degli eventi](event-contracts.md).
+
 ## Ambito
 
 Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla sola presenza di questi scheletri.

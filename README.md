@@ -5,6 +5,8 @@
 > **Vertical slice iniziale:** Pompei
 > **Regola del repository:** nessuna implementazione di gioco prima dell'approvazione della Game Bible.
 
+La progettazione dei sistemi usa lo [standard AAA](00-governance/system-specification-standard.md), il [catalogo canonico](00-governance/system-catalog.md) e la [matrice di readiness](11-production/roadmap-backlog/implementation-readiness-matrix.md). La presenza di un documento non implica che il sistema sia pronto per l'implementazione.
+
 ## Mandato
 
 *Roma Aeterna* vuole simulare la vita nell'Impero Romano dal punto di vista di una persona comune. Il giocatore non riceve uno status eroico: nasce dentro reti familiari, economiche, giuridiche, religiose e politiche che esistono anche senza di lui. Può tentare qualsiasi ascesa consentita dalle condizioni storiche e sistemiche, subirne i limiti o vivere ai margini. Il mondo continua a produrre, consumare, credere, votare, complottare, combattere, invecchiare e morire indipendentemente dalla presenza del giocatore.

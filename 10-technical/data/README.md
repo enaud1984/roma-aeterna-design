@@ -8,6 +8,8 @@ Definire l'architettura documentale del dominio **Database e Modello Dati**.
 
 Indice delle specifiche modulari della futura Game Bible e Technical Design Bible.
 
+La [matrice di proprietà dei dati](data-ownership-matrix.md) governa autorità, mutazioni, persistenza e ricostruzione.
+
 ## Ambito
 
 Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla sola presenza di questi scheletri.

@@ -8,6 +8,19 @@ Definire la futura specifica canonica di **Roadmap del Prodotto**.
 
 Inquadra orizzonti, dipendenze, risultati e livelli di certezza.
 
+## Orizzonti documentali
+
+| Ordine | Orizzonte | Risultato | Gate di uscita |
+|---:|---|---|---|
+| 1 | Fondazioni AAA | standard, catalogo, dati, eventi, dipendenze, DoR | sistemi infrastrutturali almeno S3; SYS-EVT S4 |
+| 2 | Simulazione fondazionale | tempo, identità, autorità, orchestrazione e salvataggi | dipendenze P0 S4 |
+| 3 | Persona e società | persona, conoscenza, NPC, relazioni, famiglia, status | flussi longitudinali e casi giuridici S4 |
+| 4 | Economia di Pompei | proprietà, inventario, mercati, lavoro, contratti | scenario economico end-to-end S4 |
+| 5 | Esperienza vertical slice | interazione, bisogni, UI, religione, crimine, combattimento | percorsi demo e budget S4 |
+| 6 | Readiness implementativa | audit interdisciplinare completo | READY_FOR_IMPLEMENTATION oggettiva |
+
+La [matrice di readiness](implementation-readiness-matrix.md) è la misura canonica: un orizzonte non è completo per semplice presenza dei documenti.
+
 ## Ambito
 
 Coprirà responsabilità, requisiti, dipendenze, rischi, flussi e validazione. La fase corrente definisce soltanto lo scheletro.
@@ -28,6 +41,7 @@ Coprirà responsabilità, requisiti, dipendenze, rischi, flussi e validazione. L
 
 - Owner, reviewer, priorità e confini definitivi.
 - Prerequisiti e milestone di approfondimento.
+- Date e capacità del team; la sequenza resta valida anche senza calendario nominale.
 
 ## TODO
 

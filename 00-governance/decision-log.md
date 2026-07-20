@@ -19,6 +19,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0008 | Piattaforme e target prestazionale | Open | densità NPC e strategia di simulazione |
 | ADR-0009 | Separazione delle autorità nella macroarea Visione | Accepted | elimina duplicazioni tra visione, promessa, principi e scope |
 | ADR-0010 | Panoramiche mature restano canoniche finché gli scheletri specializzati non sono promossi | Accepted | impedisce che file brevi o duplicati acquisiscano autorità implicita |
+| ADR-0011 | Contratto AAA comune e autorità unica per dati/eventi | Accepted | readiness misurabile, mutazioni inter-sistema controllate |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -65,6 +66,18 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Conseguenze.** Gli scheletri sono documenti Planned/Draft, non specifiche pronte per implementazione. Le duplicazioni intenzionali vengono ridotte a sintesi e riferimenti durante la promozione.
 
 **Segnali di revisione.** Eccessivo overhead degli ADR di promozione o introduzione di metadata e tooling che garantiscano automaticamente autorità e copertura.
+
+## ADR-0011 — Contratto AAA e autorità dei sistemi
+
+**Contesto.** Sezioni generiche non rendono implementabile un sistema né chiariscono chi possa modificare dati condivisi.
+
+**Decisione.** Ogni sistema usa lo [standard di specifica](system-specification-standard.md), un ID canonico e i livelli S0–S5. Ogni famiglia dati ha un solo proprietario; modifiche esterne passano per comandi validati o transazioni, mentre gli eventi descrivono fatti già accettati. Un sistema è Ready soltanto a S4 e dopo il gate formale.
+
+**Alternative escluse.** Checklist indipendenti per cartella e ownership condivisa, perché produrrebbero criteri e recovery ambigui.
+
+**Conseguenze.** Le specifiche vengono promosse progressivamente. Cambiare ownership o contratto richiede rivalidare consumer, dati, eventi, test e readiness.
+
+**Segnali di revisione.** Costi transazionali sproporzionati o impossibilità dimostrata di assegnare un proprietario unico.
 
 ## Scopo
 

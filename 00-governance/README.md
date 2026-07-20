@@ -38,6 +38,9 @@ Proposta → analisi delle dipendenze → scenario di validazione → revisione 
 - [Domande aperte](open-questions.md)
 - [Matrice di tracciabilità](traceability-matrix.md)
 - [Registro dei documenti canonici](canonical-document-register.md)
+- [Standard di specifica dei sistemi](system-specification-standard.md)
+- [Catalogo dei sistemi](system-catalog.md)
+- [Matrice delle dipendenze](system-dependency-matrix.md)
 - [Glossario comune](../appendices/glossary.md)
 
 ## Scopo
