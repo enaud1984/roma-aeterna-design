@@ -13,7 +13,7 @@ Stabilire come la ricerca diventa dato, regola, spazio, dialogo e contenuto. L'o
 1. Formulare la domanda di design in termini storici precisi.
 2. Raccogliere fonti primarie archeologiche, epigrafiche, letterarie, papirologiche o numismatiche.
 3. Confrontare studi contemporanei e divergenze interpretative.
-4. Assegnare H1–H4 secondo lo [standard](../00-governance/documentation-standard.md).
+4. Assegnare A–E secondo lo [standard](../00-governance/documentation-standard.md).
 5. Tradurre l'evidenza in vincoli e variabilità, non in un unico stereotipo.
 6. Registrare ciò che il gioco semplifica, combina o inventa.
 7. Sottoporre l'elemento a revisione storica, ludica e di rappresentazione.
@@ -24,7 +24,17 @@ Le fonti primarie sono evidenze situate, non finestre neutrali. Un'iscrizione on
 
 ## Scheda di provenienza
 
-Ogni elemento significativo dovrebbe avere: identificatore; affermazione; luogo/periodo; classe H; fonti; interpretazioni alternative; confidenza; traduzione ludica; rischio di anacronismo; reviewer; data ultima revisione. Il futuro ledger è descritto in [modello dati](../10-technical/data-model.md).
+Ogni elemento significativo deve avere: identificatore; formulazione atomica; periodo; area; fonte primaria; fonte archeologica; studio moderno; classe A–E; interpretazioni alternative; traduzione ludica; rischio di anacronismo; reviewer; data ultima revisione. L'assenza di una categoria di fonte va dichiarata, non colmata con analogie silenziose. Il ledger è il [registro dei claim](sources/historical-claims-register.md).
+
+## Regole di classificazione A–E
+
+- **A** richiede una testimonianza diretta pertinente al claim; una fonte letteraria ostile o tarda può essere primaria senza rendere automaticamente A la sua affermazione.
+- **B** richiede convergenza o consenso robusto, ma conserva un margine interpretativo.
+- **C** rende esplicita l'inferenza: analogia, stima demografica, funzione di un ambiente o routine individuale.
+- **D** identifica una decisione del progetto, non una “verità probabile”.
+- **E** blocca l'uso canonico finché periodo, luogo o fonte non sono sufficienti.
+
+La classe si assegna alla singola proposizione, non all'intero documento o alla fonte.
 
 ## Canone temporale
 
@@ -37,7 +47,7 @@ La data della demo è ancora aperta. Fino ad ADR-0006, i documenti distinguono:
 
 ## Contraddizioni e lacune
 
-Quando le fonti divergono, il progetto può: rappresentare la variabilità; scegliere una tesi e dichiararla; evitare falsa precisione; trasformare l'incertezza in differenze di credenza interne al mondo. Non può presentare una congettura controversa come certezza silenziosa.
+Quando le fonti divergono, il progetto può: rappresentare la variabilità; scegliere una tesi e dichiararla nel [registro controversie](sources/controversies-register.md); evitare falsa precisione; trasformare l'incertezza in differenze di credenza interne al mondo. Non può presentare una congettura controversa come certezza silenziosa.
 
 ## Validazione
 

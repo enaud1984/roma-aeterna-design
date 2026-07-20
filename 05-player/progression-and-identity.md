@@ -9,7 +9,7 @@ La progressione aumenta capacità, accesso, affidabilità e scelta; non trasform
 
 ## Origine
 
-L'origine definisce età, status, famiglia/rete, luogo, competenze iniziali, obblighi, beni e conoscenze. Nessuna origine è un semplice livello di difficoltà: offre fantasie e rischi diversi. Le combinazioni storicamente implausibili vengono escluse o motivate come H3/H4.
+L'origine definisce età, status, famiglia/rete, luogo, competenze iniziali, obblighi, beni e conoscenze. Nessuna origine è un semplice livello di difficoltà: offre fantasie e rischi diversi. Le combinazioni non attestate vengono escluse, classificate C o motivate come licenza D; un controfattuale non cancella i vincoli iniziali.
 
 ## Competenze
 

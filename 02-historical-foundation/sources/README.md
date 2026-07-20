@@ -22,6 +22,8 @@ Sono inclusi i temi elencati nell'indice seguente; dettagli implementativi e ass
 - [Registro delle Controversie](controversies-register.md)
 - [Registro degli Anacronismi](anachronisms-register.md)
 - [Registro delle Licenze Creative](creative-licenses.md)
+- [Registro degli Elementi da Verificare](verification-register.md)
+- [Glossario Latino–Italiano](latin-italian-glossary.md)
 - [Revisione degli Esperti](expert-review.md)
 
 ## Dipendenze

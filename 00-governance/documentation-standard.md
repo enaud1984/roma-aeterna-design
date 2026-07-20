@@ -49,10 +49,13 @@ Le affermazioni sono etichettabili come:
 
 | Classe | Definizione | Trattamento |
 |---|---|---|
-| H1 — attestato | sostenuto direttamente da evidenza primaria o forte consenso | citazione puntuale |
-| H2 — ricostruito | inferenza accademica plausibile | nota di incertezza e fonti |
-| H3 — sintetizzato | composito necessario alla giocabilità | motivazione di design |
-| H4 — controfattuale | deviazione emergente dal gioco | regole di plausibilità |
+| A — attestato direttamente | evidenza primaria o archeologica diretta, pertinente a periodo e luogo | citazione puntuale e limiti |
+| B — altamente probabile | convergenza di più evidenze o forte consenso accademico | fonti multiple e margine residuo |
+| C — ricostruzione plausibile | inferenza compatibile con le evidenze ma non direttamente attestata | alternative e incertezza esplicite |
+| D — scelta di design necessaria | sintesi, scala o regola introdotta per giocabilità | licenza creativa e guardrail |
+| E — elemento da verificare | claim privo di fonte sufficiente o ambiguo per epoca/luogo | non usare come canone fino a review |
+
+Migrazione: H1 confluisce in A o B dopo verifica; H2 in B o C; H3 in D. H4 non è una classe di accuratezza ma un evento controfattuale della simulazione, che conserva la classe A–D delle regole da cui deriva.
 
 Il metodo completo è in [framework storico](../02-historical-foundation/historical-framework.md).
 

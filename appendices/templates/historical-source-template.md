@@ -9,7 +9,7 @@ Enunciato preciso, periodo e luogo di validità.
 
 ## Classificazione
 
-H1 attestato | H2 ricostruito | H3 sintetizzato | H4 controfattuale. Confidenza e motivazione.
+A attestato direttamente | B altamente probabile | C ricostruzione plausibile | D scelta di design | E da verificare. Motivazione obbligatoria.
 
 ## Evidenze
 

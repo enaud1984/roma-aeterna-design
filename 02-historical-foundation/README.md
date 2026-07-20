@@ -8,6 +8,8 @@ Fornire l'indice canonico dell'area **Ambientazione Storica**.
 
 Metodo storico, cronologie, fonti, controversie e rappresentazione.
 
+Fonti canoniche dell'audit: [framework](historical-framework.md), [metodologia](sources/research-methodology.md), [claim A–E](sources/historical-claims-register.md), [bibliografia](sources/bibliography.md) e [cronologia ufficiale](chronology/official-timeline.md).
+
 ## Ambito
 
 La cartella contiene documenti fondativi e sottodomini specializzati. Gli approfondimenti futuri devono essere inseriti nel documento canonico pertinente.

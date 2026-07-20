@@ -9,7 +9,7 @@
 | R-002 | Scala imperiale prematura | Alta | Critico | superficie cresce, densità cala | gate Pompei e criteri espansione |
 | R-003 | NPC costosi ma poco credibili | Alta | Alto | routine ripetitive/stalli | modello a livelli, inspector, test longitudinali |
 | R-004 | Economia instabile | Alta | Alto | inflazione/collasso senza shock | sorgenti/pozzi, time-lapse, limiti |
-| R-005 | Accuratezza incoerente | Media | Critico | asset H3 presentati H1 | provenance ledger e review |
+| R-005 | Accuratezza incoerente | Media | Critico | scelta D presentata come fatto A | provenance ledger e review |
 | R-006 | Rappresentazione dannosa | Media | Critico | coercizione trattata come premio | sensitivity workflow e guardrail |
 | R-007 | Simulazione illeggibile | Alta | Alto | tester percepiscono casualità | causal chain e UX a livelli |
 | R-008 | Tooling tardivo | Alta | Critico | authoring richiede engineering | strumenti come milestone core |
@@ -25,6 +25,10 @@
 | R-018 | Conflitti di ownership dei dati | Media | Critico | due sistemi modificano lo stesso aggregato | proprietario unico, comandi e transazioni |
 | R-019 | Tempeste o cicli di eventi | Alta | Alto | backlog crescente e reazioni ricorsive | causalità, back-pressure, coalescenza autorizzata e soak test |
 | R-020 | Deriva dei contratti tra documenti | Alta | Alto | payload, errori o ID divergenti | cataloghi canonici, contract review e matrice impatti |
+| R-021 | Fonte primaria trattata come testimonianza neutrale | Alta | Alto | claim A basati su un testo senza critica di genere/data | triangolazione e review |
+| R-022 | Trasferimento improprio Roma/province/epoche | Alta | Critico | regola “romana” senza area o periodo | area e finestra obbligatorie, analogie C |
+| R-023 | Falsa precisione demografica/economica | Alta | Alto | numeri singoli senza intervallo o corpus | scenari, sensitività e registro E |
+| R-024 | Scavi o studi recenti rendono obsoleta la baseline | Media | Alto | nuove datazioni/funzioni divergenti | audit periodico e data ultima review |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

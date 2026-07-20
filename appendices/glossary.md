@@ -13,7 +13,7 @@ Termini di progetto, da non usare come equivalenti senza una decisione.
 | Cohort | insieme aggregato di persone non ancora individualizzate |
 | Diegetico | appartenente al mondo percepito dai personaggi |
 | Evento | cambiamento datato con attori, luogo, cause ed effetti |
-| H1–H4 | classi di certezza/trasformazione storica definite in GOV-DOC-001 |
+| A–E | classi di attendibilità: attestato, probabile, ricostruito, design, da verificare |
 | Household | unità domestica/economica, non necessariamente famiglia moderna |
 | Invariante | condizione che resta vera attraverso aggiornamenti e livelli |
 | Ledger | registro interrogabile di trasferimenti o cause |

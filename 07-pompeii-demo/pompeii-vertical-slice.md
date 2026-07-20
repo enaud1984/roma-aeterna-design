@@ -15,7 +15,7 @@ Pompei deve provare che una città romana densamente documentata può vivere sen
 4. Diritto, patronato, politica e religione modificano opportunità concrete.
 5. Un evento fuori mappa raggiunge Pompei tramite flussi e informazione.
 6. Il mondo avanza durante assenza e produce un recap epistemicamente corretto.
-7. Tutti gli elementi storici chiave possiedono provenienza H1–H4.
+7. Tutti gli elementi storici chiave possiedono periodo, area, fonti e classe A–E.
 
 ## Perimetro proposto, non approvato
 

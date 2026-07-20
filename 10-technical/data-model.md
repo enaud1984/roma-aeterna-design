@@ -9,7 +9,7 @@ Definire ownership e relazioni concettuali senza vincolare database o linguaggio
 
 ## Aggregati principali
 
-**Persona:** identità, status, corpo, conoscenza, impegni. **Household:** membri, autorità, risorse condivise, residenza. **Luogo:** gerarchia, accessi, capacità. **Proprietà:** bene, titolare, possessore, diritti. **Attività:** trasformazioni, lavoratori, strumenti, scorte. **Relazione:** parti, dimensione, evidenze. **Istituzione:** ruoli, regole, giurisdizione. **Evento:** tipo, tempo, luogo, cause, partecipanti, effetti. **Fonte storica:** affermazione, classe H, citazione, decisione.
+**Persona:** identità, status, corpo, conoscenza, impegni. **Household:** membri, autorità, risorse condivise, residenza. **Luogo:** gerarchia, accessi, capacità. **Proprietà:** bene, titolare, possessore, diritti. **Attività:** trasformazioni, lavoratori, strumenti, scorte. **Relazione:** parti, dimensione, evidenze. **Istituzione:** ruoli, regole, giurisdizione. **Evento:** tipo, tempo, luogo, cause, partecipanti, effetti. **Fonte storica:** claim atomico, periodo, area, classe A–E, fonti, controversia e licenza.
 
 ## Identità e riferimenti
 

@@ -22,7 +22,7 @@ Costruire una base verificabile per topografia, popolazione, attività, istituzi
 
 ## Unità spaziale
 
-Ogni edificio documentato riceverà una scheda: coordinate archeologiche; nome moderno e storico se noto; fasi; funzione attestata/ipotizzata; accessi; capacità; infrastrutture; oggetti diagnostici; proprietà/occupanti attestati; fonti; classe H; adattamenti. Le aree non scavate non saranno riempite con falsa certezza.
+Ogni edificio documentato riceverà una scheda: coordinate archeologiche; nome moderno e storico se noto; fasi; funzione attestata/ipotizzata; accessi; capacità; infrastrutture; oggetti diagnostici; proprietà/occupanti attestati; fonti; classe A–E; adattamenti. Le aree non scavate non saranno riempite con falsa certezza.
 
 ## Deliverable prima dell'authoring
 
@@ -37,7 +37,7 @@ Ogni edificio documentato riceverà una scheda: coordinate archeologiche; nome m
 
 ## Gate
 
-Nessun landmark è “finale” senza provenienza; nessun NPC storico riceve azioni private inventate senza marcatura H3; nessuna meccanica economica usa un singolo prezzo come universale; nessuna pratica religiosa è trattata come superstizione uniforme.
+Nessun landmark è “finale” senza provenienza; nessun NPC storico riceve azioni private inventate senza licenza D; nessuna meccanica economica usa un singolo prezzo come universale; nessuna pratica religiosa è trattata come superstizione uniforme.
 
 Collegamenti: [framework storico](historical-framework.md), [scope demo](../07-pompeii-demo/pompeii-vertical-slice.md), [popolazione](../07-pompeii-demo/demo-population.md).
 

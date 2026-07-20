@@ -28,7 +28,7 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 
 - Come rappresentare la schiavitù come istituzione strutturale senza ridurla a valuta o spettacolo?
 - Come distinguere pratiche religiose domestiche, civiche, misteriche e imperiali senza usare categorie moderne improprie?
-- Quali gruppi sono scarsamente attestati e richiedono una ricostruzione H2/H3 più esplicita?
+- Quali gruppi sono scarsamente attestati e richiedono una ricostruzione C o una licenza D più esplicita?
 - Quali meccaniche rischiano di premiare comportamenti anacronistici pur presentandoli come storici?
 
 ## Governance e mantenibilità

@@ -13,7 +13,7 @@ Evidenza prima dell'iconografia; funzione prima del pittoresco; variazione motiv
 
 ## Pipeline documentale degli asset
 
-Ogni asset storico rilevante dichiara periodo, luogo, fonte, classe H, funzione, materiali, varianti, stato di usura, scala, interazioni e adattamenti. Concept art esplorativa non diventa riferimento storico senza review.
+Ogni asset storico rilevante dichiara periodo, luogo, fonti, classe A–E, funzione, materiali, varianti, stato di usura, scala, interazioni e adattamenti. Concept art esplorativa non diventa riferimento storico senza review.
 
 ## Personaggi
 

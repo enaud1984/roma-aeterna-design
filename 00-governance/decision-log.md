@@ -20,6 +20,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0009 | Separazione delle autorità nella macroarea Visione | Accepted | elimina duplicazioni tra visione, promessa, principi e scope |
 | ADR-0010 | Panoramiche mature restano canoniche finché gli scheletri specializzati non sono promossi | Accepted | impedisce che file brevi o duplicati acquisiscano autorità implicita |
 | ADR-0011 | Contratto AAA comune e autorità unica per dati/eventi | Accepted | readiness misurabile, mutazioni inter-sistema controllate |
+| ADR-0012 | Classificazione storica A–E e claim atomici | Accepted | separa attestazione, probabilità, ricostruzione, design e verifica |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -78,6 +79,16 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Conseguenze.** Le specifiche vengono promosse progressivamente. Cambiare ownership o contratto richiede rivalidare consumer, dati, eventi, test e readiness.
 
 **Segnali di revisione.** Costi transazionali sproporzionati o impossibilità dimostrata di assegnare un proprietario unico.
+
+## ADR-0012 — Classificazione storica A–E
+
+**Contesto.** Il precedente schema H1–H4 mescolava attendibilità e natura controfattuale, senza distinguere forte probabilità da evidenza diretta o claim ancora non verificati.
+
+**Decisione.** Ogni proposizione storica rilevante usa A attestato, B altamente probabile, C ricostruzione plausibile, D scelta di design o E da verificare. Periodo e area sono obbligatori; il controfattuale è proprietà dell'evento simulato, non classe della fonte.
+
+**Conseguenze.** I claim E non sono canonici; A/B richiedono evidenze pertinenti; C/D espongono inferenza o licenza. I documenti attivi e i template sono migrati, mentre i vecchi audit restano testimonianze della baseline precedente.
+
+**Segnali di revisione.** Ambiguità ricorrenti tra A e B o necessità di sottoclassi per provenienza, senza perdere la semantica pubblica A–E.
 
 ## Scopo
 

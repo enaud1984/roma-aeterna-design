@@ -81,7 +81,7 @@ Ogni proposta riceve 0–2 per pilastro: 0 contraddice, 1 è neutra o indiretta,
 | Rafforza una vita comune significativa? | scenario con origine/status |
 | Funziona senza il player? | scenario autonomo o degradazione |
 | Ha cause e conseguenze? | catena causale |
-| È storicamente leggibile? | fonte/classe H e feedback |
+| È storicamente leggibile? | fonte, periodo, area, classe A–E e feedback |
 | Giustifica il costo di scala? | metrica e riuso |
 | Il potere introduce attrito? | costo/obbligo/rischio |
 | Gli NPC restano soggetti? | impatto su vita e obiettivi |

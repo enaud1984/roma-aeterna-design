@@ -13,7 +13,7 @@ Questa matrice collega promessa, sistema, dimostrazione nella demo e verifica. S
 | Trionfi simulati | [Trionfi](../04-simulation/triumphs.md) | notizia/preparativi/effetti politici | requisiti e conseguenze non dipendono dal player |
 | Città viva | [Modello urbano](../03-world/living-city.md) | ritmi giornalieri, logistica, manutenzione | time-lapse senza collasso o immobilità |
 | Mondo autonomo | [Architettura simulazione](../04-simulation/simulation-architecture.md) | assenza/ritorno del player | causalità persistente e riassunto comprensibile |
-| Accuratezza storica | [Framework storico](../02-historical-foundation/historical-framework.md) | provenance ledger per elementi chiave | audit H1–H4 e revisione esperta |
+| Accuratezza storica | [Framework storico](../02-historical-foundation/historical-framework.md) | provenance ledger per elementi chiave | audit A–E e revisione esperta |
 
 ## Regola di copertura
 

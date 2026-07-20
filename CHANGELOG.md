@@ -1,5 +1,12 @@
 # Changelog documentale
 
+## 1.1.0-historical-audit — 2026-07-20
+
+- Migrata la classificazione storica da H1–H4 ad A–E.
+- Creati claim atomici, registro verifiche, controversie, licenze, anacronismi e glossario latino–italiano.
+- Completate metodologia di citazione, bibliografia tematica e cronologia ufficiale.
+- Corretti trasferimenti impropri tra epoche e aree e generata la relazione di accuratezza.
+
 ## 1.0.1-audit — 2026-07-20
 
 - Eseguito audit completo sui 528 documenti della baseline.
