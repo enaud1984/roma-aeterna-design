@@ -11,6 +11,7 @@ public class RomaAeterna : ModuleRules
 			{
 				"Core",
 				"CoreUObject",
+				"EnhancedInput",
 				"Engine",
 				"InputCore"
 			});

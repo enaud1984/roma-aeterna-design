@@ -66,6 +66,14 @@ Backlog iniziale di prodotto e enablement. Non include task di codice, asset lis
 
 Legenda milestone: PT prototipo tecnico; PG prototipo gameplay; PA pre-alpha; VS vertical slice; DI demo interna; DP demo pubblicabile.
 
+## Incremento tecnico completato — 2026-07-20
+
+| ID | Collegamento | Risultato | Stato | Evidenza residua |
+|---|---|---|---|---|
+| PTF-001 | F-001, F-002, F-008, F-035 | Character controllabile, Enhanced Input, doppia camera, HUD debug e strada tecnica | Implemented / automation green | manual PIE checklist |
+
+Questo incremento valida soltanto la fondazione controllabile. Non completa il graybox PVS-1 storico, l'accessibilità di produzione, la CI o gli altri acceptance criteria delle feature collegate.
+
 ## User story rappresentative
 
 | ID | Feature | User story | Criteri principali |

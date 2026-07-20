@@ -28,6 +28,10 @@ Readiness, sei fasi esecutive e orizzonte post-demo.
 | R6 Pubblicazione | demo distribuibile | release DoD |
 | R7 Valutazione | decisione go/no-go/reshape | dati, costi e rischi reali |
 
+## Snapshot di avanzamento — 2026-07-20
+
+R1 Fondazione è **in corso**. Il progetto UE 5.8, la build Editor, il Technical Roman Street Prototype, il Character controllabile, Enhanced Input e le due visuali sono implementati e coperti da automation. Restano aperti gli altri esiti R1, inclusi schema/save/CI/benchmark, e la verifica manuale PIE della locomozione; R2 non è iniziato.
+
 Nessuna data viene inventata prima di staffing, target e misure PT. Il forecast usa range e confidenza, aggiornati a ogni milestone.
 
 ## Dipendenze

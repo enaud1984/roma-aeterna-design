@@ -11,11 +11,13 @@ Saved/
 .vs/
 .idea/
 *.sln
+*.slnx
 *.suo
 *.opensdf
 *.sdf
 *.VC.db
 *.VC.opendb
+.vsconfig
 
 # Generated plugin output
 Plugins/**/Binaries/

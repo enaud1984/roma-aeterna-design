@@ -26,6 +26,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0015 | Persona persistente separata da agente, conoscenza e coorti | Accepted | evita oggetti onniscienti e consente N0–N5 |
 | ADR-0021 | Record stabili, save segmentato e pipeline verificabile | Accepted | dati indipendenti da UE, recovery esplicito, budget misurabili e tooling P0 |
 | ADR-0022 | Pompei 1 luglio 77, PVS-1 e tre percorsi | Accepted for planning | demo ordinaria pre-eruzione, scope denso e cittadino/liberta/schiavo |
+| ADR-0023 | Un Character e due visuali nel prototipo tecnico | Accepted for technical prototype | Enhanced Input event-driven, stato condiviso, nessun Tick custom |
 
 ## ADR-0001 — Pompei come vertical slice
 

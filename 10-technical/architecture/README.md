@@ -25,6 +25,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 - [Logging e Gestione Errori](logging-errors.md)
 - [Osservabilità](observability.md)
 - [ADR Tecnici](technical-adr.md)
+- [Registro del debito tecnico](technical-debt-register.md)
 
 ## Dipendenze
 

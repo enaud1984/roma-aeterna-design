@@ -13,7 +13,7 @@ La sintesi professionale della Game Bible e disponibile in [formato Word](docs/e
 
 ## Fondazione Unreal Engine
 
-Il progetto C++ UE 5.8 vive direttamente nella root in [RomaAeterna.uproject](RomaAeterna.uproject). Stato, procedura e prova di build sono documentati in [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md), [inizializzazione tecnica](docs/technical/PROJECT_INITIALIZATION.md) e [report della prima build](docs/audits/INITIAL_BUILD_REPORT.md).
+Il progetto C++ UE 5.8 vive direttamente nella root in [RomaAeterna.uproject](RomaAeterna.uproject). La prima fondazione controllabile include movimento, corsa, salto e visuale prima/terza persona nella strada tecnica. Stato e prove sono documentati in [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md), [indice tecnico](docs/technical/README.md), [report della build giocabile](docs/audits/PLAYABLE_FOUNDATION_BUILD_REPORT.md) e [checklist PIE manuale](docs/testing/PLAYABLE_FOUNDATION_MANUAL_TEST.md).
 
 Ogni affermazione storica canonica segue la classificazione A–E e il workflow del [framework storico](02-historical-foundation/historical-framework.md); elementi privi di evidenza sufficiente restano nel [registro di verifica](02-historical-foundation/sources/verification-register.md).
 
