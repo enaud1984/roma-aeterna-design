@@ -30,8 +30,8 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-KNOW-001 | Conoscenza | fatti, osservazioni, credenze, diffusione | P1 | S3 | [Memoria](../04-simulation/npc-population-ai/memory.md) |
 | SYS-NPC-001 | Agenti | stato, bisogni, intenti, impegni | P1 | S3 | [AI](../04-simulation/npc-population-ai/ai-architecture.md) |
 | SYS-REL-001 | Relazioni | legami multidimensionali ed evidenze | P1 | S3 | [Relazioni](../04-simulation/npc-population-ai/relationships.md) |
-| SYS-HH-001 | Household/famiglia | membri, autorità, risorse, successione | P1 | S0 | [Household](../04-simulation/family-social/household.md) |
-| SYS-STAT-001 | Status e diritto | capacità, diritti, obblighi, procedure | P1 | S1 | [Status](../04-simulation/social-status-and-law.md) |
+| SYS-HH-001 | Household/famiglia | membri, autorità, risorse, successione | P1 | S3 | [Famiglia](../04-simulation/family-social/family.md) |
+| SYS-STAT-001 | Status e diritto | capacità, diritti, obblighi, procedure | P1 | S3 | [Status](../04-simulation/family-social/social-status.md) |
 | SYS-ECO-001 | Economia | beni, attività, transazioni, prezzi | P1 | S3 | [Economia](../04-simulation/economy-production/economic-model.md) |
 | SYS-PROP-001 | Proprietà | titolarità, possesso, uso, trasferimenti | P1 | S3 | [Proprietà](../04-simulation/economy-production/property.md) |
 | SYS-INV-001 | Inventario | contenitori e custodia fisica | P1 | S0 | [Inventario](../05-player/items/inventory.md) |
@@ -42,9 +42,9 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-REP-001 | Reputazione | credenze contestuali delle comunità | P1 | S1 | [Informazione](../04-simulation/information-and-reputation.md) |
 | SYS-NEED-001 | Bisogni/salute | bisogni, capacità, malattia, recovery | P1 | S0 | [Salute](../04-simulation/health-medicine/health-system.md) |
 | SYS-UI-001 | UI/feedback | presentazione epistemica e input | P1 | S1 | [UX](../08-ux/ux-principles.md) |
-| SYS-RELIG-001 | Religione | pratiche, calendari, comunità, autorità | P2 | S1 | [Religione](../04-simulation/religion.md) |
-| SYS-POL-001 | Politica | agenda, coalizioni, decisioni, cariche | P2 | S1 | [Politica](../04-simulation/politics-and-governance.md) |
-| SYS-CRIME-001 | Illeciti/risposta | atti, prove, denuncia, procedura | P2 | S0 | [Criminalità](../04-simulation/politics-law/criminality.md) |
+| SYS-RELIG-001 | Religione | pratiche, calendari, comunità, autorità | P2 | S3 | [Religione](../04-simulation/religion-calendar/religious-system.md) |
+| SYS-POL-001 | Politica | agenda, coalizioni, decisioni, cariche | P2 | S3 | [Politica](../04-simulation/politics-law/political-system.md) |
+| SYS-CRIME-001 | Illeciti/risposta | atti, prove, denuncia, procedura | P2 | S3 | [Criminalità](../04-simulation/politics-law/criminality.md) |
 | SYS-COMBAT-001 | Combattimento | conflitto fisico, ferite, resa | P2 | S0 | [Combattimento](../04-simulation/military-combat/combat-vision.md) |
 | SYS-WAR-001 | Guerra | campagne e impatti aggregati | P3 | S1 | [Guerra](../04-simulation/war-and-military.md) |
 | SYS-AUTH-001 | Autorità e transazioni | autorizzazioni, commit, rollback, audit delle mutazioni | P0 | S3 | [Architettura tecnica](../10-technical/technical-architecture.md) |

@@ -41,7 +41,7 @@ Include i documenti elencati sotto; sistemi esterni restano nei rispettivi domin
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** sistema religioso integrato a S3; culti, calendario, luoghi e uffici P0 attendono validazione storica locale.
 
 ## Decisioni ancora aperte
 

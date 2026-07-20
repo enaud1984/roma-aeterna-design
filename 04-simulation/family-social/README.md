@@ -41,7 +41,7 @@ Sono inclusi i temi elencati nell'indice seguente; dettagli implementativi e ass
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** status, famiglia e schiavitù a S3; sottodocumenti specialistici da riallineare e validare storicamente.
 
 ## Decisioni ancora aperte
 

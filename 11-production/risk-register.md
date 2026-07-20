@@ -48,6 +48,12 @@
 | R-041 | Falsa precisione di prezzi e salari | Alta | Alto | numero singolo privo di corpus | intervalli, provenance e sensitivity analysis |
 | R-042 | Persone schiavizzate trattate come inventario | Media | Critico | aggregazione cancella identità o trauma | NPC persistenti, guardrail e review etico-storica |
 | R-043 | Esplosione di lotti e ordini | Alta | Alto | RAM/save/tick crescono con transazioni | livelli E0–E5, coalescenza conservativa e budget |
+| R-044 | Status ridotto a bonus lineare | Alta | Alto | ricchezza sblocca ogni accesso | assi separati e matrice capacità |
+| R-045 | Istituzioni anacronistiche | Alta | Critico | polizia/partiti/clero moderni impliciti | profili data-luogo e review specialistica |
+| R-046 | Carriera politica deterministica | Media | Alto | grind garantisce elezione | opposizione, procedure, fallimento e memoria |
+| R-047 | Religione come magia o fazione unica | Media | Critico | rito produce buff/divinità certificata | interpretazioni separate e pluralità attestata |
+| R-048 | Schiavitù romanticizzata o decorativa | Media | Critico | coercizione senza danni/agency | invarianti etici, conseguenze e sensitivity review |
+| R-049 | Giustizia onnisciente | Alta | Alto | reato genera pena senza conoscenza | prove, denuncia, autorità e knowledge graph |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

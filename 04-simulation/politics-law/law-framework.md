@@ -1,39 +1,78 @@
-# Framework Giuridico
+# Framework giuridico e procedurale
 
 ## Scopo
 
-Definire la futura specifica canonica di **Framework Giuridico**.
+Tradurre status, norme, giurisdizioni, prove e autorità in procedure leggibili ma non anacronisticamente moderne.
 
 ## Descrizione
 
-Definisce status, giurisdizioni, fonti normative e capacità.
+Il diritto non reagisce automaticamente a ogni torto. Un rimedio richiede soggetto capace o rappresentante, autorità competente, conoscenza, iniziativa, prove, tempo e risorse. Regola sostanziale, procedura ed esito sociale rimangono distinti.
 
 ## Ambito
 
-Coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi, bilanciamento e validazione. Non contiene ancora design di dettaglio o implementazione.
+Proprietà, contratti, debiti, famiglia, delitti, pene, processi, magistrature e conflitti di giurisdizione. Ogni profilo è datato/localizzato.
+
+## Entità e regole
+
+`LegalRule` possiede periodo, area, fonte A–E, soggetti, condizioni ed effetti; `CapacityFinding` applica status e atto; `Claim/Accusation` registra parti e rimedio; `EvidenceItem/Testimony` conserva provenienza e accesso; `Proceeding` possiede autorità, fasi e decisione; `Sanction` base, destinatario, esecuzione e conseguenze.
+
+- Nessun illecito genera automaticamente un processo.
+- Proprietà, possesso, custodia e uso sono distinti.
+- Contratto valido, promessa sociale e obbligazione eseguibile non coincidono.
+- Status influenza capacità e protezione ma non predetermina ogni esito.
+- Le prove sono conosciute da soggetti specifici; niente giudice/guardia onnisciente.
+- Pene e rimedi dipendono da atto, status, foro, prova, periodo e autorità.
+
+## Procedura canonica
+
+```mermaid
+flowchart LR
+    A[Danno o pretesa] --> B[Conoscenza e iniziativa]
+    B --> C[Capacità/legittimazione]
+    C --> D[Autorità competente]
+    D --> E[Domanda o accusa]
+    E --> F[Prove, difesa e udienza]
+    F --> G[Decisione]
+    G --> H[Esecuzione, appello/contestazione o fallimento]
+```
+
+## Delitti, processi e pene
+
+La tassonomia P0 include violenza, omicidio, furto/rapina, frode, danneggiamento, contrabbando e corruzione soltanto nelle forme storicamente valide. Esiti: restituzione, compensazione, multa, perdita di diritti/status, coercizione fisica, espulsione, detenzione o pena capitale solo con profilo e review. Il sistema registra anche mancata tutela, accordo, fuga ed esecuzione fallita.
+
+## Eventi, casi limite e persistenza
+
+Produce `ClaimFiled`, `JurisdictionAccepted/Rejected`, `EvidenceAdmitted`, `DecisionIssued`, `SanctionExecuted`; ascolta crimine osservato, morte, status, proprietà, contratto, direttiva e fuga. Autorità morta, parti assenti, prove contraddittorie, norma mutata, doppio foro, prescrizione/tempo e save durante udienza usano stati sospesi e recovery idempotente. Persistono fascicolo, prove, conoscibilità, fasi, decisioni ed esecuzione.
+
+## Accuratezza storica
+
+Niente polizia, pubblico ministero, carcere o diritti processuali moderni come default. Lessico UI distingue traduzione funzionale da termine latino. Ogni procedura P0 richiede review di storia giuridica.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura della simulazione](../simulation-architecture.md)
-- [Framework storico](../../02-historical-foundation/historical-framework.md)
+- [Status](../family-social/social-status.md)
+- [Diritto civile](civil-law.md)
+- [Criminalità](criminality.md)
+- [Processi](trials.md)
+- [Pene](punishments.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Proprietà](../economy-production/property.md)
+- [Contratti](../economy-production/contracts.md)
+- [Indagini](investigations.md)
+- [Magistrature](magistracies.md)
+
+## Test e Definition of Done
+
+Test a matrice status × atto × foro × prova, mancata denuncia, autorità errata, sentenza/esecuzione, aggregazione e save/load. S4 quando almeno un caso civile e uno criminale P0 sono completi e storicamente approvati.
 
 ## Decisioni ancora aperte
 
-- Periodo, luogo, risoluzione e responsabilità definitive.
-- Requisiti indispensabili per la demo di Pompei.
-- Criteri di semplificazione e aggregazione.
+- Fori, procedure, rimedi e pene della data canonica.
+- Livello di astrazione UX e contenuti esclusi per sicurezza.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare conseguenze e dipendenze interdisciplinari.
-- Collegare fonti storiche e ADR.
-- Aggiungere test, metriche e Definition of Done.
+- Creare matrice illecito/pretesa-procedura-rimedio-fonte.
+- Allineare sottodocumenti specialistici.

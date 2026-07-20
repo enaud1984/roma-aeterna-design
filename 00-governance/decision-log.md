@@ -115,6 +115,12 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 
 **Conseguenze.** Prezzi non creano merci; contratti non creano capitale; il raccolto del giocatore pesa soltanto quanto la sua quota reale. Proprietà, custodia, debiti, persone, casi e lotti P0 non vengono cancellati dall'aggregazione. La schiavitù è modellata come regime coercitivo su NPC persistenti, mai come inventario.
 
+## ADR-0017 — Capacità situata e causalità istituzionale
+
+**Decisione.** Libertà, cittadinanza, famiglia, rango, patrimonio e reputazione sono dimensioni separate. Ogni atto istituzionale verifica capacità, autorità, luogo, periodo, conoscenza e prove. Religione conserva fenomeni materiali e interpretazioni senza certificare causalità soprannaturale.
+
+**Conseguenze.** Denaro o fama non comprano automaticamente status o cariche; famiglia non implica proprietà; crimine non genera una risposta onnisciente; carriera pubblica resta fallibile. La schiavitù opera come relazione coercitiva su persone persistenti e la manomissione non cancella biografia o dipendenze.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

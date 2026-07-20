@@ -56,6 +56,12 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-210 | Quali valori di resa, capacità, salario, interesse, affitto e trasporto sono sostenibili e documentati? | tutte le filiere e carriere | Historical + Economy + QA | dossier tematico e test 90 giorni |
 | Q-211 | Quali regole di proprietà, contratto e credito valgono per ciascuno status demo? | percorsi cittadino/liberto/schiavo | Legal History + Design | matrice status-atto-rimedio approvata |
 
+| Q-212 | Quale matrice status-atto-capacità vale nella Pompei canonica? | diritto, economia, famiglia, politica | Legal History + Design | profilo locale validato A–E |
+| Q-213 | Quali magistrature, elezioni e procedure locali sono attive alla data iniziale? | carriera e amministrazione | Political History + Design | dossier epigrafico/procedurale approvato |
+| Q-214 | Quali culti, sacerdozi, feste e comunità sono P0? | religione, calendario, folla e audio | Religious History + Content | matrice luogo-calendario-fonte approvata |
+| Q-215 | Quali forme di manomissione e capacità dei liberti sono P0? | schiavitù, mobilità, famiglia, lavoro | Legal/Social History + Ethics | scenari e review specialistica |
+| Q-216 | Quali illeciti, procedure e pene possono essere rappresentati nella demo? | crimine, UX, sicurezza e rating | Legal History + Narrative + Safety | matrice e policy contenuti approvate |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

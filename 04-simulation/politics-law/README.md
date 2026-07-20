@@ -43,7 +43,7 @@ Include i documenti elencati sotto; sistemi esterni restano nei rispettivi domin
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** sistema politico, carriera pubblica, diritto e criminalità a S3; procedure e istituzioni P0 attendono dossier locale.
 
 ## Decisioni ancora aperte
 

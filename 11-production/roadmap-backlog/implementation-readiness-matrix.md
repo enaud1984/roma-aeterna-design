@@ -39,8 +39,8 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-KNOW | conoscenza | S3 | budget memoria e policy di sintesi | Simulazione sociale |
 | SYS-NPC | decisione NPC | S3 | budget e catalogo azioni demo | Simulazione sociale |
 | SYS-REL | relazioni | S3 | budget edge e review dati sensibili | Simulazione sociale |
-| SYS-HH | famiglia/successione | S2 | casi giuridici e atomizzazione | Simulazione sociale |
-| SYS-STAT | status | S2 | matrice epoca/luogo/diritto | Istituzioni |
+| SYS-HH | famiglia/successione | S3 | matrice P0 e casi giuridici | Simulazione sociale |
+| SYS-STAT | status | S3 | matrice Pompei status-atto | Istituzioni |
 | SYS-ECO | economia | S3 | valori storici, budget e tuning | Economia Pompei |
 | SYS-PROP | proprietà | S3 | catasto e regole per status demo | Economia Pompei |
 | SYS-INV | inventario | S2 | lotti, custodia, decadimento | Economia Pompei |
@@ -50,9 +50,9 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-REP | reputazione | S2 | separazione da conoscenza | Simulazione sociale |
 | SYS-NEED | bisogni | S2 | curve e soglie | Gameplay slice |
 | SYS-UI | interfaccia | S1 | flussi e accessibilità misurabile | Esperienza slice |
-| SYS-RELIG | religione | S2 | autorità rituali e calendario | Istituzioni |
-| SYS-POL | politica | S2 | competenze per epoca/luogo | Istituzioni |
-| SYS-CRIME | criminalità | S2 | prova, denuncia e processo | Istituzioni |
+| SYS-RELIG | religione | S3 | culti, autorità e calendario P0 | Istituzioni |
+| SYS-POL | politica | S3 | competenze e procedure Pompei | Istituzioni |
+| SYS-CRIME | criminalità | S3 | casi e pene P0 validati | Istituzioni |
 | SYS-COMBAT | combattimento | S2 | modello lesioni e leggibilità | Gameplay slice |
 | SYS-WAR | guerra | S1 | confini demo/futuro | Post-slice |
 | SYS-AUTH | autorizzazioni/transazioni | S3 | modello di rollback | Fondazioni AAA |

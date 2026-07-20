@@ -1,39 +1,62 @@
-# Mobilità Sociale
+# Mobilità sociale e prestigio
 
 ## Scopo
 
-Definire la futura specifica canonica di **Mobilità Sociale**.
+Definire cambiamenti lenti, multidimensionali e reversibili di accesso, mezzi e riconoscimento.
 
 ## Descrizione
 
-Collega carriera, ricchezza, relazioni, status e memoria.
+Mobilità economica, giuridica, professionale, familiare e reputazionale non coincidono. Un liberto ricco, un cittadino indebitato, un artigiano prestigioso o un magistrato screditato occupano profili diversi.
 
 ## Ambito
 
-Il documento coprirà regole, dati, flussi, interazioni, livelli di simulazione, rischi e validazione pertinenti al tema. Non contiene ancora design di dettaglio né implementazione.
+Apprendimento, lavoro, proprietà, matrimonio/adozione, patronato, manomissione, cariche, onori, infamia, fallimento e mobilità intergenerazionale.
+
+## Regole e flusso
+
+Ogni percorso richiede opportunità, prerequisiti, tempo, attori/autorità e conseguenze. Ricchezza amplia mezzi ma non converte automaticamente cittadinanza, origine o reputazione. Prestigio è riconoscimento per comunità e dominio; reputazione conserva credenze e prove; status cambia solo mediante evento valido.
+
+```mermaid
+flowchart LR
+    A[Profilo multidimensionale] --> B[Opportunità e barriera]
+    B --> C[Investimento, relazione o procedura]
+    C --> D{Esito contestuale}
+    D --> E[Accesso/riconoscimento]
+    D --> F[Fallimento, debito o stigma]
+    E --> G[Memoria e nuove aspettative]
+```
+
+## Dati, eventi e casi limite
+
+Legge status, patrimonio, competenze, famiglia, reti, cariche e reputazioni. Produce `OpportunityOpened`, `PrestigeChanged`, `AccessChanged`, `MobilityMilestone`; ascolta manomissione, eredità, matrimonio, fallimento, condanna, carica e migrazione. Guadagno improvviso, perdita, status contestato, reputazioni discordi e successione non vengono compressi in un livello.
+
+## Bilanciamento, accuratezza e persistenza
+
+Nessun grind garantisce avanzamento; esistono regressione, percorsi laterali e successo locale. Tempi, barriere e possibilità sono profili storici A–E. Persistono milestone, accessi, rifiuti e memorie comunitarie anche dopo aggregazione.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Visione creativa](../../01-vision/creative-vision.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Status](social-status.md)
+- [Patronato](patronage.md)
+- [Carriere](../professions-education/career-framework.md)
+- [Carriera politica](../politics-law/political-career.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Reputazione](reputation.md)
+- [Famiglia](family.md)
+- [Economia](../economy-production/economic-model.md)
+
+## Test e Definition of Done
+
+Testare ricchezza senza status, status senza mezzi, manomissione, fallimento, prestigio divergente, percorso intergenerazionale e save/load. S4 quando tre percorsi demo sono completi e fallibili.
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, stato e priorità.
-- Confini storici, geografici e sistemici applicabili.
-- Livello di dettaglio richiesto per Pompei e per l'espansione imperiale.
+- Traguardi leggibili della demo senza livelli anacronistici.
+- Effetti intergenerazionali e comunità reputazionali P0.
 
 ## TODO
 
-- Definire requisiti, invarianti, input, output e casi limite.
-- Mappare dipendenze e conseguenze sugli altri sistemi.
-- Collegare fonti storiche e decisioni progettuali.
-- Aggiungere scenari di test e Definition of Done.
+- Definire scenari cittadino, liberto e schiavo.
+- Collegare metriche di accesso e prestigio alla UX.
