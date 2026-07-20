@@ -2,3 +2,25 @@
 docs/export/_generated/qa/
 docs/export/__pycache__/
 docs/export/~$*.docx
+
+# Unreal Engine generated output
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+.idea/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+
+# Generated plugin output
+Plugins/**/Binaries/
+Plugins/**/Intermediate/
+
+# Rider and local editor state
+*.DotSettings.user
+Config/DefaultEditorPerProjectUserSettings.local.ini

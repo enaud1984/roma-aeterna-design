@@ -3,7 +3,7 @@
 > **Stato:** pre-produzione documentale
 > **Prodotto:** RPG open world sandbox storico
 > **Vertical slice iniziale:** Pompei
-> **Regola del repository:** nessuna implementazione di gioco prima dell'approvazione della Game Bible.
+> **Regola del repository:** ogni implementazione è limitata alla milestone esplicitamente autorizzata e deve rispettare i gate della Game Bible.
 
 La progettazione dei sistemi usa lo [standard AAA](00-governance/system-specification-standard.md), il [catalogo canonico](00-governance/system-catalog.md) e la [matrice di readiness](11-production/roadmap-backlog/implementation-readiness-matrix.md). La presenza di un documento non implica che il sistema sia pronto per l'implementazione.
 
@@ -11,13 +11,17 @@ La progettazione dei sistemi usa lo [standard AAA](00-governance/system-specific
 
 La sintesi professionale della Game Bible e disponibile in [formato Word](docs/export/ROMA_AETERNA_GAME_BIBLE.docx) e [formato PDF](docs/export/ROMA_AETERNA_GAME_BIBLE.pdf). I Markdown restano la fonte canonica; procedura di rigenerazione, crediti e verifiche sono raccolti nell'[indice degli export](docs/export/README.md).
 
+## Fondazione Unreal Engine
+
+Il progetto C++ UE 5.8 vive direttamente nella root in [RomaAeterna.uproject](RomaAeterna.uproject). Stato, procedura e prova di build sono documentati in [IMPLEMENTATION_STATUS](IMPLEMENTATION_STATUS.md), [inizializzazione tecnica](docs/technical/PROJECT_INITIALIZATION.md) e [report della prima build](docs/audits/INITIAL_BUILD_REPORT.md).
+
 Ogni affermazione storica canonica segue la classificazione A–E e il workflow del [framework storico](02-historical-foundation/historical-framework.md); elementi privi di evidenza sufficiente restano nel [registro di verifica](02-historical-foundation/sources/verification-register.md).
 
 ## Mandato
 
 *Roma Aeterna* vuole simulare la vita nell'Impero Romano dal punto di vista di una persona comune. Il giocatore non riceve uno status eroico: nasce dentro reti familiari, economiche, giuridiche, religiose e politiche che esistono anche senza di lui. Può tentare qualsiasi ascesa consentita dalle condizioni storiche e sistemiche, subirne i limiti o vivere ai margini. Il mondo continua a produrre, consumare, credere, votare, complottare, combattere, invecchiare e morire indipendentemente dalla presenza del giocatore.
 
-Questo repository è la fonte autorevole per le intenzioni di design, i requisiti, le assunzioni storiche e tecniche e le decisioni di produzione. I documenti descrivono prima il **perché**, poi il **cosa**, infine i vincoli del **come**; non contengono codice di gioco.
+Questo repository è la fonte autorevole per le intenzioni di design, i requisiti, le assunzioni storiche e tecniche e le decisioni di produzione. I documenti descrivono prima il **perché**, poi il **cosa**, infine i vincoli del **come**; il codice presente è limitato alla fondazione tecnica autorizzata.
 
 ## Mappa della Game Bible
 
@@ -56,7 +60,7 @@ La documentazione costituisce una baseline progressiva. Il piano eseguibile dell
 - **Visione e Game Design Bible:** Complete — Baseline 1.0.
 - **Fondazione storica e sistemi principali:** baseline approfondita con verifiche ancora aperte.
 - **Pompei e Technical Design:** piano e contratti a S3; gate S4 non ancora superati.
-- **Produzione:** epic, backlog, milestone, acceptance e READY definiti; codice non autorizzato.
+- **Produzione:** epic, backlog, milestone e acceptance definiti; fondazione UE autorizzata e compilata, sistemi gameplay ancora soggetti ai gate READY.
 
 ### Qualità documentale
 
