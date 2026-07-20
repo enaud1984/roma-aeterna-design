@@ -1,48 +1,75 @@
 # Game Design Bible
 
+**Area:** VIS-GDB
+**Stato:** Complete — Baseline 1.0
+**Owner:** Lead Game Designer
+
 ## Scopo
 
-Definire l'architettura documentale del dominio **Game Design Bible** e i confini dei suoi documenti canonici.
+Tradurre la visione creativa in un contratto di prodotto verificabile e in regole operative per le specifiche di dominio.
 
 ## Descrizione
 
-La cartella contiene specifiche scheletro modulari. I contenuti saranno approfonditi nelle fasi successive secondo lo standard di governance.
+Questo indice assegna un'autorità distinta a ogni documento, evitando duplicazioni. La visione definisce l'identità; questa cartella definisce come preservarla durante progettazione e produzione.
 
 ## Ambito
 
-Sono inclusi i temi elencati nell'indice seguente; dettagli implementativi e asset sono esclusi dalla fase corrente.
+Comprende mandato, promessa, obiettivi di esperienza, principi operativi, tassonomia feature e vincoli. Non sostituisce le specifiche di gameplay o simulazione.
 
 ## Documenti contenuti
 
-- [Mandato della Game Bible](game-bible-charter.md)
-- [Promessa al Giocatore](player-promise.md)
-- [Obiettivi di Esperienza](experience-goals.md)
-- [Principi di Design](design-principles.md)
-- [Tassonomia delle Feature](feature-taxonomy.md)
-- [Vincoli del Prodotto](product-constraints.md)
+| Documento | Domanda a cui risponde | Stato |
+|---|---|---|
+| [Mandato](game-bible-charter.md) | come governa la Bible? | Complete |
+| [Promessa](player-promise.md) | cosa può aspettarsi il giocatore? | Complete |
+| [Obiettivi di esperienza](experience-goals.md) | cosa deve percepire e comprendere? | Complete |
+| [Principi operativi](design-principles.md) | come devono comportarsi le feature? | Complete |
+| [Tassonomia](feature-taxonomy.md) | come classifichiamo le feature? | Complete |
+| [Vincoli](product-constraints.md) | quali limiti non possono essere ignorati? | Complete |
+
+## Flusso principale
+
+~~~mermaid
+flowchart LR
+    P["Promessa"] --> E["Obiettivo esperienza"]
+    E --> R["Principio operativo"]
+    R --> F["Feature classificata"]
+    C["Vincoli"] --> F
+    F --> S["Specifica e test"]
+~~~
 
 ## Dipendenze
 
-- [Visione creativa](../../01-vision/creative-vision.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Visione creativa](../creative-vision.md)
+- [Pilastri](../design-pillars.md)
+- [Scope](../scope-and-non-goals.md)
+- [Governance](../../00-governance/README.md)
 
 ## Collegamenti con le altre aree
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
-
-## Stato di avanzamento
-
-**Stato:** struttura creata; contenuti da sviluppare.
+- [Gameplay](../../05-player/gameplay/README.md)
+- [Simulazione](../../04-simulation/README.md)
+- [Pompei](../../07-pompeii-demo/README.md)
+- [Produzione](../../11-production/README.md)
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e milestone di approfondimento.
-- Confini definitivi con i domini collegati.
+Nessuna decisione aperta interna blocca la baseline. Le decisioni di prodotto Q-001–Q-005 limitano gli usi produttivi ma non l'autorità concettuale.
+
+## Rischi
+
+Uso della Bible come enciclopedia passiva; duplicazione; decisioni non registrate; feature promosse senza prove.
+
+## Criteri di completamento
+
+Tutti i documenti sono completi, non sovrapposti, collegati a test e applicabili a una feature review.
+
+## Stato di avanzamento
+
+**Completato:** 6/6 documenti.
+**Prossima revisione:** chiusura dello scope di Pompei.
 
 ## TODO
 
-- Approvare la tassonomia.
-- Assegnare ownership e stato ai documenti.
-- Collegare ADR, fonti, requisiti e criteri di completamento.
+- Eseguire un workshop di allineamento interdisciplinare.
+- Aggiungere esempi reali dalla prima classificazione del backlog.

@@ -11,6 +11,8 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-003 | Quali piattaforme e prestazioni target? | densità, input, memoria | Tech Direction | target hardware e budget firmati |
 | Q-004 | Quale rating e pubblico minimo? | schiavitù, violenza, sessualità, linguaggio | Direction + Legal | policy contenuti approvata |
 | Q-005 | Qual è il modello commerciale? | scope, persistenza, live operations | Production | business brief approvato |
+| Q-006 | Quale prospettiva e modello di camera adotta il gioco? | controlli, animazione, UX, combattimento | Game + UX Direction | prototipi comparativi e ADR |
+| Q-007 | La successione generazionale è una promessa del prodotto o un'estensione? | durata, morte, famiglia, save | Game Direction | scenario, costo e ADR |
 
 ## Bloccanti per Pompei
 

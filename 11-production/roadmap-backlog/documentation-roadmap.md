@@ -8,6 +8,22 @@ Definire la futura specifica canonica di **Roadmap della Documentazione**.
 
 Definisce ordine, milestone, gate, ownership e criteri di approvazione.
 
+## Stato delle macroaree
+
+| Ordine | Macroarea | Stato | Gate successivo |
+|---|---|---|---|
+| 1 | Visione e Game Design Bible | **Complete — Baseline 1.0** | review dopo Q-001–Q-005 |
+| 2 | Fondazione storica | In progress | audit fonti e cronologia |
+| 3 | Mondo e Pompei | Planned | data e perimetro |
+| 4 | Simulazioni, gameplay e contenuti | Planned | specifiche integrate |
+| 5 | UX, arte, audio e animazione | Planned | experience review |
+| 6 | Technical Design | Planned | readiness tecnica |
+| 7 | Produzione e QA | Planned | readiness implementazione |
+
+## Sequenza e gate
+
+La sequenza segue le dipendenze: la visione governa la ricerca; la ricerca circoscrive mondo e sistemi; i sistemi definiscono requisiti tecnici; tecnologia e contenuti alimentano piano, test e backlog. Una macroarea può ricevere note preliminari ma non essere dichiarata completa prima dei propri genitori.
+
 ## Ambito
 
 Coprirà responsabilità, requisiti, dipendenze, rischi, flussi e validazione. La fase corrente definisce soltanto lo scheletro.

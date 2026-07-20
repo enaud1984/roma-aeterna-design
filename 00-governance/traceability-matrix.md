@@ -19,6 +19,10 @@ Questa matrice collega promessa, sistema, dimostrazione nella demo e verifica. S
 
 Una promessa è “coperta” solo se esistono: documento canonico, responsabile, scenario dimostrabile, fallimento definito e metodo di verifica. Il semplice elenco di una feature non costituisce copertura.
 
+## Promesse formalizzate
+
+Le promesse PP-01–PP-10 sono definite nel [contratto con il giocatore](../01-vision/game-design-bible/player-promise.md). Durante l'espansione di ogni macroarea, questa matrice dovrà sostituire le righe descrittive con requisiti identificati e prove collegate.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

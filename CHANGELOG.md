@@ -1,5 +1,15 @@
 # Changelog documentale
 
+## 1.0.0-vision — 2026-07-20
+
+- Completata la macroarea Visione e Game Design Bible.
+- Formalizzate dieci promesse al giocatore e dieci obiettivi di esperienza.
+- Estesi i pilastri da cinque a sette e definiti dodici principi operativi.
+- Approvata la tassonomia di feature, scope, maturità e orizzonti D0–D3.
+- Registrata ADR-0009 sulla separazione delle autorità documentali.
+- Aggiunte Q-006 sulla camera e Q-007 sulla successione.
+- Aggiornati README, tracciabilità e roadmap documentale.
+
 ## 0.2.0 — 2026-07-20
 
 - Espansa l'architettura a 528 documenti Markdown in 56 cartelle documentali.

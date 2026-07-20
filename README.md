@@ -43,6 +43,12 @@ Questo repository è la fonte autorevole per le intenzioni di design, i requisit
 
 La documentazione presente costituisce la **Baseline 0.1**: definisce architettura, intenzioni, domande aperte e criteri di validazione. Le sezioni marcate `TBD`, le ipotesi e i valori numerici non sono decisioni definitive. La cronologia precisa della demo, il rating, le piattaforme e il modello commerciale richiedono decisioni formali nel [registro delle decisioni](00-governance/decision-log.md).
 
+### Avanzamento dei contenuti
+
+- **Visione e Game Design Bible:** Complete — Baseline 1.0.
+- **Fondazione storica:** prossima macroarea in lavorazione.
+- **Mondo, sistemi, contenuti, UX, arte, tecnologia e produzione:** struttura completa, contenuti da sviluppare.
+
 ## Regole di contribuzione
 
 - Consultare [standard documentale](00-governance/documentation-standard.md) prima di modificare una specifica.

@@ -17,6 +17,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0006 | Data esatta della demo | Open | influenza eruzione, politica, personaggi, asset e tono |
 | ADR-0007 | Lingue e rappresentazione linguistica | Open | dialoghi, UI, accessibilità, costi audio |
 | ADR-0008 | Piattaforme e target prestazionale | Open | densità NPC e strategia di simulazione |
+| ADR-0009 | Separazione delle autorità nella macroarea Visione | Accepted | elimina duplicazioni tra visione, promessa, principi e scope |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -39,6 +40,18 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Decisione.** Gli agenti e le istituzioni mantengono continuità causale senza osservazione diretta. La fedeltà può diminuire con distanza e rilevanza, ma i risultati devono rispettare invarianti e lasciare una catena causale interrogabile.
 
 **Rischio.** Costo computazionale e instabilità emergente. Mitigazioni in [architettura della simulazione](../04-simulation/simulation-architecture.md) e [budget prestazionali](../10-technical/performance-budgets.md).
+
+## ADR-0009 — Autorità documentali della Visione
+
+**Contesto.** La struttura iniziale distribuiva concetti simili tra visione creativa, pilastri e scheletri della Game Design Bible, creando il rischio di requisiti duplicati o divergenti.
+
+**Decisione.** [Visione creativa](../01-vision/creative-vision.md) governa identità e tono; [promessa](../01-vision/game-design-bible/player-promise.md) governa aspettative verificabili; [obiettivi di esperienza](../01-vision/game-design-bible/experience-goals.md) governano risultati percettivi; [pilastri](../01-vision/design-pillars.md) sono gate non negoziabili; [principi operativi](../01-vision/game-design-bible/design-principles.md) regolano il comportamento delle feature; [scope](../01-vision/scope-and-non-goals.md) e [tassonomia](../01-vision/game-design-bible/feature-taxonomy.md) governano classificazione e promozione.
+
+**Alternative escluse.** Un singolo documento monolitico è meno manutenibile; documenti paralleli senza gerarchia rendono ambigua l'autorità.
+
+**Conseguenze.** Le specifiche inferiori linkano il documento pertinente e non ricopiano promesse o principi. La macroarea è approvabile anche con decisioni di prodotto aperte, purché queste restino registrate.
+
+**Segnali di revisione.** Impossibilità di collocare un nuovo requisito, conflitti ricorrenti o necessità di più di due link per individuare l'autorità.
 
 ## Scopo
 
