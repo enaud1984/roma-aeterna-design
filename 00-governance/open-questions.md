@@ -76,6 +76,13 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-227 | Quale proporzione italiano/latino e quale profilo di pronuncia? | voce, sottotitoli e autenticità | Audio + Linguistic History | bible linguistica e corpus P0 |
 | Q-228 | Quali frequenze D0–D5 e quale collocazione temporale dell'eruzione? | eventi, scope e storia | Game Direction + Historical | timeline e matrice hazard approvate |
 
+| Q-229 | Quale versione UE5 e quali piattaforme costituiscono la baseline? | API, plugin, build, performance | Technical Direction + Platform | support matrix e ADR approvati |
+| Q-230 | MassEntity/MassGameplay supera il benchmark Pompei rispetto ai fallback? | NPC, folla, memoria e authoring | AI + Performance + Tools | spike, metriche e fallback approvati |
+| Q-231 | Qual è lo split StateTree/Behavior Tree/domain state machine P0? | AI, combat e debug | AI + Gameplay Architecture | golden traces e budget approvati |
+| Q-232 | Quali grid, HLOD, Data Layer e strategia interni usa PVS-1? | streaming, memoria e workflow | World + Performance + Art | benchmark scenes e ADR |
+| Q-233 | Quali plugin UE integrati/terzi sono ammessi P0? | sicurezza, build e maintenance | Technical + Security + Production | plugin registry e exit plan |
+| Q-234 | Quale packaging di moduli/plugin bilancia isolamento e build time? | ownership e iterazione | Software Architecture + Build | dependency graph e build benchmark |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

@@ -1,37 +1,57 @@
-# Componenti e Subsystem
+# Componenti, interfacce e subsystem UE5
 
 ## Scopo
 
-Definire la futura specifica canonica di **Componenti e Subsystem**.
+Assegnare lifetime e responsabilità evitando God Object, singleton nascosti e Actor come database.
 
 ## Descrizione
 
-Inquadra lifecycle, responsabilità, accesso, coupling e test.
+Un component rappresenta capability di un Actor caricato; un subsystem offre un servizio coerente con lifetime Engine/GameInstance/World/LocalPlayer. Le interfacce espongono contratti piccoli; i record dominio restano indipendenti.
 
 ## Ambito
 
-Coprirà requisiti, responsabilità, dati, flussi, vincoli, rischi e validazione. Non contiene codice, asset o decisioni tecniche non approvate.
+Actor/Scene Component, UObject service, UE Subsystem, interface, view model, bootstrap e teardown.
+
+## Regole di scelta
+
+- Component: ha bisogno del lifecycle/spazio dell'Actor e può essere ricreato dal record.
+- World subsystem: stato/servizio per mondo, inclusi clock/scheduler/stream bridge.
+- GameInstance subsystem: sessione, cataloghi e save coordinator; niente stato di singolo world senza ID.
+- LocalPlayer subsystem: input, accessibilità e view state locale.
+- Plain C++/UObject: logica testabile senza lifetime globale.
+- Interface: capability richiesta, non contenitore di utility.
+
+Componenti candidati: interaction target, presentation inventory, combat presentation, audio emitter, streaming source adapter. Subsystem candidati: time, simulation scheduler, event dispatcher, identity repository, content, save, UI coordination. Nessun subsystem accede direttamente ai privati di tutti i domini.
+
+## Lifecycle e errori
+
+Bootstrap ordinato per dependency graph; readiness esplicita; world creation/PIE multiple, travel, teardown e hot reload considerati. Accesso prima di ready restituisce errore retryable; shutdown idempotente; weak/soft reference per Actor streamabili.
+
+## Test e performance
+
+Unit test servizi senza world, automation con test world, PIE multi-world, travel, unload/reload Actor, dependency injection/fake adapters e leak test. Tick off by default; aggregazione work queue nei subsystem con budget.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura tecnica](../technical-architecture.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Architettura](../technical-architecture.md)
+- [Moduli](modules.md)
+- [Policy C++/BP](cpp-blueprint-policy.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Mappa sistemi](system-implementation-map.md)
+- [Eventi](../architecture/event-architecture.md)
+- [Logging](../architecture/logging-errors.md)
+
+## Definition of Done
+
+Ogni servizio P0 ha lifetime, owner, bootstrap/teardown, API, errori, thread/tick policy e test; nessun Actor/component è unica copia dello stato persistente.
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e tecnologia definitiva.
-- Requisiti minimi della vertical slice e target di piattaforma.
+- Dependency injection/composition pattern concreto UE.
+- Granularità dei subsystem P0.
 
 ## TODO
 
-- Definire requisiti, contratti, failure mode e criteri di completamento.
-- Mappare dipendenze e budget.
-- Collegare ADR, test e rischi.
+- Creare future lifecycle matrix e sequence diagrams per bootstrap/save/travel.

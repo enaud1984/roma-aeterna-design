@@ -1,37 +1,56 @@
-# Configurazione
+# Configurazione, feature flag e tuning
 
 ## Scopo
 
-Definire la futura specifica canonica di **Configurazione**.
+Definire gerarchia, ownership, validazione e versionamento delle impostazioni.
 
 ## Descrizione
 
-Organizza impostazioni, override, ambienti, validazione e versioni.
+Configurazione tecnica, tuning gameplay, definizioni storiche e preferenze utente sono categorie distinte. Ogni valore ha unità, range, default, owner e change impact.
 
 ## Ambito
 
-Coprirà requisiti, responsabilità, dati, flussi, vincoli, rischi e validazione. Non contiene codice, asset o decisioni tecniche non approvate.
+`.ini`/Developer Settings futuri, Data Asset/Table, CVars, platform/build profiles, feature flag, accessibilità e migrazione.
+
+## Gerarchia
+
+Default versionato → piattaforma → configurazione build → profilo qualità/scalabilità → preferenza utente → override sviluppo consentito. Server/networking futuro escluso dalla demo. Gameplay storico/bilanciamento usa asset versionati; CVars solo diagnostica/performance e non alterano save senza versioning.
+
+## Regole
+
+- Nessun magic number fuori schema/config autorizzata.
+- Range, unità e compatibilità validati al bootstrap.
+- Feature sperimentali off di default in shipping e dietro adapter/fallback.
+- Config che cambia semantica persistente incrementa schema/ruleset version.
+- Segreti mai in Config/repository/log.
+- Preferenze accessibilità sono locali, migrabili e ripristinabili.
+
+## Errori e test
+
+Missing/invalid usa default sicuro se semanticamente valido, altrimenti fail-fast di bootstrap con messaggio. Test precedence, range, piattaforme, packaging, flag on/off, migration e determinismo ruleset.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura tecnica](../technical-architecture.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Dati UE5](../unreal-engine-5/data-assets-tables.md)
+- [Schema versioning](../data/schema-versioning.md)
+- [Scalabilità](../performance/scalability.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Logging](logging-errors.md)
+- [Gameplay Tags](../unreal-engine-5/gameplay-tags.md)
+- [Save](../save-system/save-architecture.md)
+
+## Definition of Done
+
+Registro P0 di chiavi/asset con tipo, unità, range, owner, default, layer, restart/hot reload, save impact e test.
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e tecnologia definitiva.
-- Requisiti minimi della vertical slice e target di piattaforma.
+- Formato del ruleset manifest e policy hot reload.
+- Feature flag service locale.
 
 ## TODO
 
-- Definire requisiti, contratti, failure mode e criteri di completamento.
-- Mappare dipendenze e budget.
-- Collegare ADR, test e rischi.
+- Creare template del registro configurazioni.
+- Collegare budget e profili hardware quando approvati.

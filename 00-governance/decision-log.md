@@ -133,6 +133,12 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 
 **Conseguenze.** Niente marker, reputazioni, diagnosi o posizioni onniscienti; fallimento e scadenza trasformano il mondo invece di resettarlo. Notifiche, thread, eventi e audio condividono budget anti-overload/anti-ripetizione. Grandi eventi restano rari.
 
+## ADR-0020 — UE5 a piani, domain record indipendenti e tecnologie adattate
+
+**Decisione.** L'architettura separa Data, Simulation, Application/Interaction e Presentation. C++ possiede invarianti e hot path; Blueprint presenta/assembla entro API bounded. Actor, Mass, StateTree, BT, UI e audio sono adapter: lo stato persistente vive nei domain record. World Partition governa caricamento, non esistenza.
+
+**Conseguenze.** Plugin sperimentali richiedono adapter, flag, benchmark e fallback. Data Asset/Table/Tag non conservano stato partita. Moduli seguono un grafo aciclico, eventi tipizzati e save a schema. Nessun file UE o codice è autorizzato da questa decisione.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

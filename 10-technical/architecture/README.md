@@ -39,7 +39,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** principi, configurazione, eventi, errori e separazione dei piani a S3/S4; owner e fitness tooling restano aperti.
 
 ## Decisioni ancora aperte
 

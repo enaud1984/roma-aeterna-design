@@ -1,37 +1,56 @@
-# Gameplay Tags
+# Gameplay Tags e vocabolario runtime
 
 ## Scopo
 
-Definire la futura specifica canonica di **Gameplay Tags**.
+Governare etichette gerarchiche condivise senza usarle come database, ID entità o sostituto di tipi forti.
 
 ## Descrizione
 
-Definisce tassonomia, governance, naming, query e migrazione.
+I tag classificano capacità, stato, evento e requisito per query componibili. Le sorgenti sono separate per dominio e sottoposte a owner/review.
 
 ## Ambito
 
-Coprirà requisiti, responsabilità, dati, flussi, vincoli, rischi e validazione. Non contiene codice, asset o decisioni tecniche non approvate.
+Namespace, sorgenti config/C++, redirect, query, versionamento, localizzazione display e validazione.
+
+## Namespace iniziali
+
+`RA.State.*`, `RA.Capability.*`, `RA.Action.*`, `RA.Event.*`, `RA.Item.*`, `RA.Status.*`, `RA.Place.*`, `RA.Content.*`, `RA.UI.*`, `RA.Audio.*`. Il prefisso definitivo è soggetto a naming ADR. Tag di evento non sostituisce payload/event contract.
+
+## Regole
+
+- Definizione centralizzata per sorgente dominio con commento, owner e semantica.
+- Tag stabile nei save/eventi; rename tramite redirect e migration test.
+- Nessun dato numerico, persona, città concreta o testo localizzato nel path.
+- Native tag per contratti core/hot path; config/table solo con governance.
+- Query complesse nominate e testate; niente string comparison.
+- Display name/localizzazione separati dal tag tecnico.
+
+## Errori e test
+
+Tag sconosciuto, deprecato, orfano, duplicato semanticamente o usato fuori namespace fallisce validation. Test redirect/save, packaging, query, hot reload limitations e asset reference scan.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura tecnica](../technical-architecture.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Dati UE5](data-assets-tables.md)
+- [Event contracts](../architecture/event-contracts.md)
+- [Naming asset](../pipelines/asset-naming.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Fonti UE5](official-sources.md)
+- [Configurazione](../architecture/configuration.md)
+- [Data validation](../data/data-validation.md)
+
+## Definition of Done
+
+Dizionario P0 approvato, namespace/owner/redirect policy e test stabiliti; nessun tag usato come ID o stato autoritativo senza owner.
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e tecnologia definitiva.
-- Requisiti minimi della vertical slice e target di piattaforma.
+- Prefisso e sorgenti definitive.
+- Tag nativi vs config per ciascun dominio.
 
 ## TODO
 
-- Definire requisiti, contratti, failure mode e criteri di completamento.
-- Mappare dipendenze e budget.
-- Collegare ADR, test e rischi.
+- Produrre futuro registry dei tag con change impact.
+- Collegare lint CI.

@@ -1,37 +1,55 @@
-# Plugin
+# Governance dei plugin
 
 ## Scopo
 
-Definire la futura specifica canonica di **Plugin**.
+Definire plugin first-party, engine e terzi, con approvazione, versioning, sicurezza e fallback.
 
 ## Descrizione
 
-Inquadra plugin core, progetto, terze parti, versioni e approvazione.
+Un plugin è un confine di capability/deployment, non una cartella per ogni classe. Dipendenze engine/terze parti sono liabilities gestite.
 
 ## Ambito
 
-Coprirà requisiti, responsabilità, dati, flussi, vincoli, rischi e validazione. Non contiene codice, asset o decisioni tecniche non approvate.
+Plugin runtime/editor/developer, built-in UE, first-party RA, marketplace/source, licenze, upgrade e rimozione.
+
+## Classi e gate
+
+| Classe | Gate |
+|---|---|
+| first-party runtime | owner, API, grafo aciclico, tests, packaging |
+| first-party editor | separazione shipping, tooling/validation |
+| built-in Stable | versione baseline, benchmark, piattaforme |
+| Beta/Experimental | adapter, flag, spike, fallback, ADR; mai core implicito |
+| third-party | necessità, licenza, security, source access, support, exit plan |
+
+Registro obbligatorio: nome/versione, stato Epic/vendor, moduli, owner, dipendenti, piattaforme, licenza, CVE/update, performance, save impact, fallback e data review. Plugin disabilitato non deve corrompere contenuti/save.
+
+## Strategia iniziale
+
+Valutare GameplayTags, Enhanced Input, StateTree, MassEntity/MassGameplay, SmartObjects, CommonUI/MVVM, MetaSounds, DataRegistry e World Partition features. “Built-in” non significa approvato. World Partition baseline; navmesh partizionata resta condizionale se sperimentale.
+
+## Test e Definition of Done
+
+Clean checkout/build/package, plugin on/off, platform matrix, upgrade smoke, asset reference, save compatibility e security/license review. DoD: registro e ADR P0 approvati, nessuna dipendenza senza exit plan.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura tecnica](../technical-architecture.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Moduli](modules.md)
+- [Fonti UE](official-sources.md)
+- [Dependency security](../security/dependency-security.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Engine upgrades](engine-upgrades.md)
+- [Build pipeline](../pipelines/build-pipeline.md)
+- [Rischi](../../11-production/risk-register.md)
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e tecnologia definitiva.
-- Requisiti minimi della vertical slice e target di piattaforma.
+- Lista plugin P0 e baseline UE.
+- Ammissibilità marketplace/closed-source.
 
 ## TODO
 
-- Definire requisiti, contratti, failure mode e criteri di completamento.
-- Mappare dipendenze e budget.
-- Collegare ADR, test e rischi.
+- Creare registro plugin e checklist ADR.
+- Definire cadenza aggiornamenti/security review.

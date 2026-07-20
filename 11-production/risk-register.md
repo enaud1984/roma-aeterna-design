@@ -68,6 +68,14 @@
 | R-061 | Sovraccarico di notifiche | Alta | Alto | messaggi/minuto e dismiss crescono | priorità, deduplica, recap e silenzioso |
 | R-062 | Audio ripetitivo o stereotipato | Alta | Alto | bark/loop riconoscibili e accenti caricaturali | pool semantici, cooldown e review linguistica |
 | R-063 | Accessibilità aggiunta tardi | Alta | Critico | flussi P0 dipendono da un solo canale/input | contratti nativi e gate utenti |
+| R-064 | Actor/Blueprint diventano database | Alta | Critico | stato perso allo streaming | domain record e adapter ricostruibili |
+| R-065 | God Subsystem e dipendenze circolari | Alta | Critico | ogni modulo include ogni altro | allowlist, API strette e fitness tests |
+| R-066 | Mass adottato senza fallback | Media | Critico | design dipende da plugin prima del benchmark | spike, adapter e coorti/Actor fallback |
+| R-067 | Streaming modifica stato canonico | Media | Critico | unload congela obblighi o duplica NPC | bridge e reconciliation |
+| R-068 | Blueprint hot path/logic sprawl | Alta | Alto | tick/cast chain e test impossibili | C++ policy, lint e conversion gate |
+| R-069 | Plugin/upgrade UE rompe progetto | Media | Critico | API/stato feature cambia | baseline, registry, ADR e exit plan |
+| R-070 | Asset/data hard references esplodono memoria | Alta | Alto | residency e cook crescono | Asset Manager, soft refs e bundle budget |
+| R-071 | Save serializza oggetti engine fragili | Media | Critico | streaming/upgrade rompe campagne | schema record, ID/versione e migration |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

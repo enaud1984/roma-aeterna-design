@@ -1,37 +1,71 @@
-# World Partition
+# World Partition, streaming e Data Layers
 
 ## Scopo
 
-Definire la futura specifica canonica di **World Partition**.
+Definire streaming fisico di Pompei separato dalla persistenza logica del mondo.
 
 ## Descrizione
 
-Organizza celle, HLOD, data layer, persistenza e streaming.
+World Partition gestisce celle caricate da streaming source; OFPA supporta collaborazione, Data Layers variazioni/authoring e HLOD rappresentazione distante. Il dominio World decide stato degli edifici e accessi indipendentemente dalla cella.
 
 ## Ambito
 
-Coprirà requisiti, responsabilità, dati, flussi, vincoli, rischi e validazione. Non contiene codice, asset o decisioni tecniche non approvate.
+Persistent map, runtime grid, streaming source, OFPA, Data Layers, HLOD, Level Instance, interni, test map, preload, unload e recovery.
+
+## Architettura
+
+```mermaid
+flowchart LR
+    WR[World Records] --> B[Streaming Bridge]
+    SS[Streaming Sources] --> WP[World Partition]
+    B --> WP
+    WP --> CELL[Cells/Actors]
+    CELL --> PROXY[Interaction/Presentation Proxies]
+    PROXY --> WR
+    WR --> DL[Data Layer State Adapter]
+```
+
+## Regole
+
+- Una runtime grid iniziale preferita; griglie multiple solo benchmark/ADR.
+- Player e transizioni previste producono streaming source; prefetch con timeout/fallback.
+- Hard Actor references cross-cell vietate; stable ID + soft reference/service resolution.
+- `Is Spatially Loaded=false` solo per actor realmente globali e budgetizzati.
+- Data Layer non è save system: lo stato canonico decide quale layer/proxy attivare.
+- Interni: valutare Level Instance/Data Layer/cella con capienza e occlusione; niente pattern unico prima dei benchmark.
+- HLOD solo visuale, nessuna interazione o autorità.
+
+## Stato e failure
+
+`Unloaded → Loading → Loaded → Activated → Deactivating`; slow streaming può degradare velocità/transizione, mostrare feedback o bloccare ingresso controllato, mai teletrasportare senza stato. Actor unload invia snapshot/cleanup; record persistente continua a livelli W/N/E.
+
+## Performance e test
+
+Budget cell size/range/concurrency, I/O, memory, activation hitch, HLOD e actor count. Test percorso PVS-1, corsa/teleport controllato, interno/esterno, save/load in bordo cella, edificio distrutto, Data Layer change, source multipli e package build.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Architettura tecnica](../technical-architecture.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Mondo](../../03-world/settlements/settlement-framework.md)
+- [Project structure](project-structure.md)
+- [Performance streaming](../performance/streaming-budget.md)
+- [Fonti UE5](official-sources.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Navigation](navigation-crowds.md)
+- [Save world state](../save-system/world-state.md)
+- [Pompei area](../../07-pompeii-demo/design/playable-area.md)
+
+## Definition of Done
+
+Grid/source/Data Layer/HLOD/inside policy, stable ID bridge, unload protocol, budgets e benchmark scenes approvati; streaming non cambia lo stato canonico.
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e tecnologia definitiva.
-- Requisiti minimi della vertical slice e target di piattaforma.
+- Cell size/range, HLOD tiers e strategia interni.
+- World Partition navmesh se ancora sperimentale nella baseline.
 
 ## TODO
 
-- Definire requisiti, contratti, failure mode e criteri di completamento.
-- Mappare dipendenze e budget.
-- Collegare ADR, test e rischi.
+- Preparare piano benchmark PVS-1.
+- Collegare luoghi P0 a Data Layer e streaming owner.

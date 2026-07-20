@@ -31,6 +31,9 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 - [Framework Audio UE5](audio-framework.md)
 - [Framework Localizzazione UE5](localization-framework.md)
 - [Aggiornamenti Engine](engine-upgrades.md)
+- [Mappa sistemi Game Bible → UE5](system-implementation-map.md)
+- [Contratti tecnici runtime](runtime-system-contracts.md)
+- [Fonti ufficiali UE5](official-sources.md)
 
 ## Dipendenze
 
@@ -45,7 +48,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** fondazione UE5 a S3; baseline engine, spike tecnologici e budget P0 restano bloccanti.
 
 ## Decisioni ancora aperte
 

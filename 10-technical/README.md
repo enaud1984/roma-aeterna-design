@@ -40,7 +40,7 @@ Documenti di sintesi diretti: [architettura tecnica](technical-architecture.md),
 
 ## Stato di avanzamento
 
-**Stato:** architettura completa; documenti in stato Draft o scheletro.
+**Stato:** architettura UE5 fondazionale a S3; dati, save, performance, strumenti e pipeline saranno approfonditi nella macroarea trasversale successiva.
 
 ## Decisioni ancora aperte
 
