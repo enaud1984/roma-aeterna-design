@@ -26,6 +26,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 - [Versionamento degli Schemi](schema-versioning.md)
 - [Validazione Dati](data-validation.md)
 - [Valutazione Database](database-evaluation.md)
+- [Catalogo degli schemi di dominio](domain-schema-catalog.md)
 
 ## Dipendenze
 
@@ -40,7 +41,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** architettura, ownership e catalogo schemi a S3; formati fisici, indici e benchmark restano aperti.
 
 ## Decisioni ancora aperte
 

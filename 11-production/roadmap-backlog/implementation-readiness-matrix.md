@@ -31,11 +31,11 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 |---|---|---:|---|---|
 | SYS-TIME | tempo e calendario | S3 | budget e contratti puntuali | Fondazioni AAA |
 | SYS-EVT | eventi | S4 | tecnologia differita non bloccante | Fondazioni AAA |
-| SYS-ID | identità | S2 | lifecycle di alias/tombstone | Fondazioni AAA |
+| SYS-ID | identità | S3 | registry fisico, alias e benchmark | Fondazioni AAA |
 | SYS-WORLD | mondo e spazio | S3 | budget GIS/streaming e autorità delle trasformazioni | Vertical slice Pompei |
 | SYS-SIM | orchestrazione simulazione | S3 | budget quantitativi e recovery | Fondazioni AAA |
 | SYS-PER | persona/ciclo di vita | S3 | regole storiche e UX successione | Simulazione sociale |
-| SYS-SAVE | persistenza | S1 | snapshot, migrazione e recovery | Fondazioni AAA |
+| SYS-SAVE | persistenza | S3 | formato fisico, policy versioni e benchmark | Fondazioni AAA |
 | SYS-KNOW | conoscenza | S3 | budget memoria e policy di sintesi | Simulazione sociale |
 | SYS-NPC | decisione NPC | S3 | budget e catalogo azioni demo | Simulazione sociale |
 | SYS-REL | relazioni | S3 | budget edge e review dati sensibili | Simulazione sociale |
@@ -59,8 +59,8 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-COMBAT | combattimento | S3 | controllo P0, budget, animazione e UX | Gameplay slice |
 | SYS-WAR | guerra | S3 | profilo storico, budget M0–M5 e confini demo | Post-slice |
 | SYS-AUTH | autorizzazioni/transazioni | S3 | modello di rollback | Fondazioni AAA |
-| SYS-HIST | provenienza storica | S1 | schema claim e gate di revisione | Fondazioni AAA |
-| SYS-DBG | diagnostica | S2 | SLO e retention | Fondazioni AAA |
+| SYS-HIST | provenienza storica | S2 | corpus golden e workflow di waiver | Fondazioni AAA |
+| SYS-DBG | diagnostica | S3 | tecnologia, SLO e retention approvati | Fondazioni AAA |
 
 ## Gate di avanzamento
 

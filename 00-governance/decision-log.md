@@ -24,6 +24,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0013 | Livelli geografici W0–W5 e G0–G5 | Accepted | scala produzione e simulazione senza uniformare gli insediamenti |
 | ADR-0014 | Spina urbana PVS-1 per Pompei | Proposed | Foro–Via dell'Abbondanza–Anfiteatro con profondità selettiva |
 | ADR-0015 | Persona persistente separata da agente, conoscenza e coorti | Accepted | evita oggetti onniscienti e consente N0–N5 |
+| ADR-0021 | Record stabili, save segmentato e pipeline verificabile | Accepted | dati indipendenti da UE, recovery esplicito, budget misurabili e tooling P0 |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -138,6 +139,16 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Decisione.** L'architettura separa Data, Simulation, Application/Interaction e Presentation. C++ possiede invarianti e hot path; Blueprint presenta/assembla entro API bounded. Actor, Mass, StateTree, BT, UI e audio sono adapter: lo stato persistente vive nei domain record. World Partition governa caricamento, non esistenza.
 
 **Conseguenze.** Plugin sperimentali richiedono adapter, flag, benchmark e fallback. Data Asset/Table/Tag non conservano stato partita. Moduli seguono un grafo aciclico, eventi tipizzati e save a schema. Nessun file UE o codice è autorizzato da questa decisione.
+
+## ADR-0021 — Fondazioni tecniche trasversali verificabili
+
+**Decisione.** Ogni entità persistente usa ID stabile tipizzato, owner unico, schema versionato e tombstone. Il salvataggio è un manifest con snapshot segmentati e journal selettivo, scritto tramite staging, checksum e promozione atomica. I budget prestazionali sono target D provvisori fino a benchmark su hardware approvato. Tool P0 e pipeline applicano lo stesso schema e gli stessi validator del runtime; asset pesanti, derivati e artifact usano classi di storage distinte.
+
+**Alternative escluse.** Serializzare Actor/UObject come stato canonico, un unico file save opaco, numeri prestazionali presentati come promesse definitive, editor che scrivono direttamente store di dominio, binary pesanti o build derivate nel Git ordinario.
+
+**Conseguenze.** Migrazioni e recovery diventano requisiti di schema; successione ed eredità non copiano identità o conoscenza; benchmark e strumenti sono parte del gate; Git LFS e branch protection richiedono configurazione amministrativa separata. Vedere [architettura dati](../10-technical/data/data-architecture.md), [save](../10-technical/save-system/save-architecture.md), [performance](../10-technical/performance/performance-strategy.md), [tooling](../10-technical/tools/tools-strategy.md) e [pipeline](../10-technical/pipelines/pipeline-overview.md).
+
+**Segnali di revisione.** Impossibilità di migrare una baseline reale, costo eccessivo dei segmenti, benchmark che invalidano i tier, divergenza editor/runtime o vincoli del provider incompatibili con la pipeline.
 
 ## Scopo
 

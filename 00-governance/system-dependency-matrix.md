@@ -28,6 +28,9 @@ Sistemi fondazionali P0/P1 e dipendenze determinanti per Pompei. I sistemi P2–
 | SYS-SIM | SYS-TIME | EVT avanzamento/intervallo | evento | async ordinato | P0 hard | pausa sicura | tempo, simulazione, save |
 | SYS-SIM | SYS-EVT | publish/dispatch | servizio | async | P0 hard | accoda entro budget, poi pausa | eventi, errori, performance |
 | tutti | SYS-ID | allocazione/risoluzione ID | CMD/QRY | sync | P0 hard | rifiuto mutazione | data model, save |
+| SYS-SAVE | SYS-ID | ID, alias e tombstone versionati | QRY | sync snapshot | P0 hard | save rifiutato, slot precedente intatto | dati, save, migrazioni |
+| SYS-SAVE | SYS-TIME | istante globale e consistency barrier | CMD/QRY | sync logico | P0 hard | rinvia save e segnala timeout | tempo, save, UX |
+| SYS-SAVE | sistemi dominio | segment snapshot e journal selettivo | QRY/EVT | barrier + async I/O | P0 hard | abort staging, conserva ultimo valido | tutti i dati persistenti |
 | SYS-NPC | SYS-SIM | quota e livello L0–L4 | QRY/EVT | mista | P0 hard | degrada livello | AI, routine, performance |
 | SYS-NPC | SYS-PER | stato persona | QRY | sync cached | P0 hard | mantiene ultimo snapshot valido | persona, AI |
 | SYS-NPC | SYS-KNOW | fatti conosciuti | QRY | sync cached | P1 hard | nessuna informazione nuova | AI, dialoghi, crimine |
@@ -58,6 +61,8 @@ Sistemi fondazionali P0/P1 e dipendenze determinanti per Pompei. I sistemi P2–
 | SYS-AUDIO | SYS-WORLD | sorgenti, ambienti e occlusione | QRY/EVT | mista | P1 hard | fallback soundscape | audio, mondo |
 | SYS-UI | sistemi dominio | viste conoscibili | QRY/EVT | async | P1 soft | stato precedente + indicatore | UI, accessibilità |
 | SYS-DBG | tutti | metriche/errori | EVT | async | P1 soft | buffer limitato | logging, test |
+| Tooling P0 | schema/validator dominio | change set, report e preview sandbox | CMD/QRY | offline | P0 hard | publish bloccato | dati, strumenti, pipeline |
+| CI | tooling/validator P0 | gate e artifact verificati | batch | offline | P0 hard | nessuna promozione | pipeline, release, documentazione |
 
 ## Grafo delle fondazioni
 

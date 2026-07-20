@@ -37,7 +37,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** budget D iniziali definiti a S3; hardware target e benchmark reali restano bloccanti S4.
 
 ## Decisioni ancora aperte
 

@@ -76,6 +76,17 @@
 | R-069 | Plugin/upgrade UE rompe progetto | Media | Critico | API/stato feature cambia | baseline, registry, ADR e exit plan |
 | R-070 | Asset/data hard references esplodono memoria | Alta | Alto | residency e cook crescono | Asset Manager, soft refs e bundle budget |
 | R-071 | Save serializza oggetti engine fragili | Media | Critico | streaming/upgrade rompe campagne | schema record, ID/versione e migration |
+| R-072 | Schemi proliferano o duplicano ownership | Alta | Critico | record equivalenti divergono | registry, owner unico e contract review |
+| R-073 | Migrazione corrompe storia persistente | Media | Critico | checksum o invarianti cambiano | migrazione in copia, backup e golden saves |
+| R-074 | Save e tempi di load crescono senza limite | Alta | Alto | slot supera budget a ogni milestone | segmenti, retention, compact e benchmark |
+| R-075 | Autosave causa hitch o perdita dati | Media | Critico | frame spike o slot incompleto | consistency barrier, staging e failure injection |
+| R-076 | Budget provvisori diventano promesse non validate | Alta | Alto | scope usa numeri senza hardware | marcatura D, owner e benchmark gate |
+| R-077 | Tooling tardivo blocca authoring e QA | Alta | Critico | designer dipendono da engineering | tool P0 nella fondazione e metriche UX |
+| R-078 | Generazione NPC crea incoerenza o stereotipi | Media | Critico | distribuzioni e biografie implausibili | vincoli, seed, review storica/etica e report |
+| R-079 | Telemetria locale espone dati o satura disco | Media | Alto | log non redatti o crescita continua | allowlist, ring buffer, retention e scrub |
+| R-080 | Binary/LFS rende repository fragile o costoso | Alta | Alto | clone lento, quota o pointer mancanti | pattern, quota, locking e recovery test |
+| R-081 | CI lenta o flaky perde autorità | Alta | Alto | retry/skip diventano norma | stage rapidi, owner flaky e SLO |
+| R-082 | Default branch documentale confonde integrazione futura | Media | Alto | codice e docs confluiscono senza gate | decisione Q-251 e protezione `main` |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

@@ -40,15 +40,15 @@ Documenti di sintesi diretti: [architettura tecnica](technical-architecture.md),
 
 ## Stato di avanzamento
 
-**Stato:** architettura UE5 fondazionale a S3; dati, save, performance, strumenti e pipeline saranno approfonditi nella macroarea trasversale successiva.
+**Stato:** architettura UE5 e fondazioni trasversali a S3; restano aperte scelte fisiche, hardware, infrastruttura, owner e benchmark per il gate S4.
 
 ## Decisioni ancora aperte
 
-- Sequenza di approfondimento e owner nominali.
-- Approvazione dei confini con le aree adiacenti.
+- Formati dati/save, hardware target, runner, Git LFS e owner nominali.
+- Approvazione dei budget provvisori tramite benchmark PVS-1.
 
 ## TODO
 
-- Assegnare owner/reviewer.
-- Promuovere progressivamente gli scheletri a specifiche complete.
-- Mantenere indice e collegamenti sincronizzati.
+- Assegnare owner/reviewer e risolvere Q-235–Q-252.
+- Produrre spike e benchmark soltanto dopo il gate che autorizza l'implementazione.
+- Mantenere indice, registri e collegamenti sincronizzati.

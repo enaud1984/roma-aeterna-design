@@ -83,6 +83,25 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-233 | Quali plugin UE integrati/terzi sono ammessi P0? | sicurezza, build e maintenance | Technical + Security + Production | plugin registry e exit plan |
 | Q-234 | Quale packaging di moduli/plugin bilancia isolamento e build time? | ownership e iterazione | Software Architecture + Build | dependency graph e build benchmark |
 
+| Q-235 | Quali formati fisici, indici e store materializzano gli schemi di dominio? | dati, query, migrazioni e tooling | Data Architecture | spike e ADR comparativo |
+| Q-236 | Qual è la finestra di compatibilità di schema e contenuti? | release, save e supporto | Data + Production | policy versioni approvata |
+| Q-237 | Come si partizionano e indicizzano città, persone, eventi e lotti? | memoria, streaming e query | Data + Simulation | workload e benchmark |
+| Q-238 | Quale granularità distingue istanze oggetto, lotti e aggregati? | inventari, economia e save | Economy + Data | invarianti e scenari P0 |
+| Q-239 | Quali formato, compressione e checksum usa il save fisico? | dimensione, prestazioni e recovery | Save + Platform | prototipo e failure injection |
+| Q-240 | Quante versioni save sono supportate e come si distribuiscono le migrazioni? | compatibilità giocatore | Save + Release | policy supporto approvata |
+| Q-241 | Quanti slot, autosave e checkpoint ruotano e con quali trigger? | UX, disco e recovery | UX + Save | playtest e budget disco |
+| Q-242 | Cloud save e conflitti sono fuori scope demo o requisito di piattaforma? | account, privacy e recovery | Product + Platform | scope piattaforme approvato |
+| Q-243 | Quali hardware, risoluzione e preset definiscono la baseline? | tutti i budget tecnici | Technical Direction | target matrix approvata |
+| Q-244 | Quali margini CPU/GPU restano riservati a contenuti e variabilità? | scope e stabilità frame | Performance + Production | benchmark PVS-1 |
+| Q-245 | Quali conteggi NPC, folla e animazione sono accettabili per Pompei? | mondo, AI e presentazione | AI + World + Performance | scene benchmark approvate |
+| Q-246 | Quali limiti finali valgono per install, save e caricamenti? | piattaforma e UX | Platform + Performance | test hardware target |
+| Q-247 | Quale baseline I/O governa World Partition e streaming? | hitch, celle e install | Platform + World | profilo storage approvato |
+| Q-248 | Quali tool P0, owner e workflow entrano nella fondazione tecnica? | authoring e staffing | Tools + Production | roadmap e prototipi UX |
+| Q-249 | Quali metriche, retention ed export sono ammessi nella telemetria locale? | privacy, disco e QA | Tools + Security | policy dati approvata |
+| Q-250 | Quali runner, licenze e capacità sostengono CI e build? | tempi, costo e supply chain | Build + Production | proof di pipeline |
+| Q-251 | Quando creare/proteggere `main` e quale branch alimenta l'implementazione? | governance repository | Production + Technical Direction | decisione amministrativa |
+| Q-252 | Quali pattern, quote, locking e recovery valgono per Git LFS e artifact? | asset pesanti e collaborazione | Asset + Build | prova clone/build e ADR |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

@@ -23,6 +23,7 @@ Qualità editoriale, struttura, collegamenti, autorità, completezza, terminolog
 - [Audit combattimento e sistemi militari — 2026-07-20](combat-military-systems-audit-2026-07-20.md)
 - [Audit esperienza del giocatore — 2026-07-20](player-experience-systems-audit-2026-07-20.md)
 - [Audit architettura tecnica UE5 — 2026-07-20](ue5-technical-architecture-audit-2026-07-20.md)
+- [Audit progettazione tecnica trasversale — 2026-07-20](transversal-technical-design-audit-2026-07-20.md)
 - [Audit completo Game Bible — 2026-07-20](game-bible-audit-2026-07-20.md)
 
 - [Audit completo 2026-07-20](game-bible-audit-2026-07-20.md)

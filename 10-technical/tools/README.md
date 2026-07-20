@@ -15,6 +15,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 ## Documenti contenuti
 
 - [Strategia degli Strumenti](tools-strategy.md)
+- [Contratti degli strumenti per i designer](designer-tool-contracts.md)
 - [World Editor](world-editor.md)
 - [Generatore NPC](npc-generator.md)
 - [NPC Editor](npc-editor.md)
@@ -41,13 +42,13 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** S3 per strategia e contratti P0; schede specializzate da promuovere e tecnologie da approvare.
 
 ## Decisioni ancora aperte
 
-- Ownership, priorità, tecnologie e requisiti definitivi.
+- Ownership, tecnologie, policy telemetria e integrazione con Unreal Editor.
 
 ## TODO
 
-- Approvare l'indice e assegnare owner/reviewer.
-- Collegare ADR, budget, test e Definition of Done.
+- Assegnare owner/reviewer e prototipare i workflow P0.
+- Approvare dataset golden, benchmark e catalogo diagnostico.

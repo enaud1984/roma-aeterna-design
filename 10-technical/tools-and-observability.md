@@ -1,11 +1,13 @@
 # Strumenti e osservabilità
 
 **ID:** TEC-TOOL-001
-**Stato:** Draft
+**Stato:** S3 — sintesi; specifica canonica nei documenti strumenti
 
 ## Tesi
 
 Un sandbox sistemico non è producibile senza strumenti che mostrino perché il mondo cambia. Tooling e debug sono parte del prodotto interno, non lavoro residuale.
+
+La specifica operativa è nella [strategia degli strumenti](tools/tools-strategy.md) e nella [matrice dei contratti](tools/designer-tool-contracts.md). Questo documento conserva la tesi e le domande diagnostiche, evitando di duplicare i requisiti canonici.
 
 ## Strumenti richiesti
 

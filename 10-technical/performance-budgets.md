@@ -1,60 +1,39 @@
-# Budget prestazionali e di scala
-
-**ID:** TEC-PERF-001
-**Stato:** Draft
-
-## Principio
-
-Nessun numero di NPC o dimensione geografica viene promesso prima di target hardware e misure. I budget sono contratti tra design, simulazione, rendering, audio, memoria, streaming e salvataggio.
-
-## Budget da stabilire
-
-Frame time CPU/GPU; memoria residente e streaming; agenti L0–L4; pathfinding; eventi per ciclo; latenza UI; salvataggio/caricamento; dimensione save; audio voices; storage; tempo di build e validazione contenuti.
-
-## Scenari benchmark
-
-Folla massima nel foro; quartiere notturno; festa con mercato; shock economico e molte decisioni; transizione rapida tra zone; 180 giorni accelerati; salvataggio durante alto volume di eventi; raffinamento di coorte in NPC persistenti.
-
-## Politica di degradazione
-
-Ridurre frequenza e dettaglio lontano, non correttezza essenziale. Non cancellare agenti persistenti, duplicare inventari, arrestare deadline o alterare esiti già osservati. Ogni degradazione ha una metrica di errore accettabile.
-
-## Gate
-
-I numeri entrano in [scope Pompei](../07-pompeii-demo/pompeii-vertical-slice.md) solo dopo benchmark rappresentativi e margine concordato. Piattaforme restano Q-003 nel [registro](../00-governance/open-questions.md).
+# Budget prestazionali — panoramica canonica
 
 ## Scopo
 
-Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
+Fornire l'accesso sintetico ai budget iniziali della vertical slice.
 
 ## Descrizione
 
-Il contenuto preesistente costituisce la baseline del dominio. Questa sezione normalizza il documento secondo il contratto minimo della nuova architettura senza sostituirne le informazioni.
+La specifica autoritativa è [Strategia e budget prestazionali](performance/performance-strategy.md). I target sono provvisori D fino all'approvazione della piattaforma e dei benchmark.
 
 ## Ambito
 
-Il perimetro è quello definito nelle sezioni precedenti; implementazione e asset restano esclusi finché non saranno autorizzati da milestone e decisioni formali.
+CPU/GPU, memoria, streaming, NPC, animazioni, pathfinding, traffico, folla, save e caricamenti.
+
+## Baseline sintetica
+
+60 fps/16,67 ms; GPU 13,5 ms target; processo 10 GiB steady; VRAM 6,5 GiB; demo ≤30 GiB; 40 NPC high fidelity, 120 Actor addizionali e 800 low/Mass candidati; save ≤256 MiB worst-case; cold load ≤30 s. Tutti richiedono hardware e build dichiarati.
 
 ## Dipendenze
 
-- [Standard documentale](../00-governance/documentation-standard.md)
-- [Visione creativa](../01-vision/creative-vision.md)
+- [Strategia completa](performance/performance-strategy.md)
+- [Hardware targets](../11-production/platform-release/hardware-targets.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../README.md)
-- [Mappa documentale](../00-governance/documentation-map.md)
-- [Registro decisioni](../00-governance/decision-log.md)
-- [Questioni aperte](../00-governance/open-questions.md)
+- [Benchmark](performance/benchmark-scenes.md)
+- [Readiness](../11-production/roadmap-backlog/implementation-readiness-matrix.md)
+
+## Test e Definition of Done
+
+Nessun numero è promosso a requisito S4 senza capture su scena/hardware/build versionati.
 
 ## Decisioni ancora aperte
 
-- Owner e reviewer nominali.
-- Stato di approvazione e profondità richiesta dalla roadmap documentale.
-- Eventuali confini da riallineare con i nuovi sottodomini canonici.
+- Q-229 e Q-243–Q-247.
 
 ## TODO
 
-- Collegare il contenuto ai nuovi documenti specializzati pertinenti.
-- Assegnare ownership, versione e milestone.
-- Aggiungere requisiti, fonti, rischi, test e Definition of Done durante l'approfondimento.
+- Sincronizzare dopo ogni benchmark gate.

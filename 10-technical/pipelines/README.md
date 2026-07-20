@@ -15,6 +15,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 ## Documenti contenuti
 
 - [Panoramica delle Pipeline](pipeline-overview.md)
+- [Fonti ufficiali GitHub e Git LFS](pipeline-official-sources.md)
 - [Gestione degli Asset](asset-management.md)
 - [Naming degli Asset](asset-naming.md)
 - [Pipeline Contenuti](content-pipeline.md)
@@ -37,13 +38,13 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** S3 per governance, CI, asset pesanti e release; infrastruttura e policy amministrative da approvare.
 
 ## Decisioni ancora aperte
 
-- Ownership, priorità, tecnologie e requisiti definitivi.
+- Branch `main`, runner, storage, Git LFS, retention e owner definitivi.
 
 ## TODO
 
-- Approvare l'indice e assegnare owner/reviewer.
-- Collegare ADR, budget, test e Definition of Done.
+- Approvare branch model, required checks, LFS e release policy.
+- Assegnare owner/reviewer e provare rollback su fondazione tecnica futura.

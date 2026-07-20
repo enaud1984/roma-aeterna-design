@@ -37,7 +37,7 @@ Include i documenti elencati; nessuna scelta implementativa è autorizzata dalla
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** architettura snapshot/journal, recovery e successione a S3; formato fisico e budget attendono benchmark.
 
 ## Decisioni ancora aperte
 

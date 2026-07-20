@@ -17,7 +17,7 @@ Definisce ordine, milestone, gate, ownership e criteri di approvazione.
 | 3 | Mondo e Pompei | Planned | data e perimetro |
 | 4 | Simulazioni, gameplay e contenuti | Planned | specifiche integrate |
 | 5 | UX, arte, audio e animazione | Planned | experience review |
-| 6 | Technical Design | Planned | readiness tecnica |
+| 6 | Technical Design | **In progress — architettura e trasversali S3** | decisioni fisiche, benchmark e gate S4 |
 | 7 | Produzione e QA | Planned | readiness implementazione |
 
 ## Audit e qualità
