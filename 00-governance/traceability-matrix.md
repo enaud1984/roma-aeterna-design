@@ -4,16 +4,18 @@ Questa matrice collega promessa, sistema, dimostrazione nella demo e verifica. S
 
 | Promessa | Specifica canonica | Prova in Pompei | Verifica iniziale |
 |---|---|---|---|
-| Persona comune, molte vite possibili | [Esperienza](../05-player/player-experience.md) | almeno tre origini sociali e quattro loop economici | percorsi senza missione principale obbligatoria |
-| NPC con vita completa | [Ciclo di vita NPC](../04-simulation/npc-life-simulation.md) | famiglie, case, lavoro, bisogni e memoria | osservazione accelerata per 30 giorni simulati |
-| Economia simulata | [Economia](../04-simulation/economy.md) | grano→mulino→pane→consumo | shock di offerta produce effetti spiegabili |
+| Persona comune, molte vite possibili | [Esperienza](../05-player/player-experience.md) | tre percorsi sociali e tre professioni P0 | DA-01 e golden paths senza missione principale obbligatoria |
+| NPC con vita completa | [Ciclo di vita NPC](../04-simulation/npc-life-simulation.md) | famiglie, case, lavoro, bisogni e memoria | DA-03 e osservazione accelerata per 30 giorni simulati |
+| Economia simulata | [Economia](../04-simulation/economy.md) | pane, tessile e servizio-consegna | DA-02; shock di offerta produce effetti spiegabili |
 | Politica simulata | [Politica](../04-simulation/politics-and-governance.md) | magistrature e influenza locale | esito cambia con coalizioni senza player |
 | Religione simulata | [Religione](../04-simulation/religion.md) | culti domestici e pubblici | calendario, risorse e reputazione interagiscono |
 | Guerre simulate | [Guerra](../04-simulation/war-and-military.md) | impatto remoto su prezzi/notizie/veterani | conflitto fuori mappa influenza la città |
 | Trionfi simulati | [Trionfi](../04-simulation/triumphs.md) | notizia/preparativi/effetti politici | requisiti e conseguenze non dipendono dal player |
 | Città viva | [Modello urbano](../03-world/living-city.md) | ritmi giornalieri, logistica, manutenzione | time-lapse senza collasso o immobilità |
-| Mondo autonomo | [Architettura simulazione](../04-simulation/simulation-architecture.md) | assenza/ritorno del player | causalità persistente e riassunto comprensibile |
-| Accuratezza storica | [Framework storico](../02-historical-foundation/historical-framework.md) | provenance ledger per elementi chiave | audit A–E e revisione esperta |
+| Mondo autonomo | [Architettura simulazione](../04-simulation/simulation-architecture.md) | assenza/ritorno del player | DA-03/05; causalità persistente e recap comprensibile |
+| Accuratezza storica | [Framework storico](../02-historical-foundation/historical-framework.md) | snapshot 1 luglio 77 e provenance P0 | audit A–E e revisione esperta |
+
+I criteri DA sono definiti nell'[accettazione della demo](../07-pompeii-demo/design/demo-acceptance.md); il gate di avvio è [READY_FOR_IMPLEMENTATION](../READY_FOR_IMPLEMENTATION.md).
 
 ## Regola di copertura
 

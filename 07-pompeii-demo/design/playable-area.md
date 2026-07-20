@@ -6,11 +6,11 @@ Definire un perimetro producibile che dimostri città, economia, istituzioni, re
 
 ## Descrizione
 
-La proposta PVS-1 usa una spina urbana continua, in scala geometrica 1:1, dal Foro lungo Via dell'Abbondanza fino al settore Anfiteatro/Grande Palestra. Una profondità laterale selettiva include Stabian Baths, Santuario di Iside, teatri, botteghe e abitazioni. Il resto della città rimane visibile, simulato o raggiungibile come nodo.
+La baseline PVS-1 usa una spina urbana continua, in scala geometrica 1:1, dal Foro lungo Via dell'Abbondanza fino al settore Anfiteatro/Grande Palestra. Una profondità laterale selettiva include Terme Stabiane, Santuario di Iside, teatri, botteghe e abitazioni. Il resto della città rimane visibile, simulato o raggiungibile come nodo.
 
 ## Ambito
 
-Proposta di pre-produzione D, non perimetro approvato. Misure finali richiedono GIS e Q-101.
+Baseline di pianificazione D. La topologia funzionale è bloccata per il backlog; poligono, superficie e insulae esatte non sono Ready finché non superano GIS, budget e Q-101.
 
 ## Confini proposti
 

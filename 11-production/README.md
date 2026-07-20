@@ -23,6 +23,7 @@ La cartella contiene documenti fondativi e sottodomini specializzati. Gli approf
 I documenti presenti direttamente nella cartella costituiscono le specifiche di sintesi già avviate e restano consultabili dalla [mappa completa](../00-governance/documentation-map.md).
 
 Registro di qualità: [audit documentali](audits/README.md).
+Piano eseguibile: [roadmap](roadmap-backlog/product-roadmap.md), [backlog](roadmap-backlog/demo-backlog.md), [milestone](roadmap-backlog/milestones.md) e [READY](../READY_FOR_IMPLEMENTATION.md).
 
 ## Dipendenze
 
@@ -37,15 +38,14 @@ Registro di qualità: [audit documentali](audits/README.md).
 
 ## Stato di avanzamento
 
-**Stato:** architettura completa; documenti in stato Draft o scheletro.
+**Stato:** piano della demo a S3; owner, stime, infrastruttura e gate READY ancora aperti.
 
 ## Decisioni ancora aperte
 
-- Sequenza di approfondimento e owner nominali.
-- Approvazione dei confini con le aree adiacenti.
+- Owner, capacità, stime e calendario.
+- Approvazione interdisciplinare della checklist READY.
 
 ## TODO
 
-- Assegnare owner/reviewer.
-- Promuovere progressivamente gli scheletri a specifiche complete.
-- Mantenere indice e collegamenti sincronizzati.
+- Assegnare owner/reviewer e chiudere i blocker READY.
+- Collegare backlog a test case e tracker quando disponibili.

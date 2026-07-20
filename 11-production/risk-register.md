@@ -87,6 +87,16 @@
 | R-080 | Binary/LFS rende repository fragile o costoso | Alta | Alto | clone lento, quota o pointer mancanti | pattern, quota, locking e recovery test |
 | R-081 | CI lenta o flaky perde autorità | Alta | Alto | retry/skip diventano norma | stage rapidi, owner flaky e SLO |
 | R-082 | Default branch documentale confonde integrazione futura | Media | Alto | codice e docs confluiscono senza gate | decisione Q-251 e protezione `main` |
+| R-083 | Vertical slice diventa miniatura dell'intero gioco | Alta | Critico | sistemi esclusi rientrano come “placeholder” | content lock, Must/Should/Could e change control |
+| R-084 | PVS-1 supera budget prima del GIS | Alta | Critico | spina lunga, interni e streaming non stimati | varianti, gate GIS e taglio profondità duplicata |
+| R-085 | Tre origini triplicano contenuti e QA | Alta | Alto | scene separate senza riuso sistemico | situazione condivisa, contratti comuni e golden paths |
+| R-086 | Percorso schiavo produce sfruttamento o agency falsa | Media | Critico | coercizione come difficoltà/ricompensa | Historical/Sensitivity review e conseguenze persistenti |
+| R-087 | Successione appare artificiale in 30 giorni | Alta | Alto | gravidanza/figlio accelerati | erede iniziale ed epilogo/scenario accelerato dichiarato |
+| R-088 | Data 77 mescola evidenza del 79 | Alta | Critico | edificio/contenuto retrodatato senza prova | snapshot edificio e classe A–E |
+| R-089 | Conteggi contenuti diventano quota e riempitivo | Media | Alto | authoring cresce senza copertura | cap, valore per contenuto e taglio quantitativo |
+| R-090 | Milestone chiuse per calendario, non qualità | Media | Critico | blocker trascinati o test disabilitati | entry/exit binari e regressione esplicita |
+| R-091 | READY firmata senza evidenza | Media | Critico | checkbox senza link/owner | audit, firme interdisciplinari e autorizzazione utente |
+| R-092 | Demo pubblica promette scala imperiale prematura | Media | Alto | marketing mostra esclusioni come roadmap certa | promise review e go/no-go post-demo |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

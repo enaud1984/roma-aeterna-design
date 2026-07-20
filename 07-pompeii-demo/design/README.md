@@ -29,6 +29,7 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 - [Edifici Accessibili](accessible-buildings.md)
 - [Cicli di Pompei](daily-seasonal-cycles.md)
 - [Personaggi Iniziali](starting-characters.md)
+- [Percorsi giocabili](playable-paths.md)
 - [Professioni della Demo](demo-professions.md)
 - [Scope dei Sistemi](demo-systems-scope.md)
 - [Scope dei Contenuti](demo-content-scope.md)
@@ -47,13 +48,13 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** piano della vertical slice a S3; topografia, valori, contenuti e gate tecnici richiedono validazione S4.
 
 ## Decisioni ancora aperte
 
-- Ownership, priorità, scope della demo e profondità finale.
+- Owner, poligono GIS, target tecnici, valori e contenuti P0 definitivi.
 
 ## TODO
 
-- Approvare l'indice e assegnare owner/reviewer.
-- Collegare fonti, ADR, test e Definition of Done.
+- Risolvere i blocker della checklist READY e assegnare owner/reviewer.
+- Promuovere ogni sistema P0 a S4 prima dell'implementazione.

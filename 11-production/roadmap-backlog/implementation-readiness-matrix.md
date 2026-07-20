@@ -62,6 +62,10 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-HIST | provenienza storica | S2 | corpus golden e workflow di waiver | Fondazioni AAA |
 | SYS-DBG | diagnostica | S3 | tecnologia, SLO e retention approvati | Fondazioni AAA |
 
+## Stato del gate della demo
+
+**NON READY.** Diversi sistemi P0 sono S2/S3 e nessuno può essere promosso automaticamente. La checklist [READY_FOR_IMPLEMENTATION](../../READY_FOR_IMPLEMENTATION.md) richiede S4, evidenze, firme interdisciplinari e autorizzazione esplicita prima del codice.
+
 ## Gate di avanzamento
 
 ```mermaid
@@ -115,6 +119,7 @@ La matrice è verificata durante ogni gate documentale, allineata a roadmap, ris
 - [Matrice delle dipendenze](../../00-governance/system-dependency-matrix.md)
 - [Registro dei rischi](../risk-register.md)
 - [Questioni aperte](../../00-governance/open-questions.md)
+- [Checklist READY](../../READY_FOR_IMPLEMENTATION.md)
 
 ## Decisioni ancora aperte
 

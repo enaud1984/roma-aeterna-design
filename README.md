@@ -45,13 +45,14 @@ Questo repository è la fonte autorevole per le intenzioni di design, i requisit
 
 ## Stato attuale
 
-La documentazione presente costituisce la **Baseline 0.1**: definisce architettura, intenzioni, domande aperte e criteri di validazione. Le sezioni marcate `TBD`, le ipotesi e i valori numerici non sono decisioni definitive. La cronologia precisa della demo, il rating, le piattaforme e il modello commerciale richiedono decisioni formali nel [registro delle decisioni](00-governance/decision-log.md).
+La documentazione costituisce una baseline progressiva. Il piano eseguibile della demo fissa Pompei al 1 luglio 77 d.C. come convenzione D ed esclude l'eruzione dall'orizzonte pubblicabile; rating, piattaforme, hardware, poligono GIS e valori di produzione restano decisioni formali. Lo stato oggettivo è nella checklist [READY_FOR_IMPLEMENTATION](READY_FOR_IMPLEMENTATION.md), attualmente `NON READY`.
 
 ### Avanzamento dei contenuti
 
 - **Visione e Game Design Bible:** Complete — Baseline 1.0.
-- **Fondazione storica:** prossima macroarea in lavorazione.
-- **Mondo, sistemi, contenuti, UX, arte, tecnologia e produzione:** struttura completa, contenuti da sviluppare.
+- **Fondazione storica e sistemi principali:** baseline approfondita con verifiche ancora aperte.
+- **Pompei e Technical Design:** piano e contratti a S3; gate S4 non ancora superati.
+- **Produzione:** epic, backlog, milestone, acceptance e READY definiti; codice non autorizzato.
 
 ### Qualità documentale
 

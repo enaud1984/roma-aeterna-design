@@ -1,51 +1,57 @@
-# Roadmap del Prodotto
+# Roadmap del prodotto — Pompei vertical slice
+
+**ID:** PRD-ROADMAP-001
+**Stato:** Sequenza approvabile; date non stimate
 
 ## Scopo
 
-Definire la futura specifica canonica di **Roadmap del Prodotto**.
+Mostrare la progressione da documentazione a demo pubblicabile e i gate che impediscono espansione prematura verso l'Impero.
 
 ## Descrizione
 
-Inquadra orizzonti, dipendenze, risultati e livelli di certezza.
-
-## Orizzonti documentali
-
-| Ordine | Orizzonte | Risultato | Gate di uscita |
-|---:|---|---|---|
-| 1 | Fondazioni AAA | standard, catalogo, dati, eventi, dipendenze, DoR | sistemi infrastrutturali almeno S3; SYS-EVT S4 |
-| 2 | Simulazione fondazionale | tempo, identità, autorità, orchestrazione e salvataggi | dipendenze P0 S4 |
-| 2A | Mondo e Pompei | framework W/G, GIS, snapshot, PVS-1, edifici e rete regionale | ADR-0014, Q-101/106–109 e dossier P0 chiusi |
-| 3 | Persona e società | persona, conoscenza, NPC, relazioni, famiglia, status | flussi longitudinali e casi giuridici S4 |
-| 3A | Simulazione sociale Pompei | N0–N5, azioni, routine, memoria, folle ed eventi | Q-102/110–113, benchmark e scenari 30 giorni chiusi |
-| 4 | Economia di Pompei | proprietà, inventario, mercati, lavoro, contratti | scenario economico end-to-end S4 |
-| 5 | Esperienza vertical slice | interazione, bisogni, UI, religione, crimine, combattimento | percorsi demo e budget S4 |
-| 6 | Readiness implementativa | audit interdisciplinare completo | READY_FOR_IMPLEMENTATION oggettiva |
-
-La [matrice di readiness](implementation-readiness-matrix.md) è la misura canonica: un orizzonte non è completo per semplice presenza dei documenti.
+La roadmap è outcome-based. La prima espansione oltre Pompei può essere valutata soltanto dopo una demo misurata; non è una milestone implicita della vertical slice.
 
 ## Ambito
 
-Coprirà responsabilità, requisiti, dipendenze, rischi, flussi e validazione. La fase corrente definisce soltanto lo scheletro.
+Readiness, sei fasi esecutive e orizzonte post-demo.
+
+## Orizzonti
+
+| Orizzonte | Risultato | Gate |
+|---|---|---|
+| R0 Documentazione | Game Bible, scope, backlog e READY | checklist approvata |
+| R1 Fondazione | prototipo tecnico | schema/save/CI/benchmark |
+| R2 Loop | prototipo gameplay | loop quotidiano leggibile |
+| R3 Integrazione | pre-alpha PVS-1 | sistemi P0 end-to-end |
+| R4 Qualità | vertical slice | tre percorsi e acceptance |
+| R5 Validazione | demo interna | QA, storia, UX e performance |
+| R6 Pubblicazione | demo distribuibile | release DoD |
+| R7 Valutazione | decisione go/no-go/reshape | dati, costi e rischi reali |
+
+Nessuna data viene inventata prima di staffing, target e misure PT. Il forecast usa range e confidenza, aggiornati a ogni milestone.
 
 ## Dipendenze
 
-- [Indice del dominio](README.md)
-- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Milestone](milestones.md)
+- [Backlog](demo-backlog.md)
+- [READY](../../READY_FOR_IMPLEMENTATION.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../../README.md)
-- [Mappa documentale](../../00-governance/documentation-map.md)
-- [Registro decisioni](../../00-governance/decision-log.md)
-- [Questioni aperte](../../00-governance/open-questions.md)
+- [Roadmap documentale](documentation-roadmap.md)
+- [Piano produzione](../production-plan.md)
+- [Rischi](../risk-register.md)
 
 ## Decisioni ancora aperte
 
-- Owner, reviewer, priorità e confini definitivi.
-- Prerequisiti e milestone di approfondimento.
-- Date e capacità del team; la sequenza resta valida anche senza calendario nominale.
+- Team, finanziamento, piattaforme, calendario e strategia distributiva.
+- Criteri quantitativi per il go/no-go post-demo.
+
+## Criteri di completamento
+
+Ogni orizzonte è collegato a milestone, artifact, acceptance, owner e decisione di investimento.
 
 ## TODO
 
-- Definire requisiti, casi limite e Definition of Done.
-- Mappare dipendenze, rischi, decisioni e test.
+- Inserire forecast dopo il prototipo tecnico.
+- Definire business review separata dalla quality review.

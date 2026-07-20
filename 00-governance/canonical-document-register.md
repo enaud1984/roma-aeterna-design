@@ -43,13 +43,14 @@ Copre le autorità principali. Le autorità di dettaglio sono dichiarate nei REA
 | Informazione/reputazione | [Informazione e reputazione](../04-simulation/information-and-reputation.md) | NPC, politica, UX |
 | Gameplay | [Esperienza del giocatore](../05-player/player-experience.md) finché non è promosso [core loop](../05-player/gameplay/core-loop.md) | attività e progressione |
 | Contenuti | [Framework contenuti](../06-content/content-framework.md) | missioni, narrativa, dialoghi |
-| Pompei | [Vertical slice](../07-pompeii-demo/pompeii-vertical-slice.md) | documenti demo |
+| Pompei — mandato e scope demo | [Mandato eseguibile](../07-pompeii-demo/design/demo-charter.md) | vertical slice e documenti demo |
+| Pompei — readiness codice | [READY_FOR_IMPLEMENTATION](../READY_FOR_IMPLEMENTATION.md) | roadmap, backlog e review |
 | UX | [Principi UX](../08-ux/ux-principles.md) | UI e flussi |
 | Arte | [Direzione artistica](../09-art-audio/art-direction.md) | asset e pipeline |
 | Audio | [Direzione audio](../09-art-audio/audio-direction.md) | sistema e pipeline |
 | Architettura tecnica | [Technical architecture](../10-technical/technical-architecture.md) | sottodomini tecnici |
 | Dati | [Panoramica dati](../10-technical/data-model.md) finché non è promosso [modello concettuale](../10-technical/data/conceptual-model.md) | save, strumenti e contenuti |
-| Produzione | [Piano di produzione](../11-production/production-plan.md) | roadmap e backlog |
+| Produzione demo | [Roadmap prodotto](../11-production/roadmap-backlog/product-roadmap.md) | piano di produzione, epic, backlog e milestone |
 | QA | [Strategia QA](../11-production/qa-strategy.md) | piani specializzati |
 
 ## Regola di promozione

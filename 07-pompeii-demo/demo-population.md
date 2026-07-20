@@ -1,13 +1,13 @@
 # Popolazione della demo
 
 **ID:** DEM-POP-001
-**Stato:** Draft
+**Stato:** S3 — cap di pianificazione D, benchmark aperti
 
 ## Strategia
 
 La popolazione usa tre livelli: NPC nominati con continuità completa; NPC persistenti con dettaglio medio; coorti aggregate che rappresentano flussi lontani senza false biografie. Il passaggio di livello conserva identità quando il giocatore crea una relazione significativa.
 
-La strategia è ora estesa ai sei [livelli N0–N5](../04-simulation/npc-population-ai/simulation-levels.md). Nessun numero è approvato prima di Q-102/HV-003; il piano di benchmark deve confrontare profili Small, Recommended, Crowd e Crisis.
+La strategia è ora estesa ai sei [livelli N0–N5](../04-simulation/npc-population-ai/simulation-levels.md). Lo [scope contenuti](design/demo-content-scope.md) assegna cap D iniziali di 24–36 NPC critici, 80–120 persistenti di supporto e 160–240 presenze visibili concorrenti; non sono valori approvati finché Q-102/HV-003 e i benchmark Small/Recommended/Crowd/Crisis non sono chiusi.
 
 ## Distribuzioni da ricercare
 

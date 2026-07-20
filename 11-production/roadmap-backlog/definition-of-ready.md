@@ -73,6 +73,7 @@ Il gate è ripetibile, auditabile e applicato uniformemente; eccezioni e regress
 
 - [Definition of Done](definition-of-done.md)
 - [Roadmap di prodotto](product-roadmap.md)
+- [Checklist READY della vertical slice](../../READY_FOR_IMPLEMENTATION.md)
 - [Questioni aperte](../../00-governance/open-questions.md)
 
 ## Decisioni ancora aperte

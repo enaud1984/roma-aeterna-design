@@ -25,6 +25,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0014 | Spina urbana PVS-1 per Pompei | Proposed | Foro–Via dell'Abbondanza–Anfiteatro con profondità selettiva |
 | ADR-0015 | Persona persistente separata da agente, conoscenza e coorti | Accepted | evita oggetti onniscienti e consente N0–N5 |
 | ADR-0021 | Record stabili, save segmentato e pipeline verificabile | Accepted | dati indipendenti da UE, recovery esplicito, budget misurabili e tooling P0 |
+| ADR-0022 | Pompei 1 luglio 77, PVS-1 e tre percorsi | Accepted for planning | demo ordinaria pre-eruzione, scope denso e cittadino/liberta/schiavo |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -149,6 +150,16 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Conseguenze.** Migrazioni e recovery diventano requisiti di schema; successione ed eredità non copiano identità o conoscenza; benchmark e strumenti sono parte del gate; Git LFS e branch protection richiedono configurazione amministrativa separata. Vedere [architettura dati](../10-technical/data/data-architecture.md), [save](../10-technical/save-system/save-architecture.md), [performance](../10-technical/performance/performance-strategy.md), [tooling](../10-technical/tools/tools-strategy.md) e [pipeline](../10-technical/pipelines/pipeline-overview.md).
 
 **Segnali di revisione.** Impossibilità di migrare una baseline reale, costo eccessivo dei segmenti, benchmark che invalidano i tier, divergenza editor/runtime o vincoli del provider incompatibili con la pipeline.
+
+## ADR-0022 — Baseline eseguibile della demo di Pompei
+
+**Decisione.** La demo inizia il 1 luglio 77 d.C. come convenzione D e non include l'eruzione. Il perimetro funzionale PVS-1 collega Foro, Via dell'Abbondanza e Anfiteatro con cluster selettivi; la geometria definitiva richiede GIS. Tre percorsi condividono sistemi e situazione: cittadino libero, liberta e persona schiavizzata. Durata target 5–7 ore per percorso, trenta giorni diegetici. Esercito giocabile, trionfo, politica imperiale, intero agro e multiplayer sono esclusi.
+
+**Motivazione.** La baseline dimostra vita ordinaria, lavoro, status, relazione e conseguenza senza rendere la catastrofe il centro della promessa. Tre status espongono differenze istituzionali usando la stessa città e gli stessi contratti.
+
+**Conseguenze.** Snapshot 77 e matrice status-capacità diventano gate; l'eredità usa household/eredi esistenti o validazione accelerata, non crescita biologica artificiale. Quantità, topografia e valori restano D fino a benchmark/review. Vedere [mandato](../07-pompeii-demo/design/demo-charter.md), [percorsi](../07-pompeii-demo/design/playable-paths.md) e [READY](../READY_FOR_IMPLEMENTATION.md).
+
+**Segnali di revisione.** Ricerca che renda incoerente lo snapshot, GIS/budget che invalidi PVS-1, playtest che dimostri percorsi non confrontabili o content policy incompatibile.
 
 ## Scopo
 

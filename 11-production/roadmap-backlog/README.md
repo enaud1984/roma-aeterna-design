@@ -9,6 +9,7 @@ Definire l'architettura documentale del dominio **Roadmap e Backlog**.
 Indice delle specifiche modulari e dei registri da sviluppare nelle fasi successive.
 
 Gate operativi: [Definition of Ready](definition-of-ready.md) e [matrice di readiness](implementation-readiness-matrix.md).
+Il gate finale della vertical slice è [READY_FOR_IMPLEMENTATION](../../READY_FOR_IMPLEMENTATION.md).
 
 ## Ambito
 
@@ -23,6 +24,7 @@ Include i documenti elencati; non autorizza implementazione, asset o ampliamenti
 - [Milestone](milestones.md)
 - [Definition of Ready](definition-of-ready.md)
 - [Definition of Done](definition-of-done.md)
+- [Checklist READY](../../READY_FOR_IMPLEMENTATION.md)
 
 ## Dipendenze
 
@@ -37,13 +39,13 @@ Include i documenti elencati; non autorizza implementazione, asset o ampliamenti
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** piano eseguibile della demo a S3; stime, owner e gate S4 ancora aperti.
 
 ## Decisioni ancora aperte
 
-- Ownership, priorità e collocazione nelle milestone.
+- Owner, capacità, stime, tecnologie e approvazioni READY.
 
 ## TODO
 
-- Approvare l'indice e assegnare owner/reviewer.
-- Collegare ADR, rischi, test e criteri di completamento.
+- Assegnare owner/reviewer e chiudere la checklist READY.
+- Collegare feature a test case e tracker quando scelto.

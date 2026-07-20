@@ -9,7 +9,7 @@ Dimostrare con una catena verticale leggibile che il mondo produce, trasporta, c
 
 ## Descrizione
 
-La spina P0 è grano → stoccaggio → molitura → farina → panificazione → distribuzione/credito → consumo/scarto. Attraversa lavoro, proprietà, bisogni, prezzi, relazioni, diritto e folla. Vino, olio, ceramica e tessili sono P1 candidati; le altre filiere restano condizioni aggregate o contenuto futuro.
+La spina P0 è grano → stoccaggio → molitura → farina → panificazione → distribuzione/credito → consumo/scarto. Attraversa lavoro, proprietà, bisogni, prezzi, relazioni, diritto e folla. Un loop tessile/fullonica e uno di servizio-consegna sono P0 circoscritti per i percorsi liberta e schiavo; vino, olio e ceramica restano P1 o condizioni aggregate.
 
 ## Ambito
 
@@ -68,7 +68,7 @@ Catena P0 end-to-end, tre percorsi su carta, shock autonomo, conservazione chius
 ## Decisioni ancora aperte
 
 - Edifici e imprese P0 dopo verifica archeologica.
-- Professioni disponibili, paniere, valori e durata dello shock.
+- Valori, paniere e durata dello shock; le professioni P0 sono fissate nel [portfolio demo](design/demo-professions.md).
 
 ## TODO
 

@@ -1,68 +1,55 @@
 # Data e snapshot storico della demo
 
+**ID:** DEM-DATE-001
+**Stato:** Baseline D approvata per pianificazione; review storica S4 richiesta
+
 ## Scopo
 
-Definire le opzioni per lo snapshot di Pompei senza anticipare la decisione su data iniziale ed eruzione giocabile.
+Fissare una fotografia temporale coerente per edifici, calendario, istituzioni, merci, personaggi e contenuti della demo.
 
 ## Descrizione
 
-La demo deve rappresentare una sola fotografia coerente: edifici, imperatore, calendario, lavori, merci e personaggi non possono provenire da anni diversi.
+La demo inizia all'alba del **1 luglio 77 d.C.** a Pompei, nell'età flavia. Il giorno esatto è una licenza D scelta per pianificare una stagione leggibile e una città ancora segnata da trasformazioni e lavori; non deriva da una fonte che attesti gli eventi fittizi. L'eruzione del 79 d.C. non avviene entro l'orizzonte giocabile.
 
 ## Ambito
 
-Finestra flavia 69–79 d.C.; la timeline precedente serve come contesto, non come set di asset simultanei.
+Finestra ordinaria di trenta giorni, con validazioni accelerate fino a un anno. Eventi storici reali possono entrare soltanto se compatibili con data, area e fonti; nessun contenuto anticipa conoscenza dell'eruzione.
 
-## Opzioni
+## Regole dello snapshot
 
-| Opzione | Data indicativa | Vantaggi | Rischi | Stato |
-|---|---|---|---|---|
-| A | 70–72 d.C. | ricostruzione post-terremoto visibile; distanza dall'eruzione | stato edilizio da ricostruire meno conservato | Candidate |
-| B | 75–77 d.C. | città trasformata ma non “conto alla rovescia” | datazione fine degli interventi difficile | Recommended for evaluation |
-| C | estate/autunno 79 | massima prossimità al deposito archeologico | eruzione domina aspettative; giorno/mese controversi | Candidate, high risk |
+- Ogni edificio dichiara stato al 1 luglio 77, evidenza materiale, inferenza e licenza.
+- Titolari di cariche, calendario rituale, moneta, procedure e reti commerciali devono condividere la stessa finestra.
+- Evidenza archeologica del 79 non viene retrodatata automaticamente al 77.
+- Interventi dopo il sisma del 62/63 sono schedati per edificio senza presumere un unico stato cittadino.
+- Una data o attribuzione E non può apparire in UI come certezza.
 
-Nessuna opzione è Approved. Q-001 e Q-002 restano bloccanti. Finché non chiuse, ogni edificio usa uno stato per fase e nessun evento cita una data iniziale precisa.
+## Eruzione e catastrofi
 
-## Snapshot edilizio
-
-Ogni edificio registra: stato al giorno zero, interventi attribuibili al sisma 62/63, restauri successivi, funzione A–E, accessi, arredi ricostruiti, materiali e differenza tra evidenza del 79 e fase scelta.
-
-## Diagramma decisionale
-
-```mermaid
-flowchart TD
-    D["Scegli data demo"] --> E{"Eruzione nel loop?"}
-    E -->|no| B["Finestra 70–77"]
-    E -->|sì| C["79 con mese/giorno controversi"]
-    B --> S["Snapshot edificio per fase"]
-    C --> S
-    S --> R["Review storia + sistemi + produzione"]
-```
+L'eruzione è fuori scope. Tremori, incendi o crolli minori sono ammessi solo come eventi sistemici con frequenza e fonti/liceità di design dichiarate, mai come presagio soprannaturale certo. La demo termina per esito del percorso, non per catastrofe obbligatoria.
 
 ## Dipendenze
 
 - [Cronologia ufficiale](../../02-historical-foundation/chronology/official-timeline.md)
 - [Controversie](../../02-historical-foundation/sources/controversies-register.md)
+- [Dossier urbano](pompeii-urban-system.md)
 
 ## Collegamenti agli altri documenti
 
+- [Mandato demo](demo-charter.md)
 - [Area giocabile](playable-area.md)
-- [Edifici](accessible-buildings.md)
 - [Cicli](daily-seasonal-cycles.md)
+- [Edifici](accessible-buildings.md)
 
 ## Criteri di completamento
 
-ADR approvata; snapshot di ogni edificio compatibile; calendario e autorità coerenti; nessun claim E presentato come fatto.
-
-## Rischi di produzione
-
-Mescolare fasi, promettere l'eruzione implicitamente, usare una data autunnale come certezza e rifare asset dopo la decisione.
+Snapshot revisionato per tutti i contenuti P0; calendario e autorità coerenti; nessun elemento E presentato come fatto; ADR e claim register aggiornati.
 
 ## Decisioni ancora aperte
 
-- Q-001: data iniziale.
-- Q-002: eruzione nell'orizzonte.
+- Giorni festivi e scadenze effettivamente inclusi nei trenta giorni.
+- Stato 77 di ciascun edificio P0 e titolari locali nominati.
 
 ## TODO
 
-- Preparare confronto costo/contenuto delle tre opzioni.
-- Ottenere review archeologica sugli edifici candidati.
+- Produrre dossier edificio-per-edificio.
+- Far revisionare calendario, cariche e terminologia dal team storico.

@@ -18,7 +18,7 @@ Definisce ordine, milestone, gate, ownership e criteri di approvazione.
 | 4 | Simulazioni, gameplay e contenuti | Planned | specifiche integrate |
 | 5 | UX, arte, audio e animazione | Planned | experience review |
 | 6 | Technical Design | **In progress — architettura e trasversali S3** | decisioni fisiche, benchmark e gate S4 |
-| 7 | Produzione e QA | Planned | readiness implementazione |
+| 7 | Produzione e QA | **In progress — piano demo S3** | READY, owner, stime e gate S4 |
 
 ## Audit e qualità
 

@@ -14,8 +14,8 @@ Claim storici e quantitativi della Game Bible, con priorità alla vertical slice
 
 | ID | Elemento | Problema | Evidenza necessaria | Impatto | Owner | Gate |
 |---|---|---|---|---|---|---|
-| HV-001 | data iniziale della demo | anno, mese e stagione aperti | confronto storico/design + ADR | tutto il canone Pompei | Direction/History | prima dello scope finale |
-| HV-002 | giorno e mese dell'eruzione | tradizione manoscritta e indizi divergenti | edizione critica + sintesi archeologica aggiornata | timeline/eruzione | History | prima di includere eruzione |
+| HV-001 | snapshot al 1 luglio 77 | data D fissata; coerenza di edifici, calendario e persone da verificare | dossier P0 + ADR-0022 | tutto il canone Pompei | Direction/History | prima del gate READY |
+| HV-002 | giorno e mese dell'eruzione | controversia preservata; eruzione esclusa dalla demo | edizione critica + sintesi archeologica aggiornata | futuro contenuto eruzione | History | prima di qualsiasi inclusione futura |
 | HV-003 | popolazione di Pompei | stime dipendono da metodo e area | review demografica con intervalli | densità NPC | History/Simulation | prima del budget popolazione |
 | HV-004 | insulae giocabili | selezione non approvata | atlante per fase e accessibilità | mappa demo | World/History | scope map |
 | HV-005 | funzione/proprietà edifici | nomi moderni e attribuzioni variabili | scheda per edificio e fase | interazioni/economia | Archaeology | authoring edificio |
@@ -64,4 +64,3 @@ Nessun elemento E bloccante resta aperto per la milestone approvata.
 
 - Collegare ogni HV ai documenti consumer specifici.
 - Registrare esiti e fonti man mano che le voci vengono chiuse.
-

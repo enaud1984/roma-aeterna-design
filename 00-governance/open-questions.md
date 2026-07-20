@@ -102,6 +102,19 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-251 | Quando creare/proteggere `main` e quale branch alimenta l'implementazione? | governance repository | Production + Technical Direction | decisione amministrativa |
 | Q-252 | Quali pattern, quote, locking e recovery valgono per Git LFS e artifact? | asset pesanti e collaborazione | Asset + Build | prova clone/build e ADR |
 
+## Risoluzioni della baseline demo
+
+| Questione | Risoluzione di pianificazione | Stato residuo |
+|---|---|---|
+| Q-001 | 1 luglio 77 d.C., licenza D | review snapshot P0 richiesta |
+| Q-002 | eruzione esclusa dalla demo | chiusa per la milestone demo |
+| Q-007 | successione dimostrata con erede esistente/scenario accelerato | UX e regole legali da approvare |
+| Q-101/Q-106 | topologia PVS-1 Foro–Anfiteatro con cluster | poligono GIS blocker READY |
+| Q-103/Q-207 | pane, tessile/fullonica, servizio-consegna P0 | valori e luoghi finali aperti |
+| Q-222 | trionfo soltanto notizia/effetto remoto | chiusa per la demo |
+
+La checklist [READY_FOR_IMPLEMENTATION](../READY_FOR_IMPLEMENTATION.md) è il ledger canonico dei blocker per l'avvio. Le questioni non elencate come risolte restano aperte; nessuna è cancellata dalla sola pianificazione.
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

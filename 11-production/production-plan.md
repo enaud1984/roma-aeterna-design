@@ -7,7 +7,7 @@
 
 Obiettivo: trasformare visione e ambizioni in specifiche approvabili, rischi misurabili e scope del vertical slice. Nessun codice di gioco è previsto da questa attività.
 
-## Milestone
+## Milestone documentali e di esecuzione
 
 | Milestone | Risultato | Gate |
 |---|---|---|
@@ -15,8 +15,10 @@ Obiettivo: trasformare visione e ambizioni in specifiche approvabili, rischi mis
 | M1 Domain Bible | sistemi completi con scenari e dipendenze | review interdisciplinare |
 | M2 Pompeii Definition | data, perimetro, popolazione, catene, contenuti | scope firmato |
 | M3 Technical Discovery | ADR tecnici e benchmark progettati | rischi principali testabili |
-| M4 Pre-production | prototipi autorizzati, pipeline e stime | greenlight vertical slice |
-| M5 Vertical Slice | esperienza rappresentativa e misurata | exit criteria DEM-001 |
+| M4 Readiness | scope, backlog, architettura e checklist READY | autorizzazione esplicita al codice |
+| M5 Esecuzione demo | PT → PG → PA → VS → DI → DP | gate definiti nelle milestone eseguibili |
+
+La sequenza operativa canonica è in [milestone della demo](roadmap-backlog/milestones.md). La fase corrente termina con `READY_FOR_IMPLEMENTATION` documentata ma non ancora superata.
 
 ## Workstream
 

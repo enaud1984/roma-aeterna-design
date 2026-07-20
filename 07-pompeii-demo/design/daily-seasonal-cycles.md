@@ -10,7 +10,7 @@ Le attività dipendono da luce, stagione, mercato, status, obblighi, acqua, even
 
 ## Ambito
 
-Demo PVS-1, fino a 30 giorni simulati per test; calendario storico completo subordinato alla data iniziale.
+Demo PVS-1 dal 1 luglio 77 d.C., trenta giorni standard; il calendario rituale e civile P0 richiede ancora review specialistica.
 
 ## Ciclo giornaliero
 
@@ -49,7 +49,7 @@ Mercato secondo calendario approvato; bagni e spettacoli programmati; riti domes
 
 ## Eventi eccezionali
 
-Incendio, crollo, scarsità, piena/allagamento locale, disordine a spettacolo, visita di autorità, processo importante, notizia imperiale, malattia diffusa e shock di trasporto. Terremoto ed eruzione richiedono milestone e ADR proprie.
+Incendio, crollo, scarsità, piena/allagamento locale, disordine a spettacolo, visita di autorità, processo importante, notizia imperiale, malattia diffusa e shock di trasporto. L'eruzione è esclusa; eventi sismici richiedono scope e review propri.
 
 ## Frequenza e rarità
 

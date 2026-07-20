@@ -6,7 +6,7 @@ Definire le finestre temporali canoniche e impedire la sovrapposizione inconsape
 
 ## Descrizione
 
-La cronologia distingue contesto storico, finestra della demo e futuro simulato. La data iniziale non è ancora approvata: gli eventi dipendenti da essa restano condizionali.
+La cronologia distingue contesto storico, finestra della demo e futuro simulato. La baseline di pianificazione inizia il 1 luglio 77 d.C.; il giorno è licenza D e richiede review dello snapshot P0.
 
 ## Ambito
 
@@ -25,19 +25,20 @@ Pompei e Campania con il minimo contesto romano necessario; l'espansione imperia
 | 62/63 | terremoto campano con gravi danni a Pompei | Campania | A evento / E anno esatto | Tacito; Seneca; archeologia | edifici in riparazione per scheda, non globalmente |
 | 68–69 | guerra civile e quattro imperatori | Impero | A | fonti storiche/numismatiche | effetti locali da dimostrare, non assumere |
 | 69–79 | principato di Vespasiano | Impero | A | fonti storiche/numismatiche | finestra candidata per la demo |
+| 1 luglio 77 | inizio della demo | Pompei | D | ADR-0022; convenzione progettuale | ancora temporale di sistemi e contenuti |
 | 23 giugno 79 | morte di Vespasiano; successione di Tito | Impero | A/B | fonti letterarie/numismatiche | dipende dalla data iniziale scelta |
 | dopo 17 ottobre 79 | *terminus post quem* suggerito dal graffito a carboncino per l'eruzione | Pompei | A per iscrizione / B per inferenza | scavo Regio V | non equivale da solo al 24 ottobre |
-| autunno 79, giorno aperto | eruzione distruttiva del Vesuvio | area vesuviana | A anno/evento; E giorno | Plinio, depositi, studi moderni | eruzione fuori scope finché Q-002/HV-002 aperte |
+| autunno 79, giorno aperto | eruzione distruttiva del Vesuvio | area vesuviana | A anno/evento; E giorno | Plinio, depositi, studi moderni | fuori scope demo; controversia preservata per futuro |
 | 81 | morte di Tito e successione di Domiziano | Impero | A | fonti storiche/numismatiche | fuori dall'orizzonte salvo sopravvivenza controfattuale |
 | 212 | Constitutio Antoniniana | ampie parti dell'Impero | A, dettagli discussi | P. Giss. 40; Cassio Dione | barriera: non retrodatare cittadinanza generalizzata |
 | VI sec. | compilazione giustinianea | Impero orientale | A | Corpus Iuris Civilis | barriera: fonte tarda, non prassi diretta del 79 |
 
 ## Canone della demo
 
-- **Anno iniziale:** E, decisione aperta Q-001/HV-001.
-- **Stagione:** E.
-- **Eruzione nell'orizzonte giocabile:** D/Open, Q-002.
-- **Imperatore e funzionari viventi:** derivano automaticamente dalla data scelta; vietato fissarli altrove prima dell'ADR.
+- **Data iniziale:** 1 luglio 77 d.C., D, ADR-0022.
+- **Stagione:** estate, derivata dalla convenzione; condizioni locali da dossier.
+- **Eruzione nell'orizzonte giocabile:** esclusa per la demo.
+- **Imperatore:** coerente con il principato di Vespasiano; funzionari locali nominati restano da dossier.
 - **Stato degli edifici:** deve essere una fotografia per data e fase, non il palinsesto complessivo degli scavi.
 
 ## Regole controfattuali
@@ -66,10 +67,10 @@ ADR della data approvata, timeline locale dettagliata, sincronizzazione con cale
 
 ## Decisioni ancora aperte
 
-- Q-001 e Q-002: data iniziale ed eruzione giocabile.
+- Snapshot di istituzioni, calendario, edifici e persone al 1 luglio 77.
 - Edizione critica adottata per la data pliniana.
 
 ## TODO
 
-- Chiudere HV-001/002.
+- Registrare HV-001/002 come risolti per la milestone demo, preservando la controversia storica dell'eruzione.
 - Aggiungere timeline edilizie degli spazi selezionati.

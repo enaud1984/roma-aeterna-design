@@ -1,7 +1,7 @@
 # Vertical slice — Pompei
 
 **ID:** DEM-001
-**Stato:** Draft
+**Stato:** S3 — piano eseguibile; gate READY aperto
 
 ## Tesi
 
@@ -17,9 +17,9 @@ Pompei deve provare che una città romana densamente documentata può vivere sen
 6. Il mondo avanza durante assenza e produce un recap epistemicamente corretto.
 7. Tutti gli elementi storici chiave possiedono periodo, area, fonti e classe A–E.
 
-## Perimetro proposto, non approvato
+## Perimetro di pianificazione
 
-Un distretto contiguo ad alta densità con foro/mercato accessibile attraverso corridoi selezionati; alcune aree rappresentate a risoluzione ridotta; hinterland e porto come nodi aggregati. La selezione definitiva dipende da [ricerca topografica](../02-historical-foundation/pompeii-research-plan.md).
+La baseline PVS-1 collega Foro, Via dell'Abbondanza e Anfiteatro con cluster selettivi; hinterland e porto sono nodi aggregati. La geometria finale dipende da [ricerca topografica](../02-historical-foundation/pompeii-research-plan.md) e dal gate GIS.
 
 ## Slice di sistemi
 
@@ -31,7 +31,7 @@ NPC nominati persistenti, famiglie, attività, edifici interagibili, situazioni 
 
 ## Out of scope esplicito
 
-Intero Impero esplorabile; guerra tattica; trionfo completo a Roma; tutte le professioni; politica imperiale dettagliata; multiplayer; eruzione finché Q-002 non è chiusa.
+Intero Impero esplorabile; guerra tattica; trionfo completo a Roma; tutte le professioni; politica imperiale dettagliata; multiplayer; eruzione del 79.
 
 ## Exit criteria
 
@@ -43,6 +43,8 @@ Intero Impero esplorabile; guerra tattica; trionfo completo a Roma; tutte le pro
 - Playtester comprendono almeno causa prossima e opzioni di risposta per eventi chiave.
 
 Collegamenti: [popolazione](demo-population.md), [economia](demo-economy.md), [piano produzione](../11-production/production-plan.md).
+
+Il mandato eseguibile, i tre percorsi e i gate sono in [mandato demo](design/demo-charter.md), [percorsi](design/playable-paths.md) e [READY_FOR_IMPLEMENTATION](../READY_FOR_IMPLEMENTATION.md).
 
 Il dossier canonico corrente è [Pompei come sistema urbano](design/pompeii-urban-system.md); perimetro, accessi, edifici, cicli e rete regionale sono specifiche modulari collegate da quel documento.
 

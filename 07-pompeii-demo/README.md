@@ -31,15 +31,14 @@ I documenti presenti direttamente nella cartella costituiscono le specifiche di 
 
 ## Stato di avanzamento
 
-**Stato:** architettura completa; documenti in stato Draft o scheletro.
+**Stato:** piano eseguibile S3 completato; implementazione non autorizzata finché la checklist READY non è approvata.
 
 ## Decisioni ancora aperte
 
-- Sequenza di approfondimento e owner nominali.
-- Approvazione dei confini con le aree adiacenti.
+- Owner nominali, topografia finale, target tecnici e contenuti P0.
+- Chiusura dei blocker elencati in [READY_FOR_IMPLEMENTATION](../READY_FOR_IMPLEMENTATION.md).
 
 ## TODO
 
-- Assegnare owner/reviewer.
-- Promuovere progressivamente gli scheletri a specifiche complete.
-- Mantenere indice e collegamenti sincronizzati.
+- Assegnare owner/reviewer e promuovere P0 a S4.
+- Eseguire prototipi soltanto dopo autorizzazione esplicita al codice.
