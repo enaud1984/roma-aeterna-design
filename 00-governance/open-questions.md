@@ -23,6 +23,10 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-103 | Quali mestieri sono completi nel slice? | [Economia demo](../07-pompeii-demo/demo-economy.md) |
 | Q-104 | Quali lingue sono rappresentate e come? | [Dialogo](../06-content/dialogue-and-language.md) |
 | Q-105 | Quale granularità per schiavitù, manomissione e patronato? | [Status sociale](../04-simulation/social-status-and-law.md) |
+| Q-106 | PVS-1 include fisicamente Foro–Anfiteatro, o uno scope Small/Extended? | [Area giocabile](../07-pompeii-demo/design/playable-area.md) |
+| Q-107 | Quali porte, necropoli e villa suburbana diventano mappe locali? | [Rete regionale](../07-pompeii-demo/design/regional-connections.md) |
+| Q-108 | Quali edifici economici e case sono P0 utilizzabili? | [Edifici](../07-pompeii-demo/design/accessible-buildings.md) |
+| Q-109 | Quale modello geoarcheologico adottare per porto, Sarno e paleo-costa? | [Framework geografico](../03-world/geography/geographic-framework.md) |
 
 ## Ricerca e sensibilità
 

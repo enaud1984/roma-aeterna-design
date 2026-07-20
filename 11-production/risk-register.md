@@ -29,6 +29,11 @@
 | R-022 | Trasferimento improprio Roma/province/epoche | Alta | Critico | regola “romana” senza area o periodo | area e finestra obbligatorie, analogie C |
 | R-023 | Falsa precisione demografica/economica | Alta | Alto | numeri singoli senza intervallo o corpus | scenari, sensitività e registro E |
 | R-024 | Scavi o studi recenti rendono obsoleta la baseline | Media | Alto | nuove datazioni/funzioni divergenti | audit periodico e data ultima review |
+| R-025 | Full-city creep a Pompei | Alta | Critico | interni e isolati crescono senza loop | PVS-1, tier P0–P5 e gate GIS |
+| R-026 | Portfolio imperiale uniforme | Alta | Critico | città riusano identici sistemi/asset | slot di contrasto, moduli regionali e review |
+| R-027 | Spina urbana lunga ma poco densa | Media | Alto | attraversamento senza decisioni | profondità selettiva e metriche per tratto |
+| R-028 | Paleo-geografia errata | Media | Alto | costa/fiume moderni usati nel 79 | dossier geoarcheologico e precision class |
+| R-029 | Costo di folle ed edifici P0 | Alta | Critico | budget superato durante eventi | livelli W/G, access tier e benchmark |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

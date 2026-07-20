@@ -32,7 +32,7 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-TIME | tempo e calendario | S3 | budget e contratti puntuali | Fondazioni AAA |
 | SYS-EVT | eventi | S4 | tecnologia differita non bloccante | Fondazioni AAA |
 | SYS-ID | identità | S2 | lifecycle di alias/tombstone | Fondazioni AAA |
-| SYS-WORLD | mondo e spazio | S2 | autorità per celle e trasformazioni | Vertical slice Pompei |
+| SYS-WORLD | mondo e spazio | S3 | budget GIS/streaming e autorità delle trasformazioni | Vertical slice Pompei |
 | SYS-SIM | orchestrazione simulazione | S3 | budget quantitativi e recovery | Fondazioni AAA |
 | SYS-PER | persona/ciclo di vita | S2 | invarianti salute-morte | Simulazione sociale |
 | SYS-SAVE | persistenza | S1 | snapshot, migrazione e recovery | Fondazioni AAA |

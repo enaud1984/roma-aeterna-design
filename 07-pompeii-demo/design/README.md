@@ -14,6 +14,14 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Documenti contenuti
 
+- [Dossier urbano integrato](pompeii-urban-system.md)
+- [Data e snapshot](historical-date.md)
+- [Area giocabile](playable-area.md)
+- [Zone e flussi](districts.md)
+- [Edifici accessibili](accessible-buildings.md)
+- [Cicli e calendario](daily-seasonal-cycles.md)
+- [Rete regionale](regional-connections.md)
+
 - [Mandato della Demo](demo-charter.md)
 - [Data Storica della Demo](historical-date.md)
 - [Area Giocabile](playable-area.md)

@@ -1,5 +1,12 @@
 # Changelog documentale
 
+## 1.2.0-world-design — 2026-07-20
+
+- Definiti framework regionali G0–G5 e livelli di insediamento W0–W5.
+- Creata matrice di portfolio per 36 città imperiali.
+- Progettata la proposta PVS-1 per Pompei e i tier di accessibilità P0–P5.
+- Completati dossier urbano, zone, edifici, cicli e rete regionale della demo.
+
 ## 1.1.0-historical-audit — 2026-07-20
 
 - Migrata la classificazione storica da H1–H4 ad A–E.

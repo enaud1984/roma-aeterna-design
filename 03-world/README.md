@@ -8,6 +8,8 @@ Fornire l'indice canonico dell'area **Mondo di Gioco**.
 
 Geografia, regioni, città, edifici, infrastrutture e siti rurali.
 
+Fonti operative: [modello del mondo](world-model.md), [framework geografico](geography/geographic-framework.md), [framework degli insediamenti](settlements/settlement-framework.md) e [matrice delle città](settlements/imperial-city-matrix.md).
+
 ## Ambito
 
 La cartella contiene documenti fondativi e sottodomini specializzati. Gli approfondimenti futuri devono essere inseriti nel documento canonico pertinente.

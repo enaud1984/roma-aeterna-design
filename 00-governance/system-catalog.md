@@ -23,7 +23,7 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-TIME-001 | Tempo e calendario | clock, date, scadenze, accelerazione | P0 | S2 | [Tempo](../03-world/time-and-persistence.md) |
 | SYS-EVT-001 | Eventi | contratti, ordinamento, dispatch, causalità | P0 | S4 | [Eventi](../10-technical/architecture/event-architecture.md) |
 | SYS-ID-001 | Identità | ID persistenti e lifecycle | P0 | S1 | [Modello dati](../10-technical/data-model.md) |
-| SYS-WORLD-001 | Mondo/spazio | luoghi, gerarchie, accessi, livelli | P0 | S1 | [Mondo](../03-world/world-model.md) |
+| SYS-WORLD-001 | Mondo/spazio | luoghi, gerarchie, accessi, livelli | P0 | S3 | [Framework](../03-world/settlements/settlement-framework.md) |
 | SYS-SIM-001 | Orchestratore simulazione | clock di dominio, risoluzione, budget | P0 | S2 | [Simulazione](../04-simulation/simulation-architecture.md) |
 | SYS-PER-001 | Persona e ciclo di vita | identità biografica, corpo, nascita, invecchiamento, morte | P0 | S1 | [Ciclo di vita](../04-simulation/npc-population-ai/npc-lifecycle.md) |
 | SYS-SAVE-001 | Persistenza | snapshot, migrazione, recovery | P0 | S1 | [Save](../10-technical/save-system/save-architecture.md) |

@@ -44,6 +44,8 @@ Intero Impero esplorabile; guerra tattica; trionfo completo a Roma; tutte le pro
 
 Collegamenti: [popolazione](demo-population.md), [economia](demo-economy.md), [piano produzione](../11-production/production-plan.md).
 
+Il dossier canonico corrente è [Pompei come sistema urbano](design/pompeii-urban-system.md); perimetro, accessi, edifici, cicli e rete regionale sono specifiche modulari collegate da quel documento.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

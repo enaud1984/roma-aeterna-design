@@ -14,6 +14,10 @@ Sono inclusi i temi elencati nell'indice seguente; dettagli implementativi e ass
 
 ## Documenti contenuti
 
+- [Framework generale](settlement-framework.md)
+- [Template città](city-template.md)
+- [Matrice 30–40 città](imperial-city-matrix.md)
+
 - [Framework degli Insediamenti](settlement-framework.md)
 - [Città](cities.md)
 - [Villaggi](villages.md)

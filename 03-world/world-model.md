@@ -32,6 +32,8 @@ Un agente ha una sola posizione logica alla volta; un bene non può essere consu
 
 Pompei è una specializzazione del modello, non il suo schema universale. Regole locali, provinciali e temporali sono pacchetti dichiarativi concettualmente separati dai sistemi comuni. Vedere [living city](living-city.md), [tempo](time-and-persistence.md), [architettura simulazione](../04-simulation/simulation-architecture.md).
 
+Il contratto operativo per regioni e insediamenti è nel [framework generale](settlements/settlement-framework.md); la selezione futura usa la [matrice delle città imperiali](settlements/imperial-city-matrix.md).
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

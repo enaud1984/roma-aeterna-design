@@ -16,6 +16,7 @@ Qualità editoriale, struttura, collegamenti, autorità, completezza, terminolog
 
 - [Audit fondazione AAA — 2026-07-20](aaa-system-design-foundation-audit-2026-07-20.md)
 - [Audit accuratezza storica — 2026-07-20](historical-accuracy-audit-2026-07-20.md)
+- [Audit progettazione del mondo — 2026-07-20](world-design-audit-2026-07-20.md)
 - [Audit completo Game Bible — 2026-07-20](game-bible-audit-2026-07-20.md)
 
 - [Audit completo 2026-07-20](game-bible-audit-2026-07-20.md)

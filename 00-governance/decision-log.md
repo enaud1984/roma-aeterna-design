@@ -21,6 +21,8 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0010 | Panoramiche mature restano canoniche finché gli scheletri specializzati non sono promossi | Accepted | impedisce che file brevi o duplicati acquisiscano autorità implicita |
 | ADR-0011 | Contratto AAA comune e autorità unica per dati/eventi | Accepted | readiness misurabile, mutazioni inter-sistema controllate |
 | ADR-0012 | Classificazione storica A–E e claim atomici | Accepted | separa attestazione, probabilità, ricostruzione, design e verifica |
+| ADR-0013 | Livelli geografici W0–W5 e G0–G5 | Accepted | scala produzione e simulazione senza uniformare gli insediamenti |
+| ADR-0014 | Spina urbana PVS-1 per Pompei | Proposed | Foro–Via dell'Abbondanza–Anfiteatro con profondità selettiva |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -89,6 +91,16 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Conseguenze.** I claim E non sono canonici; A/B richiedono evidenze pertinenti; C/D espongono inferenza o licenza. I documenti attivi e i template sono migrati, mentre i vecchi audit restano testimonianze della baseline precedente.
 
 **Segnali di revisione.** Ambiguità ricorrenti tra A e B o necessità di sottoclassi per provenienza, senza perdere la semantica pubblica A–E.
+
+## ADR-0013 — Livelli geografici e di insediamento
+
+**Decisione.** Regioni e luoghi usano scale G0–G5 e livelli di produzione W0–W5. Il livello dichiara risoluzione e costo, non valore storico. Ogni sito conserva identità, capacità, connessioni e memoria anche quando aggregato.
+
+**Conseguenze.** Pompei è W0; città future entrano in portfolio prima di diventare W1/W2. Ville, cave, porti e campagne possono essere nodi vivi senza mappa completa.
+
+## ADR-0014 — Proposta PVS-1
+
+**Stato: Proposed.** La demo candidata usa una spina 1:1 continua dal Foro all'Anfiteatro lungo Via dell'Abbondanza, con cluster Stabian Baths, teatri/Iside e profondità domestico-produttiva selettiva. Mura, necropoli e hinterland restano nodi o mappe locali. Approvazione subordinata a GIS, budget e Q-101.
 
 ## Scopo
 
