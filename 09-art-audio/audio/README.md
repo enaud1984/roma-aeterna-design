@@ -35,7 +35,7 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** sistema audio, lingue, soundscape e anti-ripetizione a S3; corpus, budget e mix P0 attendono validazione.
 
 ## Decisioni ancora aperte
 

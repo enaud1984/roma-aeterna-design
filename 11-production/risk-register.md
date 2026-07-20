@@ -61,6 +61,13 @@
 | R-054 | Esercito anacronistico uniforme | Alta | Critico | organici/equipaggiamento universali | profili data-provincia A–E |
 | R-055 | Grandi eventi troppo frequenti | Media | Alto | battaglie/trionfi diventano routine | gate storici, risorse e calendario |
 | R-056 | Prigionieri ridotti a props | Media | Critico | identità cancellate in battaglia/trionfo | NPC persistenti e review etica |
+| R-057 | Missioni come checklist artificiale | Alta | Alto | marker sostituiscono scoperta e relazioni | situazioni, fonti e impegni diegetici |
+| R-058 | Narrazione inventa causalità | Media | Critico | storylet contraddice ledger | binding read-only e causal trace |
+| R-059 | Eventi e catastrofi continui | Alta | Alto | nessun aftermath/cooldown | classi D0–D5, gate e budget |
+| R-060 | UI onnisciente | Alta | Critico | mostra segreti, GPS o reputazione globale | UIFactView e leak tests |
+| R-061 | Sovraccarico di notifiche | Alta | Alto | messaggi/minuto e dismiss crescono | priorità, deduplica, recap e silenzioso |
+| R-062 | Audio ripetitivo o stereotipato | Alta | Alto | bark/loop riconoscibili e accenti caricaturali | pool semantici, cooldown e review linguistica |
+| R-063 | Accessibilità aggiunta tardi | Alta | Critico | flussi P0 dipendono da un solo canale/input | contratti nativi e gate utenti |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

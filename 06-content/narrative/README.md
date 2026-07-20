@@ -37,7 +37,7 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** narrazione emergente e memoria causale a S3; dialoghi/storylet attendono corpus e budget P0.
 
 ## Decisioni ancora aperte
 

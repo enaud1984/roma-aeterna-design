@@ -1,68 +1,70 @@
-# Principi UX e interfaccia
-
-**ID:** UX-001
-**Stato:** Draft
-
-## Obiettivo
-
-Rendere leggibile un mondo complesso senza offrire onniscienza o ricoprire la ricostruzione di indicatori moderni. Diegesi e chiarezza sono complementari, non rivali.
-
-## Gerarchia informativa
-
-1. Percezione: segnali nello spazio, comportamento, audio.
-2. Contesto: prompt e feedback sull'azione possibile.
-3. Comprensione: diario, relazioni, impegni e recap.
-4. Approfondimento: codex, provenienza storica e spiegazioni di sistema.
-
-## Principi
-
-- Mostrare stato certo separato da voce o inferenza.
-- Comunicare perché un'azione non è disponibile e almeno una via plausibile.
-- Usare unità e precisione coerenti con conoscenza e strumenti.
-- Non nascondere bisogni critici in animazioni ambigue.
-- Ridurre rumore: priorità basata su urgenza, relazione e intenzioni del player.
-- Consentire consultazione della catena causale senza rivelare segreti.
-
-## Strumenti concettuali
-
-Agenda temporale; mappa conosciuta; ledger personale di debiti/promesse; rete di relazioni parziale; inventario per proprietà/accesso; recap dell'assenza; codex storico separato dal sapere del personaggio.
-
-## Test
-
-Il giocatore deve poter rispondere: cosa richiede attenzione, cosa so, da chi lo so, quali vincoli impediscono l'azione e quale conseguenza recente ha cambiato la situazione. Vedere [informazione](../04-simulation/information-and-reputation.md) e [accessibilità](accessibility.md).
+# Principi UX dell'esperienza del giocatore
 
 ## Scopo
 
-Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
+Rendere un mondo complesso comprensibile, rispettoso del contesto storico e utilizzabile senza indicatori onniscienti o attrito artificiale.
 
 ## Descrizione
 
-Il contenuto preesistente costituisce la baseline del dominio. Questa sezione normalizza il documento secondo il contratto minimo della nuova architettura senza sostituirne le informazioni.
+La UX costruisce fiducia: il giocatore comprende cosa percepisce, cosa sa, da chi lo sa, cosa può tentare e perché il mondo ha reagito. Diegesi e accessibilità sono complementari.
 
 ## Ambito
 
-Il perimetro è quello definito nelle sezioni precedenti; implementazione e asset restano esclusi finché non saranno autorizzati da milestone e decisioni formali.
+Percezione, feedback, onboarding, navigazione, informazioni, controlli, accessibilità, error recovery, carico cognitivo e coerenza cross-system.
+
+## Principi
+
+1. **Conoscenza situata:** fatto, voce e deduzione hanno forme distinte.
+2. **Causalità leggibile:** conseguenze spiegabili senza spoiler.
+3. **Progressive disclosure:** mondo → feedback → strumento → dettaglio.
+4. **Agency senza garanzia:** opzioni e rischi chiari, esiti non predeterminati.
+5. **Continuità:** fallimento, assenza e time-skip producono recap e nuove possibilità.
+6. **Minimo rumore:** notifiche e HUD competono per un budget.
+7. **Input equivalente:** controller e KBM offrono capacità equivalenti.
+8. **Accessibilità nativa:** alternative sensoriali e temporali dal primo contratto.
+9. **Linguaggio contestuale:** traduzioni chiare senza burocrazia o psicologia moderne implicite.
+10. **Nessuna dark pattern:** niente urgenza falsa, ricompensa manipolativa o grind informativo.
+
+## Flusso di comprensione
+
+```mermaid
+flowchart LR
+    A[Segnale percepibile] --> B[Feedback azione]
+    B --> C[Interpretazione con fonte]
+    C --> D[Scelta informata]
+    D --> E[Conseguenza]
+    E --> F[Recap/memoria]
+    F --> C
+```
+
+## Criteri anti-anacronismo e anti-overload
+
+GPS, quest beacon, classifiche morali, diagnosi, prezzi perfetti e reputazioni globali sono disattivati come default o sostituiti da conoscenza plausibile. Termini latini non diventano barriera: glossario e traduzione funzionale sono separati dal dialogo. Massimo un messaggio critico concorrente; eventi minori vanno a recap.
 
 ## Dipendenze
 
-- [Standard documentale](../00-governance/documentation-standard.md)
-- [Visione creativa](../01-vision/creative-vision.md)
+- [Architettura UI](ui/ui-architecture.md)
+- [Accessibilità](user-experience/accessibility.md)
+- [Missioni](../06-content/quests/quest-framework.md)
+- [Audio](../09-art-audio/audio/audio-system.md)
 
 ## Collegamenti agli altri documenti
 
-- [Indice generale](../README.md)
-- [Mappa documentale](../00-governance/documentation-map.md)
-- [Registro decisioni](../00-governance/decision-log.md)
-- [Questioni aperte](../00-governance/open-questions.md)
+- [Controlli](user-experience/controls.md)
+- [Onboarding](user-experience/onboarding.md)
+- [Ricerca utenti](user-experience/user-research.md)
+- [Dialoghi](../06-content/narrative/dialogue-system.md)
+
+## Test e Definition of Done
+
+Testare “cosa so/da chi/perché”, scoperta senza marker, fallimento, recap, controller/KBM e profili accessibilità. DoD quando compiti P0 sono completabili senza HUD invasivo e senza conoscenza non autorizzata.
 
 ## Decisioni ancora aperte
 
-- Owner e reviewer nominali.
-- Stato di approvazione e profondità richiesta dalla roadmap documentale.
-- Eventuali confini da riallineare con i nuovi sottodomini canonici.
+- Metriche UX e campione di utenti per ciascun gate.
+- Lessico di traduzione storico-funzionale.
 
 ## TODO
 
-- Collegare il contenuto ai nuovi documenti specializzati pertinenti.
-- Assegnare ownership, versione e milestone.
-- Aggiungere requisiti, fonti, rischi, test e Definition of Done durante l'approfondimento.
+- Creare checklist UX per ogni sistema P0.
+- Definire test longitudinali della demo.

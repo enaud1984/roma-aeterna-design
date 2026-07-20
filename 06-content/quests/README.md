@@ -39,7 +39,7 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** framework di situazioni e missioni a S3; famiglie specialistiche attendono catalogo P0 e golden situations.
 
 ## Decisioni ancora aperte
 

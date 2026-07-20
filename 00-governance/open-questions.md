@@ -69,6 +69,13 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 | Q-221 | Quale profilo militare data/provincia governa organici, paga e carriera? | esercito e storia | Military History + Design | dossier A–E approvato |
 | Q-222 | Il trionfo resta evento remoto nell'orizzonte Pompei? | scope, Roma, folla e produzione | Game Direction + Historical | decisione formale di milestone |
 
+| Q-223 | Quale mix di situazioni principali, professionali, sociali e sistemiche è P0? | contenuti e durata demo | Narrative + Quest + Production | catalogo e copertura approvati |
+| Q-224 | Quali budget di thread, eventi e notifiche impediscono overload? | narrativa, UX e performance | Narrative + UX + Technical | soak test e soglie approvati |
+| Q-225 | Quale assistenza di navigazione e HUD è predefinita? | accessibilità e identità UX | UX + Accessibility + Direction | test utenti e preset approvati |
+| Q-226 | Quali target di accessibilità e piattaforme/input governa la demo? | UI, controlli, audio e QA | Accessibility + Platform + UX | matrice requisiti approvata |
+| Q-227 | Quale proporzione italiano/latino e quale profilo di pronuncia? | voce, sottotitoli e autenticità | Audio + Linguistic History | bible linguistica e corpus P0 |
+| Q-228 | Quali frequenze D0–D5 e quale collocazione temporale dell'eruzione? | eventi, scope e storia | Game Direction + Historical | timeline e matrice hazard approvate |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

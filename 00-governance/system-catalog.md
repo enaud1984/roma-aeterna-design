@@ -38,10 +38,13 @@ Include sistemi runtime concettuali, servizi tecnici, tooling core e orchestrazi
 | SYS-WORK-001 | Lavoro/produzione | capacità, processi, turni, output | P1 | S3 | [Carriere](../04-simulation/professions-education/career-framework.md) |
 | SYS-OBL-001 | Contratti e obbligazioni | accordi, prestazioni, prove, scadenze e controversie | P1 | S3 | [Contratti](../04-simulation/economy-production/contracts.md) |
 | SYS-INT-001 | Interazione | affordance, comandi, risoluzione | P1 | S0 | [Interazione](../05-player/gameplay/interaction-model.md) |
-| SYS-CONT-001 | Situazioni/missioni | condizioni, stati, binding, conseguenze | P1 | S1 | [Contenuti](../06-content/content-framework.md) |
+| SYS-CONT-001 | Situazioni/missioni | condizioni, stati, binding, impegni e conseguenze | P1 | S3 | [Missioni](../06-content/quests/quest-framework.md) |
+| SYS-DYN-001 | Eventi dinamici | hazard, propagazione, impatti, risposta e aftermath | P1 | S3 | [Eventi dinamici](../06-content/events/dynamic-event-framework.md) |
+| SYS-NARR-001 | Narrazione emergente | catene causali, prospettive, thread e memoria | P1 | S3 | [Narrazione](../06-content/narrative/emergent-narrative.md) |
 | SYS-REP-001 | Reputazione | credenze contestuali delle comunità | P1 | S1 | [Informazione](../04-simulation/information-and-reputation.md) |
 | SYS-NEED-001 | Bisogni/salute | bisogni, capacità, malattia, recovery | P1 | S0 | [Salute](../04-simulation/health-medicine/health-system.md) |
-| SYS-UI-001 | UI/feedback | presentazione epistemica e input | P1 | S1 | [UX](../08-ux/ux-principles.md) |
+| SYS-UI-001 | UI/feedback | presentazione epistemica, input e accessibilità | P1 | S3 | [UI](../08-ux/ui/ui-architecture.md) |
+| SYS-AUDIO-001 | Audio | voce, soundscape, mix, musica e accessibilità | P1 | S3 | [Audio](../09-art-audio/audio/audio-system.md) |
 | SYS-RELIG-001 | Religione | pratiche, calendari, comunità, autorità | P2 | S3 | [Religione](../04-simulation/religion-calendar/religious-system.md) |
 | SYS-POL-001 | Politica | agenda, coalizioni, decisioni, cariche | P2 | S3 | [Politica](../04-simulation/politics-law/political-system.md) |
 | SYS-CRIME-001 | Illeciti/risposta | atti, prove, denuncia, procedura | P2 | S3 | [Criminalità](../04-simulation/politics-law/criminality.md) |

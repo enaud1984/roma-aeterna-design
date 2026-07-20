@@ -46,10 +46,13 @@ Tutti i sistemi del catalogo canonico, inclusi servizi trasversali. La matrice m
 | SYS-INV | inventario | S2 | lotti, custodia, decadimento | Economia Pompei |
 | SYS-WORK | professioni/produzione | S3 | professioni P0, valori e luoghi | Economia Pompei |
 | SYS-INT | interazione | S2 | stati di contesa/interruzione | Gameplay slice |
-| SYS-CONT | contratti | S2 | modello obbligazioni | Istituzioni |
+| SYS-CONT | situazioni/missioni | S3 | catalogo e golden situations P0 | Esperienza slice |
+| SYS-DYN | eventi dinamici | S3 | frequenze, hazard e budget Pompei | Esperienza slice |
+| SYS-NARR | narrazione emergente | S3 | corpus storylet e budget thread | Esperienza slice |
 | SYS-REP | reputazione | S2 | separazione da conoscenza | Simulazione sociale |
 | SYS-NEED | bisogni | S2 | curve e soglie | Gameplay slice |
-| SYS-UI | interfaccia | S1 | flussi e accessibilità misurabile | Esperienza slice |
+| SYS-UI | interfaccia | S3 | prototipi, target e test accessibilità | Esperienza slice |
+| SYS-AUDIO | audio | S3 | corpus, budget, mix e lingue P0 | Esperienza slice |
 | SYS-RELIG | religione | S3 | culti, autorità e calendario P0 | Istituzioni |
 | SYS-POL | politica | S3 | competenze e procedure Pompei | Istituzioni |
 | SYS-CRIME | criminalità | S3 | casi e pene P0 validati | Istituzioni |

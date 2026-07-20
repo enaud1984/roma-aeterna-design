@@ -51,6 +51,11 @@ Sistemi fondazionali P0/P1 e dipendenze determinanti per Pompei. I sistemi P2–
 | SYS-POL | SYS-STAT | eleggibilità/autorità | QRY | sync | P1 hard | blocca nomina | politica, diritto |
 | SYS-WAR | SYS-POL | mandato | EVT/QRY | async | P2 hard | nessuna campagna nuova | guerra, politica |
 | SYS-WAR | SYS-ECO | logistica/risorse | CMD/QRY | mista | P2 hard | degrada o arresta operazione | guerra, economia |
+| SYS-CONT | SYS-KNOW | lead, fonti e fatti creduti | QRY/EVT | async | P0 hard | informazione non mostrata | missioni, diario |
+| SYS-CONT | SYS-DYN | trasformazione e scadenze | EVT | async | P1 hard | situazione degradata/archiviata | missioni, eventi |
+| SYS-NARR | SYS-EVT | fatti e causalità | EVT/QRY | async | P0 hard | thread non creato | narrazione, recap |
+| SYS-UI | SYS-KNOW | viste epistemiche | QRY/EVT | async | P0 hard | mostra sconosciuto | UI, conoscenza |
+| SYS-AUDIO | SYS-WORLD | sorgenti, ambienti e occlusione | QRY/EVT | mista | P1 hard | fallback soundscape | audio, mondo |
 | SYS-UI | sistemi dominio | viste conoscibili | QRY/EVT | async | P1 soft | stato precedente + indicatore | UI, accessibilità |
 | SYS-DBG | tutti | metriche/errori | EVT | async | P1 soft | buffer limitato | logging, test |
 

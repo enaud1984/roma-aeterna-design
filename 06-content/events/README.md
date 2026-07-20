@@ -38,7 +38,7 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** eventi dinamici D0–D5 a S3; frequenze, hazard e scenari Pompei attendono approvazione.
 
 ## Decisioni ancora aperte
 

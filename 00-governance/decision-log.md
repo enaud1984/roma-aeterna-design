@@ -127,6 +127,12 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 
 **Conseguenze.** Player e NPC usano le stesse regole; resa, cattura, fuga e morte sono esiti persistenti. Grandi battaglie e trionfi sono rari e condizionati; il raccolto di eventi non sostituisce requisiti politici, religiosi, logistici o storici.
 
+## ADR-0019 — Esperienza epistemica e contenuti come viste
+
+**Decisione.** Missioni e narrazione non possiedono lo stato dei domini: bindano fatti, conoscenze, impegni e conseguenze. UI e audio presentano soltanto ciò che è percepibile o conosciuto, con fonte e incertezza. Eventi dinamici usano classi D0–D5, gate causali, aftermath e memoria.
+
+**Conseguenze.** Niente marker, reputazioni, diagnosi o posizioni onniscienti; fallimento e scadenza trasformano il mondo invece di resettarlo. Notifiche, thread, eventi e audio condividono budget anti-overload/anti-ripetizione. Grandi eventi restano rari.
+
 ## Scopo
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.

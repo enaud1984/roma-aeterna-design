@@ -39,7 +39,7 @@ Include i documenti elencati; implementazione e asset sono esclusi.
 
 ## Stato di avanzamento
 
-**Stato:** struttura creata; contenuti da sviluppare.
+**Stato:** architettura UI epistemica a S3; viste specialistiche attendono prototipi e test di accessibilità.
 
 ## Decisioni ancora aperte
 
