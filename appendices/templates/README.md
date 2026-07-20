@@ -14,6 +14,9 @@ Include i documenti elencati; non autorizza implementazione, asset o ampliamenti
 
 ## Documenti contenuti
 
+- [Template decision record](decision-record-template.md)
+- [Template specifica di sistema](system-spec-template.md)
+- [Template provenienza storica](historical-source-template.md)
 - [Template di Specifica Città](city-template.md)
 - [Template NPC](npc-template.md)
 - [Template Feature](feature-template.md)

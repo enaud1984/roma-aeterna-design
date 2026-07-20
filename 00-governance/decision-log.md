@@ -18,6 +18,7 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 | ADR-0007 | Lingue e rappresentazione linguistica | Open | dialoghi, UI, accessibilità, costi audio |
 | ADR-0008 | Piattaforme e target prestazionale | Open | densità NPC e strategia di simulazione |
 | ADR-0009 | Separazione delle autorità nella macroarea Visione | Accepted | elimina duplicazioni tra visione, promessa, principi e scope |
+| ADR-0010 | Panoramiche mature restano canoniche finché gli scheletri specializzati non sono promossi | Accepted | impedisce che file brevi o duplicati acquisiscano autorità implicita |
 
 ## ADR-0001 — Pompei come vertical slice
 
@@ -52,6 +53,18 @@ Questo registro conserva non solo cosa è stato deciso, ma quali alternative son
 **Conseguenze.** Le specifiche inferiori linkano il documento pertinente e non ricopiano promesse o principi. La macroarea è approvabile anche con decisioni di prodotto aperte, purché queste restino registrate.
 
 **Segnali di revisione.** Impossibilità di collocare un nuovo requisito, conflitti ricorrenti o necessità di più di due link per individuare l'autorità.
+
+## ADR-0010 — Promozione controllata delle specifiche
+
+**Contesto.** L'architettura contiene 470 scheletri specializzati e alcune panoramiche precedenti già più mature. Trattare ogni file come equivalente renderebbe ambigua la fonte di verità.
+
+**Decisione.** Le autorità sono dichiarate nel [registro canonico](canonical-document-register.md). Una panoramica matura rimane canonica finché la specifica specializzata non assorbe i requisiti, supera Review e viene promossa tramite ADR. I README non creano requisiti.
+
+**Alternative escluse.** Cancellare gli scheletri perderebbe la roadmap architetturale; promuoverli automaticamente confonderebbe struttura e completezza.
+
+**Conseguenze.** Gli scheletri sono documenti Planned/Draft, non specifiche pronte per implementazione. Le duplicazioni intenzionali vengono ridotte a sintesi e riferimenti durante la promozione.
+
+**Segnali di revisione.** Eccessivo overhead degli ADR di promozione o introduzione di metadata e tooling che garantiscano automaticamente autorità e copertura.
 
 ## Scopo
 

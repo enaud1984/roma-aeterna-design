@@ -1,4 +1,4 @@
-# Narrazione Emergente
+# Sistema di narrazione emergente
 
 ## Scopo
 

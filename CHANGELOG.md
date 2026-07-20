@@ -1,5 +1,14 @@
 # Changelog documentale
 
+## 1.0.1-audit — 2026-07-20
+
+- Eseguito audit completo sui 528 documenti della baseline.
+- Creati report di audit e registro dei documenti canonici.
+- Eliminati sei titoli duplicati e quattro intestazioni duplicate.
+- Collegati tre documenti orfani.
+- Registrati ADR-0010, rischi R-013–R-016 e domande Q-201–Q-203.
+- Esplicitata la differenza tra struttura completa e 470 specifiche ancora scheletro.
+
 ## 1.0.0-vision — 2026-07-20
 
 - Completata la macroarea Visione e Game Design Bible.

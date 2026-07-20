@@ -1,4 +1,4 @@
-# Narrazione emergente
+# Narrazione emergente — panoramica
 
 **ID:** CNT-002
 **Stato:** Draft

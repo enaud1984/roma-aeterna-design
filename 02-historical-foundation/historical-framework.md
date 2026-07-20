@@ -43,7 +43,7 @@ Quando le fonti divergono, il progetto può: rappresentare la variabilità; sceg
 
 Audit a campione per milestone, review tematiche e test di coerenza tra spazio, oggetti e regole. Un elemento visivamente corretto ma sistemicamente falso non supera la review. Vedere [etica e rappresentazione](ethics-and-representation.md), [Pompei](pompeii-research-plan.md) e [art direction](../09-art-audio/art-direction.md).
 
-## Scopo
+## Responsabilità documentale
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
 

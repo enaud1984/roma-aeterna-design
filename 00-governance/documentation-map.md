@@ -34,6 +34,7 @@ Include documentazione creativa, storica, sistemica, tecnica, produttiva e futur
 - **Dalla fonte al contenuto:** [Fonti](../02-historical-foundation/sources/README.md) → [Mondo](../03-world/README.md) → [Contenuti](../06-content/README.md) → [Historical QA](../11-production/testing/historical-qa.md).
 - **Dal sistema ai dati:** [Simulazione](../04-simulation/README.md) → [Architettura tecnica](../10-technical/architecture/README.md) → [Modello dati](../10-technical/data/README.md) → [Salvataggi](../10-technical/save-system/README.md).
 - **Dalla demo alla produzione:** [Pompei](../07-pompeii-demo/README.md) → [Scope demo](../07-pompeii-demo/design/README.md) → [Backlog](../11-production/roadmap-backlog/README.md) → [Release readiness](../11-production/testing/release-readiness.md).
+- **Dall'audit alla correzione:** [Audit documentali](../11-production/audits/README.md) → [Registro canonico](canonical-document-register.md) → [Decisioni](decision-log.md) → [Roadmap](../11-production/roadmap-backlog/documentation-roadmap.md).
 
 ## Dipendenze
 

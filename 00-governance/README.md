@@ -37,6 +37,7 @@ Proposta → analisi delle dipendenze → scenario di validazione → revisione 
 - [Registro decisioni](decision-log.md)
 - [Domande aperte](open-questions.md)
 - [Matrice di tracciabilità](traceability-matrix.md)
+- [Registro dei documenti canonici](canonical-document-register.md)
 - [Glossario comune](../appendices/glossary.md)
 
 ## Scopo

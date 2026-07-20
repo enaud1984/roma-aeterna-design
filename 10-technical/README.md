@@ -25,6 +25,8 @@ La cartella contiene documenti fondativi e sottodomini specializzati. Gli approf
 
 I documenti presenti direttamente nella cartella costituiscono le specifiche di sintesi già avviate e restano consultabili dalla [mappa completa](../00-governance/documentation-map.md).
 
+Documenti di sintesi diretti: [architettura tecnica](technical-architecture.md), [modello dati — panoramica](data-model.md), [budget prestazionali](performance-budgets.md) e [strumenti e osservabilità](tools-and-observability.md).
+
 ## Dipendenze
 
 - [Visione creativa](../01-vision/creative-vision.md)

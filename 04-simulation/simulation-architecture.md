@@ -40,7 +40,7 @@ Ogni sistema dichiara sorgenti, pozzi, feedback e limiti. Test “mondo vuoto”
 
 Gli strumenti interni devono rispondere: perché un NPC ha agito, perché un prezzo è cambiato, da dove proviene un bene, perché una relazione è variata e quale regola ha risolto un conflitto. La UI giocatore filtra queste risposte secondo conoscenza e [UX](../08-ux/ux-principles.md).
 
-## Dipendenze
+## Dipendenze di dominio
 
 [NPC](npc-life-simulation.md), [economia](economy.md), [status e diritto](social-status-and-law.md), [politica](politics-and-governance.md), [religione](religion.md), [guerra](war-and-military.md), [dati](../10-technical/data-model.md).
 

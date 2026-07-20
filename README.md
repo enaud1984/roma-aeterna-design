@@ -49,6 +49,10 @@ La documentazione presente costituisce la **Baseline 0.1**: definisce architettu
 - **Fondazione storica:** prossima macroarea in lavorazione.
 - **Mondo, sistemi, contenuti, UX, arte, tecnologia e produzione:** struttura completa, contenuti da sviluppare.
 
+### Qualità documentale
+
+L'[audit completo del 20 luglio 2026](11-production/audits/game-bible-audit-2026-07-20.md) distingue validità strutturale, maturità editoriale e readiness implementativa. Il corpus è strutturalmente valido; 470 documenti restano intenzionalmente marcati come scheletri.
+
 ## Regole di contribuzione
 
 - Consultare [standard documentale](00-governance/documentation-standard.md) prima di modificare una specifica.

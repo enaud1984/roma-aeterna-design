@@ -1,4 +1,4 @@
-# Lavoro
+# Sistema del lavoro
 
 ## Scopo
 

@@ -17,6 +17,10 @@
 | R-010 | Save incompatibile | Media | Alto | cambi schema rompono campagne | versionamento/migrazioni precoci |
 | R-011 | Contenuti ripetitivi | Alta | Alto | storylet riconoscibili | condizioni ricche, budget e review |
 | R-012 | Decisioni fondative aperte troppo a lungo | Alta | Alto | documenti assumono date diverse | owner e deadline per Q-001–005 |
+| R-013 | Frammentazione documentale | Alta | Alto | molti file brevi senza autorità chiara | registro canonico, promozione controllata, merge quando utile |
+| R-014 | Scheletri interpretati come specifiche complete | Alta | Critico | pianificazione basata su TODO generici | stato esplicito, roadmap e gate di readiness |
+| R-015 | Deriva terminologica | Media | Alto | titoli duplicati e sinonimi non governati | glossario, lint e audit per milestone |
+| R-016 | Hub con eccessivo fan-in | Media | Medio | quasi tutti i file linkano gli stessi registri | indici locali e link semantici durante l'espansione |
 
 Ogni rischio maturo avrà esposizione numerica, contingency, trigger, owner nominale e revisione per milestone. Collegamenti: [architettura](../10-technical/technical-architecture.md), [etica](../02-historical-foundation/ethics-and-representation.md).
 

@@ -1,0 +1,46 @@
+# Audit documentali
+
+## Scopo
+
+Raccogliere audit versionati della Game Bible e preservare risultati, metriche, decisioni e follow-up.
+
+## Descrizione
+
+Ogni audit fotografa una baseline senza sostituire i registri canonici di decisioni, rischi e questioni aperte.
+
+## Ambito
+
+Qualità editoriale, struttura, collegamenti, autorità, completezza, terminologia e mantenibilità.
+
+## Documenti contenuti
+
+- [Audit completo 2026-07-20](game-bible-audit-2026-07-20.md)
+
+## Dipendenze
+
+- [Standard documentale](../../00-governance/documentation-standard.md)
+- [Registro canonico](../../00-governance/canonical-document-register.md)
+
+## Collegamenti con le altre aree
+
+- [Roadmap](../roadmap-backlog/documentation-roadmap.md)
+- [Rischi](../risk-register.md)
+- [Questioni aperte](../../00-governance/open-questions.md)
+
+## Stato di avanzamento
+
+**Stato:** audit iniziale completato; follow-up aperti.
+
+## Decisioni ancora aperte
+
+- Frequenza degli audit successivi.
+- Introduzione di validazione automatica in CI.
+
+## Criteri di completamento
+
+Ogni audit include corpus, metodo, risultati, correzioni, lacune e prove di validazione.
+
+## TODO
+
+- Pianificare audit al completamento di ogni macroarea.
+- Confrontare metriche tra baseline.

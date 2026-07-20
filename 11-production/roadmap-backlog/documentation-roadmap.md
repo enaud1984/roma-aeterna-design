@@ -20,6 +20,10 @@ Definisce ordine, milestone, gate, ownership e criteri di approvazione.
 | 6 | Technical Design | Planned | readiness tecnica |
 | 7 | Produzione e QA | Planned | readiness implementazione |
 
+## Audit e qualità
+
+L'[audit completo 2026-07-20](../audits/game-bible-audit-2026-07-20.md) ha confermato la validità strutturale e rilevato che 470 documenti restano scheletri. Ogni macroarea deve ridurre questo numero soltanto tramite specifiche realmente complete, non rimuovendo le marcature.
+
 ## Sequenza e gate
 
 La sequenza segue le dipendenze: la visione governa la ricerca; la ricerca circoscrive mondo e sistemi; i sistemi definiscono requisiti tecnici; tecnologia e contenuti alimentano piano, test e backlog. Una macroarea può ricevere note preliminari ma non essere dichiarata completa prima dei propri genitori.

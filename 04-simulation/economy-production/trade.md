@@ -1,4 +1,4 @@
-# Commercio
+# Sistema commerciale
 
 ## Scopo
 

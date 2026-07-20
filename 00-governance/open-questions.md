@@ -31,6 +31,14 @@ Le domande sono ordinate per impatto. Chiudere una domanda significa creare o ag
 - Quali gruppi sono scarsamente attestati e richiedono una ricostruzione H2/H3 più esplicita?
 - Quali meccaniche rischiano di premiare comportamenti anacronistici pur presentandoli come storici?
 
+## Governance e mantenibilità
+
+| ID | Domanda | Impatto | Owner | Criterio di chiusura |
+|---|---|---|---|---|
+| Q-201 | Quali metadata documentali saranno validati automaticamente? | autorità, stato, owner, versioni | Technical Writing + Tools | schema e validatore approvati |
+| Q-202 | Qual è la soglia per unire uno scheletro troppo piccolo al documento genitore? | navigabilità e frammentazione | Game Direction | regola basata su responsabilità e lifecycle |
+| Q-203 | Con quale frequenza eseguire l'audit globale? | deriva e costo di manutenzione | Production | cadence inserita nella roadmap |
+
 Vedere [etica e rappresentazione](../02-historical-foundation/ethics-and-representation.md) e [framework storico](../02-historical-foundation/historical-framework.md).
 
 ## Scopo

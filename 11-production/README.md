@@ -22,6 +22,8 @@ La cartella contiene documenti fondativi e sottodomini specializzati. Gli approf
 
 I documenti presenti direttamente nella cartella costituiscono le specifiche di sintesi già avviate e restano consultabili dalla [mappa completa](../00-governance/documentation-map.md).
 
+Registro di qualità: [audit documentali](audits/README.md).
+
 ## Dipendenze
 
 - [Visione creativa](../01-vision/creative-vision.md)

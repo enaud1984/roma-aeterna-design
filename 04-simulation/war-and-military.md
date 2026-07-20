@@ -31,7 +31,7 @@ Le carriere militari future richiedono origine, arruolamento, disciplina, catena
 
 Una guerra fuori mappa crea effetti differiti e informazioni discordanti; la fine del conflitto non ripristina istantaneamente prezzi e vite; un successo può alimentare il processo di [trionfo](triumphs.md).
 
-## Scopo
+## Responsabilità documentale
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
 

@@ -1,4 +1,4 @@
-# Modello dati concettuale
+# Modello dati — panoramica
 
 **ID:** TEC-DATA-001
 **Stato:** Draft
@@ -31,7 +31,7 @@ Regole, asset e contenuti storici possono collegarsi a schede fonte. La provenie
 
 Unicità ID, riferimenti validi, unità compatibili, quantità non negative dove richiesto, calendari coerenti, accessi non circolari, eventi senza effetti non autorizzati e contenuti privi di fonte/decisione.
 
-## Scopo
+## Responsabilità documentale
 
 Conservare e sviluppare la responsabilità canonica descritta da questo documento all'interno della Game Bible.
 
