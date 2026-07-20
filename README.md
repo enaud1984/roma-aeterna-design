@@ -7,6 +7,10 @@
 
 La progettazione dei sistemi usa lo [standard AAA](00-governance/system-specification-standard.md), il [catalogo canonico](00-governance/system-catalog.md) e la [matrice di readiness](11-production/roadmap-backlog/implementation-readiness-matrix.md). La presenza di un documento non implica che il sistema sia pronto per l'implementazione.
 
+## Edizione editoriale illustrata
+
+La sintesi professionale della Game Bible e disponibile in [formato Word](docs/export/ROMA_AETERNA_GAME_BIBLE.docx) e [formato PDF](docs/export/ROMA_AETERNA_GAME_BIBLE.pdf). I Markdown restano la fonte canonica; procedura di rigenerazione, crediti e verifiche sono raccolti nell'[indice degli export](docs/export/README.md).
+
 Ogni affermazione storica canonica segue la classificazione A–E e il workflow del [framework storico](02-historical-foundation/historical-framework.md); elementi privi di evidenza sufficiente restano nel [registro di verifica](02-historical-foundation/sources/verification-register.md).
 
 ## Mandato

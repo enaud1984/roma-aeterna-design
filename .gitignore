@@ -1,0 +1,4 @@
+# Artefatti temporanei della verifica editoriale
+docs/export/_generated/qa/
+docs/export/__pycache__/
+docs/export/~$*.docx

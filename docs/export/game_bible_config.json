@@ -1,0 +1,309 @@
+{
+  "metadata": {
+    "title": "Roma Aeterna",
+    "subtitle": "Game Bible editoriale - RPG open world sandbox nell'Impero Romano",
+    "version": "1.0-editorial",
+    "status": "Pre-produzione documentale - implementazione NON READY",
+    "language": "it-IT",
+    "authors": ["Roma Aeterna Design Team", "Codex - impaginazione e sintesi editoriale"],
+    "generation_date": "2026-07-20",
+    "canonical_notice": "I documenti Markdown del repository restano la fonte ufficiale e dettagliata. Questo volume e una sintesi editoriale tracciabile."
+  },
+  "style": {
+    "preset": "narrative_proposal",
+    "page_override": "A4 portrait",
+    "cover_template": "editorial_cover",
+    "palette": {"pompeii_red": "8B2E2E", "ochre": "B98228", "ink": "263238", "sand": "F4EEE3", "blue": "315B6D"}
+  },
+  "external_images": [
+    {
+      "id": "roman_empire_69",
+      "file": "assets/historical/roman_empire_69ad.png",
+      "title": "Impero Romano nel 69 d.C.",
+      "type": "mappa storica contestuale",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Roman_Empire_69AD.PNG",
+      "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Roman_Empire_69AD.PNG",
+      "author": "Steerpike",
+      "institution": "Wikimedia Commons",
+      "license": "GFDL 1.2+ / CC BY-SA 3.0",
+      "caveat": "La pagina della fonte segnala che i dati cartografici non dispongono di una fonte dichiarata. Usata solo come contesto visuale, non come prova storica."
+    },
+    {
+      "id": "pompeii_plan",
+      "file": "assets/historical/pompeii_map_en.png",
+      "title": "Pianta generale di Pompei con confini delle regiones",
+      "type": "mappa archeologica moderna",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pompeii_Plan.jpg",
+      "download_url": "https://www.pompeiiinpictures.com/pompeiiinpictures/Plans/Plan%20Pompeii%20smaller%203.jpg",
+      "author": "Autore non identificato; caricamento Waterborough",
+      "institution": "Wikimedia Commons; fonte originale Pompeii in Pictures",
+      "license": "Pubblico dominio (PD-ineligible secondo la scheda Wikimedia Commons)",
+      "caveat": "Le regiones e le etichette sono convenzioni archeologiche moderne; non equivalgono automaticamente a quartieri antichi."
+    }
+  ],
+  "chapters": [
+    {
+      "title": "Executive summary",
+      "intro": "Roma Aeterna e un RPG open world sandbox storico nel quale il giocatore e una persona comune inserita in una societa autonoma. La promessa non e il dominio garantito del mondo, ma la possibilita di costruire una vita credibile dentro sistemi sociali, economici, politici e religiosi persistenti.",
+      "sections": [
+        {"title": "Il progetto in breve", "sources": ["01-vision/creative-vision.md", "01-vision/game-design-bible/player-promise.md", "07-pompeii-demo/design/demo-charter.md"], "table": "project_facts"},
+        {"title": "Obiettivi, pubblico ed elementi distintivi", "sources": ["01-vision/game-design-bible/experience-goals.md", "01-vision/design-pillars.md", "01-vision/scope-and-non-goals.md"]},
+        {"title": "Stato del progetto e vincolo di readiness", "sources": ["READY_FOR_IMPLEMENTATION.md", "11-production/roadmap-backlog/implementation-readiness-matrix.md"], "table": "readiness"}
+      ]
+    },
+    {
+      "title": "Visione e principi di design",
+      "intro": "La visione protegge l'autonomia del mondo, la conoscenza situata, la conseguenza persistente e la dignita della rappresentazione storica. Ogni sistema deve sostenere questi principi anche quando opera lontano dal giocatore.",
+      "figure": "core_loop",
+      "sections": [
+        {"title": "Visione del progetto", "sources": ["01-vision/creative-vision.md", "MASTER_PROMPT.md"]},
+        {"title": "Principi di design", "sources": ["DESIGN_PRINCIPLES.md", "01-vision/design-pillars.md"]},
+        {"title": "Obiettivi dell'esperienza e promessa al giocatore", "sources": ["01-vision/game-design-bible/experience-goals.md", "01-vision/game-design-bible/player-promise.md"]},
+        {"title": "Vincoli, scope e non-obiettivi", "sources": ["01-vision/game-design-bible/product-constraints.md", "01-vision/scope-and-non-goals.md"]}
+      ]
+    },
+    {
+      "title": "Fondazione storica",
+      "intro": "L'accuratezza non e un filtro cosmetico: governa dati, scenari, linguaggio, accessi e limiti. Ogni affermazione importante e classificata da A a E e separa attestazione, probabilita, ricostruzione e licenza creativa.",
+      "figure": "roman_empire_69",
+      "sections": [
+        {"title": "Ambientazione e periodo storico", "sources": ["02-historical-foundation/historical-framework.md", "02-historical-foundation/chronology/official-timeline.md", "07-pompeii-demo/design/historical-date.md"]},
+        {"title": "Accuratezza storica e classificazione delle fonti", "sources": ["02-historical-foundation/sources/research-methodology.md", "02-historical-foundation/sources/historical-claims-register.md"], "table": "evidence_levels"},
+        {"title": "Cronologia ufficiale", "sources": ["02-historical-foundation/chronology/imperial-timeline.md", "02-historical-foundation/chronology/pompeii-timeline.md"]},
+        {"title": "Controversie, licenze creative e anacronismi", "sources": ["02-historical-foundation/sources/controversies-register.md", "02-historical-foundation/sources/creative-licenses.md", "02-historical-foundation/sources/anachronisms-register.md"]},
+        {"title": "Etica e rappresentazione", "sources": ["02-historical-foundation/ethics-and-representation.md", "06-content/narrative/content-sensitivity.md"]}
+      ]
+    },
+    {
+      "title": "Mondo, Impero e rete urbana",
+      "intro": "Il mondo e organizzato come una rete di luoghi e flussi a risoluzione variabile. Citta, regioni e infrastrutture mantengono identita storica e conseguenze sistemiche senza richiedere una simulazione uniforme dell'intero Impero.",
+      "figure": "city_network",
+      "sections": [
+        {"title": "Struttura dell'Impero, regioni e province", "sources": ["03-world/geography/empire-overview.md", "03-world/geography/regions.md", "03-world/geography/geographic-framework.md"]},
+        {"title": "Rete delle citta e citta previste", "sources": ["03-world/settlements/cities.md", "03-world/settlements/imperial-city-matrix.md", "03-world/settlements/city-template.md"], "table": "city_tiers"},
+        {"title": "Insediamenti e livelli di dettaglio", "sources": ["03-world/settlements/settlement-framework.md", "03-world/settlements/villages.md", "03-world/settlements/road-stations.md", "03-world/settlements/military-camps.md"]},
+        {"title": "Edifici, infrastrutture, strade e porti", "sources": ["03-world/structures/buildings.md", "03-world/structures/infrastructure.md", "03-world/structures/roads.md", "03-world/structures/ports.md"]},
+        {"title": "Ville, aziende agricole, cave e miniere", "sources": ["03-world/rural-sites/villas.md", "03-world/rural-sites/farms.md", "03-world/rural-sites/quarries.md", "03-world/rural-sites/mines.md"]}
+      ]
+    },
+    {
+      "title": "Pompei: vertical slice",
+      "intro": "Pompei e il laboratorio sistemico iniziale. La demo adotta una data di progetto nel 77 d.C. e una spina urbana selettiva, evitando sia la ricostruzione museale statica sia la promessa prematura dell'intera citta a profondita uniforme.",
+      "figure": "pompeii_plan",
+      "sections": [
+        {"title": "Mandato, data e limiti della demo", "sources": ["07-pompeii-demo/design/demo-charter.md", "07-pompeii-demo/design/historical-date.md", "07-pompeii-demo/design/playable-area.md"]},
+        {"title": "Mappa generale e area della vertical slice", "sources": ["07-pompeii-demo/design/playable-area.md", "07-pompeii-demo/design/pompeii-urban-system.md"], "figure": "pompeii_slice"},
+        {"title": "Quartieri, zone e flussi", "sources": ["07-pompeii-demo/design/districts.md", "07-pompeii-demo/design/pompeii-urban-system.md"], "figure": "pompeii_districts"},
+        {"title": "Edifici principali e accessibilita", "sources": ["07-pompeii-demo/design/accessible-buildings.md"], "table": "pompeii_buildings"},
+        {"title": "Strade, collegamenti e territorio circostante", "sources": ["07-pompeii-demo/design/regional-connections.md", "03-world/structures/roads.md"], "figure": "regional_connections"},
+        {"title": "Ville, aziende, cave, miniere e filiere locali", "sources": ["07-pompeii-demo/design/regional-connections.md", "03-world/rural-sites/README.md"]},
+        {"title": "Ciclo giornaliero, stagionale e calendario", "sources": ["07-pompeii-demo/design/daily-seasonal-cycles.md", "04-simulation/calendar-events/daily-cycle.md", "04-simulation/calendar-events/seasonal-cycle.md"]}
+      ]
+    },
+    {
+      "title": "Personaggio giocante e progressione",
+      "intro": "Il personaggio non nasce eroe. Origine, status giuridico, relazioni, competenze e risorse determinano opportunita differenti; la progressione amplia capacita e responsabilita senza cancellare il contesto sociale.",
+      "figure": "social_progression",
+      "sections": [
+        {"title": "Personaggio giocante e creazione", "sources": ["05-player/player-character/character-framework.md", "05-player/player-character/character-creation.md"]},
+        {"title": "Origini e status sociali", "sources": ["05-player/player-character/origins.md", "05-player/player-character/social-statuses.md", "04-simulation/family-social/social-status.md"], "table": "social_statuses"},
+        {"title": "Ciclo principale di gameplay", "sources": ["05-player/gameplay/core-loop.md", "05-player/gameplay/gameplay-verbs.md", "05-player/gameplay/failure-recovery.md"]},
+        {"title": "Progressione e mobilita sociale", "sources": ["05-player/player-character/progression.md", "04-simulation/family-social/social-mobility.md"]},
+        {"title": "Conoscenza del giocatore e interazione", "sources": ["05-player/player-character/player-knowledge.md", "05-player/gameplay/interaction-model.md"]}
+      ]
+    },
+    {
+      "title": "Famiglia, discendenza ed eredita",
+      "intro": "La continuita della partita e genealogica e patrimoniale, non una reincarnazione meccanica. Famiglia, household, matrimonio, figli, adozione, emancipazione, morte ed eredita restano concetti distinti con conseguenze giuridiche e affettive.",
+      "figure": "family_succession",
+      "sections": [
+        {"title": "Famiglia e household", "sources": ["04-simulation/family-social/family.md", "04-simulation/family-social/household.md"]},
+        {"title": "Matrimonio, divorzio e adozione", "sources": ["04-simulation/family-social/marriage.md", "04-simulation/family-social/adoption-emancipation.md"]},
+        {"title": "Figli, educazione e ciclo della vita", "sources": ["04-simulation/family-social/children.md", "04-simulation/npc-population-ai/npc-lifecycle.md", "04-simulation/professions-education/education.md"]},
+        {"title": "Eredita e continuazione con un discendente", "sources": ["04-simulation/family-social/inheritance.md", "05-player/player-character/succession.md", "10-technical/save-system/succession-saves.md"]}
+      ]
+    },
+    {
+      "title": "NPC, popolazione e intelligenza artificiale",
+      "intro": "Ogni NPC significativo e persistente, ma il dettaglio e graduato. Identita, bisogni, memoria, routine e relazioni vengono conservati attraverso transizioni tra simulazione vicina, semplificata e aggregata.",
+      "figure": "npc_lifecycle",
+      "sections": [
+        {"title": "Modello dell'NPC", "sources": ["04-simulation/npc-population-ai/npc-model.md", "04-simulation/npc-life-simulation.md"]},
+        {"title": "Simulazione della popolazione", "sources": ["04-simulation/npc-population-ai/population-model.md", "07-pompeii-demo/demo-population.md"], "table": "npc_categories"},
+        {"title": "Livelli di simulazione", "sources": ["04-simulation/npc-population-ai/simulation-levels.md", "04-simulation/npc-population-ai/ai-performance.md"], "figure": "simulation_lod", "table": "simulation_levels"},
+        {"title": "Routine e ciclo quotidiano", "sources": ["04-simulation/npc-population-ai/routines.md", "04-simulation/calendar-events/daily-cycle.md"], "figure": "npc_daily_cycle"},
+        {"title": "Memoria, conoscenza e propagazione delle informazioni", "sources": ["04-simulation/npc-population-ai/memory.md", "04-simulation/npc-population-ai/communication-gossip.md", "04-simulation/information-and-reputation.md"], "figure": "knowledge_flow"},
+        {"title": "Relazioni, reputazione e percezione", "sources": ["04-simulation/npc-population-ai/relationships.md", "04-simulation/family-social/reputation.md", "04-simulation/npc-population-ai/perception.md"]},
+        {"title": "Decisione, bisogni e comportamento collettivo", "sources": ["04-simulation/npc-population-ai/decision-making.md", "04-simulation/npc-population-ai/needs-ai.md", "04-simulation/npc-population-ai/crowds.md"]}
+      ]
+    },
+    {
+      "title": "Professioni, educazione e carriere",
+      "intro": "Le professioni sono reti di accesso, competenze, strumenti, luoghi e obblighi. L'apprendistato e l'esperienza dimostrata sostituiscono gli alberi di abilita astratti come principale logica di crescita lavorativa.",
+      "sections": [
+        {"title": "Professioni giocabili", "sources": ["04-simulation/professions-education/professions.md", "07-pompeii-demo/design/demo-professions.md"], "table": "professions"},
+        {"title": "Apprendistato, educazione e trasmissione del sapere", "sources": ["04-simulation/professions-education/apprenticeship.md", "04-simulation/professions-education/education.md", "04-simulation/professions-education/knowledge-transmission.md"]},
+        {"title": "Competenze e carriere", "sources": ["04-simulation/professions-education/skills.md", "04-simulation/professions-education/career-framework.md"]}
+      ]
+    },
+    {
+      "title": "Economia, produzione e commercio",
+      "intro": "L'economia conserva beni, lavoro, moneta, credito e capacita. Il giocatore puo influenzare reti locali, ma non controlla artificialmente Roma o l'Impero con una singola produzione personale.",
+      "figure": "economic_flow",
+      "sections": [
+        {"title": "Modello economico", "sources": ["04-simulation/economy-production/economic-model.md", "04-simulation/economy.md", "07-pompeii-demo/demo-economy.md"]},
+        {"title": "Moneta, prezzi e salari", "sources": ["04-simulation/economy-production/currency.md", "04-simulation/economy-production/prices.md", "04-simulation/economy-production/wages.md"], "table": "currency_prices"},
+        {"title": "Proprieta, affitti, debiti e contratti", "sources": ["04-simulation/economy-production/property.md", "04-simulation/economy-production/taxes-and-rents.md", "04-simulation/economy-production/credit-and-debt.md", "04-simulation/economy-production/contracts.md"]},
+        {"title": "Commercio, trasporti e logistica", "sources": ["04-simulation/economy-production/trade.md", "04-simulation/economy-production/transport.md", "04-simulation/economy-production/logistics.md", "04-simulation/economy-production/warehousing.md"]},
+        {"title": "Produzione, agricoltura, allevamento e artigianato", "sources": ["04-simulation/economy-production/production.md", "04-simulation/economy-production/agriculture.md", "04-simulation/economy-production/livestock.md", "04-simulation/economy-production/craftsmanship.md"]},
+        {"title": "Filiere economiche principali", "sources": ["04-simulation/economy-production/supply-chains.md"], "table": "supply_chains"},
+        {"title": "Crisi, scarsita, speculazione e mercato nero", "sources": ["04-simulation/economy-production/economic-crises.md", "04-simulation/economy-production/black-market.md", "04-simulation/economy-production/economic-balancing.md"]}
+      ]
+    },
+    {
+      "title": "Societa, politica e diritto",
+      "intro": "Status, cittadinanza, patronato e capacita giuridica determinano chi puo agire, testimoniare, possedere, contrattare e ricorrere alle autorita. La mobilita e possibile ma costosa, situata e mai garantita.",
+      "figure": "political_career",
+      "sections": [
+        {"title": "Cittadinanza, liberta e status", "sources": ["04-simulation/social-status-and-law.md", "04-simulation/family-social/social-status.md"]},
+        {"title": "Patronato e clientela", "sources": ["04-simulation/family-social/patronage.md", "04-simulation/family-social/clientela.md"]},
+        {"title": "Schiavitu, manomissione e condizione dei liberti", "sources": ["04-simulation/family-social/slavery.md", "04-simulation/family-social/manumission.md", "02-historical-foundation/ethics-and-representation.md"]},
+        {"title": "Politica, magistrature e amministrazione urbana", "sources": ["04-simulation/politics-law/political-system.md", "04-simulation/politics-law/magistracies.md", "04-simulation/politics-law/administration.md", "04-simulation/politics-law/local-politics.md"], "table": "magistracies"},
+        {"title": "Carriera politica, corruzione e prestigio", "sources": ["04-simulation/politics-law/political-career.md", "04-simulation/politics-law/corruption.md", "04-simulation/politics-law/imperial-politics.md"]},
+        {"title": "Diritto, processi, delitti e pene", "sources": ["04-simulation/politics-law/law-framework.md", "04-simulation/politics-law/civil-law.md", "04-simulation/politics-law/trials.md", "04-simulation/politics-law/punishments.md"]}
+      ]
+    },
+    {
+      "title": "Religione e calendario",
+      "intro": "La religione e pratica quotidiana, domestica, civica e collegiale. Culti e rituali modificano calendari, reputazioni, spese, accessi e reti sociali senza ridursi a bonus astratti.",
+      "sections": [
+        {"title": "Sistema religioso e culti domestici", "sources": ["04-simulation/religion-calendar/religious-system.md", "04-simulation/religion-calendar/domestic-religion.md"]},
+        {"title": "Templi, sacerdoti, rituali e sacrifici", "sources": ["04-simulation/religion-calendar/temples.md", "04-simulation/religion-calendar/priests.md", "04-simulation/religion-calendar/rituals-sacrifices.md"]},
+        {"title": "Feste religiose, giochi pubblici e calendario", "sources": ["04-simulation/religion-calendar/festivals.md", "04-simulation/religion-calendar/public-games.md", "04-simulation/religion-calendar/calendar.md"], "table": "event_frequency"},
+        {"title": "Culto imperiale e diversita religiosa", "sources": ["04-simulation/religion-calendar/public-religion.md", "04-simulation/religion-calendar/religious-diversity.md", "04-simulation/religion-calendar/cults.md"]}
+      ]
+    },
+    {
+      "title": "Esercito, combattimento e trionfi",
+      "intro": "Il combattimento privilegia leggibilita, rischio e conseguenza. Il sistema militare separa la scala individuale dalla scala aggregata di marce, logistica, battaglie e assedi; nella demo l'esercito resta soprattutto contesto remoto.",
+      "figure": "military_career",
+      "sections": [
+        {"title": "Esercito, reclutamento e organizzazione militare", "sources": ["04-simulation/military-combat/army.md", "04-simulation/military-combat/recruitment.md", "04-simulation/military-combat/legions-auxiliaries.md", "04-simulation/military-combat/units-and-ranks.md"], "table": "military_ranks"},
+        {"title": "Carriera militare, addestramento e disciplina", "sources": ["04-simulation/military-combat/military-career.md", "04-simulation/military-combat/military-training.md", "04-simulation/military-combat/military-discipline.md", "04-simulation/military-combat/veterans.md"]},
+        {"title": "Combattimento corpo a corpo e di gruppo", "sources": ["04-simulation/military-combat/combat-vision.md", "04-simulation/military-combat/melee-combat.md", "04-simulation/military-combat/group-combat.md", "04-simulation/military-combat/non-lethal-combat.md"]},
+        {"title": "Armi, scudi e armature", "sources": ["04-simulation/military-combat/weapons.md", "04-simulation/military-combat/shields-and-armor.md"], "table": "weapons"},
+        {"title": "Ferite, dolore, paura, morale e guarigione", "sources": ["04-simulation/military-combat/injuries.md", "04-simulation/military-combat/fatigue-fear-morale.md", "04-simulation/military-combat/healing.md"], "table": "injuries"},
+        {"title": "Risse, duelli e arena", "sources": ["04-simulation/military-combat/duels-brawls-arena.md"]},
+        {"title": "Guerre, battaglie, assedi e logistica", "sources": ["04-simulation/military-combat/wars.md", "04-simulation/military-combat/battles.md", "04-simulation/military-combat/sieges.md", "04-simulation/military-combat/military-logistics.md"]},
+        {"title": "Trionfi", "sources": ["04-simulation/military-combat/triumphs.md", "04-simulation/triumphs.md"]}
+      ]
+    },
+    {
+      "title": "Criminalita, indagini e ordine pubblico",
+      "intro": "Il crimine emerge da opportunita, bisogni, accessi e relazioni. Testimoni e autorita non sono onniscienti: denunce, prove, reputazione e status determinano l'evoluzione dei casi.",
+      "sections": [
+        {"title": "Criminalita e mercato illecito", "sources": ["04-simulation/politics-law/criminality.md", "05-player/activities/criminal-activities.md", "04-simulation/economy-production/black-market.md"]},
+        {"title": "Indagini, testimoni e prove", "sources": ["04-simulation/politics-law/investigations.md", "06-content/quests/crime-investigation-quests.md"]},
+        {"title": "Denunce, arresti, processi e pene", "sources": ["04-simulation/politics-law/public-order.md", "04-simulation/politics-law/trials.md", "04-simulation/politics-law/punishments.md"]},
+        {"title": "Reputazione criminale e conseguenze", "sources": ["04-simulation/family-social/reputation.md", "04-simulation/information-and-reputation.md"]}
+      ]
+    },
+    {
+      "title": "Missioni, narrazione ed eventi",
+      "intro": "Le missioni sono situazioni con fonte, attori, scadenze e conseguenze, non checklist onniscienti. La narrazione emergente nasce dall'interazione tra sistemi e lascia memoria nel mondo.",
+      "figure": "event_system",
+      "sections": [
+        {"title": "Missioni e opportunita", "sources": ["06-content/quests/quest-framework.md", "06-content/quests/main-stories.md", "06-content/quests/timed-opportunities.md"]},
+        {"title": "Missioni professionali, familiari, religiose, politiche e militari", "sources": ["06-content/quests/professional-quests.md", "06-content/quests/family-obligations.md", "06-content/quests/religious-quests.md", "06-content/quests/political-quests.md", "06-content/quests/military-quests.md"]},
+        {"title": "Fallimento e conseguenze persistenti", "sources": ["06-content/quests/quest-failure.md", "05-player/gameplay/failure-recovery.md"]},
+        {"title": "Narrazione emergente e storylet", "sources": ["06-content/emergent-narrative.md", "06-content/narrative/storylets.md", "06-content/narrative/narrative-architecture.md"]},
+        {"title": "Eventi dinamici e memoria storica", "sources": ["04-simulation/calendar-events/dynamic-events.md", "04-simulation/calendar-events/world-history-ledger.md", "06-content/events/dynamic-event-framework.md"], "table": "dynamic_events"},
+        {"title": "Incendi, epidemie e terremoti", "sources": ["06-content/events/fires.md", "06-content/events/epidemics.md", "06-content/events/earthquakes.md"]},
+        {"title": "Eruzione e catastrofi", "sources": ["06-content/events/eruption.md", "04-simulation/calendar-events/disasters.md"]},
+        {"title": "Feste e giochi pubblici", "sources": ["04-simulation/religion-calendar/public-games.md", "04-simulation/religion-calendar/festivals.md"]}
+      ]
+    },
+    {
+      "title": "Oggetti, inventario e bisogni",
+      "intro": "Gli oggetti conservano proprieta, custodia, quantita e condizione. Inventario, cibo, abbigliamento e strumenti sono legati a lavoro, salute, status e diritto, non a un sistema di loot indiscriminato.",
+      "sections": [
+        {"title": "Oggetti, proprieta e condizione", "sources": ["05-player/items/item-framework.md", "05-player/items/item-condition.md", "05-player/items/ownership-theft.md"]},
+        {"title": "Inventario", "sources": ["05-player/items/inventory.md", "08-ux/ui/inventory-ui.md"]},
+        {"title": "Abbigliamento, cibo, strumenti e crafting", "sources": ["05-player/items/clothing.md", "05-player/items/food.md", "05-player/items/tools.md", "05-player/items/crafting.md"]},
+        {"title": "Salute, malattie e medicina", "sources": ["04-simulation/health-medicine/health-system.md", "04-simulation/health-medicine/diseases.md", "04-simulation/health-medicine/medicine.md", "04-simulation/health-medicine/needs.md"]}
+      ]
+    },
+    {
+      "title": "Interfaccia, esperienza, audio e lingue",
+      "intro": "L'interfaccia comunica soltanto informazioni conoscibili e limita indicatori moderni. Audio, voce e lingue costruiscono contesto sociale e regionale senza trasformare il latino in ornamento o caricatura.",
+      "sections": [
+        {"title": "UI, UX e accessibilita", "sources": ["08-ux/ux-principles.md", "08-ux/accessibility.md", "08-ux/ui/ui-architecture.md"]},
+        {"title": "Mappa, diario e notifiche", "sources": ["08-ux/ui/map.md", "08-ux/ui/journal.md", "08-ux/ui/notifications.md"]},
+        {"title": "Inventario, relazioni, economia e salute nell'interfaccia", "sources": ["08-ux/ui/inventory-ui.md", "08-ux/ui/relationships-ui.md", "08-ux/ui/economy-ui.md", "08-ux/ui/health-ui.md"]},
+        {"title": "Audio, musica e paesaggio sonoro", "sources": ["09-art-audio/audio/audio-system.md", "09-art-audio/audio/music.md", "09-art-audio/audio/soundscape.md", "09-art-audio/audio/crowd-audio.md"]},
+        {"title": "Lingue, dialoghi e latino", "sources": ["06-content/dialogue-and-language.md", "06-content/narrative/languages.md", "06-content/narrative/dialogue-system.md", "02-historical-foundation/sources/latin-italian-glossary.md"]}
+      ]
+    },
+    {
+      "title": "Architettura tecnica",
+      "intro": "L'architettura separa dati canonici, simulazione, presentazione e interazione. Le decisioni tecnologiche restano subordinate al gate di readiness: questa sezione descrive la direzione approvata o proposta senza fingere implementazione esistente.",
+      "figure": "technical_architecture",
+      "sections": [
+        {"title": "Principi e separazione delle responsabilita", "sources": ["10-technical/technical-architecture.md", "10-technical/architecture/architecture-principles.md", "10-technical/architecture/simulation-presentation-separation.md"]},
+        {"title": "Unreal Engine 5", "sources": ["10-technical/unreal-engine-5/README.md", "10-technical/unreal-engine-5/engine-decision.md", "10-technical/unreal-engine-5/project-structure.md"]},
+        {"title": "Moduli, plugin, componenti e subsystem", "sources": ["10-technical/unreal-engine-5/modules.md", "10-technical/unreal-engine-5/plugins.md", "10-technical/unreal-engine-5/components-subsystems.md"], "figure": "ue_modules"},
+        {"title": "C++, Blueprint, dati e Gameplay Tags", "sources": ["10-technical/unreal-engine-5/cpp-blueprint-policy.md", "10-technical/unreal-engine-5/data-assets-tables.md", "10-technical/unreal-engine-5/gameplay-tags.md"]},
+        {"title": "AI, Mass Entity, StateTree e mondo", "sources": ["10-technical/unreal-engine-5/mass-entity.md", "10-technical/unreal-engine-5/state-tree-behavior-tree.md", "10-technical/unreal-engine-5/world-partition.md", "10-technical/unreal-engine-5/navigation-crowds.md"]},
+        {"title": "Eventi, configurazione, logging ed errori", "sources": ["10-technical/architecture/event-architecture.md", "10-technical/architecture/event-contracts.md", "10-technical/architecture/configuration.md", "10-technical/architecture/logging-errors.md"]},
+        {"title": "Modello dati", "sources": ["10-technical/data/data-architecture.md", "10-technical/data/data-ownership-matrix.md", "10-technical/data/domain-schema-catalog.md"], "table": "data_domains"},
+        {"title": "Sistema di salvataggio", "sources": ["10-technical/save-system/save-architecture.md", "10-technical/save-system/corruption-recovery.md", "10-technical/save-system/migration.md"], "figure": "save_flow"},
+        {"title": "Prestazioni e scalabilita", "sources": ["10-technical/performance/performance-strategy.md", "10-technical/performance/scalability.md", "10-technical/performance/benchmark-scenes.md"]},
+        {"title": "Strumenti per i designer", "sources": ["10-technical/tools/tools-strategy.md", "10-technical/tools/designer-tool-contracts.md"]}
+      ]
+    },
+    {
+      "title": "Pipeline, testing e sicurezza",
+      "intro": "La pipeline deve rendere ogni build riconducibile a commit, configurazione, schemi e risultati di test. Le policy sono progettate ma molte infrastrutture e responsabilita non sono ancora operative.",
+      "sections": [
+        {"title": "Pipeline di sviluppo e gestione asset", "sources": ["10-technical/pipelines/pipeline-overview.md", "10-technical/pipelines/asset-management.md", "11-production/devops/git-workflow.md"]},
+        {"title": "Git, CI, build e release", "sources": ["11-production/devops/branching-strategy.md", "11-production/devops/ci.md", "11-production/devops/builds.md", "11-production/devops/release-management.md"]},
+        {"title": "Testing e QA", "sources": ["11-production/testing/test-strategy.md", "11-production/qa-strategy.md", "11-production/testing/release-readiness.md"]},
+        {"title": "Sicurezza, privacy e dipendenze", "sources": ["10-technical/security/security-model.md", "10-technical/security/privacy.md", "10-technical/security/dependency-security.md"]}
+      ]
+    },
+    {
+      "title": "Piano eseguibile della demo",
+      "intro": "La vertical slice deve dimostrare la visione con il minimo insieme coerente di sistemi. Tre percorsi sociali attraversano una stessa rete di lavoro, relazioni, obblighi e conseguenze, senza tentare di rappresentare l'intero gioco.",
+      "figure": "demo_roadmap",
+      "sections": [
+        {"title": "Scope, sistemi attivi e sistemi esclusi", "sources": ["07-pompeii-demo/design/demo-systems-scope.md", "07-pompeii-demo/design/demo-content-scope.md"]},
+        {"title": "Percorso del cittadino", "sources": ["07-pompeii-demo/design/playable-paths.md", "07-pompeii-demo/design/starting-characters.md"]},
+        {"title": "Percorso del liberto", "sources": ["07-pompeii-demo/design/playable-paths.md", "07-pompeii-demo/design/starting-characters.md"]},
+        {"title": "Percorso della persona schiavizzata", "sources": ["07-pompeii-demo/design/playable-paths.md", "07-pompeii-demo/design/starting-characters.md"]},
+        {"title": "Criteri di accettazione", "sources": ["07-pompeii-demo/design/demo-acceptance.md", "11-production/roadmap-backlog/definition-of-done.md"]}
+      ]
+    },
+    {
+      "title": "Roadmap, milestone e governo del progetto",
+      "intro": "La roadmap distingue documentazione, prototipi e vertical slice. Rischi e questioni aperte sono parte del prodotto decisionale: non vengono occultati da placeholder o stime prive di owner.",
+      "sections": [
+        {"title": "Roadmap", "sources": ["11-production/roadmap-backlog/product-roadmap.md", "11-production/roadmap-backlog/documentation-roadmap.md"]},
+        {"title": "Milestone e backlog", "sources": ["11-production/roadmap-backlog/milestones.md", "11-production/roadmap-backlog/demo-backlog.md", "11-production/roadmap-backlog/epics.md"], "table": "milestones"},
+        {"title": "Rischi", "sources": ["11-production/risk-register.md"], "table": "risks"},
+        {"title": "Questioni aperte", "sources": ["00-governance/open-questions.md", "READY_FOR_IMPLEMENTATION.md"], "table": "open_questions"},
+        {"title": "Readiness per l'implementazione", "sources": ["READY_FOR_IMPLEMENTATION.md", "11-production/roadmap-backlog/implementation-readiness-matrix.md"]}
+      ]
+    },
+    {
+      "title": "Glossario, bibliografia e appendici",
+      "intro": "Le appendici rendono il volume navigabile e verificabile senza sostituire i registri canonici. I percorsi relativi permettono al team di risalire dalla sintesi editoriale alla specifica di sistema.",
+      "sections": [
+        {"title": "Glossario essenziale", "sources": ["appendices/glossary.md", "02-historical-foundation/sources/latin-italian-glossary.md"]},
+        {"title": "Bibliografia essenziale", "sources": ["02-historical-foundation/sources/bibliography.md", "02-historical-foundation/sources/primary-sources.md", "02-historical-foundation/sources/secondary-sources.md"]},
+        {"title": "Crediti delle immagini", "sources": ["docs/export/IMAGE_CREDITS.md"]},
+        {"title": "Matrice di tracciabilita", "sources": ["00-governance/documentation-map.md", "00-governance/system-dependency-matrix.md"], "table": "traceability"},
+        {"title": "Documenti e limiti dell'edizione", "sources": ["11-production/roadmap-backlog/documentation-roadmap.md", "READY_FOR_IMPLEMENTATION.md"]}
+      ]
+    }
+  ]
+}
