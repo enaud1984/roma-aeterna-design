@@ -55,7 +55,25 @@ TArray<FRARomanPlaceholderVisualRule> ARARomanProceduralBuildingActor::CreateDef
 		{ERARomanModuleCategory::Portico, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CylinderPath)), FVector(45, 45, 260), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Green},
 		{ERARomanModuleCategory::Prop, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(45, 45, 45), FVector(0, 0, 22), FRotator::ZeroRotator, FLinearColor::Yellow},
 		{ERARomanModuleCategory::Vegetation, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(SpherePath)), FVector(90, 90, 90), FVector(0, 0, 170), FRotator::ZeroRotator, FLinearColor::Green},
-		{ERARomanModuleCategory::Decoration, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(ConePath)), FVector(35, 35, 60), FVector(0, 0, 30), FRotator::ZeroRotator, FLinearColor::Red}
+		{ERARomanModuleCategory::Decoration, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(ConePath)), FVector(35, 35, 60), FVector(0, 0, 30), FRotator::ZeroRotator, FLinearColor::Red},
+		{ERARomanModuleCategory::Counter, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(220,80,100), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::Dolium, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CylinderPath)), FVector(70,70,90), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor(0.5f,0.25f,0.1f)},
+		{ERARomanModuleCategory::Basin, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(120,90,35), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::WaterChannel, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(260,22,18), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::Millstone, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CylinderPath)), FVector(120,120,45), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Gray},
+		{ERARomanModuleCategory::Oven, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CylinderPath)), FVector(140,140,110), FVector::ZeroVector, FRotator(90,0,0), FLinearColor::Red},
+		{ERARomanModuleCategory::Furnace, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(100,80,70), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Red},
+		{ERARomanModuleCategory::LatrineSeat, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(65,45,55), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::White},
+		{ERARomanModuleCategory::Drain, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(260,18,12), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::Altar, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(120,80,80), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::White},
+		{ERARomanModuleCategory::StatueMarker, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(ConePath)), FVector(55,55,140), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::White},
+		{ERARomanModuleCategory::Shelf, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(140,35,150), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::StorageContainer, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CylinderPath)), FVector(80,80,80), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::DryingRack, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(200,35,180), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Green},
+		{ERARomanModuleCategory::WorkPlatform, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(120,90,25), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Gray},
+		{ERARomanModuleCategory::RotationArm, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(170,18,18), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Gray},
+		{ERARomanModuleCategory::ServiceBasin, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(90,70,45), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::InteractionMarker, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(SpherePath)), FVector(35,35,35), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::White}
 	};
 }
 
@@ -86,6 +104,12 @@ bool ARARomanProceduralBuildingActor::GenerateBuilding()
 
 	switch (BuildingParameters.BuildingType)
 	{
+	case ERARomanBuildingType::AtriumDomus: NewResult = URARomanBuildingRuleLibrary::GenerateAtriumDomusPlan(BuildingParameters); break;
+	case ERARomanBuildingType::Thermopolium: NewResult = URARomanBuildingRuleLibrary::GenerateThermopoliumPlan(BuildingParameters); break;
+	case ERARomanBuildingType::Fullonica: NewResult = URARomanBuildingRuleLibrary::GenerateFullonicaPlan(BuildingParameters); break;
+	case ERARomanBuildingType::Pistrinum: NewResult = URARomanBuildingRuleLibrary::GeneratePistrinumPlan(BuildingParameters); break;
+	case ERARomanBuildingType::PublicLatrine: NewResult = URARomanBuildingRuleLibrary::GeneratePublicLatrinePlan(BuildingParameters); break;
+	case ERARomanBuildingType::SmallTemple: NewResult = URARomanBuildingRuleLibrary::GenerateSmallTemplePlan(BuildingParameters); break;
 	case ERARomanBuildingType::Taberna: NewResult = URARomanBuildingRuleLibrary::BuildTabernaLayout(BuildingParameters); break;
 	case ERARomanBuildingType::Temple: NewResult = URARomanBuildingRuleLibrary::BuildTempleLayout(BuildingParameters); break;
 	case ERARomanBuildingType::StreetSection: NewResult = URARomanBuildingRuleLibrary::BuildStreetSectionLayout(BuildingParameters); break;
@@ -182,3 +206,14 @@ FString ARARomanProceduralBuildingActor::GetGenerationSummary() const
 {
 	return FString::Printf(TEXT("Successo=%s, Moduli=%d, Istanze=%d, Warning=%d, Errori=%d"), LastGenerationResult.bSuccess?TEXT("true"):TEXT("false"), LastGenerationResult.GeneratedPlacements.Num(), GeneratedInstanceCount, LastGenerationResult.Warnings.Num(), LastGenerationResult.Errors.Num());
 }
+
+bool ARARomanProceduralBuildingActor::GenerateBuildingByType(ERARomanBuildingType Type){ BuildingParameters.BuildingType = Type; return GenerateBuilding(); }
+bool ARARomanProceduralBuildingActor::GenerateAtriumDomus(){ return GenerateBuildingByType(ERARomanBuildingType::AtriumDomus); }
+bool ARARomanProceduralBuildingActor::GenerateThermopolium(){ return GenerateBuildingByType(ERARomanBuildingType::Thermopolium); }
+bool ARARomanProceduralBuildingActor::GenerateFullonica(){ return GenerateBuildingByType(ERARomanBuildingType::Fullonica); }
+bool ARARomanProceduralBuildingActor::GeneratePistrinum(){ return GenerateBuildingByType(ERARomanBuildingType::Pistrinum); }
+bool ARARomanProceduralBuildingActor::GeneratePublicLatrine(){ return GenerateBuildingByType(ERARomanBuildingType::PublicLatrine); }
+bool ARARomanProceduralBuildingActor::GenerateSmallTemple(){ return GenerateBuildingByType(ERARomanBuildingType::SmallTemple); }
+FString ARARomanProceduralBuildingActor::GetBuildingPlanSummary() const { return GetGenerationSummary(); }
+TArray<ERARomanBuildingType> ARARomanProceduralBuildingActor::GetImplementedArchetypes() const { return URARomanBuildingRuleLibrary::GetImplementedArchetypes(); }
+bool ARARomanProceduralBuildingActor::IsArchetypeImplemented(ERARomanBuildingType Type) const { return URARomanBuildingRuleLibrary::IsArchetypeImplemented(Type); }

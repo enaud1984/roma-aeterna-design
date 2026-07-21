@@ -26,3 +26,7 @@ La verifica del modulo Unreal resta separata: `UNREAL_BUILD_REQUIRED` e `UNREAL_
 ## Aggiornamento Prompt 21 — runtime placeholder
 
 Il validatore statico controlla nuove API runtime, `UInstancedStaticMeshComponent`, soft reference alle BasicShapes Engine, assenza di dipendenze editor-only vietate, assenza di nuovi asset binari, registro FREE-027–FREE-036 e marcatori di conflitto. Gli Automation Tests Unreal sono presenti ma marcati `LOCAL_UNREAL_TEST_REQUIRED` e richiedono esecuzione locale con UE 5.8. Stati: PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED, UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED.
+
+## Aggiornamento Prompt 22 — test archetipi
+
+I test core coprono AtriumDomus, Thermopolium, Fullonica, Pistrinum, PublicLatrine, SmallTemple, determinismo, bounds, tag, punti NPC, conversione placement e archetipi pianificati. Gli Automation Tests Unreal restano `LOCAL_UNREAL_TEST_REQUIRED`.

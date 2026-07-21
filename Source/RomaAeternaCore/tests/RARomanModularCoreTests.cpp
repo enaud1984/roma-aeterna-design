@@ -216,11 +216,61 @@ void RunCoreTests()
     ValidatePlacements(Placements, 10, Warnings, Errors);
     Expect(!Errors.empty(), "ValidatePlacements intercetta scala zero");
 }
+
+
+void RunArchetypePrompt22Tests()
+{
+    BuildingParameters P; P.WidthCm=1200; P.DepthCm=1800; P.MaximumModuleCount=1000; P.HasPeristyle=true; P.HasCourtyard=true; P.HasUpperFloor=true; P.FloorCount=2;
+    const BuildingPlan Atrium = GenerateAtriumDomusPlan(P);
+    Expect(Atrium.ImplementationState == ArchetypeImplementationState::Implemented, "AtriumDomus implementato");
+    Expect(!Atrium.Rooms.empty() && Atrium.Connections.size() >= 8, "AtriumDomus stanze e connessioni");
+    std::vector<GenerationMessage> AW, AE; Expect(ValidateBuildingPlan(Atrium, AW, AE), "AtriumDomus valida");
+    const GenerationResult AtriumPlacements = GenerateAtriumDomusLayout(P);
+    Expect(AtriumPlacements.bSuccess && CountCategory(AtriumPlacements, ModuleCategory::InteractionMarker) > 0, "AtriumDomus conversione placement");
+
+    P = BuildingParameters(); P.WidthCm=700; P.DepthCm=900; P.MaximumModuleCount=1000;
+    const BuildingPlan Thermo = GenerateThermopoliumPlan(P);
+    Expect(Thermo.ProductionDevices.size() >= 5, "Thermopolium bancone dolia scaffale deposito fuoco");
+    Expect(GenerateThermopoliumLayout(P).bSuccess && CountCategory(GenerateThermopoliumLayout(P), ModuleCategory::Counter) == 1, "Thermopolium placement bancone");
+
+    P = BuildingParameters(); P.WidthCm=1100; P.DepthCm=1400; P.MaximumModuleCount=1000;
+    const BuildingPlan Fullonica = GenerateFullonicaPlan(P);
+    Expect(Fullonica.WaterFeatures.size() >= 2 && Fullonica.ProductionDevices.size() >= 4, "Fullonica vasche drenaggio asciugatura");
+    Expect(CountCategory(GenerateFullonicaLayout(P), ModuleCategory::DryingRack) > 0, "Fullonica placement rack");
+
+    P = BuildingParameters(); P.WidthCm=1200; P.DepthCm=1300; P.MaximumModuleCount=1000;
+    const BuildingPlan Pistrinum = GeneratePistrinumPlan(P);
+    Expect(Pistrinum.ProductionDevices.size() >= 4 && Pistrinum.InteractionPoints.size() >= 8, "Pistrinum macina forno percorso animale");
+    Expect(GeneratePistrinumLayout(P).bSuccess && CountCategory(GeneratePistrinumLayout(P), ModuleCategory::Oven) > 0 && CountCategory(GeneratePistrinumLayout(P), ModuleCategory::RotationArm) > 0, "Pistrinum placement produttivi");
+
+    P = BuildingParameters(); P.WidthCm=1000; P.DepthCm=800; P.PublicCapacity=6; P.MaximumModuleCount=1000;
+    const BuildingPlan Latrine = GeneratePublicLatrinePlan(P);
+    Expect(Latrine.ProductionDevices.size() >= 6 && Latrine.WaterFeatures.size() >= 2, "Latrina sedute acqua drenaggio");
+    Expect(GeneratePublicLatrineLayout(P).bSuccess && CountCategory(GeneratePublicLatrineLayout(P), ModuleCategory::LatrineSeat) >= 6, "Latrina placement sedute");
+
+    P = BuildingParameters(); P.WidthCm=900; P.DepthCm=1100; P.MaximumModuleCount=1000; P.HasExternalAltar=true;
+    const BuildingPlan Temple = GenerateSmallTemplePlan(P);
+    Expect(Temple.MonumentFeatures.size() >= 8 && Temple.ReligiousFeatures.size() >= 2, "SmallTemple podio scala colonne statua altare");
+    Expect(CountCategory(GenerateSmallTempleLayout(P), ModuleCategory::StatueMarker) == 1, "SmallTemple marker statua");
+
+    P.Type = BuildingType::AtriumDomus; P.RandomSeed = 44; const GenerationResult A=GenerateAtriumDomusLayout(P); const GenerationResult B=GenerateAtriumDomusLayout(P); P.RandomSeed=45; const GenerationResult C=GenerateAtriumDomusLayout(P);
+    Expect(SamePlacements(A,B), "Prompt22 determinismo stesso seed");
+    Expect(A.Placements.size() == C.Placements.size(), "Prompt22 variazione controllata seed diverso");
+    Expect(AllTransformsFinite(A) && BoundsCoherent(A), "Prompt22 bounds e transform validi");
+    P.MaximumModuleCount=1; Expect(!GenerateSmallTempleLayout(P).bSuccess, "Prompt22 MaximumModuleCount");
+    Expect(IsArchetypeImplemented(BuildingType::AtriumDomus), "IsArchetypeImplemented vero");
+    Expect(!IsArchetypeImplemented(BuildingType::PeristyleDomus), "ARCHETYPE_PLANNED non implementato");
+    Expect(GetImplementedArchetypes().size()==6, "sei archetipi implementati");
+    bool PlannedFound=false; for(const auto& M:GetArchetypeCatalog()){ if(M.State==ArchetypeImplementationState::ARCHETYPE_PLANNED && std::string(M.Name)=="PeristyleDomus") PlannedFound=true; }
+    Expect(PlannedFound, "catalogo ARCHETYPE_PLANNED");
+}
+
 } // namespace
 
 int main()
 {
     RunCoreTests();
+    RunArchetypePrompt22Tests();
     if (Failures > 0)
     {
         std::cerr << Failures << " test falliti\n";
@@ -228,5 +278,6 @@ int main()
     }
     std::cout << "CORE_CPP_TESTS_PASSED\n";
     std::cout << "CORE_CPP_DEBUG_TESTS_PASSED\n";
+    std::cout << "BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED\n";
     return EXIT_SUCCESS;
 }

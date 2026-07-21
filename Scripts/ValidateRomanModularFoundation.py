@@ -15,6 +15,13 @@ REQUIRED_FILES = [
     "Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h",
     "Source/RomaAeterna/Private/World/Modular/RARomanProceduralBuildingActor.cpp",
     "Source/RomaAeterna/Private/Tests/RARomanProceduralBuildingRuntimeTests.cpp",
+    "Source/RomaAeterna/Private/Tests/RARomanBuildingArchetypeTests.cpp",
+    "docs/technical/ROMAN_BUILDING_ARCHETYPE_SYSTEM.md",
+    "docs/technical/POMPEIAN_BUILDING_TYPOLOGIES.md",
+    "docs/technical/ROMAN_PRODUCTION_BUILDINGS.md",
+    "docs/technical/ROMAN_BUILDING_INTERACTION_POINTS.md",
+    "docs/testing/ROMAN_BUILDING_ARCHETYPES_TEST_PLAN.md",
+    "docs/audits/PROMPT_22_IMPLEMENTATION_REPORT.md",
     "Source/RomaAeternaCore/include/RARomanModularCore.h",
     "Source/RomaAeternaCore/tests/RARomanModularCoreTests.cpp",
     "Source/RomaAeterna/RomaAeterna.Build.cs",
@@ -52,7 +59,7 @@ for token in ("UInstancedStaticMeshComponent", "CategoryInstanceComponents", "Bu
     if token not in actor_h + actor_cpp:
         ERRORS.append(f"runtime placeholder incompleto: {token}")
 
-for api in ("GenerateBuilding", "ClearGeneratedBuilding", "RebuildBuilding", "GenerateFromParameters", "GetGeneratedInstanceCount", "GetInstanceCountByCategory", "HasGeneratedBuilding"):
+for api in ("GenerateBuilding", "ClearGeneratedBuilding", "RebuildBuilding", "GenerateFromParameters", "GetGeneratedInstanceCount", "GetInstanceCountByCategory", "HasGeneratedBuilding", "GenerateBuildingByType", "GenerateAtriumDomus", "GenerateThermopolium", "GenerateFullonica", "GeneratePistrinum", "GeneratePublicLatrine", "GenerateSmallTemple", "GetGeneratedRoomCount", "GetGeneratedZoneCount", "GetGeneratedInteractionPointCount", "GetProductionDeviceCount", "GetWaterFeatureCount", "GetBuildingPlanSummary", "GetImplementedArchetypes", "IsArchetypeImplemented"):
     if api not in actor_h:
         ERRORS.append(f"API Blueprint/runtime mancante: {api}")
 
@@ -70,9 +77,34 @@ for unreal_token in ("UObject", "USTRUCT", "UENUM", "FVector", "FTransform", "TA
     if unreal_token in core_text:
         ERRORS.append(f"dipendenza Unreal nel core standard: {unreal_token}")
 
-for core_api in ("BuildSimpleHouseLayout", "BuildTabernaLayout", "BuildTempleLayout", "BuildStreetSectionLayout", "ValidatePlacements", "EnforceMaximumModuleCount"):
+for core_api in ("BuildSimpleHouseLayout", "BuildTabernaLayout", "BuildTempleLayout", "BuildStreetSectionLayout", "ValidatePlacements", "EnforceMaximumModuleCount", "GenerateBuildingPlan", "GenerateAtriumDomusPlan", "GenerateThermopoliumPlan", "GenerateFullonicaPlan", "GeneratePistrinumPlan", "GeneratePublicLatrinePlan", "GenerateSmallTemplePlan", "ValidateBuildingPlan", "ValidateRoomConnectivity", "ValidateProductionFlow", "ValidateWaterFlow", "ValidateInteractionPoints", "ValidateArchetypeRequirements", "ConvertBuildingPlanToPlacements", "GetImplementedArchetypes", "IsArchetypeImplemented"):
     if core_api not in core_text:
         ERRORS.append(f"API core mancante: {core_api}")
+
+
+for enum_token in ("BuildingFunction", "BuildingScale", "AccessType", "ZoneFunction", "RoomType", "InteractionPointType"):
+    if enum_token not in core_text:
+        ERRORS.append(f"enum Prompt 22 mancante: {enum_token}")
+
+for struct_token in ("BuildingZone", "RoomDefinition", "RoomConnection", "CourtyardDefinition", "OpenSpaceDefinition", "WorkAreaDefinition", "CommercialCounterDefinition", "ProductionDeviceDefinition", "WaterFeatureDefinition", "ReligiousFeatureDefinition", "MonumentFeatureDefinition", "BuildingInteractionPoint", "BuildingPlan", "BuildingPlanParameters", "BuildingPlanResult", "BuildingPlanMessage"):
+    if struct_token not in core_text:
+        ERRORS.append(f"tipo core Prompt 22 mancante: {struct_token}")
+
+for archetype in ("AtriumDomus", "Thermopolium", "Fullonica", "Pistrinum", "PublicLatrine", "SmallTemple"):
+    if archetype not in core_text + actor_h + actor_cpp:
+        ERRORS.append(f"archetipo implementato mancante: {archetype}")
+
+for planned in ("PeristyleDomus", "RichDomus", "UrbanVilla", "SuburbanVilla", "Insula", "Taberna", "Popina", "Caupona", "Bookshop", "Brothel", "Macellum", "Market", "Horrea", "BathComplex", "Forum", "Basilica", "Curia", "Theatre", "Odeon", "Amphitheatre", "LargeTemple", "Sanctuary", "CityGate", "CityWall", "MonumentalArch", "PublicFountain", "FountainMonument", "Library", "School", "Stable", "MedicalShop", "BarberShop"):
+    if planned not in core_text or "ARCHETYPE_PLANNED" not in core_text:
+        ERRORS.append(f"archetipo pianificato non registrato: {planned}")
+
+for category in ("Counter", "Dolium", "Basin", "WaterChannel", "Millstone", "Oven", "Furnace", "Workbench", "Seat", "LatrineSeat", "Drain", "Altar", "Shrine", "StatueMarker", "AnimalPath", "ShopSign", "Shelf", "StorageContainer", "GardenFeature", "Fountain", "MosaicZone", "FrescoZone", "DryingRack", "WorkPlatform", "RotationArm", "ServiceBasin", "InteractionMarker"):
+    if category not in core_text + read("Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h"):
+        ERRORS.append(f"categoria modulare Prompt 22 mancante: {category}")
+
+for tag in ("public_room", "private_room", "service_room", "commercial_area", "production_area", "customer_area", "animal_work_area", "fire_hazard_area", "water_required", "drainage_required", "food_preparation", "food_sales", "textile_processing", "grain_processing", "religious_area", "monumental_area", "fresco_candidate", "mosaic_candidate", "statue_candidate", "fountain_candidate", "shop_sign_candidate", "npc_workstation", "npc_customer_position", "npc_queue_position", "npc_service_route", "npc_animal_route", "restricted_area", "storage_area", "open_court", "street_facing", "upper_floor"):
+    if tag not in core_text:
+        ERRORS.append(f"tag semantico mancante: {tag}")
 
 free_register = read("docs/assets/FREE_ASSET_REGISTER.md")
 for idx in range(27, 37):
@@ -99,7 +131,7 @@ status_docs = all_text([
     "docs/technical/ROMAN_MODULAR_CORE_CPP.md",
     "docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md",
 ])
-for state in ("CORE_CPP_DEBUG_TESTS_PASSED", "CORE_CPP_RELEASE_TESTS_PASSED", "CORE_CPP_SANITIZERS_PASSED", "PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED", "UNREAL_BUILD_REQUIRED", "UNREAL_AUTOMATION_REQUIRED", "MANUAL_VERIFICATION_REQUIRED", "FAB_ASSET_IMPORT_NOT_STARTED"):
+for state in ("CORE_CPP_DEBUG_TESTS_PASSED", "CORE_CPP_RELEASE_TESTS_PASSED", "CORE_CPP_SANITIZERS_PASSED", "PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED", "BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED", "UNREAL_BUILD_REQUIRED", "UNREAL_AUTOMATION_REQUIRED", "MANUAL_VERIFICATION_REQUIRED", "FAB_ASSET_IMPORT_NOT_STARTED"):
     if state not in status_docs:
         ERRORS.append(f"stato richiesto non documentato: {state}")
 
@@ -109,4 +141,5 @@ if ERRORS:
     sys.exit(1)
 
 print("PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED")
-print("PASSED_STATIC: validazione runtime placeholder modulare completata")
+print("BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED")
+print("PASSED_STATIC: validazione archetipi edilizi romani completata")
