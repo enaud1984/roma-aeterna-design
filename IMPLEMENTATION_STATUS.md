@@ -113,3 +113,9 @@ Stato: completato nel cloud per il core standard.
 Creato `Source/RomaAeternaCore` con API C++17 indipendente da Unreal per normalizzazione, validazione, snap griglia, bounds, stime, determinismo e layout astratti. Aggiornati gli adapter Unreal in modo che `URARomanBuildingRuleLibrary` e `URARomanConstructionValidator` richiamino il core senza duplicare la logica critica.
 
 Esiti cloud: `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED`, `CORE_CPP_SANITIZERS_PASSED`. Restano locali: `UNREAL_BUILD_REQUIRED`, `UNREAL_AUTOMATION_REQUIRED`, `MANUAL_VERIFICATION_REQUIRED`.
+
+## Prompt 21 — Generatore visuale runtime placeholder
+
+Stato: implementato adapter runtime per `ARARomanProceduralBuildingActor` con primitive Engine, soft reference, batching per categoria e API Blueprint per generazione, cancellazione, rigenerazione e conteggi. Non sono stati importati asset Fab e non sono stati creati asset o mappe.
+
+Stati dichiarati dopo i controlli cloud: CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED, PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED. Restano locali: UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED. Stato asset: FAB_ASSET_IMPORT_NOT_STARTED.

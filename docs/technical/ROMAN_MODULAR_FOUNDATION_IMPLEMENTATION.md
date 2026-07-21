@@ -47,3 +47,7 @@ Collegare cataloghi reali, scegliere moduli per stile, raffinare le regole di fa
 Gli algoritmi puri sono stati estratti in `Source/RomaAeternaCore/include/RARomanModularCore.h`. `URARomanBuildingRuleLibrary` e `URARomanConstructionValidator` ora agiscono da adapter verso il core, mantenendo invariata l'API Blueprint pubblica e riducendo la duplicazione della logica critica.
 
 Stati cloud: `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED`, `CORE_CPP_SANITIZERS_PASSED`. Stati locali ancora richiesti: `UNREAL_BUILD_REQUIRED`, `UNREAL_AUTOMATION_REQUIRED`, `MANUAL_VERIFICATION_REQUIRED`.
+
+## Aggiornamento Prompt 21 — runtime placeholder visibile
+
+Il sistema modulare dispone ora di un adapter runtime in `ARARomanProceduralBuildingActor`: i placement astratti restano prodotti dal core e vengono convertiti in istanze tecniche solo nell'actor Unreal. Il batching è per categoria con `UInstancedStaticMeshComponent`; le primitive Engine usate sono cubo, cilindro, sfera e cono via soft reference. Stati: PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED, UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED, FAB_ASSET_IMPORT_NOT_STARTED.

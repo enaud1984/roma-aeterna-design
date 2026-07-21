@@ -1,0 +1,38 @@
+# Runtime placeholder del generatore modulare romano
+
+Il Prompt 21 converte i placement astratti prodotti da `RomaAeternaCore` in primitive visibili a runtime, senza importare asset Fab e senza creare `.uasset` o `.umap`.
+
+## Architettura
+
+Il flusso è `core C++ standard → adapter Unreal → UInstancedStaticMeshComponent`. `ARARomanProceduralBuildingActor` normalizza e valida i parametri, chiama i layout esistenti per casa semplice, taberna, tempio e tratto di strada, valida i placement, controlla `MaximumModuleCount`, svuota le istanze precedenti e ricostruisce le istanze placeholder.
+
+## Primitive Engine
+
+Le soft reference usate sono:
+
+- `/Engine/BasicShapes/Cube.Cube`;
+- `/Engine/BasicShapes/Cylinder.Cylinder`;
+- `/Engine/BasicShapes/Sphere.Sphere`;
+- `/Engine/BasicShapes/Cone.Cone`.
+
+Se una mesh non viene caricata, il runtime registra `MissingPlaceholderMesh` e fallisce la generazione visuale senza creare asset persistenti.
+
+## Categorie visuali
+
+Sono previste regole per `Wall`, `Door`, `Window`, `Corner`, `Column`, `Capital`, `Base`, `Arch`, `Beam`, `Floor`, `Roof`, `Stair`, `Podium`, `Portico`, `Prop`, `Vegetation` e `Decoration`. Le dimensioni sono centralizzate nelle regole placeholder dell'actor e adattate a campata, altezza piano e ingombro normalizzato.
+
+## Batching e determinismo
+
+Il batching è per categoria tramite una mappa `categoria → UInstancedStaticMeshComponent`. `ClearVisualInstances` distrugge componenti transient e azzera i conteggi, quindi `RebuildBuilding` non accumula istanze. Il determinismo resta nel core: l'adapter non riordina e non modifica il vettore dei placement.
+
+## Colore debug
+
+Il runtime imposta custom data per istanza, ma senza materiale dedicato il colore non è garantito visivamente. Per questo i placeholder restano distinguibili soprattutto tramite primitive e proporzioni geometriche. I debug bounds e le etichette runtime sono opzionali.
+
+## Stati
+
+- PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED
+- UNREAL_BUILD_REQUIRED
+- UNREAL_AUTOMATION_REQUIRED
+- MANUAL_VERIFICATION_REQUIRED
+- FAB_ASSET_IMPORT_NOT_STARTED

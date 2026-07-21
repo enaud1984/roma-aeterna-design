@@ -42,3 +42,7 @@ L'API Blueprint pubblica resta invariata. Le classi Unreal fungono da adapter e 
 ## Limiti
 
 Il core produce layout astratti, non asset, non componenti e non collisioni. Play In Editor resta `MANUAL_VERIFICATION_REQUIRED`.
+
+## Aggiornamento Prompt 21 — test determinismo e categorie
+
+I test standard CMake/CTest sono stati ampliati per controllare categorie attese nei quattro layout, trasformazioni finite, bounds coerenti, ordine stabile, chiamate ripetute identiche e rispetto di `MaximumModuleCount`. Il core resta indipendente da Unreal e non contiene riferimenti a primitive Engine. Stati: CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED.
