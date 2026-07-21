@@ -119,3 +119,7 @@ Esiti cloud: `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED`, `CO
 Stato: implementato adapter runtime per `ARARomanProceduralBuildingActor` con primitive Engine, soft reference, batching per categoria e API Blueprint per generazione, cancellazione, rigenerazione e conteggi. Non sono stati importati asset Fab e non sono stati creati asset o mappe.
 
 Stati dichiarati dopo i controlli cloud: CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED, PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED. Restano locali: UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED. Stato asset: FAB_ASSET_IMPORT_NOT_STARTED.
+
+## Prompt 22 — Sistema generale degli archetipi edilizi romani
+
+Stato: implementati nel core standard i sei archetipi `AtriumDomus`, `Thermopolium`, `Fullonica`, `Pistrinum`, `PublicLatrine`, `SmallTemple`; registrati gli altri archetipi come `ARCHETYPE_PLANNED`; estese categorie placeholder e API runtime/Blueprint. Stati: CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED, BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED, UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED, FAB_ASSET_IMPORT_NOT_STARTED.

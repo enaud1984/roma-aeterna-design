@@ -46,3 +46,7 @@ Il core produce layout astratti, non asset, non componenti e non collisioni. Pla
 ## Aggiornamento Prompt 21 — test determinismo e categorie
 
 I test standard CMake/CTest sono stati ampliati per controllare categorie attese nei quattro layout, trasformazioni finite, bounds coerenti, ordine stabile, chiamate ripetute identiche e rispetto di `MaximumModuleCount`. Il core resta indipendente da Unreal e non contiene riferimenti a primitive Engine. Stati: CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED.
+
+## Aggiornamento Prompt 22 — BuildingPlan
+
+Il core espone `GenerateBuildingPlan`, generatori per i sei archetipi, `ValidateBuildingPlan`, `ValidateRoomConnectivity`, `ValidateProductionFlow`, `ValidateWaterFlow`, `ValidateInteractionPoints`, `ValidateArchetypeRequirements`, `ConvertBuildingPlanToPlacements`, `GetImplementedArchetypes` e `IsArchetypeImplemented`. Stati cloud attesi dopo test: `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED`, `CORE_CPP_SANITIZERS_PASSED`.

@@ -6,7 +6,7 @@
 #include "RARomanModularTypes.generated.h"
 
 UENUM(BlueprintType)
-enum class ERARomanBuildingType : uint8 { SimpleHouse UMETA(DisplayName="Casa semplice"), Taberna UMETA(DisplayName="Taberna"), Domus UMETA(DisplayName="Domus"), Insula UMETA(DisplayName="Insula"), Temple UMETA(DisplayName="Tempio"), Basilica UMETA(DisplayName="Basilica"), Portico UMETA(DisplayName="Portico"), AdministrativeBuilding UMETA(DisplayName="Edificio amministrativo"), StreetSection UMETA(DisplayName="Tratto di strada"), Plaza UMETA(DisplayName="Piazza"), ForumSection UMETA(DisplayName="Sezione di foro") };
+enum class ERARomanBuildingType : uint8 { SimpleHouse, Domus, AtriumDomus, PeristyleDomus, RichDomus, UrbanVilla, SuburbanVilla, Insula, UpperFloorApartment, Taberna, Thermopolium, Popina, Caupona, BakeryShop, MarketStall, Bookshop, ArtisanShop, Warehouse, Horrea, Macellum, Market, Fullonica, Pistrinum, Winery, OilWorkshop, DyeWorkshop, PotteryWorkshop, MetalWorkshop, TextileWorkshop, MillingWorkshop, BakeryProduction, PressingWorkshop, Forum, Basilica, Curia, Comitium, AdministrativeBuilding, PublicLatrine, PublicFountain, BathComplex, Palaestra, Theatre, Odeon, Amphitheatre, Portico, PublicGarden, SmallTemple, Temple, Sanctuary, Shrine, Lararium, Sacellum, ImperialCultBuilding, Brothel, Tavern, Inn, Stable, MedicalShop, BarberShop, School, Library, MonumentalArch, CityGate, CityWall, WatchTower, AqueductSection, StreetSection, Plaza, StatueBase, Monument, FountainMonument, ForumSection };
 UENUM(BlueprintType)
 enum class ERARomanWallType : uint8 { Plaster UMETA(DisplayName="Intonaco"), Stone UMETA(DisplayName="Pietra"), Brick UMETA(DisplayName="Mattone"), OpusReticulatum UMETA(DisplayName="Opus reticulatum"), OpusIncertum UMETA(DisplayName="Opus incertum"), OpusLatericium UMETA(DisplayName="Opus latericium"), OpusMixtum UMETA(DisplayName="Opus mixtum") };
 UENUM(BlueprintType)
@@ -14,7 +14,19 @@ enum class ERARomanRoofType : uint8 { Flat UMETA(DisplayName="Piano"), SingleSlo
 UENUM(BlueprintType)
 enum class ERARomanArchitecturalOrder : uint8 { None UMETA(DisplayName="Nessuno"), Tuscan UMETA(DisplayName="Toscano"), Doric UMETA(DisplayName="Dorico"), Ionic UMETA(DisplayName="Ionico"), Corinthian UMETA(DisplayName="Corinzio"), Composite UMETA(DisplayName="Composito") };
 UENUM(BlueprintType)
-enum class ERARomanModuleCategory : uint8 { Wall, Door, Window, Corner, Column, Capital, Base, Arch, Beam, Floor, Roof, Stair, Podium, Portico, Prop, Vegetation, Decoration };
+enum class ERARomanBuildingFunction : uint8 { Residential, Commercial, Productive, Religious, Civic, Entertainment, Hospitality, Sanitary, Hydraulic, Monumental, MixedUse };
+UENUM(BlueprintType)
+enum class ERARomanBuildingScale : uint8 { Small, Medium, Large, Monumental };
+UENUM(BlueprintType)
+enum class ERARomanAccessType : uint8 { StreetAccess, SecondaryAccess, ServiceAccess, CourtyardAccess, MonumentalAccess, ShopfrontAccess, InternalAccess };
+UENUM(BlueprintType)
+enum class ERARomanZoneFunction : uint8 { Public, Private, Service, Commercial, Productive, Religious, Sanitary, Hydraulic, Circulation, Storage, AnimalWork, OpenSpace };
+UENUM(BlueprintType)
+enum class ERARomanRoomType : uint8 { Fauces, Vestibulum, Atrium, Impluvium, Ala, Cubiculum, Tablinum, Triclinium, Oecus, Exedra, Culina, DomesticLatrine, Corridor, Stair, Peristyle, Hortus, ServiceRoom, Storage, UpperRoom, Shopfront, CounterArea, DiningArea, KitchenArea, CustomerArea, BackRoom, StreetPortico, CommercialStorage, WorkshopArea, MillingArea, OvenArea, PressArea, WashingArea, DryingArea, DyeingArea, AnimalDriveArea, FurnaceArea, RawMaterialStorage, FinishedGoodsStorage, PreparationArea, Nave, Aisle, Tribunal, CouncilHall, AssemblyArea, BathHall, Apodyterium, Frigidarium, Tepidarium, Calidarium, Laconicum, PalaestraRoom, Auditorium, Cavea, Orchestra, Scaena, Arena, Vomitorium, PublicLatrineHall, Cella, Pronaos, PodiumRoom, AltarArea, SacredCourt, ProcessionalArea, ForumPlaza, MarketCourt, PorticoRoom, FountainCourt, MonumentCourt, Garden, Street, Alley, ServiceYard };
+UENUM(BlueprintType)
+enum class ERARomanInteractionPointType : uint8 { Entrance, Exit, WorkerPosition, CustomerPosition, QueuePosition, VendorPosition, ServicePosition, StoragePosition, WorshipPosition, SeatingPosition, AnimalPathPoint, RestrictedPosition, InteractionPosition };
+UENUM(BlueprintType)
+enum class ERARomanModuleCategory : uint8 { Wall, Door, Window, Corner, Column, Capital, Base, Arch, Beam, Floor, Roof, Stair, Podium, Portico, Prop, Vegetation, Decoration, Counter, Dolium, Basin, WaterChannel, Millstone, Oven, Furnace, Workbench, Seat, LatrineSeat, Drain, Altar, Shrine, StatueMarker, AnimalPath, ShopSign, Shelf, StorageContainer, GardenFeature, Fountain, MosaicZone, FrescoZone, DryingRack, WorkPlatform, RotationArm, ServiceBasin, InteractionMarker };
 UENUM(BlueprintType)
 enum class ERARomanWealthLevel : uint8 { Poor, Modest, Comfortable, Wealthy, Elite, Monumental };
 UENUM(BlueprintType)
@@ -67,6 +79,19 @@ struct ROMAETERNA_API FRARomanBuildingParameters { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bGenerateInterior = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 RandomSeed = 1337;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 MaximumModuleCount = 256;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") ERARomanBuildingScale BuildingScale = ERARomanBuildingScale::Medium;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") int32 SocialStatusRank = 2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") int32 DecorationLevel = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") int32 UrbanDensityLevel = 2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasUpperFloor = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasWater = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasDrainage = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasFireArea = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasServiceAccess = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasCustomerArea = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasProductionArea = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") bool bHasStorage = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") int32 MaximumRoomCount = 64;
 };
 USTRUCT(BlueprintType)
 struct ROMAETERNA_API FRARomanModulePlacement { GENERATED_BODY()
@@ -77,6 +102,19 @@ struct ROMAETERNA_API FRARomanModulePlacement { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 BayIndex = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bMirrored = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TArray<FName> PlacementTags;
+};
+USTRUCT(BlueprintType)
+struct ROMAETERNA_API FRARomanBuildingInteractionPoint { GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName PointId = NAME_None;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") ERARomanInteractionPointType Type = ERARomanInteractionPointType::InteractionPosition;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FVector Position = FVector::ZeroVector;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FRotator Orientation = FRotator::ZeroRotator;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 FloorIndex = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 Capacity = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TArray<FName> Tags;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName ZoneId = NAME_None;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bAccessible = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FString Role;
 };
 USTRUCT(BlueprintType)
 struct ROMAETERNA_API FRARomanGenerationMessage { GENERATED_BODY()
@@ -93,4 +131,10 @@ struct ROMAETERNA_API FRARomanGenerationResult { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 EstimatedModuleCount = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 EstimatedTriangleBudget = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FBox Bounds = FBox(EForceInit::ForceInit);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 GeneratedRoomCount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 GeneratedZoneCount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 GeneratedInteractionPointCount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 ProductionDeviceCount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") int32 WaterFeatureCount = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TArray<FRARomanBuildingInteractionPoint> InteractionPoints;
 };

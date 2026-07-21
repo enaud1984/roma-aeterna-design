@@ -19,4 +19,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") static FRARomanGenerationResult BuildTabernaLayout(const FRARomanBuildingParameters& Parameters);
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") static FRARomanGenerationResult BuildTempleLayout(const FRARomanBuildingParameters& Parameters);
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") static FRARomanGenerationResult BuildStreetSectionLayout(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GenerateBuildingByType(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GenerateAtriumDomusPlan(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GenerateThermopoliumPlan(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GenerateFullonicaPlan(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GeneratePistrinumPlan(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GeneratePublicLatrinePlan(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") static FRARomanGenerationResult GenerateSmallTemplePlan(const FRARomanBuildingParameters& Parameters);
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") static TArray<ERARomanBuildingType> GetImplementedArchetypes();
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") static bool IsArchetypeImplemented(ERARomanBuildingType Type);
 };

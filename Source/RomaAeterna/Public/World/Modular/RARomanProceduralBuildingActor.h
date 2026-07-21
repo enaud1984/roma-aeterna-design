@@ -49,6 +49,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") void ClearGeneratedLayout();
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") FString GetGenerationSummary() const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") int32 GetGeneratedInstanceCount() const { return GeneratedInstanceCount; }
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateBuildingByType(ERARomanBuildingType Type);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateAtriumDomus();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateThermopolium();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateFullonica();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePistrinum();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePublicLatrine();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateSmallTemple();
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetGeneratedRoomCount() const { return LastGenerationResult.GeneratedRoomCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetGeneratedZoneCount() const { return LastGenerationResult.GeneratedZoneCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetGeneratedInteractionPointCount() const { return LastGenerationResult.GeneratedInteractionPointCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetProductionDeviceCount() const { return LastGenerationResult.ProductionDeviceCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetWaterFeatureCount() const { return LastGenerationResult.WaterFeatureCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") FString GetBuildingPlanSummary() const;
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") TArray<ERARomanBuildingType> GetImplementedArchetypes() const;
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") bool IsArchetypeImplemented(ERARomanBuildingType Type) const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") int32 GetInstanceCountByCategory(ERARomanModuleCategory Category) const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") bool HasGeneratedBuilding() const { return GeneratedInstanceCount > 0 && LastGenerationResult.bSuccess; }
 

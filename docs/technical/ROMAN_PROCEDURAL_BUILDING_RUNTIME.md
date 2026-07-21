@@ -36,3 +36,7 @@ Il runtime imposta custom data per istanza, ma senza materiale dedicato il color
 - UNREAL_AUTOMATION_REQUIRED
 - MANUAL_VERIFICATION_REQUIRED
 - FAB_ASSET_IMPORT_NOT_STARTED
+
+## Aggiornamento Prompt 22 — archetipi edilizi
+
+Il runtime può richiamare sei generatori specializzati tramite API Blueprint (`GenerateAtriumDomus`, `GenerateThermopolium`, `GenerateFullonica`, `GeneratePistrinum`, `GeneratePublicLatrine`, `GenerateSmallTemple`). I nuovi placeholder restano primitive Engine transient: cubi per banconi, canali, altari e sedute; cilindri per dolia e macine; coni/cilindri per marker di statua. Le limitazioni visive restano `MANUAL_VERIFICATION_REQUIRED` e `UNREAL_AUTOMATION_REQUIRED`.
