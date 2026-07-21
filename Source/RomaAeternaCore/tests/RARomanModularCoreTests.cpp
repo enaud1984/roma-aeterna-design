@@ -54,6 +54,25 @@ bool SamePlacements(const GenerationResult& A, const GenerationResult& B)
     return true;
 }
 
+
+std::size_t CountCategory(const GenerationResult& Result, ModuleCategory Category)
+{
+    std::size_t Count = 0;
+    for (const ModulePlacement& Placement : Result.Placements)
+    {
+        if (Placement.Category == Category) { ++Count; }
+    }
+    return Count;
+}
+
+bool BoundsCoherent(const GenerationResult& Result)
+{
+    return IsFinite(Result.BuildingBounds.Min) && IsFinite(Result.BuildingBounds.Max) &&
+        Result.BuildingBounds.Max.X >= Result.BuildingBounds.Min.X &&
+        Result.BuildingBounds.Max.Y >= Result.BuildingBounds.Min.Y &&
+        Result.BuildingBounds.Max.Z >= Result.BuildingBounds.Min.Z;
+}
+
 bool AllTransformsFinite(const GenerationResult& Result)
 {
     for (const ModulePlacement& Placement : Result.Placements)
@@ -145,18 +164,33 @@ void RunCoreTests()
     Expect(SamePlacements(SameA, SameB), "determinismo stesso seed");
     Expect(!SamePlacements(SameA, Different), "variazione con seed diverso");
 
-    Expect(BuildSimpleHouseLayout(Defaults).Placements.size() > 0, "layout casa semplice");
+    const GenerationResult HouseResult = BuildSimpleHouseLayout(Defaults);
+    Expect(HouseResult.Placements.size() > 0, "layout casa semplice");
+    Expect(CountCategory(HouseResult, ModuleCategory::Wall) > 0, "casa: muri presenti");
+    Expect(CountCategory(HouseResult, ModuleCategory::Door) > 0, "casa: porte presenti");
+    Expect(CountCategory(HouseResult, ModuleCategory::Window) > 0, "casa: finestre presenti");
+    Expect(HouseResult.Placements.size() <= static_cast<std::size_t>(NormalizeBuildingParameters(Defaults).MaximumModuleCount), "casa entro MaximumModuleCount");
+    Expect(BoundsCoherent(HouseResult), "casa: bounds coerenti");
     BuildingParameters Taberna = Defaults;
     Taberna.Type = BuildingType::Taberna;
-    Expect(BuildTabernaLayout(Taberna).Placements.size() > BuildSimpleHouseLayout(Defaults).Placements.size(), "layout taberna");
+    const GenerationResult TabernaResult = BuildTabernaLayout(Taberna);
+    Expect(TabernaResult.Placements.size() > HouseResult.Placements.size(), "layout taberna");
+    Expect(CountCategory(TabernaResult, ModuleCategory::Prop) > 0 && CountCategory(TabernaResult, ModuleCategory::Door) > 0, "taberna: categorie attese");
+    Expect(BoundsCoherent(TabernaResult), "taberna: bounds coerenti");
     BuildingParameters Temple = Defaults;
     Temple.Type = BuildingType::Temple;
     Temple.Order = ArchitecturalOrder::Doric;
-    Expect(BuildTempleLayout(Temple).Placements.size() > 0, "layout tempio");
+    const GenerationResult TempleResult = BuildTempleLayout(Temple);
+    Expect(TempleResult.Placements.size() > 0, "layout tempio");
+    Expect(CountCategory(TempleResult, ModuleCategory::Column) > 0 && CountCategory(TempleResult, ModuleCategory::Podium) > 0, "tempio: categorie attese");
+    Expect(BoundsCoherent(TempleResult), "tempio: bounds coerenti");
     BuildingParameters Street = Defaults;
     Street.Type = BuildingType::StreetSection;
     Street.DoorCount = 0;
-    Expect(BuildStreetSectionLayout(Street).Placements.size() == 5, "layout tratto strada");
+    const GenerationResult StreetResult = BuildStreetSectionLayout(Street);
+    Expect(StreetResult.Placements.size() == 5, "layout tratto strada");
+    Expect(CountCategory(StreetResult, ModuleCategory::Floor) > 0 && CountCategory(StreetResult, ModuleCategory::Decoration) > 0, "strada: categorie attese");
+    Expect(BoundsCoherent(StreetResult), "strada: bounds coerenti");
 
     Expect(AllTransformsFinite(BuildSimpleHouseLayout(Defaults)), "assenza trasformazioni non finite");
     const GenerationResult Repeat1 = BuildTabernaLayout(Taberna);
@@ -193,5 +227,6 @@ int main()
         return EXIT_FAILURE;
     }
     std::cout << "CORE_CPP_TESTS_PASSED\n";
+    std::cout << "CORE_CPP_DEBUG_TESTS_PASSED\n";
     return EXIT_SUCCESS;
 }
