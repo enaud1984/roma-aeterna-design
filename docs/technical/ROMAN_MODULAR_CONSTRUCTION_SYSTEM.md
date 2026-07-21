@@ -48,3 +48,9 @@ The Roman Modular Construction Kit is a future content system for assembling Rom
 ## Missing components strategy
 
 If a free asset is unavailable, prefer: existing-module assembly, simple parametric modeling, procedural generation, Unreal Modeling Tools, Geometry Script, Blueprint construction, PCG scattering, Blender scripting, procedural materials, decals, public-domain photogrammetry reference, or historically plausible simplification. Purchases are forbidden.
+
+## Aggiornamento Prompt 20 — fondazione C++
+
+La fondazione runtime del sistema modulare è stata introdotta con enumerazioni Blueprint, strutture dati, catalogo moduli, stile architettonico, libreria regole, validatore e actor procedurale. I layout ora disponibili sono astratti e deterministici per casa semplice, taberna, tempio e tratto di strada. Non vengono creati asset, mappe o dipendenze UnrealEd; i riferimenti a mesh e materiali restano soft e sicuri in assenza di contenuti importati.
+
+Le verifiche Unreal restano `LOCAL_UNREAL_TEST_REQUIRED`; Play In Editor resta `MANUAL_VERIFICATION_REQUIRED`.
