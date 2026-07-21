@@ -16,3 +16,9 @@ Stato: `LOCAL_UNREAL_TEST_REQUIRED` perché nel cloud non viene dichiarata esecu
 ## Verifiche manuali casa
 
 Eseguire `Scripts/BuildRomanModularFoundation.ps1 -EngineRoot <UE_5.8>`, lanciare gli Automation Tests e aprire una mappa di prova non canonica. Play In Editor rimane `MANUAL_VERIFICATION_REQUIRED`.
+
+## Aggiornamento Prompt 20-BIS — test core standard
+
+Il core standard è testabile nel cloud con CMake e CTest. I risultati sono documentati in `docs/testing/ROMAN_MODULAR_CORE_CPP_TEST_REPORT.md` con stati `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED` e `CORE_CPP_SANITIZERS_PASSED`.
+
+La verifica del modulo Unreal resta separata: `UNREAL_BUILD_REQUIRED` e `UNREAL_AUTOMATION_REQUIRED`. Play In Editor resta `MANUAL_VERIFICATION_REQUIRED`.

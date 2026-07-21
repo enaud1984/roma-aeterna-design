@@ -1,14 +1,327 @@
 #include "World/Modular/RARomanBuildingRuleLibrary.h"
-static FRARomanGenerationMessage Msg(FName C,const FString& M,bool E){FRARomanGenerationMessage R;R.Code=C;R.Message=M;R.bIsError=E;return R;}
-static bool Fin(float V){return FMath::IsFinite(V);} static void Add(FRARomanGenerationResult& R,FName Id,ERARomanModuleCategory C,FVector L,int32 Bay=0,int32 Floor=0){FRARomanModulePlacement P;P.ModuleId=Id;P.Category=C;P.Transform.SetLocation(L);P.BayIndex=Bay;P.FloorIndex=Floor;R.GeneratedPlacements.Add(P);} 
-bool URARomanBuildingRuleLibrary::ValidateBuildingParameters(const FRARomanBuildingParameters& P,TArray<FRARomanGenerationMessage>& W,TArray<FRARomanGenerationMessage>& E){ if(!Fin(P.WidthCm)||!Fin(P.DepthCm)||!Fin(P.FloorHeightCm)||!Fin(P.WallThicknessCm))E.Add(Msg("NonFinite",TEXT("Valore numerico non finito."),true)); if(P.WidthCm<=0||P.DepthCm<=0)E.Add(Msg("InvalidDimensions",TEXT("Dimensioni non positive."),true)); if(P.FloorCount<1)E.Add(Msg("InvalidFloorCount",TEXT("Numero piani non valido."),true)); if(P.BayCount<1)E.Add(Msg("InvalidBayCount",TEXT("Numero campate non valido."),true)); if(P.FloorHeightCm<220)E.Add(Msg("LowFloorHeight",TEXT("Altezza piano bassa."),false)); if(P.DoorCount<1&&P.BuildingType!=ERARomanBuildingType::StreetSection)E.Add(Msg("MissingAccess",TEXT("Edificio senza accesso."),true)); if(P.DoorCount>P.BayCount)E.Add(Msg("TooManyDoors",TEXT("Porte superiori alle campate."),true)); if(P.WindowCount>P.BayCount*FMath::Max(1,P.FloorCount)*4)E.Add(Msg("TooManyWindows",TEXT("Finestre eccessive."),true)); if(P.MaximumModuleCount<1)E.Add(Msg("InvalidModuleLimit",TEXT("MaximumModuleCount non valido."),true)); if(P.BuildingType==ERARomanBuildingType::Temple&&P.ArchitecturalOrder==ERARomanArchitecturalOrder::None)W.Add(Msg("TempleOrderApproximation",TEXT("Tempio senza ordine: verrà normalizzato."),false)); if(EstimateRequiredModules(P)>P.MaximumModuleCount)E.Add(Msg("ModuleLimitExceeded",TEXT("Stima moduli superiore al limite."),true)); return E.Num()==0; }
-FRARomanBuildingParameters URARomanBuildingRuleLibrary::NormalizeBuildingParameters(const FRARomanBuildingParameters& P){ FRARomanBuildingParameters N=P; N.WidthCm=FMath::Max(FMath::IsFinite(N.WidthCm)?N.WidthCm:800.f,100.f); N.DepthCm=FMath::Max(FMath::IsFinite(N.DepthCm)?N.DepthCm:600.f,100.f); N.FloorCount=FMath::Clamp(N.FloorCount,1,8); N.BayCount=FMath::Clamp(N.BayCount,1,64); N.FloorHeightCm=FMath::Clamp(FMath::IsFinite(N.FloorHeightCm)?N.FloorHeightCm:320.f,220.f,800.f); N.WallThicknessCm=FMath::Clamp(FMath::IsFinite(N.WallThicknessCm)?N.WallThicknessCm:40.f,10.f,200.f); N.DoorCount=FMath::Clamp(N.DoorCount,N.BuildingType==ERARomanBuildingType::StreetSection?0:1,N.BayCount); N.WindowCount=FMath::Clamp(N.WindowCount,0,N.BayCount*N.FloorCount*4); N.MaximumModuleCount=FMath::Clamp(N.MaximumModuleCount,1,10000); if(N.BuildingType==ERARomanBuildingType::Temple&&N.ArchitecturalOrder==ERARomanArchitecturalOrder::None)N.ArchitecturalOrder=ERARomanArchitecturalOrder::Tuscan; return N; }
-float URARomanBuildingRuleLibrary::CalculateBayWidth(const FRARomanBuildingParameters& P){return NormalizeBuildingParameters(P).WidthCm/FMath::Max(1,NormalizeBuildingParameters(P).BayCount);} float URARomanBuildingRuleLibrary::CalculateFloorHeight(const FRARomanBuildingParameters& P){return NormalizeBuildingParameters(P).FloorHeightCm;} FBox URARomanBuildingRuleLibrary::CalculateBuildingBounds(const FRARomanBuildingParameters& P){auto N=NormalizeBuildingParameters(P); return FBox(FVector(0,0,0),FVector(N.WidthCm,N.DepthCm,N.FloorCount*N.FloorHeightCm));} int32 URARomanBuildingRuleLibrary::EstimateRequiredModules(const FRARomanBuildingParameters& P){auto N=NormalizeBuildingParameters(P); int32 Perimeter=N.BayCount*2+FMath::Max(1,FMath::RoundToInt(N.DepthCm/CalculateBayWidth(N)))*2; return Perimeter*N.FloorCount+N.DoorCount+N.WindowCount+2+(N.BuildingType==ERARomanBuildingType::Temple?N.BayCount*2+4:0);} 
-bool URARomanBuildingRuleLibrary::IsModuleCompatible(const FRARomanModuleDefinition& M,const FRARomanBuildingParameters& P,const TArray<FName>& Tags){ if(M.ModuleId.IsNone())return false; if(M.Dimensions.WidthCm<=0||M.Dimensions.GridSizeCm<=0)return false; for(FName T:Tags){ if(!M.Tags.Contains(T))return false;} return P.BuildingType!=ERARomanBuildingType::Temple || M.Category!=ERARomanModuleCategory::Window; }
-TArray<FRARomanModuleDefinition> URARomanBuildingRuleLibrary::SelectCompatibleModules(const URARomanModuleCatalog* C,const FRARomanBuildingParameters& P,ERARomanModuleCategory Cat,const TArray<FName>& Tags,TArray<FRARomanGenerationMessage>& W){TArray<FRARomanModuleDefinition> R; if(!C){W.Add(Msg("NullCatalog",TEXT("Catalogo nullo: layout astratto senza asset reali."),false)); return R;} for(const auto& M:C->Modules){if(M.Category==Cat&&IsModuleCompatible(M,P,Tags))R.Add(M);} return R;}
-FTransform URARomanBuildingRuleLibrary::CalculateGridAlignedTransform(const FVector& L,const FRotator& R,const FVector& S,float G,float Step){ const float Grid=FMath::Max(G,1.f), RotStep=FMath::Max(Step,1.f); FVector A(FMath::GridSnap(L.X,Grid),FMath::GridSnap(L.Y,Grid),FMath::GridSnap(L.Z,Grid)); FRotator RR(0,FMath::GridSnap(R.Yaw,RotStep),0); return FTransform(RR,A,FVector(FMath::Max(S.X,0.01f),FMath::Max(S.Y,0.01f),FMath::Max(S.Z,0.01f))); }
-static FRARomanGenerationResult Finish(FRARomanGenerationResult R,const FRARomanBuildingParameters& P){R.EstimatedModuleCount=R.GeneratedPlacements.Num(); R.EstimatedTriangleBudget=R.EstimatedModuleCount*500; R.Bounds=URARomanBuildingRuleLibrary::CalculateBuildingBounds(P); R.bSuccess=R.Errors.Num()==0&&R.EstimatedModuleCount<=URARomanBuildingRuleLibrary::NormalizeBuildingParameters(P).MaximumModuleCount; if(!R.bSuccess&&R.Errors.Num()==0)R.Errors.Add(Msg("ModuleLimitExceeded",TEXT("Limite moduli superato."),true)); return R;}
-FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildSimpleHouseLayout(const FRARomanBuildingParameters& P){auto N=NormalizeBuildingParameters(P); FRARomanGenerationResult R; TArray<FRARomanGenerationMessage> W,E; ValidateBuildingParameters(N,W,E); R.Warnings=W; R.Errors=E; float B=CalculateBayWidth(N); for(int32 i=0;i<N.BayCount;i++){Add(R,"wall",ERARomanModuleCategory::Wall,{i*B,0,0},i);Add(R,"wall",ERARomanModuleCategory::Wall,{i*B,N.DepthCm,0},i);} Add(R,"door",ERARomanModuleCategory::Door,{B,0,0}); for(int32 i=0;i<N.WindowCount;i++)Add(R,"window",ERARomanModuleCategory::Window,{(i+1)*B,N.DepthCm,140},i); Add(R,"floor",ERARomanModuleCategory::Floor,{N.WidthCm/2,N.DepthCm/2,0}); Add(R,"roof",ERARomanModuleCategory::Roof,{N.WidthCm/2,N.DepthCm/2,N.FloorHeightCm}); return Finish(R,N);} 
-FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildTabernaLayout(const FRARomanBuildingParameters& P){auto N=NormalizeBuildingParameters(P); FRARomanGenerationResult R=BuildSimpleHouseLayout(N); Add(R,"shop_opening",ERARomanModuleCategory::Door,{N.WidthCm/2,0,0}); Add(R,"counter_prop",ERARomanModuleCategory::Prop,{N.WidthCm/2,120,90}); Add(R,"backroom_wall",ERARomanModuleCategory::Wall,{0,N.DepthCm*0.65f,0}); R.Warnings.Add(Msg("HISTORICAL_APPROXIMATION",TEXT("Retrobottega semplificato in partizione astratta."),false)); return Finish(R,N);} 
-FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildTempleLayout(const FRARomanBuildingParameters& P){auto N=NormalizeBuildingParameters(P); N.BuildingType=ERARomanBuildingType::Temple; N.DoorCount=FMath::Max(1,N.DoorCount); FRARomanGenerationResult R; Add(R,"podium",ERARomanModuleCategory::Podium,{N.WidthCm/2,N.DepthCm/2,30}); Add(R,"front_stair",ERARomanModuleCategory::Stair,{N.WidthCm/2,-100,0}); for(int32 i=0;i<N.BayCount;i++){Add(R,"column",ERARomanModuleCategory::Column,{i*CalculateBayWidth(N),0,80},i);Add(R,"beam",ERARomanModuleCategory::Beam,{i*CalculateBayWidth(N),0,N.FloorHeightCm},i);} Add(R,"cella_wall",ERARomanModuleCategory::Wall,{N.WidthCm/2,N.DepthCm/2,80}); Add(R,"roof",ERARomanModuleCategory::Roof,{N.WidthCm/2,N.DepthCm/2,N.FloorHeightCm+120}); R.Warnings.Add(Msg("HISTORICAL_APPROXIMATION",TEXT("Colonnato e cella sono modelli astratti."),false)); return Finish(R,N);} 
-FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildStreetSectionLayout(const FRARomanBuildingParameters& P){auto N=NormalizeBuildingParameters(P); N.BuildingType=ERARomanBuildingType::StreetSection; FRARomanGenerationResult R; Add(R,"roadway",ERARomanModuleCategory::Floor,{N.WidthCm/2,N.DepthCm/2,0}); Add(R,"left_sidewalk",ERARomanModuleCategory::Floor,{0,N.DepthCm/2,15}); Add(R,"right_sidewalk",ERARomanModuleCategory::Floor,{N.WidthCm,N.DepthCm/2,15}); Add(R,"raised_crossing",ERARomanModuleCategory::Floor,{N.WidthCm/2,N.DepthCm/2,25}); Add(R,"facade_space",ERARomanModuleCategory::Decoration,{N.WidthCm+100,N.DepthCm/2,0}); R.Warnings.Add(Msg("HISTORICAL_APPROXIMATION",TEXT("Sezione stradale parametrica senza materiali finali."),false)); return Finish(R,N);} 
+
+#include "RARomanModularCore.h"
+
+namespace
+{
+using namespace RomaAeternaCore;
+
+BuildingType ToCoreBuildingType(ERARomanBuildingType Type)
+{
+	switch (Type)
+	{
+	case ERARomanBuildingType::Taberna: return BuildingType::Taberna;
+	case ERARomanBuildingType::Domus: return BuildingType::Domus;
+	case ERARomanBuildingType::Insula: return BuildingType::Insula;
+	case ERARomanBuildingType::Temple: return BuildingType::Temple;
+	case ERARomanBuildingType::Basilica: return BuildingType::Basilica;
+	case ERARomanBuildingType::Portico: return BuildingType::Portico;
+	case ERARomanBuildingType::AdministrativeBuilding: return BuildingType::AdministrativeBuilding;
+	case ERARomanBuildingType::StreetSection: return BuildingType::StreetSection;
+	case ERARomanBuildingType::Plaza: return BuildingType::Plaza;
+	case ERARomanBuildingType::ForumSection: return BuildingType::ForumSection;
+	case ERARomanBuildingType::SimpleHouse:
+	default: return BuildingType::SimpleHouse;
+	}
+}
+
+ERARomanBuildingType FromCoreBuildingType(BuildingType Type)
+{
+	switch (Type)
+	{
+	case BuildingType::Taberna: return ERARomanBuildingType::Taberna;
+	case BuildingType::Domus: return ERARomanBuildingType::Domus;
+	case BuildingType::Insula: return ERARomanBuildingType::Insula;
+	case BuildingType::Temple: return ERARomanBuildingType::Temple;
+	case BuildingType::Basilica: return ERARomanBuildingType::Basilica;
+	case BuildingType::Portico: return ERARomanBuildingType::Portico;
+	case BuildingType::AdministrativeBuilding: return ERARomanBuildingType::AdministrativeBuilding;
+	case BuildingType::StreetSection: return ERARomanBuildingType::StreetSection;
+	case BuildingType::Plaza: return ERARomanBuildingType::Plaza;
+	case BuildingType::ForumSection: return ERARomanBuildingType::ForumSection;
+	case BuildingType::SimpleHouse:
+	default: return ERARomanBuildingType::SimpleHouse;
+	}
+}
+
+RoofType ToCoreRoofType(ERARomanRoofType Type)
+{
+	switch (Type)
+	{
+	case ERARomanRoofType::Flat: return RoofType::Flat;
+	case ERARomanRoofType::SingleSlope: return RoofType::SingleSlope;
+	case ERARomanRoofType::Portico: return RoofType::Portico;
+	case ERARomanRoofType::Compluvium: return RoofType::Compluvium;
+	case ERARomanRoofType::Monumental: return RoofType::Monumental;
+	case ERARomanRoofType::DoubleSlope:
+	default: return RoofType::DoubleSlope;
+	}
+}
+
+ERARomanRoofType FromCoreRoofType(RoofType Type)
+{
+	switch (Type)
+	{
+	case RoofType::Flat: return ERARomanRoofType::Flat;
+	case RoofType::SingleSlope: return ERARomanRoofType::SingleSlope;
+	case RoofType::Portico: return ERARomanRoofType::Portico;
+	case RoofType::Compluvium: return ERARomanRoofType::Compluvium;
+	case RoofType::Monumental: return ERARomanRoofType::Monumental;
+	case RoofType::DoubleSlope:
+	default: return ERARomanRoofType::DoubleSlope;
+	}
+}
+
+ArchitecturalOrder ToCoreOrder(ERARomanArchitecturalOrder Order)
+{
+	switch (Order)
+	{
+	case ERARomanArchitecturalOrder::Tuscan: return ArchitecturalOrder::Tuscan;
+	case ERARomanArchitecturalOrder::Doric: return ArchitecturalOrder::Doric;
+	case ERARomanArchitecturalOrder::Ionic: return ArchitecturalOrder::Ionic;
+	case ERARomanArchitecturalOrder::Corinthian: return ArchitecturalOrder::Corinthian;
+	case ERARomanArchitecturalOrder::Composite: return ArchitecturalOrder::Composite;
+	case ERARomanArchitecturalOrder::None:
+	default: return ArchitecturalOrder::None;
+	}
+}
+
+ERARomanArchitecturalOrder FromCoreOrder(ArchitecturalOrder Order)
+{
+	switch (Order)
+	{
+	case ArchitecturalOrder::Tuscan: return ERARomanArchitecturalOrder::Tuscan;
+	case ArchitecturalOrder::Doric: return ERARomanArchitecturalOrder::Doric;
+	case ArchitecturalOrder::Ionic: return ERARomanArchitecturalOrder::Ionic;
+	case ArchitecturalOrder::Corinthian: return ERARomanArchitecturalOrder::Corinthian;
+	case ArchitecturalOrder::Composite: return ERARomanArchitecturalOrder::Composite;
+	case ArchitecturalOrder::None:
+	default: return ERARomanArchitecturalOrder::None;
+	}
+}
+
+
+ERARomanModuleCategory FromCoreModuleCategory(RomaAeternaCore::ModuleCategory Category)
+{
+	switch (Category)
+	{
+	case RomaAeternaCore::ModuleCategory::Door: return ERARomanModuleCategory::Door;
+	case RomaAeternaCore::ModuleCategory::Window: return ERARomanModuleCategory::Window;
+	case RomaAeternaCore::ModuleCategory::Corner: return ERARomanModuleCategory::Corner;
+	case RomaAeternaCore::ModuleCategory::Column: return ERARomanModuleCategory::Column;
+	case RomaAeternaCore::ModuleCategory::Capital: return ERARomanModuleCategory::Capital;
+	case RomaAeternaCore::ModuleCategory::Base: return ERARomanModuleCategory::Base;
+	case RomaAeternaCore::ModuleCategory::Arch: return ERARomanModuleCategory::Arch;
+	case RomaAeternaCore::ModuleCategory::Beam: return ERARomanModuleCategory::Beam;
+	case RomaAeternaCore::ModuleCategory::Floor: return ERARomanModuleCategory::Floor;
+	case RomaAeternaCore::ModuleCategory::Roof: return ERARomanModuleCategory::Roof;
+	case RomaAeternaCore::ModuleCategory::Stair: return ERARomanModuleCategory::Stair;
+	case RomaAeternaCore::ModuleCategory::Podium: return ERARomanModuleCategory::Podium;
+	case RomaAeternaCore::ModuleCategory::Portico: return ERARomanModuleCategory::Portico;
+	case RomaAeternaCore::ModuleCategory::Prop: return ERARomanModuleCategory::Prop;
+	case RomaAeternaCore::ModuleCategory::Vegetation: return ERARomanModuleCategory::Vegetation;
+	case RomaAeternaCore::ModuleCategory::Decoration: return ERARomanModuleCategory::Decoration;
+	case RomaAeternaCore::ModuleCategory::Wall:
+	default: return ERARomanModuleCategory::Wall;
+	}
+}
+
+BuildingParameters ToCoreParameters(const FRARomanBuildingParameters& Parameters)
+{
+	BuildingParameters Core;
+	Core.Type = ToCoreBuildingType(Parameters.BuildingType);
+	Core.WidthCm = Parameters.WidthCm;
+	Core.DepthCm = Parameters.DepthCm;
+	Core.FloorCount = Parameters.FloorCount;
+	Core.BayCount = Parameters.BayCount;
+	Core.FloorHeightCm = Parameters.FloorHeightCm;
+	Core.WallThicknessCm = Parameters.WallThicknessCm;
+	Core.DoorCount = Parameters.DoorCount;
+	Core.WindowCount = Parameters.WindowCount;
+	Core.Roof = ToCoreRoofType(Parameters.RoofType);
+	Core.Order = ToCoreOrder(Parameters.ArchitecturalOrder);
+	Core.RandomSeed = Parameters.RandomSeed;
+	Core.MaximumModuleCount = Parameters.MaximumModuleCount;
+	return Core;
+}
+
+FRARomanBuildingParameters FromCoreParameters(const BuildingParameters& Core, const FRARomanBuildingParameters& Original)
+{
+	FRARomanBuildingParameters Parameters = Original;
+	Parameters.BuildingType = FromCoreBuildingType(Core.Type);
+	Parameters.WidthCm = static_cast<float>(Core.WidthCm);
+	Parameters.DepthCm = static_cast<float>(Core.DepthCm);
+	Parameters.FloorCount = Core.FloorCount;
+	Parameters.BayCount = Core.BayCount;
+	Parameters.FloorHeightCm = static_cast<float>(Core.FloorHeightCm);
+	Parameters.WallThicknessCm = static_cast<float>(Core.WallThicknessCm);
+	Parameters.DoorCount = Core.DoorCount;
+	Parameters.WindowCount = Core.WindowCount;
+	Parameters.RoofType = FromCoreRoofType(Core.Roof);
+	Parameters.ArchitecturalOrder = FromCoreOrder(Core.Order);
+	Parameters.RandomSeed = Core.RandomSeed;
+	Parameters.MaximumModuleCount = Core.MaximumModuleCount;
+	return Parameters;
+}
+
+FRARomanGenerationMessage FromCoreMessage(const GenerationMessage& Message)
+{
+	FRARomanGenerationMessage Result;
+	Result.Code = FName(UTF8_TO_TCHAR(Message.Code.c_str()));
+	Result.Message = UTF8_TO_TCHAR(Message.Message.c_str());
+	Result.bIsError = Message.bIsError;
+	return Result;
+}
+
+FRARomanGenerationResult FromCoreResult(const GenerationResult& Core)
+{
+	FRARomanGenerationResult Result;
+	Result.bSuccess = Core.bSuccess;
+	Result.EstimatedModuleCount = Core.EstimatedModuleCount;
+	Result.EstimatedTriangleBudget = Core.EstimatedTriangleBudget;
+	Result.Bounds = FBox(
+		FVector(Core.BuildingBounds.Min.X, Core.BuildingBounds.Min.Y, Core.BuildingBounds.Min.Z),
+		FVector(Core.BuildingBounds.Max.X, Core.BuildingBounds.Max.Y, Core.BuildingBounds.Max.Z));
+	for (const GenerationMessage& Warning : Core.Warnings)
+	{
+		Result.Warnings.Add(FromCoreMessage(Warning));
+	}
+	for (const GenerationMessage& Error : Core.Errors)
+	{
+		Result.Errors.Add(FromCoreMessage(Error));
+	}
+	for (const ModulePlacement& Placement : Core.Placements)
+	{
+		FRARomanModulePlacement UnrealPlacement;
+		UnrealPlacement.ModuleId = FName(UTF8_TO_TCHAR(Placement.ModuleId.c_str()));
+		UnrealPlacement.Category = FromCoreModuleCategory(Placement.Category);
+		UnrealPlacement.Transform = FTransform(
+			FRotator(Placement.TransformValue.RotationDegrees.X, Placement.TransformValue.RotationDegrees.Y, Placement.TransformValue.RotationDegrees.Z),
+			FVector(Placement.TransformValue.Location.X, Placement.TransformValue.Location.Y, Placement.TransformValue.Location.Z),
+			FVector(Placement.TransformValue.Scale.X, Placement.TransformValue.Scale.Y, Placement.TransformValue.Scale.Z));
+		UnrealPlacement.FloorIndex = Placement.FloorIndex;
+		UnrealPlacement.BayIndex = Placement.BayIndex;
+		UnrealPlacement.bMirrored = Placement.bMirrored;
+		for (const std::string& Tag : Placement.Tags)
+		{
+			UnrealPlacement.PlacementTags.Add(FName(UTF8_TO_TCHAR(Tag.c_str())));
+		}
+		Result.GeneratedPlacements.Add(UnrealPlacement);
+	}
+	return Result;
+}
+} // namespace
+
+bool URARomanBuildingRuleLibrary::ValidateBuildingParameters(const FRARomanBuildingParameters& Parameters, TArray<FRARomanGenerationMessage>& OutWarnings, TArray<FRARomanGenerationMessage>& OutErrors)
+{
+	std::vector<GenerationMessage> CoreWarnings;
+	std::vector<GenerationMessage> CoreErrors;
+	const bool bValid = RomaAeternaCore::ValidateBuildingParameters(ToCoreParameters(Parameters), CoreWarnings, CoreErrors);
+	for (const GenerationMessage& Warning : CoreWarnings)
+	{
+		OutWarnings.Add(FromCoreMessage(Warning));
+	}
+	for (const GenerationMessage& Error : CoreErrors)
+	{
+		OutErrors.Add(FromCoreMessage(Error));
+	}
+	return bValid;
+}
+
+FRARomanBuildingParameters URARomanBuildingRuleLibrary::NormalizeBuildingParameters(const FRARomanBuildingParameters& Parameters)
+{
+	return FromCoreParameters(RomaAeternaCore::NormalizeBuildingParameters(ToCoreParameters(Parameters)), Parameters);
+}
+
+float URARomanBuildingRuleLibrary::CalculateBayWidth(const FRARomanBuildingParameters& Parameters)
+{
+	return static_cast<float>(RomaAeternaCore::CalculateBayWidth(ToCoreParameters(Parameters)));
+}
+
+float URARomanBuildingRuleLibrary::CalculateFloorHeight(const FRARomanBuildingParameters& Parameters)
+{
+	return static_cast<float>(RomaAeternaCore::CalculateFloorHeight(ToCoreParameters(Parameters)));
+}
+
+FBox URARomanBuildingRuleLibrary::CalculateBuildingBounds(const FRARomanBuildingParameters& Parameters)
+{
+	const Bounds CoreBounds = RomaAeternaCore::CalculateBuildingBounds(ToCoreParameters(Parameters));
+	return FBox(FVector(CoreBounds.Min.X, CoreBounds.Min.Y, CoreBounds.Min.Z), FVector(CoreBounds.Max.X, CoreBounds.Max.Y, CoreBounds.Max.Z));
+}
+
+int32 URARomanBuildingRuleLibrary::EstimateRequiredModules(const FRARomanBuildingParameters& Parameters)
+{
+	return RomaAeternaCore::EstimateRequiredModules(ToCoreParameters(Parameters));
+}
+
+bool URARomanBuildingRuleLibrary::IsModuleCompatible(const FRARomanModuleDefinition& Module, const FRARomanBuildingParameters& Parameters, const TArray<FName>& RequiredTags)
+{
+	if (Module.ModuleId.IsNone() || Module.Dimensions.WidthCm <= 0.0f || Module.Dimensions.GridSizeCm <= 0.0f)
+	{
+		return false;
+	}
+	for (FName Tag : RequiredTags)
+	{
+		if (!Module.Tags.Contains(Tag))
+		{
+			return false;
+		}
+	}
+	return Parameters.BuildingType != ERARomanBuildingType::Temple || Module.Category != ERARomanModuleCategory::Window;
+}
+
+TArray<FRARomanModuleDefinition> URARomanBuildingRuleLibrary::SelectCompatibleModules(const URARomanModuleCatalog* Catalog, const FRARomanBuildingParameters& Parameters, ERARomanModuleCategory Category, const TArray<FName>& RequiredTags, TArray<FRARomanGenerationMessage>& OutWarnings)
+{
+	TArray<FRARomanModuleDefinition> Result;
+	if (!Catalog)
+	{
+		FRARomanGenerationMessage Warning;
+		Warning.Code = "NullCatalog";
+		Warning.Message = TEXT("Catalogo nullo: layout astratto senza asset reali.");
+		Warning.bIsError = false;
+		OutWarnings.Add(Warning);
+		return Result;
+	}
+	for (const FRARomanModuleDefinition& Module : Catalog->Modules)
+	{
+		if (Module.Category == Category && IsModuleCompatible(Module, Parameters, RequiredTags))
+		{
+			Result.Add(Module);
+		}
+	}
+	return Result;
+}
+
+FTransform URARomanBuildingRuleLibrary::CalculateGridAlignedTransform(const FVector& Location, const FRotator& Rotation, const FVector& Scale, float GridSizeCm, float RotationStepDegrees)
+{
+	const Transform CoreTransform = RomaAeternaCore::CalculateGridAlignedTransform(
+		{Location.X, Location.Y, Location.Z},
+		{Rotation.Pitch, Rotation.Yaw, Rotation.Roll},
+		{Scale.X, Scale.Y, Scale.Z},
+		GridSizeCm,
+		RotationStepDegrees);
+	return FTransform(
+		FRotator(CoreTransform.RotationDegrees.X, CoreTransform.RotationDegrees.Y, CoreTransform.RotationDegrees.Z),
+		FVector(CoreTransform.Location.X, CoreTransform.Location.Y, CoreTransform.Location.Z),
+		FVector(CoreTransform.Scale.X, CoreTransform.Scale.Y, CoreTransform.Scale.Z));
+}
+
+FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildSimpleHouseLayout(const FRARomanBuildingParameters& Parameters)
+{
+	return FromCoreResult(RomaAeternaCore::BuildSimpleHouseLayout(ToCoreParameters(Parameters)));
+}
+
+FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildTabernaLayout(const FRARomanBuildingParameters& Parameters)
+{
+	return FromCoreResult(RomaAeternaCore::BuildTabernaLayout(ToCoreParameters(Parameters)));
+}
+
+FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildTempleLayout(const FRARomanBuildingParameters& Parameters)
+{
+	return FromCoreResult(RomaAeternaCore::BuildTempleLayout(ToCoreParameters(Parameters)));
+}
+
+FRARomanGenerationResult URARomanBuildingRuleLibrary::BuildStreetSectionLayout(const FRARomanBuildingParameters& Parameters)
+{
+	return FromCoreResult(RomaAeternaCore::BuildStreetSectionLayout(ToCoreParameters(Parameters)));
+}

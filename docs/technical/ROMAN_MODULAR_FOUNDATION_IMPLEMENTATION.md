@@ -41,3 +41,9 @@ Alcune regole contengono `HISTORICAL_APPROXIMATION` perché la forma storica è 
 ## Prompt 21
 
 Collegare cataloghi reali, scegliere moduli per stile, raffinare le regole di facciata, introdurre domus/insula/foro e verificare collisioni in editor.
+
+## Aggiornamento Prompt 20-BIS — core C++ standard
+
+Gli algoritmi puri sono stati estratti in `Source/RomaAeternaCore/include/RARomanModularCore.h`. `URARomanBuildingRuleLibrary` e `URARomanConstructionValidator` ora agiscono da adapter verso il core, mantenendo invariata l'API Blueprint pubblica e riducendo la duplicazione della logica critica.
+
+Stati cloud: `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED`, `CORE_CPP_SANITIZERS_PASSED`. Stati locali ancora richiesti: `UNREAL_BUILD_REQUIRED`, `UNREAL_AUTOMATION_REQUIRED`, `MANUAL_VERIFICATION_REQUIRED`.

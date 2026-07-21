@@ -12,6 +12,7 @@ def need(path, tokens=()):
         if t not in s: errors.append(f"token mancante in {path}: {t}")
     return s
 files=[
+'Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h','Source/RomaAeterna/Public/World/Modular/RARomanModuleCatalog.h','Source/RomaAeterna/Private/World/Modular/RARomanModuleCatalog.cpp','Source/RomaAeterna/Public/World/Modular/RARomanBuildingStyleData.h','Source/RomaAeterna/Public/World/Modular/RARomanBuildingRuleLibrary.h','Source/RomaAeterna/Private/World/Modular/RARomanBuildingRuleLibrary.cpp','Source/RomaAeterna/Public/World/Modular/RARomanConstructionValidator.h','Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h','Source/RomaAeterna/Private/Tests/RARomanModularFoundationTests.cpp','docs/technical/ROMAN_MODULAR_FOUNDATION_IMPLEMENTATION.md','docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md','docs/audits/PROMPT_20_IMPLEMENTATION_REPORT.md','CMakeLists.txt','Source/RomaAeternaCore/CMakeLists.txt','Source/RomaAeternaCore/include/RARomanModularCore.h','Source/RomaAeternaCore/tests/RARomanModularCoreTests.cpp','docs/technical/ROMAN_MODULAR_CORE_CPP.md','docs/testing/ROMAN_MODULAR_CORE_CPP_TEST_REPORT.md','docs/audits/PROMPT_20_BIS_IMPLEMENTATION_REPORT.md']
 'Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h','Source/RomaAeterna/Public/World/Modular/RARomanModuleCatalog.h','Source/RomaAeterna/Private/World/Modular/RARomanModuleCatalog.cpp','Source/RomaAeterna/Public/World/Modular/RARomanBuildingStyleData.h','Source/RomaAeterna/Public/World/Modular/RARomanBuildingRuleLibrary.h','Source/RomaAeterna/Private/World/Modular/RARomanBuildingRuleLibrary.cpp','Source/RomaAeterna/Public/World/Modular/RARomanConstructionValidator.h','Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h','Source/RomaAeterna/Private/Tests/RARomanModularFoundationTests.cpp','docs/technical/ROMAN_MODULAR_FOUNDATION_IMPLEMENTATION.md','docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md','docs/audits/PROMPT_20_IMPLEMENTATION_REPORT.md']
 for f in files: need(f)
 types=need('Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h')
@@ -41,6 +42,17 @@ for m in re.finditer(r'class\s+(?!ROMAETERNA_API)([UA]RARoman\w+)', public_heade
 for kind,pat in [('class',r'class\s+(?:ROMAETERNA_API\s+)?([UA]RARoman\w+)'),('enum',r'enum class\s+(ERARoman\w+)'),('struct',r'struct\s+ROMAETERNA_API\s+(FRARoman\w+)')]:
     vals=re.findall(pat, allcpp); dup={v for v in vals if vals.count(v)>1}
     if dup: errors.append(f'{kind} duplicate: {sorted(dup)}')
+
+core_paths=[root/'Source/RomaAeternaCore/include/RARomanModularCore.h', root/'Source/RomaAeternaCore/tests/RARomanModularCoreTests.cpp']
+core_text='\n'.join(p.read_text(encoding='utf-8',errors='ignore') for p in core_paths)
+for token in ['NormalizeBuildingParameters','ValidateBuildingParameters','CalculateBayWidth','CalculateFloorHeight','CalculateGridAlignedValue','CalculateGridAlignedTransform','CalculateBuildingBounds','EstimateRequiredModules','BuildSimpleHouseLayout','BuildTabernaLayout','BuildTempleLayout','BuildStreetSectionLayout','ValidatePlacements','IsFinite','IsScaleValid','EnforceMaximumModuleCount']:
+    if token not in core_text: errors.append(f'API core mancante: {token}')
+for unreal in ['UObject','USTRUCT','UENUM','FVector','FTransform','TArray','FString','FName','TSoftObjectPtr','GENERATED_BODY','CoreMinimal.h','Engine/']:
+    if unreal in core_text: errors.append(f'dipendenza Unreal nel core: {unreal}')
+for state in ['CORE_CPP_DEBUG_TESTS_PASSED','CORE_CPP_RELEASE_TESTS_PASSED','CORE_CPP_SANITIZERS_PASSED','UNREAL_BUILD_REQUIRED','UNREAL_AUTOMATION_REQUIRED','MANUAL_VERIFICATION_REQUIRED']:
+    docs='\n'.join((root/f).read_text(encoding='utf-8',errors='ignore') for f in files if f.startswith('docs/') or f=='IMPLEMENTATION_STATUS.md')
+    if state not in docs: errors.append(f'stato test non documentato: {state}')
+
 build=need('Source/RomaAeterna/RomaAeterna.Build.cs')
 if 'UnrealEd' in build: errors.append('Build.cs contiene UnrealEd')
 # deterministic python checks
