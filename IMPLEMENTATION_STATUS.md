@@ -94,6 +94,10 @@ Pompeii production geometry, economy, advanced NPC simulation, missions, combat,
 - **Licenses:** verify locally before import where marked `UNKNOWN`, `FREE_MANUAL_REVIEW_REQUIRED` or per-file license.
 - **Prompt 18 PIE test:** remains `MANUAL_VERIFICATION_REQUIRED`.
 
+## Aggiornamento asset gratuiti Fab FREE-027–FREE-036
+
+Stato: preservati nel branch di lavoro i candidati Fab gratuiti `FREE-027`–`FREE-036` in `docs/assets/FREE_ASSET_REGISTER.md`. Sono marcati `FREE_MANUAL_REVIEW_REQUIRED` e non implicano import, download o creazione di asset binari.
+
 ## Prompt 20 — Fondazione sistema modulare romano
 
 Stato: implementazione C++ e controlli statici cloud completati.
