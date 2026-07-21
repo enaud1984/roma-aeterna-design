@@ -59,3 +59,9 @@ The generator should accept: building type, width, depth, floors, bays, roof typ
 7. PCG dressing for streets and courtyards.
 8. RomanStreetPrototype local map.
 9. Domus/temple/forum section prototypes.
+
+## Aggiornamento Prompt 20 — piano eseguibile astratto
+
+Il piano procedurale dispone ora di una base C++ che calcola placement astratti tramite `URARomanBuildingRuleLibrary`. La sequenza prevista è: normalizzazione parametri, validazione, stima moduli, generazione placement, validazione transform e ricostruzione opzionale dei placeholder runtime tramite `ARARomanProceduralBuildingActor`.
+
+Per il Prompt 21 le attività prioritarie sono: creare cataloghi Data Asset reali, collegare mesh importate, aggiungere domus e insula, raffinare gli stili locali e convalidare i risultati in Unreal Engine 5.8.

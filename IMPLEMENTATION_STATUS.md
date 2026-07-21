@@ -93,3 +93,19 @@ Pompeii production geometry, economy, advanced NPC simulation, missions, combat,
 - **Local implementation:** RomanStreetPrototype and all real imports remain `LOCAL_UNREAL_TASK`.
 - **Licenses:** verify locally before import where marked `UNKNOWN`, `FREE_MANUAL_REVIEW_REQUIRED` or per-file license.
 - **Prompt 18 PIE test:** remains `MANUAL_VERIFICATION_REQUIRED`.
+
+## Prompt 20 — Fondazione sistema modulare romano
+
+Stato: implementazione C++ e controlli statici cloud completati.
+
+Aggiunto modello dati Blueprint per tipologie edilizie, materiali murari, coperture, ordini architettonici, categorie modulo, ricchezza e degrado. Aggiunti catalogo moduli, dati stile, libreria regole, validatore e actor runtime predisposto a placeholder tecnici. Layout astratti supportati: casa semplice, taberna, tempio e tratto di strada.
+
+Test C++ Automation aggiunti ma marcati `LOCAL_UNREAL_TEST_REQUIRED`. Play In Editor resta `MANUAL_VERIFICATION_REQUIRED`. Nessun file `.uasset` o `.umap` creato o modificato.
+
+## Prompt 20-BIS — Core C++ standard testabile nel cloud
+
+Stato: completato nel cloud per il core standard.
+
+Creato `Source/RomaAeternaCore` con API C++17 indipendente da Unreal per normalizzazione, validazione, snap griglia, bounds, stime, determinismo e layout astratti. Aggiornati gli adapter Unreal in modo che `URARomanBuildingRuleLibrary` e `URARomanConstructionValidator` richiamino il core senza duplicare la logica critica.
+
+Esiti cloud: `CORE_CPP_DEBUG_TESTS_PASSED`, `CORE_CPP_RELEASE_TESTS_PASSED`, `CORE_CPP_SANITIZERS_PASSED`. Restano locali: `UNREAL_BUILD_REQUIRED`, `UNREAL_AUTOMATION_REQUIRED`, `MANUAL_VERIFICATION_REQUIRED`.
