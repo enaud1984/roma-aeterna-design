@@ -58,3 +58,38 @@ The initial build exposed a missing `.NET Framework SDK` dependency required by 
 ## Explicitly excluded
 
 Pompeii production geometry, economy, advanced NPC simulation, missions, combat, religion, politics, production UI and final assets are not implemented.
+
+## Prompt 19 — Fab Roman asset research and import planning
+
+- **Status:** `PARTIAL_COMPLETE_DOCUMENTATION_ONLY`.
+- **Branch:** `codex/prompt-19-fab-roman-assets`.
+- **Fab research:** `PARTIAL_COMPLETE`; public Fab pages were reviewed without login, purchase, download or import.
+- **Assets found:** 18.
+- **APPROVED:** 0; no asset was promoted because per-asset license/price evidence must be captured locally before approval.
+- **CANDIDATE:** 0.
+- **REJECTED:** 4; bundle/temple/fantasy assets are not suitable for the first free/manual Roman street import pass.
+- **MANUAL_REVIEW_REQUIRED:** 14; public pages did not expose all required price, license, UE 5.8, download-size, LOD, collision or material data.
+- **Asset import:** none performed; no new `.uasset` or `.umap` files were created.
+- **Manual import:** must be executed at home/local Unreal Engine 5.8 through Fab after license and price confirmation.
+- **License verification:** still required per asset where marked `MANUAL_REVIEW_REQUIRED`.
+- **Unreal Editor tests:** still required after any real asset import.
+- **Prompt 18 PIE test:** remains `MANUAL_VERIFICATION_REQUIRED` and is not changed by Prompt 19.
+- **Next recommended prompt:** local Fab import dry run for the first five priority assets, followed by Unreal Editor scale/collision/material validation and a local-only `RomanStreetPrototype` map duplication plan.
+
+## Prompt 19 revision — zero-budget multi-library modular assets
+
+- **Status:** `PARTIAL_COMPLETE_DOCUMENTATION_ONLY`, expanded after review comments.
+- **Budget:** `0 euro`; paid assets are excluded from operational import lists.
+- **Research scope:** multi-library free sources: Fab free/manual review, Poly Haven, ambientCG, Sketchfab downloadable/free, Kenney, OpenGameArt, Wikimedia Commons, Smithsonian Open Access, The Met Open Access, NASA/media references and other CC0-compatible sources.
+- **Assets/sources analyzed:** 26.
+- **Free verified assets/sources:** 13 `APPROVED_FREE` entries; 22 entries remain zero-budget usable, manual-review or reference-only; 4 paid/fantasy entries are rejected.
+- **CC0 entries:** 9.
+- **Public Domain entries:** 5.
+- **CC BY entries:** 3.
+- **Fab free entries:** 2, both still require local per-asset license capture before import.
+- **Paid assets rejected:** 3; one additional fantasy-style entry is rejected for historical accuracy.
+- **Modular strategy:** Roman Modular Construction Kit documented for walls, roofs, facades, floors, urban elements, props and vegetation.
+- **Asset import:** none performed; no `.uasset`, `.umap` or downloaded binary asset files were created.
+- **Local implementation:** RomanStreetPrototype and all real imports remain `LOCAL_UNREAL_TASK`.
+- **Licenses:** verify locally before import where marked `UNKNOWN`, `FREE_MANUAL_REVIEW_REQUIRED` or per-file license.
+- **Prompt 18 PIE test:** remains `MANUAL_VERIFICATION_REQUIRED`.
