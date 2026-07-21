@@ -12,8 +12,26 @@ def need(path, tokens=()):
         if t not in s: errors.append(f"token mancante in {path}: {t}")
     return s
 files=[
-'Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h','Source/RomaAeterna/Public/World/Modular/RARomanModuleCatalog.h','Source/RomaAeterna/Private/World/Modular/RARomanModuleCatalog.cpp','Source/RomaAeterna/Public/World/Modular/RARomanBuildingStyleData.h','Source/RomaAeterna/Public/World/Modular/RARomanBuildingRuleLibrary.h','Source/RomaAeterna/Private/World/Modular/RARomanBuildingRuleLibrary.cpp','Source/RomaAeterna/Public/World/Modular/RARomanConstructionValidator.h','Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h','Source/RomaAeterna/Private/Tests/RARomanModularFoundationTests.cpp','docs/technical/ROMAN_MODULAR_FOUNDATION_IMPLEMENTATION.md','docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md','docs/audits/PROMPT_20_IMPLEMENTATION_REPORT.md','CMakeLists.txt','Source/RomaAeternaCore/CMakeLists.txt','Source/RomaAeternaCore/include/RARomanModularCore.h','Source/RomaAeternaCore/tests/RARomanModularCoreTests.cpp','docs/technical/ROMAN_MODULAR_CORE_CPP.md','docs/testing/ROMAN_MODULAR_CORE_CPP_TEST_REPORT.md','docs/audits/PROMPT_20_BIS_IMPLEMENTATION_REPORT.md']
-'Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h','Source/RomaAeterna/Public/World/Modular/RARomanModuleCatalog.h','Source/RomaAeterna/Private/World/Modular/RARomanModuleCatalog.cpp','Source/RomaAeterna/Public/World/Modular/RARomanBuildingStyleData.h','Source/RomaAeterna/Public/World/Modular/RARomanBuildingRuleLibrary.h','Source/RomaAeterna/Private/World/Modular/RARomanBuildingRuleLibrary.cpp','Source/RomaAeterna/Public/World/Modular/RARomanConstructionValidator.h','Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h','Source/RomaAeterna/Private/Tests/RARomanModularFoundationTests.cpp','docs/technical/ROMAN_MODULAR_FOUNDATION_IMPLEMENTATION.md','docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md','docs/audits/PROMPT_20_IMPLEMENTATION_REPORT.md']
+    'Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h',
+    'Source/RomaAeterna/Public/World/Modular/RARomanModuleCatalog.h',
+    'Source/RomaAeterna/Private/World/Modular/RARomanModuleCatalog.cpp',
+    'Source/RomaAeterna/Public/World/Modular/RARomanBuildingStyleData.h',
+    'Source/RomaAeterna/Public/World/Modular/RARomanBuildingRuleLibrary.h',
+    'Source/RomaAeterna/Private/World/Modular/RARomanBuildingRuleLibrary.cpp',
+    'Source/RomaAeterna/Public/World/Modular/RARomanConstructionValidator.h',
+    'Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h',
+    'Source/RomaAeterna/Private/Tests/RARomanModularFoundationTests.cpp',
+    'docs/technical/ROMAN_MODULAR_FOUNDATION_IMPLEMENTATION.md',
+    'docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md',
+    'docs/audits/PROMPT_20_IMPLEMENTATION_REPORT.md',
+    'CMakeLists.txt',
+    'Source/RomaAeternaCore/CMakeLists.txt',
+    'Source/RomaAeternaCore/include/RARomanModularCore.h',
+    'Source/RomaAeternaCore/tests/RARomanModularCoreTests.cpp',
+    'docs/technical/ROMAN_MODULAR_CORE_CPP.md',
+    'docs/testing/ROMAN_MODULAR_CORE_CPP_TEST_REPORT.md',
+    'docs/audits/PROMPT_20_BIS_IMPLEMENTATION_REPORT.md'
+]
 for f in files: need(f)
 types=need('Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h')
 for e in 'ERARomanBuildingType ERARomanWallType ERARomanRoofType ERARomanArchitecturalOrder ERARomanModuleCategory ERARomanWealthLevel ERARomanDegradationLevel'.split():
