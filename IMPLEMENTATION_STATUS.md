@@ -167,3 +167,18 @@ La mappa `/Game/Maps/RomaAeternaVerticalSlice` contiene PlayerStart, strada tecn
 - `FAB_ASSET_IMPORT_NOT_STARTED`
 
 Vertical slice consolidata con due fronti urbani, dieci archetipi, strada romana tecnica, palette procedurale, catalogo visuale sostituibile, HUD diagnostico e silhouette umana placeholder. Nessun asset Fab, Marketplace o esterno importato.
+
+## Prompt 26 — Catalogo degli asset reali romani
+
+- `ASSET_REQUIREMENTS_COMPLETED`
+- `FAB_RESEARCH_COMPLETED`
+- `ASSET_CANDIDATES_VERIFIED`
+- `ASSET_SHORTLIST_COMPLETED`
+- `ASSET_IMPORT_PLAN_COMPLETED`
+- `ASSET_LICENSE_REVIEW_REQUIRED`
+- `ASSET_CATALOG_STATIC_CHECKS_PASSED`
+- `FAB_ASSET_IMPORT_NOT_STARTED`
+- `MANUAL_ACQUISITION_REQUIRED`
+- `GIT_LFS_RECOMMENDED`
+
+Catalogati 26 candidati reali Fab/Epic e definite shortlist gratuita, valore e alta qualità. Nessun acquisto, download, import, `.uasset` o `.umap` è stato effettuato; prezzi, disponibilità e dati `NOT_VERIFIED` richiedono conferma manuale. La build Unreal non è richiesta perché il Prompt 26 modifica soltanto documentazione e automazione Python.

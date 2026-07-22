@@ -22,3 +22,9 @@
 - Source, autore e License provati localmente prima del versionamento.
 
 Categorie prioritarie: Wall, WallWithDoor, WallWithWindow, Column, Arch, Roof, Floor, RoadStone, Sidewalk, FountainBasin, Furnace, Counter, Storage, Press, AqueductArch e SewerChannel. Ogni sostituzione deve preservare PerformanceTier e IntendedArchetypes. Valori plausibili ma non certi restano `HISTORICAL_APPROXIMATION`.
+
+## Gate di integrazione Prompt 26
+
+Il catalogo machine-readable è `docs/assets/roman_asset_catalog.json`; il registro fonti è il gate legale/provenienza, mentre `ROMAN_ASSET_VISUAL_CATALOG_MAPPING.md` propone gli alias senza cambiare il runtime. La pipeline approvata è: scoperta → verifica scheda → shortlist → approvazione utente → cattura licenza/account → staging UE 5.8 → audit scala/pivot/collisione/LOD/materiali → wrapper Roma Aeterna → soft reference nel catalogo → build e test → commit atomico.
+
+Gli asset vendor restano sotto `Content/ThirdParty/<Fonte>/<Vendor>` senza rename; gli adattamenti di progetto vanno sotto `Content/RomaAeterna`. Il fallback tecnico non viene rimosso. L'importazione si arresta se compatibilità, licenza, provenienza o impatto Git non sono verificati. `GIT_LFS_RECOMMENDED` prima del batch 1.

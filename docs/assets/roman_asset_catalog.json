@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "verified_date": "2026-07-22",
+  "price_notice": "Prezzi osservati il 2026-07-22, IVA inclusa quando mostrata dal browser Fab; disponibilita, sconti, valuta e imposte sono soggetti a variazione.",
+  "field_defaults": {
+    "price_observed": "NOT_VERIFIED",
+    "price_type": "NOT_VERIFIED",
+    "license_declared": "NOT_VERIFIED",
+    "unreal_compatibility": "NOT_VERIFIED",
+    "ue_versions": "NOT_VERIFIED",
+    "content_type": "NOT_VERIFIED",
+    "package_size": "NOT_VERIFIED",
+    "mesh_count": "NOT_VERIFIED",
+    "material_count": "NOT_VERIFIED",
+    "texture_count": "NOT_VERIFIED",
+    "lod": "NOT_VERIFIED",
+    "nanite": "NOT_VERIFIED",
+    "collisions": "NOT_VERIFIED",
+    "animations": "NOT_VERIFIED",
+    "skeleton": "NOT_VERIFIED",
+    "dependencies": "NOT_VERIFIED",
+    "plugins": "NOT_VERIFIED",
+    "add_to_project": "NOT_VERIFIED"
+  },
+  "score_formula": {
+    "TechnicalScore": "media(modularity, visual_quality, ue58_compatibility, performance, collisions, lod_nanite)",
+    "HistoricalScore": "A=5, B=3.5, C=2, D=0.5",
+    "IntegrationScore": "media(ease_of_integration, variation, visual_catalog_compatibility)",
+    "PriorityScore": "0.35*TechnicalScore + 0.25*HistoricalScore + 0.25*IntegrationScore + 0.15*value_for_money"
+  },
+  "p0_categories": [
+    "architecture_kit", "materials", "road", "roof", "doors_windows",
+    "commercial_props", "vegetation", "human_character", "locomotion"
+  ],
+  "candidates": [
+    {
+      "asset_id": "RA-FAB-ARCH-001", "name": "Roman City Modular Kit", "author": "Scale Z", "source": "Fab",
+      "url": "https://www.fab.com/listings/30a19e14-7683-4deb-8e37-372a7efddaa4", "verified_date": "2026-07-22",
+      "price_observed": "EUR 96.28 Personal / EUR 139.08 Professional, IVA inclusa", "price_type": "paid",
+      "license_declared": "Fab Standard License", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "ue_versions": "5.1-5.6",
+      "content_type": "modular environment", "nanite": "NOT_DECLARED", "animations": "NOT_APPLICABLE", "skeleton": "Epic Skeleton scale declared",
+      "intended_use": "urban architecture, roads, props and foliage", "intended_archetypes": ["DomusMedia", "Taberna", "AqueductSection"],
+      "categories": ["architecture_kit", "materials", "road", "roof", "doors_windows", "commercial_props"],
+      "historical_grade": "B", "historical_risk": "Roman-inspired commercial pack; individual modules require anachronism review", "technical_risk": "No declared UE 5.8 version",
+      "scores": {"modularity":5,"visual_quality":4,"ue58_compatibility":2,"performance":3,"collisions":2,"lod_nanite":2,"ease_of_integration":4,"variation":4,"visual_catalog_compatibility":5,"value_for_money":3,"TechnicalScore":3.0,"HistoricalScore":3.5,"IntegrationScore":4.33,"PriorityScore":3.46}
+    },
+    {
+      "asset_id": "RA-FAB-ARCH-002", "name": "Rome Fantasy Pack I", "author": "Quantum Theory", "source": "Fab",
+      "url": "https://www.fab.com/listings/ee25b792-66cb-4f69-8621-16d553840368", "verified_date": "2026-07-22",
+      "price_observed": "EUR 90.92 Personal / EUR 160.47 Professional, IVA inclusa", "price_type": "paid", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "modular environment", "animations": "NOT_APPLICABLE",
+      "intended_use": "middle/lower-class Roman urban fabric", "intended_archetypes": ["PopularHouse", "MixedUseHouse", "Taberna"],
+      "categories": ["architecture_kit", "materials", "roof", "doors_windows", "commercial_props"],
+      "historical_grade": "B", "historical_risk": "Fantasy label and Blueprint workflow require component-level review", "technical_risk": "Version, counts, LOD and collision NOT_VERIFIED",
+      "scores": {"modularity":5,"visual_quality":4,"ue58_compatibility":2,"performance":2,"collisions":2,"lod_nanite":2,"ease_of_integration":3,"variation":5,"visual_catalog_compatibility":4,"value_for_money":3,"TechnicalScore":2.83,"HistoricalScore":3.5,"IntegrationScore":4.0,"PriorityScore":3.32}
+    },
+    {
+      "asset_id": "RA-FAB-ARCH-003", "name": "Roman Palace, Arena & Dungeon - Rome Fantasy Modular Kit", "author": "Wester Games", "source": "Fab",
+      "url": "https://www.fab.com/listings/c73d016f-0776-4707-9b2c-a5e101b5966e", "verified_date": "2026-07-22",
+      "price_observed": "EUR 26.74 Personal / EUR 53.49 Professional, IVA inclusa; -50% fino al 2026-07-30 05:59", "price_type": "paid_sale",
+      "license_declared": "Fab Standard License", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "modular environment",
+      "mesh_count": "NOT_VERIFIED; listing declares structural modules and props", "material_count": "4K tileable materials; count NOT_VERIFIED", "animations": "NOT_APPLICABLE",
+      "intended_use": "structural modules, roof tiles, props, sewer references", "intended_archetypes": ["RichDomus", "BathComplex", "SewerSection"],
+      "categories": ["architecture_kit", "materials", "road", "roof", "doors_windows", "commercial_props"],
+      "historical_grade": "B", "historical_risk": "Palace/fantasy emphasis; unsuitable pieces must be excluded", "technical_risk": "Legacy lighting description and UE 5.8 NOT_VERIFIED",
+      "scores": {"modularity":5,"visual_quality":4,"ue58_compatibility":2,"performance":2,"collisions":2,"lod_nanite":2,"ease_of_integration":3,"variation":4,"visual_catalog_compatibility":4,"value_for_money":5,"TechnicalScore":2.83,"HistoricalScore":3.5,"IntegrationScore":3.67,"PriorityScore":3.53}
+    },
+    {
+      "asset_id": "RA-FAB-ARCH-004", "name": "Roman Forum & Senate - Modular Environment Fatpack", "author": "Leartes Studios", "source": "Fab",
+      "url": "https://www.fab.com/listings/f77629af-0941-4d4a-a88a-7a34441ce6d2", "verified_date": "2026-07-22",
+      "price_observed": "EUR 64.18 Personal / EUR 128.38 Professional, IVA inclusa", "price_type": "paid", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "Unreal Engine format; UE 5.8 listed", "ue_versions": "5.2-5.8", "content_type": "modular environment", "mesh_count": "over 300 unique meshes",
+      "nanite": "declared enabled", "dependencies": "ULAT integration offered; acquisition workflow requires manual review", "plugins": "NOT_VERIFIED",
+      "intended_use": "forum, senate, market stalls, monumental and public architecture", "intended_archetypes": ["Forum", "Basilica", "Curia", "Market"],
+      "categories": ["architecture_kit", "materials", "roof", "doors_windows", "commercial_props", "vegetation"],
+      "historical_grade": "B", "historical_risk": "Grand/imperial styling must not dominate ordinary Pompeian fabric", "technical_risk": "Large pack; memory and optional tool dependency review required",
+      "scores": {"modularity":5,"visual_quality":5,"ue58_compatibility":5,"performance":3,"collisions":2,"lod_nanite":4,"ease_of_integration":3,"variation":5,"visual_catalog_compatibility":5,"value_for_money":4,"TechnicalScore":4.0,"HistoricalScore":3.5,"IntegrationScore":4.33,"PriorityScore":3.96}
+    },
+    {
+      "asset_id": "RA-FAB-ARCH-005", "name": "Modular Roman Temple", "author": "NOT_VERIFIED", "source": "Fab",
+      "url": "https://www.fab.com/listings/a5099bdc-1f5d-4a6b-a7cd-b783c692e5a8", "verified_date": "2026-07-22",
+      "price_type": "paid", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "modular architecture",
+      "mesh_count": "63", "material_count": "4 master + 15 instances", "texture_count": "33", "dependencies": "4 Blueprints, 3 level instances",
+      "intended_use": "temples, columns and porticoes", "intended_archetypes": ["SmallTemple", "LargeTemple", "Sanctuary"],
+      "categories": ["architecture_kit", "materials", "doors_windows"], "historical_grade": "B", "historical_risk": "Orders and proportions require expert review", "technical_risk": "Price, UE version, collision and LOD NOT_VERIFIED",
+      "scores": {"modularity":5,"visual_quality":4,"ue58_compatibility":2,"performance":3,"collisions":2,"lod_nanite":2,"ease_of_integration":4,"variation":4,"visual_catalog_compatibility":5,"value_for_money":2,"TechnicalScore":3.0,"HistoricalScore":3.5,"IntegrationScore":4.33,"PriorityScore":3.31}
+    },
+    {
+      "asset_id": "RA-FAB-ARCH-006", "name": "Ancient Ruins - Free Asset Pack (26 Pieces + Custom Rematerials)", "author": "Hyperdense", "source": "Fab",
+      "url": "https://www.fab.com/listings/c6bd4209-8420-499f-99b7-f47b8492b2d1", "verified_date": "2026-07-22",
+      "price_observed": "Free", "price_type": "free", "license_declared": "NOT_VERIFIED", "unreal_compatibility": "Unreal Engine and interchange formats; UE 5.8 NOT_VERIFIED",
+      "content_type": "26 modular ruin pieces", "intended_use": "temporary free architectural fragments only", "intended_archetypes": ["Ruin", "Sanctuary"],
+      "categories": ["architecture_kit", "materials", "doors_windows"], "historical_grade": "C", "historical_risk": "Fantasy/red-stone rematerialing and AI-generated declaration", "technical_risk": "Not a complete urban kit",
+      "scores": {"modularity":4,"visual_quality":3,"ue58_compatibility":2,"performance":2,"collisions":2,"lod_nanite":2,"ease_of_integration":3,"variation":2,"visual_catalog_compatibility":3,"value_for_money":5,"TechnicalScore":2.5,"HistoricalScore":2.0,"IntegrationScore":2.67,"PriorityScore":2.79}
+    },
+    {
+      "asset_id": "RA-FAB-MAT-001", "name": "Wall Plaster", "author": "Quixel Megascans", "source": "Fab",
+      "url": "https://www.fab.com/listings/c1de409a-2577-4c4e-ae73-0a7b7cf81162", "verified_date": "2026-07-22",
+      "price_observed": "EUR 0.73 Personal / EUR 7.48 Professional, IVA inclusa; sale fino al 2026-07-30 05:59", "price_type": "paid_sale", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "texture set/gltf; direct UE 5.8 integration NOT_VERIFIED", "content_type": "2x2 m scanned surface, 4096 px/m",
+      "texture_count": "Normal, Bump, Displacement, Roughness, Specular, Cavity, Gloss, AO, Basecolor", "intended_use": "plastered walls", "intended_archetypes": ["DomusMedia", "PopularHouse", "BathComplex"],
+      "categories": ["materials"], "historical_grade": "B", "historical_risk": "Generic plaster; palette and finish need archaeological art direction", "technical_risk": "Shader/import setup required",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":3,"performance":3,"collisions":5,"lod_nanite":3,"ease_of_integration":4,"variation":3,"visual_catalog_compatibility":5,"value_for_money":5,"TechnicalScore":3.67,"HistoricalScore":3.5,"IntegrationScore":4.0,"PriorityScore":3.91}
+    },
+    {
+      "asset_id": "RA-FAB-MAT-002", "name": "Plastered Wall", "author": "Quixel Megascans", "source": "Fab",
+      "url": "https://www.fab.com/listings/6ec62aa9-f2e5-4ca9-afe1-179fec1ff319", "verified_date": "2026-07-22",
+      "price_type": "paid", "license_declared": "Fab Standard License NOT_VERIFIED", "unreal_compatibility": "texture set/gltf; UE 5.8 NOT_VERIFIED", "content_type": "2x2 m scanned surface, 4096 px/m",
+      "intended_use": "weathered plaster variation", "intended_archetypes": ["PopularHouse", "MixedUseHouse"], "categories": ["materials"],
+      "historical_grade": "B", "historical_risk": "Generic scanned surface", "technical_risk": "Price and import setup NOT_VERIFIED",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":3,"performance":3,"collisions":5,"lod_nanite":3,"ease_of_integration":4,"variation":3,"visual_catalog_compatibility":5,"value_for_money":3,"TechnicalScore":3.67,"HistoricalScore":3.5,"IntegrationScore":4.0,"PriorityScore":3.61}
+    },
+    {
+      "asset_id": "RA-FAB-MAT-003", "name": "Ancient Rome Smart Materials", "author": "Mathew81", "source": "Fab",
+      "url": "https://www.fab.com/listings/ee6fc727-6b3a-4591-9697-8c138f951282", "verified_date": "2026-07-22",
+      "price_type": "paid", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "43 PBR materials, 80 4K textures",
+      "material_count": "43", "texture_count": "80", "intended_use": "stone, brick and wall variation", "intended_archetypes": ["AllBuildings"], "categories": ["materials"],
+      "historical_grade": "C", "historical_risk": "Description references Egyptian environments and listing declares AI-generated", "technical_risk": "High texture memory and compatibility NOT_VERIFIED",
+      "scores": {"modularity":4,"visual_quality":4,"ue58_compatibility":2,"performance":2,"collisions":5,"lod_nanite":3,"ease_of_integration":4,"variation":5,"visual_catalog_compatibility":5,"value_for_money":2,"TechnicalScore":3.33,"HistoricalScore":2.0,"IntegrationScore":4.67,"PriorityScore":3.13}
+    },
+    {
+      "asset_id": "RA-FAB-ROAD-001", "name": "Cobblestone", "author": "Quixel Megascans", "source": "Fab",
+      "url": "https://www.fab.com/listings/6f8ab2df-1ee0-4531-adc6-7f18d0661d9c", "verified_date": "2026-07-22",
+      "price_observed": "EUR 0.73 Personal / EUR 7.48 Professional, IVA inclusa; sale fino al 2026-07-30 05:59", "price_type": "paid_sale", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "texture set/gltf; UE 5.8 NOT_VERIFIED", "content_type": "2x2 m scanned surface, 4096 px/m", "package_size": "326.39 MB shown by Fab",
+      "intended_use": "basolato material reference", "intended_archetypes": ["StreetSection"], "categories": ["road", "materials"],
+      "historical_grade": "C", "historical_risk": "Cobblestone morphology is not equivalent to Pompeian polygonal basoli", "technical_risk": "Large source package; displacement budget review",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":3,"performance":3,"collisions":5,"lod_nanite":3,"ease_of_integration":4,"variation":3,"visual_catalog_compatibility":5,"value_for_money":5,"TechnicalScore":3.67,"HistoricalScore":2.0,"IntegrationScore":4.0,"PriorityScore":3.53}
+    },
+    {
+      "asset_id": "RA-FAB-ROAD-002", "name": "Cobblestone 3D", "author": "Quixel Megascans", "source": "Fab",
+      "url": "https://www.fab.com/listings/19c97ef0-589d-4d0f-8584-ec8a28dd9740", "verified_date": "2026-07-22",
+      "price_type": "NOT_VERIFIED", "unreal_compatibility": "UEFN/fbx/gltf; UE 5.8 NOT_VERIFIED", "content_type": "closed scanned mesh, 0.09x0.11x0.09 m",
+      "intended_use": "road-edge variation, not primary paving", "intended_archetypes": ["StreetSection"], "categories": ["road"],
+      "historical_grade": "C", "historical_risk": "Shape requires comparison with basalt paving", "technical_risk": "Referenced asset and integration details NOT_VERIFIED",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":2,"performance":3,"collisions":2,"lod_nanite":2,"ease_of_integration":3,"variation":3,"visual_catalog_compatibility":4,"value_for_money":2,"TechnicalScore":2.83,"HistoricalScore":2.0,"IntegrationScore":3.33,"PriorityScore":2.62}
+    },
+    {
+      "asset_id": "RA-FAB-ROOF-001", "name": "Roof Tile", "author": "Quixel Megascans", "source": "Fab",
+      "url": "https://www.fab.com/listings/be2cce66-f77c-44ec-846d-d4ff89c71a14", "verified_date": "2026-07-22",
+      "price_observed": "EUR 1.48 Personal / EUR 14.97 Professional, IVA inclusa; sale fino al 2026-07-30 05:59", "price_type": "paid_sale", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "fbx/gltf; UE 5.8 NOT_VERIFIED", "content_type": "closed terracotta mesh 0.15x0.22x0.05 m",
+      "intended_use": "roof tile detail", "intended_archetypes": ["Residential", "Commercial"], "categories": ["roof"],
+      "historical_grade": "C", "historical_risk": "Modern curved tile form is not a verified tegula/imbrex set", "technical_risk": "Must be assembled into performant roof modules",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":3,"performance":3,"collisions":2,"lod_nanite":3,"ease_of_integration":3,"variation":2,"visual_catalog_compatibility":4,"value_for_money":4,"TechnicalScore":3.17,"HistoricalScore":2.0,"IntegrationScore":3.0,"PriorityScore":2.96}
+    },
+    {
+      "asset_id": "RA-FAB-ROOF-002", "name": "Roof Tile - Worn Terracotta", "author": "Quixel Megascans", "source": "Fab",
+      "url": "https://www.fab.com/listings/d2d20427-ce69-4e41-bc55-55fcb9fe11fe", "verified_date": "2026-07-22",
+      "price_type": "paid", "unreal_compatibility": "fbx/gltf; UE 5.8 NOT_VERIFIED", "content_type": "closed terracotta mesh 0.15x0.22x0.06 m",
+      "intended_use": "weathered roof variation", "intended_archetypes": ["PopularHouse", "MixedUseHouse"], "categories": ["roof"],
+      "historical_grade": "C", "historical_risk": "Not verified as Roman tegula/imbrex", "technical_risk": "Price, LOD and collision NOT_VERIFIED",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":3,"performance":3,"collisions":2,"lod_nanite":3,"ease_of_integration":3,"variation":3,"visual_catalog_compatibility":4,"value_for_money":3,"TechnicalScore":3.17,"HistoricalScore":2.0,"IntegrationScore":3.33,"PriorityScore":2.89}
+    },
+    {
+      "asset_id": "RA-FAB-PROP-001", "name": "Roman Market Props", "author": "Northdocks GmbH", "source": "Fab",
+      "url": "https://www.fab.com/listings/d6d23ce3-c1b1-4039-b427-ebbd3b1a2dee", "verified_date": "2026-07-22",
+      "price_observed": "From USD 14.99 before taxes on Fab search; EUR price NOT_VERIFIED", "price_type": "paid", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "market stalls and props",
+      "mesh_count": "3 stalls, 3 barrels, crate, cauldron, table, sacks, basket, candle, apples, wax tablet, 30 crockery pieces, 7 mugs",
+      "intended_use": "shops and market dressing", "intended_archetypes": ["Taberna", "Thermopolium", "Market"], "categories": ["commercial_props"],
+      "historical_grade": "B", "historical_risk": "Mug inscriptions and individual objects require epigraphic/material review", "technical_risk": "UE version, LOD, Nanite and collision NOT_VERIFIED",
+      "scores": {"modularity":4,"visual_quality":4,"ue58_compatibility":2,"performance":3,"collisions":2,"lod_nanite":2,"ease_of_integration":4,"variation":4,"visual_catalog_compatibility":5,"value_for_money":4,"TechnicalScore":2.83,"HistoricalScore":3.5,"IntegrationScore":4.33,"PriorityScore":3.55}
+    },
+    {
+      "asset_id": "RA-FAB-PROP-002", "name": "Roman cooking pottery", "author": "AlveusXR", "source": "Fab",
+      "url": "https://www.fab.com/listings/48fdb963-0497-48cc-ad5f-031967c88bd6", "verified_date": "2026-07-22",
+      "price_type": "NOT_VERIFIED", "unreal_compatibility": "fbx/gltf/glb/usdz; UE 5.8 import NOT_VERIFIED", "content_type": "Roman kitchen pottery based on cited typology manual",
+      "intended_use": "domestic and food-service pottery", "intended_archetypes": ["Culina", "Taberna", "Thermopolium"], "categories": ["commercial_props"],
+      "historical_grade": "A", "historical_risk": "Context, date range and regional forms still require archaeological review", "technical_risk": "Manual import/material setup; counts and performance NOT_VERIFIED",
+      "scores": {"modularity":3,"visual_quality":4,"ue58_compatibility":2,"performance":3,"collisions":2,"lod_nanite":2,"ease_of_integration":3,"variation":4,"visual_catalog_compatibility":4,"value_for_money":2,"TechnicalScore":2.67,"HistoricalScore":5.0,"IntegrationScore":3.67,"PriorityScore":3.4}
+    },
+    {
+      "asset_id": "RA-FAB-PROP-003", "name": "Ancient Amphora Pack", "author": "Drelith", "source": "Fab",
+      "url": "https://www.fab.com/listings/46694134-a9f0-4923-92f3-54c990844b29", "verified_date": "2026-07-22",
+      "price_type": "NOT_VERIFIED", "unreal_compatibility": "fbx/glb and other formats; UE 5.8 import NOT_VERIFIED", "content_type": "3 low-poly amphora models",
+      "mesh_count": "3", "material_count": "3", "texture_count": "12 at 4K", "intended_use": "storage and commercial props", "intended_archetypes": ["Taberna", "Horrea", "Caupona"],
+      "categories": ["commercial_props"], "historical_grade": "B", "historical_risk": "Generic ancient form; type/date provenance not declared", "technical_risk": "Normal green-channel adjustment declared; manual import",
+      "scores": {"modularity":3,"visual_quality":4,"ue58_compatibility":2,"performance":4,"collisions":2,"lod_nanite":2,"ease_of_integration":3,"variation":3,"visual_catalog_compatibility":4,"value_for_money":2,"TechnicalScore":2.83,"HistoricalScore":3.5,"IntegrationScore":3.33,"PriorityScore":3.0}
+    },
+    {
+      "asset_id": "RA-FAB-VEG-001", "name": "Mediterranean Vegetation: Plant Pack I", "author": "NOT_VERIFIED", "source": "Fab",
+      "url": "https://www.fab.com/listings/41b3889d-1a98-41e1-850e-c8b417840da0", "verified_date": "2026-07-22",
+      "price_observed": "Free", "price_type": "free", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "21 plant meshes and ground material",
+      "mesh_count": "21", "animations": "shader wind and replicated interaction", "intended_use": "courtyard and peripheral vegetation", "intended_archetypes": ["UrbanGarden", "Domus", "BathComplex"],
+      "categories": ["vegetation"], "historical_grade": "B", "historical_risk": "Agave is post-Columbian for Roman Italy and must be excluded", "technical_risk": "Shader interaction and UE 5.8 require testing",
+      "scores": {"modularity":4,"visual_quality":4,"ue58_compatibility":2,"performance":4,"collisions":3,"lod_nanite":2,"ease_of_integration":3,"variation":4,"visual_catalog_compatibility":4,"value_for_money":5,"TechnicalScore":3.17,"HistoricalScore":3.5,"IntegrationScore":3.67,"PriorityScore":3.65}
+    },
+    {
+      "asset_id": "RA-FAB-VEG-002", "name": "Cypress Tree Collection", "author": "StudioD3D", "source": "Fab",
+      "url": "https://www.fab.com/listings/3d25cfab-0f3e-4df9-ac7e-90cec5bf682f", "verified_date": "2026-07-22",
+      "price_type": "paid", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "content_type": "photogrammetry cypress collection",
+      "collisions": "interactive collision declared", "intended_use": "gardens, cemeteries and monumental axes", "intended_archetypes": ["UrbanGarden", "Sanctuary", "Necropolis"], "categories": ["vegetation"],
+      "historical_grade": "B", "historical_risk": "Species and cultivated silhouette need archaeobotanical review", "technical_risk": "Price, counts and LOD NOT_VERIFIED",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":2,"performance":3,"collisions":4,"lod_nanite":2,"ease_of_integration":3,"variation":4,"visual_catalog_compatibility":4,"value_for_money":2,"TechnicalScore":3.17,"HistoricalScore":3.5,"IntegrationScore":3.67,"PriorityScore":3.2}
+    },
+    {
+      "asset_id": "RA-FAB-VEG-003", "name": "Mediterranean Island Pack", "author": "FreshCan", "source": "Fab",
+      "url": "https://www.fab.com/listings/f267c895-796f-4f73-9bb3-bc71e5c28f7f", "verified_date": "2026-07-22",
+      "price_type": "paid", "unreal_compatibility": "UE 5.4+ update declared; UE 5.8 NOT_VERIFIED", "content_type": "pine, shrubs, rocks, plants, landscape",
+      "intended_use": "Mediterranean pine and peripheral landscape", "intended_archetypes": ["Suburb", "ExtraUrban", "UrbanGarden"], "categories": ["vegetation"],
+      "historical_grade": "B", "historical_risk": "Coastal biome composition not automatically Pompeian urban vegetation", "technical_risk": "Large environment pack and procedural foliage integration",
+      "scores": {"modularity":3,"visual_quality":5,"ue58_compatibility":3,"performance":3,"collisions":2,"lod_nanite":3,"ease_of_integration":2,"variation":5,"visual_catalog_compatibility":3,"value_for_money":2,"TechnicalScore":3.17,"HistoricalScore":3.5,"IntegrationScore":3.33,"PriorityScore":3.12}
+    },
+    {
+      "asset_id": "RA-EPIC-CHAR-001", "name": "MetaHuman Creator in Unreal Engine", "author": "Epic Games", "source": "Epic Developer Community",
+      "url": "https://dev.epicgames.com/documentation/metahuman/metahuman-creator-in-unreal-engine", "verified_date": "2026-07-22",
+      "price_observed": "Included ecosystem workflow; acquisition terms require manual confirmation", "price_type": "epic_ecosystem", "license_declared": "Unreal Engine EULA stated for upgraded MetaHuman characters",
+      "unreal_compatibility": "Official UE 5.8 documentation available", "ue_versions": "5.6+ integrated; 5.8 documented", "content_type": "rigged digital human creation workflow",
+      "animations": "rigged for animation", "skeleton": "MetaHuman", "dependencies": "MetaHuman Creator Core Data", "plugins": "MetaHuman Creator plugin",
+      "add_to_project": "manual Engine installation option and plugin enablement", "intended_use": "civilian base bodies before historically reviewed clothing", "intended_archetypes": ["Player", "NPC"],
+      "categories": ["human_character"], "historical_grade": "C", "historical_risk": "Modern default clothing/hair; Roman garments must be authored or separately licensed", "technical_risk": "High memory and plugin/core-data footprint",
+      "scores": {"modularity":5,"visual_quality":5,"ue58_compatibility":5,"performance":2,"collisions":4,"lod_nanite":4,"ease_of_integration":3,"variation":5,"visual_catalog_compatibility":2,"value_for_money":5,"TechnicalScore":4.17,"HistoricalScore":2.0,"IntegrationScore":3.33,"PriorityScore":3.54}
+    },
+    {
+      "asset_id": "RA-FAB-CHAR-002", "name": "Roman Collection", "author": "A.SHARIPOV", "source": "Fab",
+      "url": "https://www.fab.com/listings/d5e93b83-8048-408c-ad69-d43602f37380", "verified_date": "2026-07-22",
+      "price_observed": "EUR 181.87 Personal / EUR 213.97 Professional, IVA inclusa", "price_type": "paid", "license_declared": "Fab Standard License",
+      "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED", "ue_versions": "4.27 and 5.0-5.4", "content_type": "low-poly Roman character collection",
+      "intended_use": "Roman military/hero variants after retarget test", "intended_archetypes": ["Soldier", "Guard"], "categories": ["human_character"],
+      "historical_grade": "B", "historical_risk": "Character-by-character clothing and equipment review required", "technical_risk": "No declared 5.8 compatibility; retargeting and cloth risk",
+      "scores": {"modularity":3,"visual_quality":4,"ue58_compatibility":1,"performance":3,"collisions":3,"lod_nanite":2,"ease_of_integration":2,"variation":4,"visual_catalog_compatibility":2,"value_for_money":2,"TechnicalScore":2.67,"HistoricalScore":3.5,"IntegrationScore":2.67,"PriorityScore":2.78}
+    },
+    {
+      "asset_id": "RA-FAB-CHAR-003", "name": "Roman Citizen Crowd - Historic Modular Character Asset Pack", "author": "NOT_VERIFIED", "source": "Fab",
+      "url": "https://www.fab.com/listings/2a48523b-47c7-4c7e-b9c4-9ec3dbc5bb6e", "verified_date": "2026-07-22",
+      "price_type": "paid", "unreal_compatibility": "GLB only; listing explicitly says not game-ready", "content_type": "20 Roman citizen set-dressing characters",
+      "mesh_count": "20", "animations": "not game-ready", "intended_use": "reference or distant static crowd only", "intended_archetypes": ["CrowdReference"], "categories": ["human_character"],
+      "historical_grade": "C", "historical_risk": "AI-generated declaration and period accuracy unsupported", "technical_risk": "Not game-ready; no rig/skeleton workflow declared",
+      "scores": {"modularity":2,"visual_quality":3,"ue58_compatibility":1,"performance":2,"collisions":1,"lod_nanite":1,"ease_of_integration":1,"variation":4,"visual_catalog_compatibility":1,"value_for_money":1,"TechnicalScore":1.67,"HistoricalScore":2.0,"IntegrationScore":2.0,"PriorityScore":1.73}
+    },
+    {
+      "asset_id": "RA-EPIC-CHAR-004", "name": "Mannequins Asset Pack", "author": "Epic Games", "source": "Fab",
+      "url": "https://www.fab.com/listings/ad542ee6-34d0-4828-a56c-13846cd649d0", "verified_date": "2026-07-22",
+      "price_observed": "Free", "price_type": "free", "license_declared": "NOT_VERIFIED", "unreal_compatibility": "Unreal Engine 5 format; UE 5.8 NOT_VERIFIED on listing",
+      "content_type": "Manny and Quinn rigged mannequins", "animations": "Control Rigs; retargetable", "skeleton": "same skeleton/control rig family as MetaHumans",
+      "intended_use": "technical character fallback and retarget validation", "intended_archetypes": ["Player", "NPC"], "categories": ["human_character"],
+      "historical_grade": "D", "historical_risk": "No historical clothing", "technical_risk": "Visual placeholder only",
+      "scores": {"modularity":3,"visual_quality":3,"ue58_compatibility":4,"performance":4,"collisions":4,"lod_nanite":3,"ease_of_integration":5,"variation":2,"visual_catalog_compatibility":2,"value_for_money":5,"TechnicalScore":3.5,"HistoricalScore":0.5,"IntegrationScore":3.0,"PriorityScore":2.85}
+    },
+    {
+      "asset_id": "RA-EPIC-ANIM-001", "name": "Animation Starter Pack", "author": "Epic Games", "source": "Fab",
+      "url": "https://www.fab.com/listings/98ff449d-79db-4f54-9303-75486c4fb9d9", "verified_date": "2026-07-22",
+      "price_observed": "Free", "price_type": "free", "license_declared": "UE-Only Content", "unreal_compatibility": "Unreal Engine format; UE 5.8 NOT_VERIFIED on listing",
+      "content_type": "62 animations", "animations": "62", "skeleton": "classic Mannequin", "intended_use": "prototype locomotion", "intended_archetypes": ["Player", "NPC"],
+      "categories": ["locomotion"], "historical_grade": "C", "historical_risk": "Movement generic; posture and gestures not Roman-specific", "technical_risk": "Legacy skeleton retarget required",
+      "scores": {"modularity":4,"visual_quality":3,"ue58_compatibility":3,"performance":5,"collisions":5,"lod_nanite":5,"ease_of_integration":4,"variation":3,"visual_catalog_compatibility":2,"value_for_money":5,"TechnicalScore":4.17,"HistoricalScore":2.0,"IntegrationScore":3.0,"PriorityScore":3.46}
+    },
+    {
+      "asset_id": "RA-FAB-ANIM-002", "name": "Free Animation Pack", "author": "Gamma Studio", "source": "Fab",
+      "url": "https://www.fab.com/listings/8de31c5d-93bc-4bd4-9606-ca789ce91b99", "verified_date": "2026-07-22",
+      "price_observed": "Free", "price_type": "free", "license_declared": "Listing states free use for prototyping and commercial projects; manual EULA confirmation required",
+      "unreal_compatibility": "Native Unreal Engine assets; UE 5.8 NOT_VERIFIED", "content_type": "24 mocap animations at 120 FPS",
+      "animations": "24, root-motion and in-place where applicable", "skeleton": "UE5 Manny/Quinn", "intended_use": "locomotion sample and retarget test", "intended_archetypes": ["Player", "NPC"],
+      "categories": ["locomotion"], "historical_grade": "C", "historical_risk": "Generic/tactical samples; filter non-civilian motions", "technical_risk": "Small sample, not full locomotion framework",
+      "scores": {"modularity":4,"visual_quality":4,"ue58_compatibility":3,"performance":5,"collisions":5,"lod_nanite":5,"ease_of_integration":5,"variation":2,"visual_catalog_compatibility":2,"value_for_money":5,"TechnicalScore":4.33,"HistoricalScore":2.0,"IntegrationScore":3.0,"PriorityScore":3.52}
+    },
+    {
+      "asset_id": "RA-FAB-ANIM-003", "name": "Free Sample Animation Set", "author": "NOT_VERIFIED", "source": "Fab",
+      "url": "https://www.fab.com/listings/5b737d10-b4cd-4294-8f6b-757b9088039d", "verified_date": "2026-07-22",
+      "price_observed": "Free", "price_type": "free", "unreal_compatibility": "Unreal Engine and Unity formats; UE 5.8 NOT_VERIFIED", "content_type": "locomotion, interaction and mobility samples",
+      "animations": "count NOT_VERIFIED", "intended_use": "interaction and work-animation evaluation", "intended_archetypes": ["Worker", "Resident", "Player"], "categories": ["locomotion"],
+      "historical_grade": "C", "historical_risk": "Generic contemporary motion semantics", "technical_risk": "Skeleton and exact version NOT_VERIFIED",
+      "scores": {"modularity":4,"visual_quality":4,"ue58_compatibility":2,"performance":4,"collisions":5,"lod_nanite":5,"ease_of_integration":3,"variation":4,"visual_catalog_compatibility":2,"value_for_money":5,"TechnicalScore":4.0,"HistoricalScore":2.0,"IntegrationScore":3.0,"PriorityScore":3.4}
+    }
+  ]
+}

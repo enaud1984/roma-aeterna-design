@@ -1,5 +1,9 @@
 # Roman asset naming convention — Prompt 19
 
+## Aggiornamento Prompt 26
+
+I file vendor non vengono rinominati in-place; queste regole valgono per asset e wrapper di proprietà Roma Aeterna.
+
 ## Prefixes
 
 | Prefix | Meaning |
@@ -16,6 +20,13 @@
 | `GS_` | Geometry Script |
 | `FX_` | Effect |
 | `S_` | Suono |
+| `SC_` | Sound Cue |
+| `AN_` | Animation |
+| `ABP_` | Animation Blueprint |
+| `NS_` | Niagara System |
+| `PC_` | Physics Control |
+| `IK_` | IK Rig |
+| `RTG_` | IK Retargeter |
 | `L_` | Level |
 | `WBP_` | Widget Blueprint |
 
@@ -64,6 +75,10 @@ Preferred strategy:
 - `DA_Roman_ArchitecturalOrder_Corinthian`
 
 Use wrappers, controlled duplicates or a migration layer for third-party assets; do not rename vendor files in place.
+
+## Formato Roma Aeterna
+
+`<Tipo>_RA_<Categoria>_<Descrizione>_<Variante>` con ASCII, PascalCase per le parole e variante a due cifre. Esempi: `SM_RA_Wall_Plaster_01`, `SM_RA_Road_Basalt_01`, `SM_RA_Roof_Tegula_01`, `SM_RA_Prop_Amphora_01`, `MI_RA_Plaster_Ochre_01`. Gli identificatori documentali usano `RA-FAB-<GRUPPO>-NNN` o `RA-EPIC-<GRUPPO>-NNN`.
 
 ## Proposed modular Content structure
 

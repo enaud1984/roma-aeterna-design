@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validazione statica della fondazione modulare e del runtime placeholder romano."""
 from pathlib import Path
+import json
 import re
 import sys
 
@@ -61,6 +62,20 @@ REQUIRED_FILES = [
     "docs/assets/ROMAN_ASSET_CATALOG_TEMPLATE.md",
     "docs/testing/ROMA_AETERNA_VISUAL_CONSOLIDATION_TEST_PLAN.md",
     "docs/audits/PROMPT_25_IMPLEMENTATION_REPORT.md",
+    "Scripts/AuditRomanAssets.py",
+    "Scripts/tests/test_audit_roman_assets.py",
+    "docs/assets/roman_asset_catalog.json",
+    "docs/assets/ROMAN_ASSET_REQUIREMENTS.md",
+    "docs/assets/ROMAN_ASSET_CANDIDATES.md",
+    "docs/assets/ROMAN_ASSET_SHORTLISTS.md",
+    "docs/assets/ROMAN_ASSET_IMPORT_BATCHES.md",
+    "docs/assets/ROMAN_ASSET_SOURCE_REGISTRY.md",
+    "docs/assets/ROMAN_ASSET_FOLDER_STRUCTURE.md",
+    "docs/assets/ROMAN_ASSET_NAMING_CONVENTION.md",
+    "docs/assets/ROMAN_ASSET_VISUAL_CATALOG_MAPPING.md",
+    "docs/assets/ROMAN_ASSET_GIT_STRATEGY.md",
+    "docs/testing/ROMAN_ASSET_AUDIT_TEST_PLAN.md",
+    "docs/audits/PROMPT_26_IMPLEMENTATION_REPORT.md",
 ]
 
 
@@ -238,6 +253,61 @@ for token in ("AssetId", "License", "HistoricalCompatibility", "Pivot", "Nanite"
 if re.search(r"[A-Za-z]:[\\/]", visual_script):
     ERRORS.append("percorso assoluto hardcoded nello script Prompt 25")
 
+asset_prompt26_files = [
+    "docs/assets/ROMAN_ASSET_REQUIREMENTS.md",
+    "docs/assets/ROMAN_ASSET_CANDIDATES.md",
+    "docs/assets/ROMAN_ASSET_SHORTLISTS.md",
+    "docs/assets/ROMAN_ASSET_IMPORT_BATCHES.md",
+    "docs/assets/ROMAN_ASSET_SOURCE_REGISTRY.md",
+    "docs/assets/ROMAN_ASSET_FOLDER_STRUCTURE.md",
+    "docs/assets/ROMAN_ASSET_NAMING_CONVENTION.md",
+    "docs/assets/ROMAN_ASSET_VISUAL_CATALOG_MAPPING.md",
+    "docs/assets/ROMAN_ASSET_GIT_STRATEGY.md",
+    "docs/testing/ROMAN_ASSET_AUDIT_TEST_PLAN.md",
+    "docs/audits/PROMPT_26_IMPLEMENTATION_REPORT.md",
+]
+asset_prompt26_text = all_text(asset_prompt26_files)
+for token in (
+    "ASSET_REQUIREMENTS_COMPLETED", "FAB_RESEARCH_COMPLETED", "ASSET_CANDIDATES_VERIFIED",
+    "ASSET_SHORTLIST_COMPLETED", "ASSET_IMPORT_PLAN_COMPLETED", "ASSET_LICENSE_REVIEW_REQUIRED",
+    "FAB_ASSET_IMPORT_NOT_STARTED", "MANUAL_ACQUISITION_REQUIRED", "GIT_LFS_RECOMMENDED",
+    "NOT_VERIFIED", "RA-FAB-ARCH-004", "Content/ThirdParty", "URARomanVisualCatalog",
+):
+    if token not in asset_prompt26_text + read("IMPLEMENTATION_STATUS.md"):
+        ERRORS.append(f"documentazione Prompt 26 incompleta: {token}")
+
+try:
+    raw_asset_catalog = json.loads(read("docs/assets/roman_asset_catalog.json"))
+except json.JSONDecodeError as exc:
+    ERRORS.append(f"catalogo asset JSON non valido: {exc}")
+    raw_asset_catalog = {"candidates": []}
+asset_candidates = raw_asset_catalog.get("candidates", [])
+if len(asset_candidates) < 24:
+    ERRORS.append("catalogo Prompt 26 con meno di 24 candidati")
+asset_ids = [candidate.get("asset_id") for candidate in asset_candidates]
+if len(asset_ids) != len(set(asset_ids)):
+    ERRORS.append("AssetId duplicati nel catalogo Prompt 26")
+for candidate in asset_candidates:
+    asset_id = candidate.get("asset_id", "NOT_VERIFIED")
+    if not re.fullmatch(r"RA-(?:FAB|EPIC)-[A-Z]+-\d{3}", asset_id):
+        ERRORS.append(f"AssetId Prompt 26 non valido: {asset_id}")
+    if not str(candidate.get("url", "")).startswith("https://"):
+        ERRORS.append(f"URL candidato Prompt 26 non valido: {asset_id}")
+    if candidate.get("historical_grade") not in {"A", "B", "C", "D"}:
+        ERRORS.append(f"classe storica Prompt 26 non valida: {asset_id}")
+
+asset_audit_script = read("Scripts/AuditRomanAssets.py")
+asset_audit_tests = read("Scripts/tests/test_audit_roman_assets.py")
+for token in ("ASSET_AUDIT_", "roman_asset_audit.json", "roman_asset_audit.md", "--check-only", "Content/ThirdParty", "provenienza mancante"):
+    if token not in asset_audit_script:
+        ERRORS.append(f"AuditRomanAssets incompleto: {token}")
+for token in ("test_parsing_catalogo", "test_rileva_categoria_mancante", "test_rileva_naming_errato", "test_rileva_file_grande", "test_rileva_provenienza_mancante", "test_report_deterministico", "test_funzione_audit_non_scrive"):
+    if token not in asset_audit_tests:
+        ERRORS.append(f"test AuditRomanAssets mancante: {token}")
+for rel in ("Scripts/AuditRomanAssets.py", "Scripts/tests/test_audit_roman_assets.py"):
+    if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
+        ERRORS.append(f"percorso assoluto hardcoded nel Prompt 26: {rel}")
+
 free_register = read("docs/assets/FREE_ASSET_REGISTER.md")
 for idx in range(27, 37):
     if f"FREE-{idx:03d}" not in free_register:
@@ -279,4 +349,5 @@ print("RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED")
 print("UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED")
 print("VERTICAL_SLICE_STATIC_CHECKS_PASSED")
 print("VISUAL_CONSOLIDATION_STATIC_CHECKS_PASSED")
+print("ASSET_CATALOG_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")
