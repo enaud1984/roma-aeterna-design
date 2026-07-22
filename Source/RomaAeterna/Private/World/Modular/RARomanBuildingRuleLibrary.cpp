@@ -31,6 +31,7 @@ BuildingType ToCoreBuildingType(ERARomanBuildingType Type)
 	case ERARomanBuildingType::MedicalShop: return BuildingType::MedicalShop;
 	case ERARomanBuildingType::BarberShop: return BuildingType::BarberShop;
 	case ERARomanBuildingType::Taberna: return BuildingType::Taberna;
+	case ERARomanBuildingType::BathComplex:return BuildingType::BathComplex; case ERARomanBuildingType::Palaestra:return BuildingType::Palaestra; case ERARomanBuildingType::CastellumAquae:return BuildingType::CastellumAquae; case ERARomanBuildingType::AqueductSection:return BuildingType::AqueductSection; case ERARomanBuildingType::SewerSection:return BuildingType::SewerSection; case ERARomanBuildingType::PublicFountain:return BuildingType::PublicFountain; case ERARomanBuildingType::Cistern:return BuildingType::Cistern; case ERARomanBuildingType::Well:return BuildingType::Well; case ERARomanBuildingType::Tinctoria:return BuildingType::Tinctoria; case ERARomanBuildingType::Tannery:return BuildingType::Tannery; case ERARomanBuildingType::TextileWorkshop:return BuildingType::TextileWorkshop; case ERARomanBuildingType::MetalWorkshop:return BuildingType::MetalWorkshop; case ERARomanBuildingType::PotteryWorkshop:return BuildingType::PotteryWorkshop; case ERARomanBuildingType::OilWorkshop:return BuildingType::OilWorkshop; case ERARomanBuildingType::Winery:return BuildingType::Winery; case ERARomanBuildingType::PressingWorkshop:return BuildingType::PressingWorkshop; case ERARomanBuildingType::StandaloneOven:return BuildingType::StandaloneOven; case ERARomanBuildingType::Horrea:return BuildingType::Horrea; case ERARomanBuildingType::UrbanGarden:return BuildingType::UrbanGarden; case ERARomanBuildingType::ServiceYard:return BuildingType::ServiceYard;
 	case ERARomanBuildingType::Domus: return BuildingType::Domus;
 	case ERARomanBuildingType::Insula: return BuildingType::Insula;
 	case ERARomanBuildingType::Temple: return BuildingType::Temple;
@@ -70,6 +71,7 @@ ERARomanBuildingType FromCoreBuildingType(BuildingType Type)
 	case BuildingType::MedicalShop: return ERARomanBuildingType::MedicalShop;
 	case BuildingType::BarberShop: return ERARomanBuildingType::BarberShop;
 	case BuildingType::Taberna: return ERARomanBuildingType::Taberna;
+	case BuildingType::BathComplex:return ERARomanBuildingType::BathComplex; case BuildingType::Palaestra:return ERARomanBuildingType::Palaestra; case BuildingType::CastellumAquae:return ERARomanBuildingType::CastellumAquae; case BuildingType::AqueductSection:return ERARomanBuildingType::AqueductSection; case BuildingType::SewerSection:return ERARomanBuildingType::SewerSection; case BuildingType::PublicFountain:return ERARomanBuildingType::PublicFountain; case BuildingType::Cistern:return ERARomanBuildingType::Cistern; case BuildingType::Well:return ERARomanBuildingType::Well; case BuildingType::Tinctoria:return ERARomanBuildingType::Tinctoria; case BuildingType::Tannery:return ERARomanBuildingType::Tannery; case BuildingType::TextileWorkshop:return ERARomanBuildingType::TextileWorkshop; case BuildingType::MetalWorkshop:return ERARomanBuildingType::MetalWorkshop; case BuildingType::PotteryWorkshop:return ERARomanBuildingType::PotteryWorkshop; case BuildingType::OilWorkshop:return ERARomanBuildingType::OilWorkshop; case BuildingType::Winery:return ERARomanBuildingType::Winery; case BuildingType::PressingWorkshop:return ERARomanBuildingType::PressingWorkshop; case BuildingType::StandaloneOven:return ERARomanBuildingType::StandaloneOven; case BuildingType::Horrea:return ERARomanBuildingType::Horrea; case BuildingType::UrbanGarden:return ERARomanBuildingType::UrbanGarden; case BuildingType::ServiceYard:return ERARomanBuildingType::ServiceYard;
 	case BuildingType::Domus: return ERARomanBuildingType::Domus;
 	case BuildingType::Insula: return ERARomanBuildingType::Insula;
 	case BuildingType::Temple: return ERARomanBuildingType::Temple;
@@ -199,6 +201,7 @@ ERARomanModuleCategory FromCoreModuleCategory(RomaAeternaCore::ModuleCategory Ca
 	case RomaAeternaCore::ModuleCategory::Workbench: return ERARomanModuleCategory::Workbench;
 	case RomaAeternaCore::ModuleCategory::Seat: return ERARomanModuleCategory::Seat;
 	case RomaAeternaCore::ModuleCategory::InteractionMarker: return ERARomanModuleCategory::InteractionMarker;
+	case RomaAeternaCore::ModuleCategory::AqueductArch:return ERARomanModuleCategory::AqueductArch; case RomaAeternaCore::ModuleCategory::AqueductChannel:return ERARomanModuleCategory::AqueductChannel; case RomaAeternaCore::ModuleCategory::SewerChannel:return ERARomanModuleCategory::SewerChannel; case RomaAeternaCore::ModuleCategory::Manhole:return ERARomanModuleCategory::Manhole; case RomaAeternaCore::ModuleCategory::WaterOutlet:return ERARomanModuleCategory::WaterOutlet; case RomaAeternaCore::ModuleCategory::FountainBasin:return ERARomanModuleCategory::FountainBasin; case RomaAeternaCore::ModuleCategory::WellHead:return ERARomanModuleCategory::WellHead; case RomaAeternaCore::ModuleCategory::CisternTank:return ERARomanModuleCategory::CisternTank; case RomaAeternaCore::ModuleCategory::HypocaustPillar:return ERARomanModuleCategory::HypocaustPillar; case RomaAeternaCore::ModuleCategory::Boiler:return ERARomanModuleCategory::Boiler; case RomaAeternaCore::ModuleCategory::Press:return ERARomanModuleCategory::Press; case RomaAeternaCore::ModuleCategory::Loom:return ERARomanModuleCategory::Loom; case RomaAeternaCore::ModuleCategory::PotteryWheel:return ERARomanModuleCategory::PotteryWheel; case RomaAeternaCore::ModuleCategory::Anvil:return ERARomanModuleCategory::Anvil; case RomaAeternaCore::ModuleCategory::DryingFrame:return ERARomanModuleCategory::DryingFrame; case RomaAeternaCore::ModuleCategory::StorageCell:return ERARomanModuleCategory::StorageCell; case RomaAeternaCore::ModuleCategory::CargoArea:return ERARomanModuleCategory::CargoArea; case RomaAeternaCore::ModuleCategory::FuelStorage:return ERARomanModuleCategory::FuelStorage; case RomaAeternaCore::ModuleCategory::WasteArea:return ERARomanModuleCategory::WasteArea; case RomaAeternaCore::ModuleCategory::IrrigationChannel:return ERARomanModuleCategory::IrrigationChannel;
 	case RomaAeternaCore::ModuleCategory::Wall:
 	default: return ERARomanModuleCategory::Wall;
 	}
@@ -268,10 +271,18 @@ FRARomanGenerationResult FromCoreResult(const GenerationResult& Core)
 	Result.bSuccess = Core.bSuccess;
 	Result.EstimatedModuleCount = Core.EstimatedModuleCount;
 	Result.EstimatedTriangleBudget = Core.EstimatedTriangleBudget;
-	Result.GeneratedRoomCount = static_cast<int32>(Core.Placements.size());
+	Result.GeneratedRoomCount = Core.RoomCount;
 	Result.GeneratedZoneCount = 0;
-	Result.ProductionDeviceCount = 0;
-	Result.WaterFeatureCount = 0;
+	Result.GeneratedInteractionPointCount = Core.InteractionPointCount;
+	Result.ProductionDeviceCount = Core.ProductionDeviceCount;
+	Result.WaterFeatureCount = Core.WaterFeatureCount;
+	Result.UtilityConnectionCount = Core.UtilityConnectionCount;
+	Result.HazardZoneCount = Core.HazardZoneCount;
+	Result.ProductionStageCount = Core.ProductionStageCount;
+	Result.WaterDemand = static_cast<float>(Core.WaterDemand);
+	Result.DrainageDemand = static_cast<float>(Core.DrainageDemand);
+	Result.HeatDemand = static_cast<float>(Core.HeatDemand);
+	Result.StorageCapacity = static_cast<float>(Core.StorageCapacity);
 	Result.Bounds = FBox(
 		FVector(Core.BuildingBounds.Min.X, Core.BuildingBounds.Min.Y, Core.BuildingBounds.Min.Z),
 		FVector(Core.BuildingBounds.Max.X, Core.BuildingBounds.Max.Y, Core.BuildingBounds.Max.Z));
@@ -443,6 +454,26 @@ FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateMedicalShopPlan(co
 FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateBarberShopPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateBarberShopLayout(ToCoreParameters(Parameters))); }
 FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateMensaArgentariaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateMensaArgentariaLayout(ToCoreParameters(Parameters))); }
 FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateStabulumPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateStabulumLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateBathComplexPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::BathComplex));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePalaestraPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Palaestra));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateCastellumAquaePlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::CastellumAquae));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateAqueductSectionPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::AqueductSection));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateSewerSectionPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::SewerSection));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePublicFountainPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::PublicFountain));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateCisternPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Cistern));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateWellPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Well));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateTinctoriaPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Tinctoria));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateTanneryPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Tannery));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateTextileWorkshopPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::TextileWorkshop));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateMetalWorkshopPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::MetalWorkshop));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePotteryWorkshopPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::PotteryWorkshop));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateOilWorkshopPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::OilWorkshop));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateWineryPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Winery));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePressingWorkshopPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::PressingWorkshop));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateStandaloneOvenPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::StandaloneOven));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateHorreaPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::Horrea));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateUrbanGardenPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::UrbanGarden));}
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateServiceYardPlan(const FRARomanBuildingParameters& P){auto C=ToCoreParameters(P);return FromCoreResult(RomaAeternaCore::BuildPlanLayout(C,BuildingType::ServiceYard));}
 int32 URARomanBuildingRuleLibrary::GetResidentCapacity(const FRARomanGenerationResult& Result){ return Result.GeneratedInteractionPointCount; }
 int32 URARomanBuildingRuleLibrary::GetWorkerCapacity(const FRARomanGenerationResult& Result){ return Result.ProductionDeviceCount; }
 int32 URARomanBuildingRuleLibrary::GetCustomerCapacity(const FRARomanGenerationResult& Result){ return Result.GeneratedPlacements.Num(); }

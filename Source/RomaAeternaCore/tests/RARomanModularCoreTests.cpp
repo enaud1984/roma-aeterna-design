@@ -301,6 +301,21 @@ void RunResidentialCommercialPrompt23Tests()
     Expect(GetRecommendedUrbanComposition().front().first==BuildingType::PopularHouse,"prevalenza urbana abitazioni modeste");
 }
 
+void RunUtilitiesProductionPrompt24Tests()
+{
+    BuildingParameters P; P.WidthCm=1600; P.DepthCm=2000; P.MaximumModuleCount=4000;
+    const std::vector<BuildingType> Types={BuildingType::BathComplex,BuildingType::Palaestra,BuildingType::CastellumAquae,BuildingType::AqueductSection,BuildingType::SewerSection,BuildingType::PublicFountain,BuildingType::Cistern,BuildingType::Well,BuildingType::Tinctoria,BuildingType::Tannery,BuildingType::TextileWorkshop,BuildingType::MetalWorkshop,BuildingType::PotteryWorkshop,BuildingType::OilWorkshop,BuildingType::Winery,BuildingType::PressingWorkshop,BuildingType::StandaloneOven,BuildingType::Horrea,BuildingType::UrbanGarden,BuildingType::ServiceYard};
+    for(BuildingType T:Types){P.Type=T;const BuildingPlan A=GenerateBuildingPlan(P);const BuildingPlan B=GenerateBuildingPlan(P);Expect(A.ImplementationState==ArchetypeImplementationState::Implemented,"Prompt 24 archetipo implementato");Expect(!A.Rooms.empty()&&!A.InteractionPoints.empty(),"Prompt 24 stanze e NPC");const GenerationResult R=BuildPlanLayout(P,T);Expect(R.bSuccess&&!R.Placements.empty(),"Prompt 24 placeholder");Expect(AllTransformsFinite(R)&&BoundsCoherent(R),"Prompt 24 bounds e NaN");Expect(A.Rooms.size()==B.Rooms.size()&&A.ProductionDevices.size()==B.ProductionDevices.size(),"Prompt 24 determinismo");Expect(IsArchetypeImplemented(T),"Prompt 24 catalogo implementati");}
+    const BuildingPlan Baths=GenerateBathComplexPlan(P);Expect(Baths.BathRooms.size()>=3&&!Baths.Hypocausts.empty()&&!Baths.HeatSources.empty(),"BathComplex sequenza e hypocaust");Expect(CalculateWaterDemand(Baths)>0&&CalculateDrainageDemand(Baths)>0&&CalculateHeatDemand(Baths)>0,"BathComplex domande utilities");
+    const BuildingPlan Aq=GenerateAqueductSectionPlan(P);Expect(!Aq.AqueductSegments.empty()&&CountCategory(ConvertBuildingPlanToPlacements(Aq,P),ModuleCategory::AqueductArch)>0,"Acquedotto segmenti e arcate");
+    const BuildingPlan Sewer=GenerateSewerSectionPlan(P);Expect(!Sewer.SewerSegments.empty()&&CountCategory(ConvertBuildingPlanToPlacements(Sewer,P),ModuleCategory::Manhole)>0,"Fognatura segmento e pozzetto");
+    const BuildingPlan Tin=GenerateTinctoriaPlan(P);Expect(!Tin.ProductionFlows.empty()&&Tin.ProductionFlows.front().Stages.size()>=4,"Tinctoria flusso completo");
+    const BuildingPlan Metal=GenerateMetalWorkshopPlan(P);Expect(!Metal.HeatSources.empty()&&!Metal.HazardZones.empty(),"MetalWorkshop calore e pericolo");
+    const BuildingPlan Horrea=GenerateHorreaPlan(P);Expect(CalculateStorageCapacity(Horrea)>=1000&&CountCategory(ConvertBuildingPlanToPlacements(Horrea,P),ModuleCategory::StorageCell)>0,"Horrea capacita e celle");
+    std::vector<GenerationMessage> W,E;Expect(ValidateUtilityConnections(Baths,W,E),"connessioni utilities valide");
+    P.MaximumModuleCount=1;Expect(!BuildPlanLayout(P,BuildingType::BathComplex).bSuccess,"Prompt 24 MaximumModuleCount");
+}
+
 } // namespace
 
 int main()
@@ -308,6 +323,7 @@ int main()
     RunCoreTests();
     RunArchetypePrompt22Tests();
     RunResidentialCommercialPrompt23Tests();
+    RunUtilitiesProductionPrompt24Tests();
     if (Failures > 0)
     {
         std::cerr << Failures << " test falliti\n";
@@ -317,5 +333,6 @@ int main()
     std::cout << "CORE_CPP_DEBUG_TESTS_PASSED\n";
     std::cout << "BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED\n";
     std::cout << "RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED\n";
+    std::cout << "UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED\n";
     return EXIT_SUCCESS;
 }

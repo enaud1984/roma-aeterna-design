@@ -128,3 +128,14 @@ Stato: implementati nel core standard i sei archetipi `AtriumDomus`, `Thermopoli
 ## Prompt 23 — Tessuto residenziale, commerciale e misto
 
 Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, PopularHouse, Insula, Cenaculum, MixedUseHouse, Taberna, Popina, Caupona, Bookshop, Brothel, MedicalShop, BarberShop, MensaArgentaria, Stabulum), profili RomanBuildingUrbanProfile, pesi GetRecommendedUrbanComposition e stati CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED, RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED, UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED, FAB_ASSET_IMPORT_NOT_STARTED. Le ricostruzioni ordinarie sono HISTORICAL_APPROXIMATION e usano placeholder, senza .uasset/.umap.
+# Prompt 24
+
+- CORE_CPP_DEBUG_TESTS_PASSED
+- CORE_CPP_RELEASE_TESTS_PASSED
+- CORE_CPP_SANITIZERS_PASSED
+- UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED
+- UNREAL_BUILD_PASSED
+- UNREAL_AUTOMATION_PASSED
+- MANUAL_VERIFICATION_REQUIRED
+- FAB_ASSET_IMPORT_NOT_STARTED
+- Build e Automation Tests eseguiti localmente con Unreal Engine 5.8; PIE non dichiarato.

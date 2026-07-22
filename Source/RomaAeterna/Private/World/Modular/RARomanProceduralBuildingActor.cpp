@@ -103,6 +103,10 @@ FRARomanPlaceholderVisualRule ARARomanProceduralBuildingActor::GetVisualRule(ERA
 			return Rule;
 		}
 	}
+	for (FRARomanPlaceholderVisualRule Rule : CreateDefaultVisualRules())
+	{
+		if (Rule.Category == ERARomanModuleCategory::Prop) { Rule.Category = Category; return Rule; }
+	}
 	return FRARomanPlaceholderVisualRule();
 }
 
@@ -115,20 +119,7 @@ bool ARARomanProceduralBuildingActor::GenerateBuilding()
 	NewResult.Warnings.Append(Warnings); NewResult.Errors.Append(Errors);
 	if (Errors.Num() > 0) { ClearVisualInstances(); LastGenerationResult = NewResult; return false; }
 
-	switch (BuildingParameters.BuildingType)
-	{
-	case ERARomanBuildingType::AtriumDomus: NewResult = URARomanBuildingRuleLibrary::GenerateAtriumDomusPlan(BuildingParameters); break;
-	case ERARomanBuildingType::Thermopolium: NewResult = URARomanBuildingRuleLibrary::GenerateThermopoliumPlan(BuildingParameters); break;
-	case ERARomanBuildingType::Fullonica: NewResult = URARomanBuildingRuleLibrary::GenerateFullonicaPlan(BuildingParameters); break;
-	case ERARomanBuildingType::Pistrinum: NewResult = URARomanBuildingRuleLibrary::GeneratePistrinumPlan(BuildingParameters); break;
-	case ERARomanBuildingType::PublicLatrine: NewResult = URARomanBuildingRuleLibrary::GeneratePublicLatrinePlan(BuildingParameters); break;
-	case ERARomanBuildingType::SmallTemple: NewResult = URARomanBuildingRuleLibrary::GenerateSmallTemplePlan(BuildingParameters); break;
-	case ERARomanBuildingType::DomusMedia: NewResult = URARomanBuildingRuleLibrary::GenerateBuildingByType(BuildingParameters); break;
-	case ERARomanBuildingType::Taberna: NewResult = URARomanBuildingRuleLibrary::GenerateTabernaPlan(BuildingParameters); break;
-	case ERARomanBuildingType::Temple: NewResult = URARomanBuildingRuleLibrary::BuildTempleLayout(BuildingParameters); break;
-	case ERARomanBuildingType::StreetSection: NewResult = URARomanBuildingRuleLibrary::BuildStreetSectionLayout(BuildingParameters); break;
-	default: NewResult = URARomanBuildingRuleLibrary::BuildSimpleHouseLayout(BuildingParameters); break;
-	}
+	NewResult = URARomanBuildingRuleLibrary::GenerateBuildingByType(BuildingParameters);
 	NewResult.Warnings.Append(Warnings);
 	TArray<FRARomanGenerationMessage> PlacementWarnings, PlacementErrors;
 	URARomanConstructionValidator::ValidatePlacements(NewResult.GeneratedPlacements, BuildingParameters.MaximumModuleCount, PlacementWarnings, PlacementErrors);
@@ -238,6 +229,7 @@ bool ARARomanProceduralBuildingActor::GenerateMedicalShop(){ return GenerateBuil
 bool ARARomanProceduralBuildingActor::GenerateBarberShop(){ return GenerateBuildingByType(ERARomanBuildingType::BarberShop); }
 bool ARARomanProceduralBuildingActor::GenerateMensaArgentaria(){ return GenerateBuildingByType(ERARomanBuildingType::MensaArgentaria); }
 bool ARARomanProceduralBuildingActor::GenerateStabulum(){ return GenerateBuildingByType(ERARomanBuildingType::Stabulum); }
+bool ARARomanProceduralBuildingActor::GenerateBathComplex(){return GenerateBuildingByType(ERARomanBuildingType::BathComplex);} bool ARARomanProceduralBuildingActor::GeneratePalaestra(){return GenerateBuildingByType(ERARomanBuildingType::Palaestra);} bool ARARomanProceduralBuildingActor::GenerateCastellumAquae(){return GenerateBuildingByType(ERARomanBuildingType::CastellumAquae);} bool ARARomanProceduralBuildingActor::GenerateAqueductSection(){return GenerateBuildingByType(ERARomanBuildingType::AqueductSection);} bool ARARomanProceduralBuildingActor::GenerateSewerSection(){return GenerateBuildingByType(ERARomanBuildingType::SewerSection);} bool ARARomanProceduralBuildingActor::GeneratePublicFountain(){return GenerateBuildingByType(ERARomanBuildingType::PublicFountain);} bool ARARomanProceduralBuildingActor::GenerateCistern(){return GenerateBuildingByType(ERARomanBuildingType::Cistern);} bool ARARomanProceduralBuildingActor::GenerateWell(){return GenerateBuildingByType(ERARomanBuildingType::Well);} bool ARARomanProceduralBuildingActor::GenerateTinctoria(){return GenerateBuildingByType(ERARomanBuildingType::Tinctoria);} bool ARARomanProceduralBuildingActor::GenerateTannery(){return GenerateBuildingByType(ERARomanBuildingType::Tannery);} bool ARARomanProceduralBuildingActor::GenerateTextileWorkshop(){return GenerateBuildingByType(ERARomanBuildingType::TextileWorkshop);} bool ARARomanProceduralBuildingActor::GenerateMetalWorkshop(){return GenerateBuildingByType(ERARomanBuildingType::MetalWorkshop);} bool ARARomanProceduralBuildingActor::GeneratePotteryWorkshop(){return GenerateBuildingByType(ERARomanBuildingType::PotteryWorkshop);} bool ARARomanProceduralBuildingActor::GenerateOilWorkshop(){return GenerateBuildingByType(ERARomanBuildingType::OilWorkshop);} bool ARARomanProceduralBuildingActor::GenerateWinery(){return GenerateBuildingByType(ERARomanBuildingType::Winery);} bool ARARomanProceduralBuildingActor::GeneratePressingWorkshop(){return GenerateBuildingByType(ERARomanBuildingType::PressingWorkshop);} bool ARARomanProceduralBuildingActor::GenerateStandaloneOven(){return GenerateBuildingByType(ERARomanBuildingType::StandaloneOven);} bool ARARomanProceduralBuildingActor::GenerateHorrea(){return GenerateBuildingByType(ERARomanBuildingType::Horrea);} bool ARARomanProceduralBuildingActor::GenerateUrbanGarden(){return GenerateBuildingByType(ERARomanBuildingType::UrbanGarden);} bool ARARomanProceduralBuildingActor::GenerateServiceYard(){return GenerateBuildingByType(ERARomanBuildingType::ServiceYard);}
 bool ARARomanProceduralBuildingActor::GenerateAtriumDomus(){ return GenerateBuildingByType(ERARomanBuildingType::AtriumDomus); }
 bool ARARomanProceduralBuildingActor::GenerateThermopolium(){ return GenerateBuildingByType(ERARomanBuildingType::Thermopolium); }
 bool ARARomanProceduralBuildingActor::GenerateFullonica(){ return GenerateBuildingByType(ERARomanBuildingType::Fullonica); }

@@ -35,6 +35,14 @@ REQUIRED_FILES = [
     "Source/RomaAeterna/RomaAeterna.Build.cs",
     "docs/assets/FREE_ASSET_REGISTER.md",
     "IMPLEMENTATION_STATUS.md",
+    "Scripts/TestRomanUtilitiesAndProduction.ps1",
+    "Source/RomaAeterna/Private/Tests/RARomanUtilitiesProductionTests.cpp",
+    "docs/technical/ROMAN_BATH_COMPLEX.md",
+    "docs/technical/ROMAN_WATER_AND_SEWER_SYSTEM.md",
+    "docs/technical/ROMAN_PRODUCTION_ARCHETYPES.md",
+    "docs/technical/ROMAN_UTILITY_CONNECTIONS.md",
+    "docs/testing/ROMAN_UTILITIES_PRODUCTION_TEST_PLAN.md",
+    "docs/audits/PROMPT_24_IMPLEMENTATION_REPORT.md",
 ]
 
 
@@ -114,6 +122,24 @@ for tag in ("public_room", "private_room", "service_room", "commercial_area", "p
     if tag not in core_text:
         ERRORS.append(f"tag semantico mancante: {tag}")
 
+for prompt24_type in ("UtilityType", "WaterSourceType", "DrainageType", "HeatSourceType", "ProductionFlowType", "UtilityConnection", "WaterNetworkNode", "DrainageNetworkNode", "HeatSourceDefinition", "HazardZoneDefinition", "ProductionStageDefinition", "ProductionFlowDefinition", "StorageUnitDefinition", "BathRoomDefinition", "HypocaustDefinition", "AqueductSegmentDefinition", "SewerSegmentDefinition"):
+    if prompt24_type not in core_text:
+        ERRORS.append(f"tipo utilities Prompt 24 mancante: {prompt24_type}")
+
+for prompt24_archetype in ("BathComplex", "Palaestra", "CastellumAquae", "AqueductSection", "SewerSection", "PublicFountain", "Cistern", "Well", "Tinctoria", "Tannery", "TextileWorkshop", "MetalWorkshop", "PotteryWorkshop", "OilWorkshop", "Winery", "PressingWorkshop", "StandaloneOven", "Horrea", "UrbanGarden", "ServiceYard"):
+    if f"Generate{prompt24_archetype}Plan" not in core_text:
+        ERRORS.append(f"generatore core Prompt 24 mancante: {prompt24_archetype}")
+    if f"Generate{prompt24_archetype}" not in actor_h:
+        ERRORS.append(f"API Blueprint Prompt 24 mancante: {prompt24_archetype}")
+
+for prompt24_api in ("ConnectBuildingToWater", "ConnectBuildingToDrainage", "ConnectBuildingToSewer", "ConnectBuildingToHeat", "ValidateUtilityConnections", "CalculateWaterDemand", "CalculateDrainageDemand", "CalculateHeatDemand", "CalculateStorageCapacity"):
+    if prompt24_api not in core_text:
+        ERRORS.append(f"API utility Prompt 24 mancante: {prompt24_api}")
+
+for prompt24_category in ("AqueductArch", "AqueductChannel", "SewerChannel", "Manhole", "WaterOutlet", "FountainBasin", "WellHead", "CisternTank", "HypocaustPillar", "Furnace", "Boiler", "Press", "Loom", "PotteryWheel", "Anvil", "DryingFrame", "StorageCell", "CargoArea", "FuelStorage", "WasteArea", "IrrigationChannel"):
+    if prompt24_category not in core_text + read("Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h"):
+        ERRORS.append(f"categoria placeholder Prompt 24 mancante: {prompt24_category}")
+
 free_register = read("docs/assets/FREE_ASSET_REGISTER.md")
 for idx in range(27, 37):
     if f"FREE-{idx:03d}" not in free_register:
@@ -152,4 +178,5 @@ if ERRORS:
 print("PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED")
 print("BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED")
 print("RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED")
+print("UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")
