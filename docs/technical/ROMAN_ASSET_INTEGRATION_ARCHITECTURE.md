@@ -34,3 +34,7 @@ Gli asset vendor restano esclusivamente locali sotto le cartelle ignorate `Conte
 `URARomanVisualCatalog::LoadLocalCatalog` cerca esclusivamente il Soft Object Path `/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1`. L’assenza è intenzionale nel CI e produce `LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS`, senza errori di package mancanti. Il catalogo presente produce `LOCAL_ASSET_CATALOG_LOADED`. F7 modifica uno stato runtime transitorio, aggiorna i generatori e non salva riferimenti nella mappa versionata.
 
 Il template JSON è condivisibile ma non obbligatorio. Texture, materiali, Data Asset e preview sono generati sotto percorsi ignorati. La strategia mantiene `Soft Object Reference`, fallback sicuro e assemblaggio procedurale; non usa Git LFS.
+
+## Assegnazione Prompt 28
+
+Il core puro fornisce il selettore pesato deterministico; l'adapter Unreal applica i risultati a una componente ISMC per categoria. La cache usa seed, categoria, archetipo, ricchezza, usura e distretto. Le Material Instance sono asset locali condivisi: non esiste una MID per modulo. L'HUD espone categorie locali, categorie in fallback, seed e varianti attive.

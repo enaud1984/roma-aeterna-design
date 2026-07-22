@@ -23,13 +23,24 @@ void ARATechnicalHUD::DrawHUD()
 	}
 	int32 BuildingCount = 0;
 	int32 GeneratedModules = 0;
+	int32 LocalCategories = 0;
+	int32 FallbackCategories = 0;
+	int32 ActiveVariants = 0;
 	FString Seeds;
+	TArray<FString> MaterialSummaries;
 	if (UWorld* World = GetWorld())
 	{
 		for (TActorIterator<ARARomanProceduralBuildingActor> It(World); It; ++It)
 		{
 			++BuildingCount;
 			GeneratedModules += It->GetGeneratedInstanceCount();
+			LocalCategories += It->GetLocallyResolvedCategoryCount();
+			FallbackCategories += It->GetFallbackCategoryCount();
+			ActiveVariants += It->GetActiveMaterialVariantCount();
+			if (MaterialSummaries.Num() < 3 && It->GetActiveMaterialVariantCount() > 0)
+			{
+				MaterialSummaries.Add(It->GetActiveMaterialSummary());
+			}
 			if (BuildingCount <= 5) Seeds += FString::Printf(TEXT("%s%d"), BuildingCount > 1 ? TEXT(", ") : TEXT(""), It->BuildingParameters.RandomSeed);
 		}
 	}
@@ -50,6 +61,13 @@ void ARATechnicalHUD::DrawHUD()
 	const bool bLocalActive = Character && Character->AreLocalAssetsEnabled() && URARomanVisualCatalog::IsLocalCatalogAvailable();
 	DrawPrototypeLine(bLocalActive ? TEXT("LOCAL ASSETS ACTIVE") : TEXT("PLACEHOLDER FALLBACK ACTIVE"), X, Y,
 		bLocalActive ? FLinearColor(0.35f, 0.95f, 0.45f) : FLinearColor(0.95f, 0.72f, 0.30f));
+	DrawPrototypeLine(FString::Printf(TEXT("Materiali: categorie locali=%d fallback=%d varianti=%d"),
+		LocalCategories, FallbackCategories, ActiveVariants), X, Y, FLinearColor(0.72f, 0.86f, 0.92f));
+	if (MaterialSummaries.Num() > 0)
+	{
+		DrawPrototypeLine(FString::Printf(TEXT("Attivi: %s"), *FString::Join(MaterialSummaries, TEXT(" | "))),
+			X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
+	}
 	if (Character)
 	{
 		DrawPrototypeLine(FString::Printf(TEXT("Debug: label=%s bounds=%s interazioni=%s utilities=%s"),

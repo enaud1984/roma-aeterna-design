@@ -22,6 +22,53 @@ def candidate(asset_id="RA-FAB-ARCH-001", categories=None):
     return item
 
 
+def populate_material_replacement(root: Path):
+    for values in AUDIT.LOCAL_BATCH_1.values():
+        relative_root, *files = values
+        for filename in files:
+            path = root / relative_root / filename
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b"asset")
+    instances = []
+    for index, name in enumerate(AUDIT.LOCAL_MATERIAL_INSTANCES):
+        path = root / f"Content/LocalAssets/RomaAeterna/Materials/{name}.uasset"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"local")
+        instances.append({
+            "name": name,
+            "source_package": sorted(AUDIT.LOCAL_BATCH_1)[index % len(AUDIT.LOCAL_BATCH_1)],
+            "uv_scale": 1.0,
+            "roughness_multiplier": 1.0,
+            "normal_strength": 1.0,
+            "ao_intensity": 1.0,
+            "weathering": 0.5,
+        })
+    # Garantisce che tutti i sette pacchetti siano rappresentati almeno una volta.
+    for index, source in enumerate(sorted(AUDIT.LOCAL_BATCH_1)):
+        instances[index]["source_package"] = source
+    mapping = root / AUDIT.LOCAL_MAPPING_PATH
+    mapping.parent.mkdir(parents=True, exist_ok=True)
+    mapping.write_text(json.dumps({
+        "batch": 1,
+        "catalog": "/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1",
+        "material_instances": instances,
+        "archetypes": sorted(AUDIT.PROMPT_28_ARCHETYPES),
+        "surface_roles": sorted(AUDIT.PROMPT_28_SURFACE_ROLES),
+        "mapping_count": 20,
+    }), encoding="utf-8")
+    for relative in (AUDIT.LOCAL_CATALOG_PATH, AUDIT.LOCAL_PREVIEW_PATH):
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"local")
+    registry = root / "docs/assets/ROMAN_ASSET_SOURCE_REGISTRY.md"
+    registry.parent.mkdir(parents=True, exist_ok=True)
+    registry.write_text("\n".join((
+        "RA-CC0-PH-PLASTERED-WALL-03", "RA-CC0-ACG-BRICKS-066",
+        "RA-CC0-PH-COBBLESTONE-05", "RA-CC0-ACG-ROOFING-TILES-013A",
+        "RA-CC0-ACG-BRICKS-042", "RA-CC0-PH-WOOD-PLANKS-GREY", "RA-CC0-ACG-GROUND-039",
+    )), encoding="utf-8")
+
+
 class AuditRomanAssetsTests(unittest.TestCase):
     def test_parsing_catalogo_materializza_default(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -138,6 +185,29 @@ class AuditRomanAssetsTests(unittest.TestCase):
                 path.write_bytes(b"local")
             report = AUDIT.audit_local_batch(root, 1, set())
             self.assertTrue(any("percorso assoluto" in error for error in report["errors"]))
+
+    def test_material_replacement_completo(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            populate_material_replacement(root)
+            report = AUDIT.audit_material_replacement(root, 1, set())
+            self.assertEqual(report["status"], "PASSED", report["errors"])
+            self.assertEqual(report["material_instance_count"], 11)
+            self.assertEqual(report["normal_dx_count"], 7)
+
+    def test_material_replacement_rifiuta_istanza_tracciata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            populate_material_replacement(root)
+            relative = f"Content/LocalAssets/RomaAeterna/Materials/{AUDIT.LOCAL_MATERIAL_INSTANCES[0]}.uasset"
+            report = AUDIT.audit_material_replacement(root, 1, {relative})
+            self.assertEqual(report["status"], "FAILED")
+            self.assertTrue(any("tracciata da Git" in error for error in report["errors"]))
+
+    def test_material_replacement_assente_supporta_fallback(self):
+        with tempfile.TemporaryDirectory() as directory:
+            report = AUDIT.audit_material_replacement(Path(directory), 1, set())
+            self.assertEqual(report["status"], "NOT_INSTALLED")
 
 
 if __name__ == "__main__":

@@ -13,3 +13,7 @@ La sostituzione futura segue `categoria -> voce catalogo -> asset reale`, senza 
 ## Palette e collisioni
 
 `M_RA_TechnicalBase` espone BaseColor, Roughness e Metallic. Le istanze coprono pietra, basolato, marciapiede, intonaci, muratura, laterizio, legno, tegole, acqua, metallo, terreno, vegetazione, area tecnica e pericolo. Non usano texture esterne. Cube, Cylinder, Sphere e Cone Engine sono i fallback mesh. Le istanze edilizie bloccano il Pawn; decorazioni e vegetazione possono disattivare la collisione.
+
+## Fallback selettivo Prompt 28
+
+La presenza del catalogo locale non disabilita la palette tecnica: ogni categoria non compatibile continua a usare `GetTechnicalMaterialPath`. In questo modo PublicFountain conserva vasca/acqua tecniche, AqueductSection mantiene la pietra principale e gli edifici monumentali non simulano marmo con texture inadatte.

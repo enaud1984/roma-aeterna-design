@@ -17,3 +17,7 @@ Il mapping condivisibile è descritto da `Config/LocalAssets/RomanAssetBatch1.te
 ## Fallback
 
 Il catalogo atteso è `/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1`. Se il package non esiste, il runtime emette `LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS`. Se viene caricato, emette `LOCAL_ASSET_CATALOG_LOADED`. F7 alterna local assets e placeholder e rigenera gli edifici; l’HUD mostra `LOCAL ASSETS ACTIVE` oppure `PLACEHOLDER FALLBACK ACTIVE`.
+
+## Estensione Prompt 28
+
+Il mapping non è più una relazione uno-a-uno. Le voci includono `BuildingArchetypes`, `SurfaceRole`, `MaterialVariant`, `WeatheringLevels`, `UVScale`, `UVRotation`, `ColorTint`, moltiplicatori PBR e `FallbackMaterial`. Undici Material Instance condivise rappresentano ricchezza e usura senza duplicare texture o creare istanze dinamiche per modulo. La selezione è pesata, deterministica per seed e cacheata.

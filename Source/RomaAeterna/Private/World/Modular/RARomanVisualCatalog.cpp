@@ -1,5 +1,6 @@
 #include "World/Modular/RARomanVisualCatalog.h"
 
+#include "RARomanModularCore.h"
 #include "Misc/PackageName.h"
 #include "RomaAeterna.h"
 
@@ -35,6 +36,144 @@ bool URARomanVisualCatalog::FindEntry(const ERARomanModuleCategory Category, FRA
 		}
 	}
 	return false;
+}
+
+bool URARomanVisualCatalog::ResolveEntry(const ERARomanModuleCategory Category, const ERARomanBuildingType Archetype,
+	const ERARomanWealthLevel Wealth, const ERARomanWeatheringLevel Weathering, const FName District,
+	const int32 Seed, FRARomanVisualCatalogEntry& OutEntry, int32& OutVariantIndex) const
+{
+	TArray<int32> Candidates;
+	for (int32 Index = 0; Index < Entries.Num(); ++Index)
+	{
+		const FRARomanVisualCatalogEntry& Entry = Entries[Index];
+		if (Entry.Category != Category
+			|| (Entry.BuildingArchetypes.Num() > 0 && !Entry.BuildingArchetypes.Contains(Archetype))
+			|| (Entry.WealthTiers.Num() > 0 && !Entry.WealthTiers.Contains(Wealth))
+			|| (Entry.WeatheringLevels.Num() > 0 && !Entry.WeatheringLevels.Contains(Weathering))
+			|| (!District.IsNone() && Entry.DistrictCompatibility.Num() > 0
+				&& !Entry.DistrictCompatibility.Contains(District)
+				&& !Entry.DistrictCompatibility.Contains(TEXT("AllUrban"))))
+		{
+			continue;
+		}
+		Candidates.Add(Index);
+	}
+	if (Candidates.IsEmpty())
+	{
+		return false;
+	}
+
+	uint32 CacheKey = HashCombine(GetTypeHash(Seed), GetTypeHash(Category));
+	CacheKey = HashCombine(CacheKey, GetTypeHash(Archetype));
+	CacheKey = HashCombine(CacheKey, GetTypeHash(Wealth));
+	CacheKey = HashCombine(CacheKey, GetTypeHash(Weathering));
+	CacheKey = HashCombine(CacheKey, GetTypeHash(District));
+	int32 SelectedIndex = INDEX_NONE;
+	if (const int32* CachedIndex = ResolutionCache.Find(CacheKey); CachedIndex && Entries.IsValidIndex(*CachedIndex))
+	{
+		SelectedIndex = *CachedIndex;
+	}
+	else
+	{
+		std::vector<double> Weights;
+		Weights.reserve(Candidates.Num());
+		for (const int32 Candidate : Candidates) Weights.push_back(Entries[Candidate].VariationWeight);
+		const std::size_t RelativeIndex = RomaAeternaCore::SelectDeterministicWeightedIndex(
+			Weights, Seed, CacheKey ^ 0x52414D41u);
+		SelectedIndex = Candidates[FMath::Min(static_cast<int32>(RelativeIndex), Candidates.Num() - 1)];
+		ResolutionCache.Add(CacheKey, SelectedIndex);
+	}
+
+	OutEntry = Entries[SelectedIndex];
+	OutVariantIndex = 0;
+	if (OutEntry.MaterialOverrides.Num() > 0)
+	{
+		const std::vector<double> OverrideWeights(OutEntry.MaterialOverrides.Num(), 1.0);
+		OutVariantIndex = static_cast<int32>(RomaAeternaCore::SelectDeterministicWeightedIndex(
+			OverrideWeights, Seed, CacheKey ^ 0x52414D49u));
+		if (!OutEntry.MaterialOverrides[OutVariantIndex].IsNull())
+		{
+			OutEntry.Material = OutEntry.MaterialOverrides[OutVariantIndex];
+		}
+	}
+	if (OutEntry.Material.IsNull() && !OutEntry.FallbackMaterial.IsNull())
+	{
+		OutEntry.Material = OutEntry.FallbackMaterial;
+	}
+	return !OutEntry.Material.IsNull();
+}
+
+int32 URARomanVisualCatalog::CountResolvedCategories() const
+{
+	TSet<ERARomanModuleCategory> Categories;
+	for (const FRARomanVisualCatalogEntry& Entry : Entries)
+	{
+		if (!Entry.Material.IsNull() || Entry.MaterialOverrides.Num() > 0)
+		{
+			Categories.Add(Entry.Category);
+		}
+	}
+	return Categories.Num();
+}
+
+int32 URARomanVisualCatalog::CountMaterialVariants() const
+{
+	int32 Count = 0;
+	for (const FRARomanVisualCatalogEntry& Entry : Entries)
+	{
+		Count += FMath::Max(1, Entry.MaterialOverrides.Num());
+	}
+	return Count;
+}
+
+void URARomanVisualCatalog::ClearResolutionCache() const
+{
+	ResolutionCache.Reset();
+}
+
+ERARomanSurfaceRole URARomanVisualCatalog::GetDefaultSurfaceRole(const ERARomanModuleCategory Category)
+{
+	switch (Category)
+	{
+	case ERARomanModuleCategory::Wall: return ERARomanSurfaceRole::ExteriorWall;
+	case ERARomanModuleCategory::Corner: return ERARomanSurfaceRole::StructuralBrick;
+	case ERARomanModuleCategory::Floor: return ERARomanSurfaceRole::SecondaryPaving;
+	case ERARomanModuleCategory::Roof: return ERARomanSurfaceRole::Roof;
+	case ERARomanModuleCategory::Door:
+	case ERARomanModuleCategory::Beam:
+	case ERARomanModuleCategory::Counter:
+	case ERARomanModuleCategory::Shelf:
+	case ERARomanModuleCategory::Table:
+	case ERARomanModuleCategory::Bench:
+	case ERARomanModuleCategory::ShopOpening:
+		return ERARomanSurfaceRole::Timber;
+	case ERARomanModuleCategory::GardenFeature:
+	case ERARomanModuleCategory::IrrigationChannel:
+		return ERARomanSurfaceRole::Ground;
+	case ERARomanModuleCategory::Basin:
+	case ERARomanModuleCategory::FountainBasin:
+	case ERARomanModuleCategory::WaterChannel:
+		return ERARomanSurfaceRole::WaterEdge;
+	case ERARomanModuleCategory::Furnace:
+	case ERARomanModuleCategory::Oven:
+	case ERARomanModuleCategory::HypocaustPillar:
+	case ERARomanModuleCategory::AqueductArch:
+		return ERARomanSurfaceRole::UtilitySurface;
+	default: return ERARomanSurfaceRole::ServiceArea;
+	}
+}
+
+ERARomanWeatheringLevel URARomanVisualCatalog::ConvertDegradationLevel(const ERARomanDegradationLevel Level)
+{
+	switch (Level)
+	{
+	case ERARomanDegradationLevel::New: return ERARomanWeatheringLevel::New;
+	case ERARomanDegradationLevel::Maintained: return ERARomanWeatheringLevel::Light;
+	case ERARomanDegradationLevel::Weathered: return ERARomanWeatheringLevel::Medium;
+	case ERARomanDegradationLevel::Damaged: return ERARomanWeatheringLevel::Heavy;
+	case ERARomanDegradationLevel::Ruined: return ERARomanWeatheringLevel::Ruined;
+	default: return ERARomanWeatheringLevel::Medium;
+	}
 }
 
 FSoftObjectPath URARomanVisualCatalog::GetFallbackMeshPath(const ERARomanModuleCategory Category)

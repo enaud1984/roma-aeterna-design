@@ -29,3 +29,9 @@ I file sono materiali, non moduli geometrici: pivot, scala mesh, collisione, LOD
 - Collisioni: `BlockAll`, QueryAndPhysics sulle geometrie edilizie; nessuna collisione per-poly introdotta.
 
 Qualsiasi valore non misurato resta `NOT_VERIFIED`; non si deduce la compatibilità da `.blend` o glTF perché questi file non vengono importati.
+
+## Audit Prompt 28
+
+L'importazione aggiornata mantiene 28 texture operative e sette master, aggiungendo undici Material Instance condivise. Nessun displacement, tessellation o POM è attivo. L'audit `--material-replacement-audit --batch 1` verifica normal DirectX, limite 2K, parametri PBR, mapping di dieci archetipi, licenze, assenza di duplicazioni, asset tracciati e Git LFS.
+
+Misura Prompt 28: 48 output locali, 89.732.295 byte; import 2,04 secondi e 1.787 MiB fisici di picco. Sui dieci archetipi il test osserva 164 istanze, 64 componenti ISMC, 27 categorie locali e 37 fallback. La cache shader era già calda; il log non espone un conteggio affidabile di shader compilati, quindi tale valore resta `NOT_VERIFIED`.

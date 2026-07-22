@@ -28,6 +28,9 @@ enum class BuildingFunction : std::uint8_t { Residential, Commercial, Productive
 enum class BuildingScale : std::uint8_t { Small, Medium, Large, Monumental };
 enum class AccessType : std::uint8_t { StreetAccess, SecondaryAccess, ServiceAccess, CourtyardAccess, MonumentalAccess, ShopfrontAccess, InternalAccess };
 enum class ZoneFunction : std::uint8_t { Public, Private, Service, Commercial, Productive, Religious, Sanitary, Hydraulic, Circulation, Storage, AnimalWork, OpenSpace };
+enum class SurfaceRole : std::uint8_t { ExteriorWall, InteriorWall, StructuralBrick, RoadSurface, SecondaryPaving, Sidewalk, Kerb, Roof, Timber, Ground, Courtyard, ProductiveFloor, ServiceArea, WaterEdge, UtilitySurface };
+enum class WeatheringLevel : std::uint8_t { New, Light, Medium, Heavy, Ruined };
+enum class WealthTier : std::uint8_t { Poor, Popular, Medium, Wealthy, Monumental };
 
 enum class RoofType : std::uint8_t
 {
@@ -175,6 +178,29 @@ inline bool IsFinite(const Vector3& Value)
 inline bool IsScaleValid(const Vector3& Scale)
 {
     return IsFinite(Scale) && Scale.X > 0.0 && Scale.Y > 0.0 && Scale.Z > 0.0;
+}
+
+inline std::size_t SelectDeterministicWeightedIndex(
+    const std::vector<double>& Weights, std::int32_t Seed, std::uint32_t Salt = 0u)
+{
+    if (Weights.empty()) return 0;
+    double Total = 0.0;
+    for (double Weight : Weights) Total += std::max(Weight, 0.001);
+    std::uint32_t State = static_cast<std::uint32_t>(Seed) ^ Salt ^ 0x9e3779b9u;
+    State ^= State >> 16u;
+    State *= 0x7feb352du;
+    State ^= State >> 15u;
+    State *= 0x846ca68bu;
+    State ^= State >> 16u;
+    const double Unit = static_cast<double>(State) / static_cast<double>(std::numeric_limits<std::uint32_t>::max());
+    const double Choice = Unit * Total;
+    double Cursor = 0.0;
+    for (std::size_t Index = 0; Index < Weights.size(); ++Index)
+    {
+        Cursor += std::max(Weights[Index], 0.001);
+        if (Choice <= Cursor) return Index;
+    }
+    return Weights.size() - 1;
 }
 
 inline double ClampDouble(double Value, double Min, double Max)

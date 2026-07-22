@@ -37,3 +37,7 @@ Gli actor salvano tipo e seed, generano a `BeginPlay`, supportano clear/rebuild 
 ## Consolidamento Prompt 25
 
 La mappa rappresenta ora un isolato con due fronti, dieci archetipi, basolato, marciapiedi, canalette, attraversamento, vicolo e slargo. L’illuminazione è dinamica con Lumen, le categorie usano una palette procedurale e il Character ha testa, torso, braccia e gambe. F1–F6 controllano HUD e debug; F9 conserva il cambio camera.
+
+## Materiali locali Prompt 28
+
+La vertical slice risolve a runtime PopularHouse, DomusMedia, Taberna, Thermopolium, BathComplex, PublicFountain, MetalWorkshop, AqueductSection, UrbanGarden e ServiceYard. `F7` alterna catalogo locale e fallback senza salvare la mappa. L'HUD mostra conteggi delle categorie risolte e delle varianti. La mappa versionata non contiene riferimenti hard a `/Game/LocalAssets/`.

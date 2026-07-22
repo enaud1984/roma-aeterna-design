@@ -316,6 +316,26 @@ void RunUtilitiesProductionPrompt24Tests()
     P.MaximumModuleCount=1;Expect(!BuildPlanLayout(P,BuildingType::BathComplex).bSuccess,"Prompt 24 MaximumModuleCount");
 }
 
+void RunArchitecturalMaterialPrompt28CoreTests()
+{
+    Expect(SurfaceRole::ExteriorWall != SurfaceRole::Roof, "Prompt 28 SurfaceRole distinti");
+    Expect(WeatheringLevel::New != WeatheringLevel::Ruined, "Prompt 28 usura distinta");
+    Expect(WealthTier::Poor != WealthTier::Wealthy, "Prompt 28 ricchezza distinta");
+    const std::vector<double> Weights{1.0, 2.0, 1.0};
+    const std::size_t First = SelectDeterministicWeightedIndex(Weights, 2801, 17u);
+    const std::size_t Second = SelectDeterministicWeightedIndex(Weights, 2801, 17u);
+    Expect(First == Second, "Prompt 28 variante deterministica per seed");
+    Expect(First < Weights.size(), "Prompt 28 variante nei limiti");
+    Expect(SelectDeterministicWeightedIndex({}, 2801) == 0, "Prompt 28 fallback selettore vuoto");
+    std::vector<std::size_t> Seen;
+    for (std::int32_t Seed = 0; Seed < 64; ++Seed)
+    {
+        const std::size_t Value = SelectDeterministicWeightedIndex({1.0, 1.0}, Seed, 28u);
+        if (std::find(Seen.begin(), Seen.end(), Value) == Seen.end()) Seen.push_back(Value);
+    }
+    Expect(Seen.size() == 2, "Prompt 28 variazione controllata tra seed");
+}
+
 } // namespace
 
 int main()
@@ -324,6 +344,7 @@ int main()
     RunArchetypePrompt22Tests();
     RunResidentialCommercialPrompt23Tests();
     RunUtilitiesProductionPrompt24Tests();
+    RunArchitecturalMaterialPrompt28CoreTests();
     if (Failures > 0)
     {
         std::cerr << Failures << " test falliti\n";

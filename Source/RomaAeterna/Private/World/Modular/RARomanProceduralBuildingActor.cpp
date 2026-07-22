@@ -15,6 +15,24 @@ FRARomanGenerationMessage MakeMessage(const FName Code, const FString& Message, 
 {
 	FRARomanGenerationMessage Result; Result.Code = Code; Result.Message = Message; Result.bIsError = bIsError; return Result;
 }
+
+FName GetDistrictForArchetype(const ERARomanBuildingType Type)
+{
+	switch (Type)
+	{
+	case ERARomanBuildingType::PopularHouse: return TEXT("PopularResidential");
+	case ERARomanBuildingType::DomusMedia: return TEXT("MediumResidential");
+	case ERARomanBuildingType::Taberna:
+	case ERARomanBuildingType::Thermopolium: return TEXT("CommercialAxis");
+	case ERARomanBuildingType::BathComplex:
+	case ERARomanBuildingType::PublicFountain: return TEXT("CivicCenter");
+	case ERARomanBuildingType::MetalWorkshop:
+	case ERARomanBuildingType::ServiceYard: return TEXT("ProductiveDistrict");
+	case ERARomanBuildingType::AqueductSection: return TEXT("PeripheralDistrict");
+	case ERARomanBuildingType::UrbanGarden: return TEXT("MediumResidential");
+	default: return NAME_None;
+	}
+}
 }
 
 ARARomanProceduralBuildingActor::ARARomanProceduralBuildingActor()
@@ -41,6 +59,10 @@ void ARARomanProceduralBuildingActor::OnConstruction(const FTransform& Transform
 void ARARomanProceduralBuildingActor::RefreshVisualCatalogFromLocalAssets()
 {
 	VisualCatalog = URARomanVisualCatalog::LoadLocalCatalog(false);
+	if (VisualCatalog)
+	{
+		VisualCatalog->ClearResolutionCache();
+	}
 }
 
 bool ARARomanProceduralBuildingActor::IsUsingLocalAssetCatalog() const
@@ -109,10 +131,23 @@ FRARomanPlaceholderVisualRule ARARomanProceduralBuildingActor::GetVisualRule(ERA
 		if (Rule.Category == Category)
 		{
 			FRARomanVisualCatalogEntry CatalogEntry;
-			if (VisualCatalog && VisualCatalog->FindEntry(Category, CatalogEntry))
+			int32 VariantIndex = 0;
+			if (VisualCatalog && VisualCatalog->ResolveEntry(Category, Parameters.BuildingType,
+				Parameters.WealthLevel, URARomanVisualCatalog::ConvertDegradationLevel(Parameters.DegradationLevel),
+				GetDistrictForArchetype(Parameters.BuildingType), Parameters.RandomSeed, CatalogEntry, VariantIndex))
 			{
 				if (!CatalogEntry.Mesh.IsNull()) Rule.Mesh = CatalogEntry.Mesh;
 				if (!CatalogEntry.Material.IsNull()) Rule.Material = CatalogEntry.Material;
+				Rule.SizeCm *= CatalogEntry.ScaleCorrection;
+				Rule.ExtraRotation += CatalogEntry.RotationCorrection;
+				Rule.SurfaceRole = CatalogEntry.SurfaceRole;
+				Rule.MaterialVariant = CatalogEntry.MaterialVariant;
+				Rule.VariantIndex = VariantIndex;
+				Rule.bResolvedLocally = Rule.Material.ToSoftObjectPath().ToString().StartsWith(TEXT("/Game/LocalAssets/"));
+			}
+			else
+			{
+				Rule.SurfaceRole = URARomanVisualCatalog::GetDefaultSurfaceRole(Category);
 			}
 			if (Rule.Mesh.IsNull()) Rule.Mesh = TSoftObjectPtr<UStaticMesh>(URARomanVisualCatalog::GetFallbackMeshPath(Category));
 			if (Rule.Material.IsNull()) Rule.Material = TSoftObjectPtr<UMaterialInterface>(URARomanVisualCatalog::GetTechnicalMaterialPath(Category));
@@ -173,6 +208,9 @@ bool ARARomanProceduralBuildingActor::ValidateConfiguration(TArray<FRARomanGener
 bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerationResult& Result)
 {
 	if (!bUseDebugPlaceholders) return true;
+	LocallyResolvedCategoryCount = 0;
+	FallbackCategoryCount = 0;
+	ActiveMaterialVariants.Reset();
 	bool bAllMeshesLoaded = true;
 	for (const FRARomanModulePlacement& Placement : Result.GeneratedPlacements)
 	{
@@ -193,6 +231,17 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component->SetNumCustomDataFloats(4);
 			Component->RegisterComponent();
 			GeneratedInstanceComponents.Add(Component);
+			if (Rule.bResolvedLocally)
+			{
+				++LocallyResolvedCategoryCount;
+				const FName VariantName = Rule.MaterialVariant.IsNone()
+					? FName(*Rule.Material.ToSoftObjectPath().GetAssetName()) : Rule.MaterialVariant;
+				ActiveMaterialVariants.AddUnique(VariantName);
+			}
+			else
+			{
+				++FallbackCategoryCount;
+			}
 		}
 		FTransform VisualTransform = Placement.Transform;
 		VisualTransform.ConcatenateRotation(Rule.ExtraRotation.Quaternion());
@@ -215,6 +264,17 @@ void ARARomanProceduralBuildingActor::ClearVisualInstances()
 		if (Component) { Component->ClearInstances(); Component->DestroyComponent(); }
 	}
 	GeneratedInstanceComponents.Empty(); CategoryInstanceComponents.Empty(); GeneratedInstanceCount = 0;
+	LocallyResolvedCategoryCount = 0; FallbackCategoryCount = 0; ActiveMaterialVariants.Reset();
+}
+
+FString ARARomanProceduralBuildingActor::GetActiveMaterialSummary() const
+{
+	TArray<FString> Names;
+	for (const FName Variant : ActiveMaterialVariants)
+	{
+		Names.Add(Variant.ToString());
+	}
+	return Names.Num() > 0 ? FString::Join(Names, TEXT(", ")) : TEXT("solo fallback");
 }
 
 int32 ARARomanProceduralBuildingActor::GetInstanceCountByCategory(ERARomanModuleCategory Category) const

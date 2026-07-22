@@ -30,3 +30,7 @@ Prima della promozione: licenza, path, scala, collisione, performance, contesto 
 ## Mapping locale effettivo Batch 1
 
 Il Batch 1 gratuito mappa materiali CC0 sulle primitive procedurali: Wall→PlasteredWall03, Corner→Bricks066, Floor→Cobblestone05, Roof→RoofingTiles013A, Dolium→Bricks042, Door/Beam→WoodPlanksGrey, GardenFeature→Ground039. Il Data Asset locale non è versionato; schema, grade e LicenseRegistryId sono descritti in `ROMAN_ASSET_BATCH_1_LOCAL_MAPPING.md`. La mappatura precedente dei candidati Fab resta storica e non è operativa.
+
+## Risoluzione contestuale Prompt 28
+
+Il resolver filtra categoria, archetipo, ricchezza, usura e distretto, quindi usa `SelectDeterministicWeightedIndex`. Un risultato assente ricade sulla palette tecnica per la sola categoria interessata. Monumenti, vasche, acqua e pietre principali restano volutamente in fallback quando i sette materiali non sono coerenti.

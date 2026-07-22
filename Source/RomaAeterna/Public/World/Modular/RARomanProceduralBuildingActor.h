@@ -19,6 +19,10 @@ struct ROMAAETERNA_API FRARomanPlaceholderVisualRule
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FRotator ExtraRotation = FRotator::ZeroRotator;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FLinearColor DebugColor = FLinearColor::White;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TSoftObjectPtr<UMaterialInterface> Material;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") ERARomanSurfaceRole SurfaceRole = ERARomanSurfaceRole::ServiceArea;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") FName MaterialVariant = NAME_None;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 VariantIndex = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") bool bResolvedLocally = false;
 };
 
 UCLASS(Blueprintable)
@@ -44,6 +48,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bShowUtilityNodes = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") int32 GeneratedInstanceCount = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") TArray<TObjectPtr<UInstancedStaticMeshComponent>> GeneratedInstanceComponents;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 LocallyResolvedCategoryCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 FallbackCategoryCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") TArray<FName> ActiveMaterialVariants;
 
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") bool GenerateBuilding();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") void ClearGeneratedBuilding();
@@ -126,6 +133,10 @@ public:
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") bool HasGeneratedBuilding() const { return GeneratedInstanceCount > 0 && LastGenerationResult.bSuccess; }
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Visual|Local") void RefreshVisualCatalogFromLocalAssets();
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") bool IsUsingLocalAssetCatalog() const;
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetLocallyResolvedCategoryCount() const { return LocallyResolvedCategoryCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetFallbackCategoryCount() const { return FallbackCategoryCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetActiveMaterialVariantCount() const { return ActiveMaterialVariants.Num(); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") FString GetActiveMaterialSummary() const;
 
 private:
 	UPROPERTY(Transient) TMap<ERARomanModuleCategory, TObjectPtr<UInstancedStaticMeshComponent>> CategoryInstanceComponents;

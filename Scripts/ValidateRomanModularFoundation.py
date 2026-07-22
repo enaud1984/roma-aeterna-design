@@ -369,6 +369,49 @@ for rel in ("Scripts/ImportRomanAssetBatch1.py", "Scripts/TestRomanLocalAssetInt
     if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
         ERRORS.append(f"percorso assoluto hardcoded nel Prompt 27: {rel}")
 
+prompt28_files = [
+    "Scripts/TestRomanArchitecturalMaterialReplacement.ps1",
+    "Source/RomaAeterna/Private/Tests/RAArchitecturalMaterialReplacementTests.cpp",
+    "docs/assets/ROMAN_BATCH_1_MATERIAL_ASSIGNMENT.md",
+    "docs/assets/ROMAN_BATCH_1_ARCHETYPE_MAPPING.md",
+    "docs/assets/ROMAN_BATCH_1_HISTORICAL_LIMITS.md",
+    "docs/testing/ROMAN_ARCHITECTURAL_MATERIAL_REPLACEMENT_TEST_PLAN.md",
+    "docs/audits/PROMPT_28_IMPLEMENTATION_REPORT.md",
+]
+prompt28_text = all_text(prompt28_files) + visual_catalog + read("Scripts/ImportRomanAssetBatch1.py") + read("IMPLEMENTATION_STATUS.md")
+for token in (
+    "ERARomanSurfaceRole", "ERARomanWeatheringLevel", "BuildingArchetypes",
+    "SurfaceRole", "MaterialVariant", "WeatheringLevels", "UVScale", "UVRotation",
+    "ColorTint", "RoughnessMultiplier", "NormalStrength", "AOIntensity", "FallbackMaterial",
+    "ResolveEntry", "ResolutionCache", "SelectDeterministicWeightedIndex",
+    "RomaAeterna.Prompt28.ArchitecturalMaterialReplacement",
+    "--material-replacement-audit", "ARCHITECTURAL_MATERIAL_REPLACEMENT_AUDIT_PASSED",
+    "ARCHITECTURAL_MATERIAL_REPLACEMENT_STATIC_CHECKS_PASSED",
+    "LOCAL_MATERIAL_REPLACEMENT_PREVIEW_PASSED",
+):
+    if token not in prompt28_text + asset_audit_script:
+        ERRORS.append(f"integrazione materiali Prompt 28 incompleta: {token}")
+for instance_name in (
+    "MI_RA_Local_Plaster_Light", "MI_RA_Local_Plaster_Ochre", "MI_RA_Local_Plaster_Red",
+    "MI_RA_Local_Brick_Popular", "MI_RA_Local_Brick_Thermal", "MI_RA_Local_Road_Secondary",
+    "MI_RA_Local_Roof_Terracotta", "MI_RA_Local_Wood_Dark", "MI_RA_Local_Wood_Worn",
+    "MI_RA_Local_Ground_Dry", "MI_RA_Local_Ground_Productive",
+):
+    if instance_name not in prompt28_text:
+        ERRORS.append(f"Material Instance Prompt 28 non configurata: {instance_name}")
+for archetype in (
+    "PopularHouse", "DomusMedia", "Taberna", "Thermopolium", "BathComplex",
+    "PublicFountain", "MetalWorkshop", "AqueductSection", "UrbanGarden", "ServiceYard",
+):
+    if archetype not in prompt28_text:
+        ERRORS.append(f"mapping archetipo Prompt 28 mancante: {archetype}")
+for rel in ("Scripts/ImportRomanAssetBatch1.py", "Scripts/TestRomanArchitecturalMaterialReplacement.ps1", "Config/LocalAssets/RomanAssetBatch1.template.json"):
+    if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
+        ERRORS.append(f"percorso assoluto hardcoded nel Prompt 28: {rel}")
+for token in ("test_material_replacement_completo", "test_material_replacement_rifiuta_istanza_tracciata", "test_material_replacement_assente_supporta_fallback"):
+    if token not in asset_audit_tests:
+        ERRORS.append(f"test audit Prompt 28 mancante: {token}")
+
 try:
     tracked_files = subprocess.run(
         ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
@@ -442,4 +485,5 @@ print("VERTICAL_SLICE_STATIC_CHECKS_PASSED")
 print("VISUAL_CONSOLIDATION_STATIC_CHECKS_PASSED")
 print("ASSET_CATALOG_STATIC_CHECKS_PASSED")
 print("LOCAL_ASSET_INTEGRATION_STATIC_CHECKS_PASSED")
+print("ARCHITECTURAL_MATERIAL_REPLACEMENT_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")
