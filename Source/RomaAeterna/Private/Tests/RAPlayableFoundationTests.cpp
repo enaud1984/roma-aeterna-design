@@ -53,7 +53,7 @@ bool FRACharacterConfigurationTest::RunTest(const FString& Parameters)
 	TestNotNull(TEXT("IMC_Player exists"), Character->GetPlayerMappingContext());
 	if (const UInputMappingContext* MappingContext = Character->GetPlayerMappingContext())
 	{
-		TestEqual(TEXT("IMC_Player contains eight keyboard/mouse mappings"), MappingContext->GetMappings().Num(), 8);
+		TestEqual(TEXT("IMC_Player contains fourteen keyboard/mouse mappings"), MappingContext->GetMappings().Num(), 14);
 	}
 	return true;
 }

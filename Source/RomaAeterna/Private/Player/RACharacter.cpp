@@ -12,9 +12,12 @@
 #include "InputCoreTypes.h"
 #include "InputMappingContext.h"
 #include "InputModifiers.h"
+#include "EngineUtils.h"
+#include "Engine/TextRenderActor.h"
 #include "Player/RAPlayerController.h"
 #include "RomaAeterna.h"
 #include "UObject/ConstructorHelpers.h"
+#include "World/Modular/RARomanProceduralBuildingActor.h"
 
 ARACharacter::ARACharacter()
 {
@@ -59,8 +62,8 @@ ARACharacter::ARACharacter()
 	PlaceholderBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderBody"));
 	PlaceholderBody->SetupAttachment(GetCapsuleComponent());
 	PlaceholderBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	PlaceholderBody->SetRelativeLocation(FVector(0.0f, 0.0f, -16.0f));
-	PlaceholderBody->SetRelativeScale3D(FVector(0.55f, 0.55f, 1.25f));
+	PlaceholderBody->SetRelativeLocation(FVector(0.0f, 0.0f, 5.0f));
+	PlaceholderBody->SetRelativeScale3D(FVector(0.42f, 0.30f, 0.72f));
 	if (CylinderMesh.Succeeded())
 	{
 		PlaceholderBody->SetStaticMesh(CylinderMesh.Object);
@@ -76,6 +79,25 @@ ARACharacter::ARACharacter()
 		PlaceholderHead->SetStaticMesh(SphereMesh.Object);
 	}
 
+	UStaticMesh* PlaceholderCylinderMesh = CylinderMesh.Object;
+	auto ConfigureLimb = [this, PlaceholderCylinderMesh](UStaticMeshComponent* Limb, const FVector& Location, const FVector& Scale, const FRotator& Rotation)
+	{
+		Limb->SetupAttachment(GetCapsuleComponent());
+		Limb->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Limb->SetRelativeLocation(Location);
+		Limb->SetRelativeRotation(Rotation);
+		Limb->SetRelativeScale3D(Scale);
+		if (PlaceholderCylinderMesh) Limb->SetStaticMesh(PlaceholderCylinderMesh);
+	};
+	PlaceholderLeftArm = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderLeftArm"));
+	ConfigureLimb(PlaceholderLeftArm, FVector(0, -35, 10), FVector(0.12f, 0.12f, 0.58f), FRotator(0, 0, -8));
+	PlaceholderRightArm = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderRightArm"));
+	ConfigureLimb(PlaceholderRightArm, FVector(0, 35, 10), FVector(0.12f, 0.12f, 0.58f), FRotator(0, 0, 8));
+	PlaceholderLeftLeg = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderLeftLeg"));
+	ConfigureLimb(PlaceholderLeftLeg, FVector(0, -15, -58), FVector(0.15f, 0.15f, 0.70f), FRotator::ZeroRotator);
+	PlaceholderRightLeg = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderRightLeg"));
+	ConfigureLimb(PlaceholderRightLeg, FVector(0, 15, -58), FVector(0.15f, 0.15f, 0.70f), FRotator::ZeroRotator);
+
 	MoveAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_Move"));
 	MoveAction->ValueType = EInputActionValueType::Axis2D;
 	LookAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_Look"));
@@ -83,6 +105,12 @@ ARACharacter::ARACharacter()
 	JumpAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_Jump"));
 	SprintAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_Sprint"));
 	ToggleViewAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleView"));
+	ToggleHudAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleHud"));
+	ToggleLabelsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleLabels"));
+	ToggleBoundsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleBounds"));
+	ToggleInteractionPointsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleInteractionPoints"));
+	RebuildBuildingsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_RebuildBuildings"));
+	ToggleUtilityNodesAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleUtilityNodes"));
 	PlayerMappingContext = CreateDefaultSubobject<UInputMappingContext>(TEXT("IMC_Player"));
 	ConfigureInputMappings();
 
@@ -132,6 +160,12 @@ void ARACharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	EnhancedInput->BindAction(SprintAction, ETriggerEvent::Started, this, &ARACharacter::HandleSprintStarted);
 	EnhancedInput->BindAction(SprintAction, ETriggerEvent::Completed, this, &ARACharacter::HandleSprintCompleted);
 	EnhancedInput->BindAction(ToggleViewAction, ETriggerEvent::Started, this, &ARACharacter::ToggleViewMode);
+	EnhancedInput->BindAction(ToggleHudAction, ETriggerEvent::Started, this, &ARACharacter::ToggleTechnicalHud);
+	EnhancedInput->BindAction(ToggleLabelsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleBuildingLabels);
+	EnhancedInput->BindAction(ToggleBoundsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleCollisionBounds);
+	EnhancedInput->BindAction(ToggleInteractionPointsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleInteractionPoints);
+	EnhancedInput->BindAction(RebuildBuildingsAction, ETriggerEvent::Started, this, &ARACharacter::RebuildRomanBuildings);
+	EnhancedInput->BindAction(ToggleUtilityNodesAction, ETriggerEvent::Started, this, &ARACharacter::ToggleUtilityNodes);
 }
 
 void ARACharacter::ConfigureInputMappings()
@@ -150,6 +184,12 @@ void ARACharacter::ConfigureInputMappings()
 	PlayerMappingContext->MapKey(JumpAction, EKeys::SpaceBar);
 	PlayerMappingContext->MapKey(SprintAction, EKeys::LeftShift);
 	PlayerMappingContext->MapKey(ToggleViewAction, EKeys::F9);
+	PlayerMappingContext->MapKey(ToggleHudAction, EKeys::F1);
+	PlayerMappingContext->MapKey(ToggleLabelsAction, EKeys::F2);
+	PlayerMappingContext->MapKey(ToggleBoundsAction, EKeys::F3);
+	PlayerMappingContext->MapKey(ToggleInteractionPointsAction, EKeys::F4);
+	PlayerMappingContext->MapKey(RebuildBuildingsAction, EKeys::F5);
+	PlayerMappingContext->MapKey(ToggleUtilityNodesAction, EKeys::F6);
 }
 
 void ARACharacter::HandleMove(const FInputActionValue& Value)
@@ -206,6 +246,10 @@ void ARACharacter::ApplyViewMode(const bool bWriteLog)
 	FirstPersonCamera->SetActive(!bThirdPerson);
 	PlaceholderBody->SetVisibility(bThirdPerson, true);
 	PlaceholderHead->SetVisibility(bThirdPerson, true);
+	PlaceholderLeftArm->SetVisibility(bThirdPerson, true);
+	PlaceholderRightArm->SetVisibility(bThirdPerson, true);
+	PlaceholderLeftLeg->SetVisibility(bThirdPerson, true);
+	PlaceholderRightLeg->SetVisibility(bThirdPerson, true);
 
 #if !UE_BUILD_SHIPPING
 	if (bWriteLog)
@@ -225,6 +269,40 @@ FText ARACharacter::GetViewModeDisplayName() const
 bool ARACharacter::HasValidPlayableFoundation() const
 {
 	return ThirdPersonSpringArm && ThirdPersonCamera && FirstPersonCamera && PlaceholderBody && PlaceholderHead
+		&& PlaceholderLeftArm && PlaceholderRightArm && PlaceholderLeftLeg && PlaceholderRightLeg
 		&& PlayerMappingContext && MoveAction && LookAction && JumpAction && SprintAction && ToggleViewAction
+		&& ToggleHudAction && ToggleLabelsAction && ToggleBoundsAction && ToggleInteractionPointsAction && RebuildBuildingsAction && ToggleUtilityNodesAction
 		&& WalkSpeed > 0.0f && SprintSpeed > WalkSpeed && JumpVelocity > 0.0f;
+}
+
+void ARACharacter::ToggleTechnicalHud() { bTechnicalHudVisible = !bTechnicalHudVisible; }
+
+void ARACharacter::ToggleBuildingLabels()
+{
+	bBuildingLabelsVisible = !bBuildingLabelsVisible;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) { It->bShowDebugLabels = bBuildingLabelsVisible; It->RebuildBuilding(); }
+	for (TActorIterator<ATextRenderActor> It(GetWorld()); It; ++It) if (It->ActorHasTag(TEXT("RA_TECHNICAL_LABEL"))) It->SetActorHiddenInGame(!bBuildingLabelsVisible);
+}
+
+void ARACharacter::ToggleCollisionBounds()
+{
+	bCollisionBoundsVisible = !bCollisionBoundsVisible;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) { It->bShowDebugBounds = bCollisionBoundsVisible; It->RebuildBuilding(); }
+}
+
+void ARACharacter::ToggleInteractionPoints()
+{
+	bInteractionPointsVisible = !bInteractionPointsVisible;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) { It->bShowInteractionPoints = bInteractionPointsVisible; It->RebuildBuilding(); }
+}
+
+void ARACharacter::ToggleUtilityNodes()
+{
+	bUtilityNodesVisible = !bUtilityNodesVisible;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) { It->bShowUtilityNodes = bUtilityNodesVisible; It->RebuildBuilding(); }
+}
+
+void ARACharacter::RebuildRomanBuildings()
+{
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) It->RebuildBuilding();
 }

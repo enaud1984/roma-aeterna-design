@@ -52,6 +52,15 @@ REQUIRED_FILES = [
     "docs/technical/ROMA_AETERNA_VERTICAL_SLICE.md",
     "docs/testing/ROMA_AETERNA_VERTICAL_SLICE_TEST_PLAN.md",
     "docs/audits/PROMPT_24_BIS_IMPLEMENTATION_REPORT.md",
+    "Scripts/TestRomaAeternaVisualConsolidation.ps1",
+    "Source/RomaAeterna/Public/World/Modular/RARomanVisualCatalog.h",
+    "Source/RomaAeterna/Private/World/Modular/RARomanVisualCatalog.cpp",
+    "Source/RomaAeterna/Private/Tests/RAVisualConsolidationTests.cpp",
+    "docs/technical/ROMAN_VISUAL_PLACEHOLDER_SYSTEM.md",
+    "docs/technical/ROMAN_ASSET_INTEGRATION_ARCHITECTURE.md",
+    "docs/assets/ROMAN_ASSET_CATALOG_TEMPLATE.md",
+    "docs/testing/ROMA_AETERNA_VISUAL_CONSOLIDATION_TEST_PLAN.md",
+    "docs/audits/PROMPT_25_IMPLEMENTATION_REPORT.md",
 ]
 
 
@@ -179,6 +188,15 @@ authorized_binary_assets = {
     "Content/RA/Dev/Maps/TechnicalSandbox.umap",
     "Content/Maps/RomaAeternaVerticalSlice.umap",
 }
+authorized_binary_assets.update({
+    f"Content/Technical/Materials/{name}.uasset"
+    for name in (
+        "M_RA_TechnicalBase", "MI_RA_Stone", "MI_RA_RoadStone", "MI_RA_Sidewalk",
+        "MI_RA_PlasterLight", "MI_RA_PlasterColor", "MI_RA_RoughMasonry", "MI_RA_Brick",
+        "MI_RA_Wood", "MI_RA_RoofTile", "MI_RA_Water", "MI_RA_Metal", "MI_RA_Ground",
+        "MI_RA_Vegetation", "MI_RA_Technical", "MI_RA_Hazard",
+    )
+})
 for binary_asset in ROOT.joinpath("Content").rglob("*"):
     if binary_asset.is_file() and binary_asset.suffix.lower() in {".uasset", ".umap"}:
         relative_asset = binary_asset.relative_to(ROOT).as_posix()
@@ -188,6 +206,37 @@ for binary_asset in ROOT.joinpath("Content").rglob("*"):
 for rel, text in (("Scripts/TestRomaAeternaVerticalSlice.ps1", vertical_script), ("Scripts/CreateRomaAeternaVerticalSlice.py", vertical_generator)):
     if re.search(r"[A-Za-z]:[\\/]", text):
         ERRORS.append(f"percorso assoluto hardcoded nello script vertical slice: {rel}")
+
+visual_catalog = read("Source/RomaAeterna/Public/World/Modular/RARomanVisualCatalog.h") + read("Source/RomaAeterna/Private/World/Modular/RARomanVisualCatalog.cpp")
+visual_test = read("Source/RomaAeterna/Private/Tests/RAVisualConsolidationTests.cpp")
+visual_script = read("Scripts/TestRomaAeternaVisualConsolidation.ps1")
+visual_docs = all_text([
+    "docs/technical/ROMAN_VISUAL_PLACEHOLDER_SYSTEM.md",
+    "docs/technical/ROMAN_ASSET_INTEGRATION_ARCHITECTURE.md",
+    "docs/assets/ROMAN_ASSET_CATALOG_TEMPLATE.md",
+    "docs/testing/ROMA_AETERNA_VISUAL_CONSOLIDATION_TEST_PLAN.md",
+    "docs/audits/PROMPT_25_IMPLEMENTATION_REPORT.md",
+])
+for token in ("URARomanVisualCatalog", "FRARomanVisualCatalogEntry", "TSoftObjectPtr", "GetFallbackMeshPath", "GetTechnicalMaterialPath", "ReplacementAssetId"):
+    if token not in visual_catalog:
+        ERRORS.append(f"catalogo visuale incompleto: {token}")
+for token in ("RA_ROMAN_ROAD", "RA_SIDEWALK", "RA_CROSSING_STONE", "RA_ALLEY", "RA_PLAZA", "RA_URBAN_FRONT_NORTH", "RA_URBAN_FRONT_SOUTH", "RA_DYNAMIC_LIGHT"):
+    if token not in vertical_generator + visual_test:
+        ERRORS.append(f"elemento consolidamento visuale mancante: {token}")
+for token in ("RomaAeterna.Prompt25.VisualConsolidation", "MovableLightCount", "Materiale tecnico assegnato", "RebuildBuilding", "RA_TECHNICAL_LABEL"):
+    if token not in visual_test:
+        ERRORS.append(f"Automation Test Prompt 25 incompleto: {token}")
+for token in ("MAP CHECK,Automation RunTests", "Lighting needs to be rebuilt", "DYNAMIC_LIGHTING_PASSED", "MAP_CHECK_PASSED", "MANUAL_PIE_VERIFICATION_REQUIRED"):
+    if token not in visual_script:
+        ERRORS.append(f"script consolidamento visuale incompleto: {token}")
+for token in ("F1", "F2", "F3", "F4", "F5", "F6", "PlaceholderLeftArm", "PlaceholderRightLeg"):
+    if token not in source_text:
+        ERRORS.append(f"HUD/personaggio consolidato incompleto: {token}")
+for token in ("AssetId", "License", "HistoricalCompatibility", "Pivot", "Nanite", "LOD", "MaterialSlots", "PerformanceTier", "IntendedArchetypes"):
+    if token not in visual_docs:
+        ERRORS.append(f"template/catalogazione asset incompleto: {token}")
+if re.search(r"[A-Za-z]:[\\/]", visual_script):
+    ERRORS.append("percorso assoluto hardcoded nello script Prompt 25")
 
 free_register = read("docs/assets/FREE_ASSET_REGISTER.md")
 for idx in range(27, 37):
@@ -229,4 +278,5 @@ print("BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED")
 print("RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED")
 print("UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED")
 print("VERTICAL_SLICE_STATIC_CHECKS_PASSED")
+print("VISUAL_CONSOLIDATION_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")

@@ -152,3 +152,18 @@ Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, Popul
 - `FAB_ASSET_IMPORT_NOT_STARTED`
 
 La mappa `/Game/Maps/RomaAeternaVerticalSlice` contiene PlayerStart, strada tecnica di 200 metri, illuminazione e sei generatori runtime Prompt 23–24. Character, Enhanced Input e camera sono C++; nessun asset esterno è stato importato. La verifica automatica non viene presentata come prova fisica PIE.
+
+## Prompt 25 — Consolidamento visuale
+
+- `CORE_CPP_DEBUG_TESTS_PASSED`
+- `CORE_CPP_RELEASE_TESTS_PASSED`
+- `VISUAL_CONSOLIDATION_STATIC_CHECKS_PASSED`
+- `UNREAL_BUILD_PASSED`
+- `UNREAL_AUTOMATION_PASSED`
+- `DYNAMIC_LIGHTING_PASSED`
+- `MAP_CHECK_PASSED`
+- `MANUAL_PIE_VERIFICATION_REQUIRED`
+- `PLACEHOLDER_VISUALS_ONLY`
+- `FAB_ASSET_IMPORT_NOT_STARTED`
+
+Vertical slice consolidata con due fronti urbani, dieci archetipi, strada romana tecnica, palette procedurale, catalogo visuale sostituibile, HUD diagnostico e silhouette umana placeholder. Nessun asset Fab, Marketplace o esterno importato.

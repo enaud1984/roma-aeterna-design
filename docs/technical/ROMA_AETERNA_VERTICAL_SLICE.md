@@ -33,3 +33,7 @@ Gli actor salvano tipo e seed, generano a `BeginPlay`, supportano clear/rebuild 
 ## Limiti
 
 `PLACEHOLDER_VISUALS_ONLY`: geometria, materiali, proporzioni, illuminazione e testo sono tecnici. Non sono presenti asset Fab, Marketplace, Starter Content o contenuti esterni. Il test automatico carica la mappa, crea il Pawn e valida generatori e collisioni; la prova fisica completa di input e percorrenza resta `MANUAL_PIE_VERIFICATION_REQUIRED`.
+
+## Consolidamento Prompt 25
+
+La mappa rappresenta ora un isolato con due fronti, dieci archetipi, basolato, marciapiedi, canalette, attraversamento, vicolo e slargo. L’illuminazione è dinamica con Lumen, le categorie usano una palette procedurale e il Character ha testa, torso, braccia e gambe. F1–F6 controllano HUD e debug; F9 conserva il cambio camera.

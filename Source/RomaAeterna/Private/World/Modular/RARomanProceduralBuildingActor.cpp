@@ -96,6 +96,14 @@ FRARomanPlaceholderVisualRule ARARomanProceduralBuildingActor::GetVisualRule(ERA
 	{
 		if (Rule.Category == Category)
 		{
+			FRARomanVisualCatalogEntry CatalogEntry;
+			if (VisualCatalog && VisualCatalog->FindEntry(Category, CatalogEntry))
+			{
+				if (!CatalogEntry.Mesh.IsNull()) Rule.Mesh = CatalogEntry.Mesh;
+				if (!CatalogEntry.Material.IsNull()) Rule.Material = CatalogEntry.Material;
+			}
+			if (Rule.Mesh.IsNull()) Rule.Mesh = TSoftObjectPtr<UStaticMesh>(URARomanVisualCatalog::GetFallbackMeshPath(Category));
+			if (Rule.Material.IsNull()) Rule.Material = TSoftObjectPtr<UMaterialInterface>(URARomanVisualCatalog::GetTechnicalMaterialPath(Category));
 			const float Bay = FMath::Max(Parameters.WidthCm / FMath::Max(1, Parameters.BayCount), 25.f);
 			if (Category == ERARomanModuleCategory::Wall || Category == ERARomanModuleCategory::Beam) Rule.SizeCm.X = Bay;
 			if (Category == ERARomanModuleCategory::Wall || Category == ERARomanModuleCategory::Column || Category == ERARomanModuleCategory::Corner) Rule.SizeCm.Z = Parameters.FloorHeightCm;
@@ -166,6 +174,7 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component = NewObject<UInstancedStaticMeshComponent>(this, NAME_None, RF_Transient);
 			Component->SetupAttachment(RootComponent);
 			Component->SetStaticMesh(Mesh);
+			if (UMaterialInterface* Material = Rule.Material.LoadSynchronous()) Component->SetMaterial(0, Material);
 			Component->SetMobility(EComponentMobility::Movable);
 			Component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 			Component->SetCollisionResponseToAllChannels(ECR_Block);
@@ -207,6 +216,17 @@ void ARARomanProceduralBuildingActor::DrawRuntimeDebug()
 	if (!GetWorld()) return;
 	if (bShowDebugBounds && LastGenerationResult.Bounds.IsValid) DrawDebugBox(GetWorld(), LastGenerationResult.Bounds.GetCenter(), LastGenerationResult.Bounds.GetExtent(), FColor::Cyan, false, 5.f);
 	if (bShowDebugLabels) DrawDebugString(GetWorld(), FVector::ZeroVector, FString::Printf(TEXT("Roma Aeterna: tipo=%d seed=%d moduli=%d warning=%d errori=%d"), static_cast<int32>(BuildingParameters.BuildingType), BuildingParameters.RandomSeed, GeneratedInstanceCount, LastGenerationResult.Warnings.Num(), LastGenerationResult.Errors.Num()), this, FColor::White, 5.f, false);
+	if (bShowInteractionPoints)
+	{
+		for (const FRARomanBuildingInteractionPoint& Point : LastGenerationResult.InteractionPoints)
+		{
+			DrawDebugSphere(GetWorld(), Point.Position, 24.f, 8, FColor::Emerald, false, 5.f);
+		}
+	}
+	if (bShowUtilityNodes && (LastGenerationResult.UtilityConnectionCount > 0 || LastGenerationResult.WaterFeatureCount > 0))
+	{
+		DrawDebugDirectionalArrow(GetWorld(), FVector::ZeroVector, FVector(0, 0, 180), 45.f, FColor::Blue, false, 5.f, 0, 8.f);
+	}
 }
 
 FString ARARomanProceduralBuildingActor::GetGenerationSummary() const

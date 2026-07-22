@@ -48,6 +48,11 @@ public:
 	const USpringArmComponent* GetThirdPersonSpringArm() const { return ThirdPersonSpringArm; }
 	const UCameraComponent* GetFirstPersonCamera() const { return FirstPersonCamera; }
 	const UCameraComponent* GetThirdPersonCamera() const { return ThirdPersonCamera; }
+	bool IsTechnicalHudVisible() const { return bTechnicalHudVisible; }
+	bool AreBuildingLabelsVisible() const { return bBuildingLabelsVisible; }
+	bool AreCollisionBoundsVisible() const { return bCollisionBoundsVisible; }
+	bool AreInteractionPointsVisible() const { return bInteractionPointsVisible; }
+	bool AreUtilityNodesVisible() const { return bUtilityNodesVisible; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -59,6 +64,12 @@ private:
 	void HandleLook(const FInputActionValue& Value);
 	void HandleSprintStarted();
 	void HandleSprintCompleted();
+	void ToggleTechnicalHud();
+	void ToggleBuildingLabels();
+	void ToggleCollisionBounds();
+	void ToggleInteractionPoints();
+	void ToggleUtilityNodes();
+	void RebuildRomanBuildings();
 
 	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Camera")
 	TObjectPtr<USpringArmComponent> ThirdPersonSpringArm;
@@ -74,6 +85,18 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Prototype")
 	TObjectPtr<UStaticMeshComponent> PlaceholderHead;
+
+	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Prototype")
+	TObjectPtr<UStaticMeshComponent> PlaceholderLeftArm;
+
+	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Prototype")
+	TObjectPtr<UStaticMeshComponent> PlaceholderRightArm;
+
+	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Prototype")
+	TObjectPtr<UStaticMeshComponent> PlaceholderLeftLeg;
+
+	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Prototype")
+	TObjectPtr<UStaticMeshComponent> PlaceholderRightLeg;
 
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input")
 	TObjectPtr<UInputMappingContext> PlayerMappingContext;
@@ -92,6 +115,19 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input")
 	TObjectPtr<UInputAction> ToggleViewAction;
+
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleHudAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleLabelsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleBoundsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleInteractionPointsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> RebuildBuildingsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleUtilityNodesAction;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bTechnicalHudVisible = true;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bBuildingLabelsVisible = true;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bCollisionBoundsVisible = false;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bInteractionPointsVisible = false;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bUtilityNodesVisible = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Roma Aeterna|Movement", meta = (ClampMin = "1.0"))
 	float WalkSpeed = 300.0f;

@@ -26,3 +26,5 @@ Stato: `MANUAL_PIE_VERIFICATION_REQUIRED`.
 7. Terminare Play senza crash o processi Editor residui.
 
 Solo una prova PIE realmente osservata autorizza a dichiararne il superamento.
+
+Il Prompt 25 aggiunge `RomaAeterna.Prompt25.VisualConsolidation`; la procedura estesa è in `ROMA_AETERNA_VISUAL_CONSOLIDATION_TEST_PLAN.md`.

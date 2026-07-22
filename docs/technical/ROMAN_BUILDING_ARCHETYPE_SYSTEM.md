@@ -28,3 +28,6 @@ Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, Popul
 # Estensione Prompt 24
 
 Il catalogo include terme, reti idriche/fognarie e strutture produttive ordinarie; tutte usano la stessa pipeline `BuildingPlan` → placeholder.
+# Lettura visuale Prompt 25
+
+PopularHouse, DomusMedia, BathComplex, MetalWorkshop, UrbanGarden, Taberna, Thermopolium, PublicFountain, AqueductSection e ServiceYard sono riuniti in due fronti urbani. Il catalogo visuale associa categorie modulari a fallback sostituibili; planimetrie, seed e validazione restano nel core Prompt 22–24.
