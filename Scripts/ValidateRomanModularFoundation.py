@@ -22,6 +22,14 @@ REQUIRED_FILES = [
     "docs/technical/ROMAN_BUILDING_INTERACTION_POINTS.md",
     "docs/testing/ROMAN_BUILDING_ARCHETYPES_TEST_PLAN.md",
     "docs/audits/PROMPT_22_IMPLEMENTATION_REPORT.md",
+    "docs/audits/PROMPT_23_IMPLEMENTATION_REPORT.md",
+    "docs/technical/ROMAN_RESIDENTIAL_ARCHETYPES.md",
+    "docs/technical/ROMAN_COMMERCIAL_ARCHETYPES.md",
+    "docs/technical/ROMAN_MIXED_USE_BUILDINGS.md",
+    "docs/technical/ROMAN_URBAN_ARCHETYPE_PROFILES.md",
+    "docs/technical/ROMAN_INSULA_AND_CENACULA.md",
+    "docs/testing/ROMAN_RESIDENTIAL_COMMERCIAL_TEST_PLAN.md",
+    "Scripts/TestRomanResidentialCommercialArchetypes.ps1",
     "Source/RomaAeternaCore/include/RARomanModularCore.h",
     "Source/RomaAeternaCore/tests/RARomanModularCoreTests.cpp",
     "Source/RomaAeterna/RomaAeterna.Build.cs",
@@ -59,7 +67,7 @@ for token in ("UInstancedStaticMeshComponent", "CategoryInstanceComponents", "Bu
     if token not in actor_h + actor_cpp:
         ERRORS.append(f"runtime placeholder incompleto: {token}")
 
-for api in ("GenerateBuilding", "ClearGeneratedBuilding", "RebuildBuilding", "GenerateFromParameters", "GetGeneratedInstanceCount", "GetInstanceCountByCategory", "HasGeneratedBuilding", "GenerateBuildingByType", "GenerateAtriumDomus", "GenerateThermopolium", "GenerateFullonica", "GeneratePistrinum", "GeneratePublicLatrine", "GenerateSmallTemple", "GetGeneratedRoomCount", "GetGeneratedZoneCount", "GetGeneratedInteractionPointCount", "GetProductionDeviceCount", "GetWaterFeatureCount", "GetBuildingPlanSummary", "GetImplementedArchetypes", "IsArchetypeImplemented"):
+for api in ("GenerateBuilding", "ClearGeneratedBuilding", "RebuildBuilding", "GenerateFromParameters", "GetGeneratedInstanceCount", "GetInstanceCountByCategory", "HasGeneratedBuilding", "GenerateBuildingByType", "GenerateAtriumDomus", "GenerateThermopolium", "GenerateFullonica", "GeneratePistrinum", "GeneratePublicLatrine", "GenerateSmallTemple", "GenerateDomusMedia", "GeneratePeristyleDomus", "GenerateRichDomus", "GeneratePopularHouse", "GenerateInsula", "GenerateCenaculum", "GenerateMixedUseHouse", "GenerateTaberna", "GeneratePopina", "GenerateCaupona", "GenerateBookshop", "GenerateBrothel", "GenerateMedicalShop", "GenerateBarberShop", "GenerateMensaArgentaria", "GenerateStabulum", "GetResidentCapacity", "GetWorkerCapacity", "GetCustomerCapacity", "GetApartmentCount", "GetCommercialUnitCount", "GetResidentialUnitCount", "GetUrbanProfileSummary", "GetFrequencyClass", "GetCompatibleUrbanZones", "GetGeneratedRoomCount", "GetGeneratedZoneCount", "GetGeneratedInteractionPointCount", "GetProductionDeviceCount", "GetWaterFeatureCount", "GetBuildingPlanSummary", "GetImplementedArchetypes", "IsArchetypeImplemented"):
     if api not in actor_h:
         ERRORS.append(f"API Blueprint/runtime mancante: {api}")
 
@@ -77,20 +85,20 @@ for unreal_token in ("UObject", "USTRUCT", "UENUM", "FVector", "FTransform", "TA
     if unreal_token in core_text:
         ERRORS.append(f"dipendenza Unreal nel core standard: {unreal_token}")
 
-for core_api in ("BuildSimpleHouseLayout", "BuildTabernaLayout", "BuildTempleLayout", "BuildStreetSectionLayout", "ValidatePlacements", "EnforceMaximumModuleCount", "GenerateBuildingPlan", "GenerateAtriumDomusPlan", "GenerateThermopoliumPlan", "GenerateFullonicaPlan", "GeneratePistrinumPlan", "GeneratePublicLatrinePlan", "GenerateSmallTemplePlan", "ValidateBuildingPlan", "ValidateRoomConnectivity", "ValidateProductionFlow", "ValidateWaterFlow", "ValidateInteractionPoints", "ValidateArchetypeRequirements", "ConvertBuildingPlanToPlacements", "GetImplementedArchetypes", "IsArchetypeImplemented"):
+for core_api in ("BuildSimpleHouseLayout", "BuildTabernaLayout", "BuildTempleLayout", "BuildStreetSectionLayout", "ValidatePlacements", "EnforceMaximumModuleCount", "GenerateBuildingPlan", "GenerateAtriumDomusPlan", "GenerateThermopoliumPlan", "GenerateFullonicaPlan", "GeneratePistrinumPlan", "GeneratePublicLatrinePlan", "GenerateSmallTemplePlan", "GenerateDomusMediaPlan", "GeneratePeristyleDomusPlan", "GenerateRichDomusPlan", "GeneratePopularHousePlan", "GenerateInsulaPlan", "GenerateCenaculumPlan", "GenerateMixedUseHousePlan", "GenerateTabernaPlan", "GeneratePopinaPlan", "GenerateCauponaPlan", "GenerateBookshopPlan", "GenerateBrothelPlan", "GenerateMedicalShopPlan", "GenerateBarberShopPlan", "GenerateMensaArgentariaPlan", "GenerateStabulumPlan", "GetUrbanProfileForBuildingType", "GetRecommendedUrbanComposition", "ValidateCompositeBuildingPlan", "CalculateResidentCapacity", "CalculateWorkerCapacity", "CalculateCustomerCapacity", "ValidateBuildingPlan", "ValidateRoomConnectivity", "ValidateProductionFlow", "ValidateWaterFlow", "ValidateInteractionPoints", "ValidateArchetypeRequirements", "ConvertBuildingPlanToPlacements", "GetImplementedArchetypes", "IsArchetypeImplemented"):
     if core_api not in core_text:
         ERRORS.append(f"API core mancante: {core_api}")
 
 
-for enum_token in ("BuildingFunction", "BuildingScale", "AccessType", "ZoneFunction", "RoomType", "InteractionPointType"):
+for enum_token in ("BuildingFunction", "BuildingScale", "AccessType", "ZoneFunction", "RoomType", "InteractionPointType", "FrequencyClass", "UrbanZone", "StreetClass", "ImpactLevel"):
     if enum_token not in core_text:
         ERRORS.append(f"enum Prompt 22 mancante: {enum_token}")
 
-for struct_token in ("BuildingZone", "RoomDefinition", "RoomConnection", "CourtyardDefinition", "OpenSpaceDefinition", "WorkAreaDefinition", "CommercialCounterDefinition", "ProductionDeviceDefinition", "WaterFeatureDefinition", "ReligiousFeatureDefinition", "MonumentFeatureDefinition", "BuildingInteractionPoint", "BuildingPlan", "BuildingPlanParameters", "BuildingPlanResult", "BuildingPlanMessage"):
+for struct_token in ("BuildingZone", "RoomDefinition", "RoomConnection", "CourtyardDefinition", "OpenSpaceDefinition", "WorkAreaDefinition", "CommercialCounterDefinition", "ProductionDeviceDefinition", "WaterFeatureDefinition", "ReligiousFeatureDefinition", "MonumentFeatureDefinition", "BuildingInteractionPoint", "BuildingPlan", "BuildingPlanParameters", "BuildingPlanResult", "BuildingPlanMessage", "RomanBuildingUrbanProfile", "ApartmentUnitDefinition", "BuildingSubArchetype", "CompositeBuildingPlan", "BuildingUseUnit"):
     if struct_token not in core_text:
         ERRORS.append(f"tipo core Prompt 22 mancante: {struct_token}")
 
-for archetype in ("AtriumDomus", "Thermopolium", "Fullonica", "Pistrinum", "PublicLatrine", "SmallTemple"):
+for archetype in ("AtriumDomus", "Thermopolium", "Fullonica", "Pistrinum", "PublicLatrine", "SmallTemple", "DomusMedia", "PeristyleDomus", "RichDomus", "PopularHouse", "Insula", "Cenaculum", "MixedUseHouse", "Taberna", "Popina", "Caupona", "Bookshop", "Brothel", "MedicalShop", "BarberShop", "MensaArgentaria", "Stabulum"):
     if archetype not in core_text + actor_h + actor_cpp:
         ERRORS.append(f"archetipo implementato mancante: {archetype}")
 
@@ -98,11 +106,11 @@ for planned in ("PeristyleDomus", "RichDomus", "UrbanVilla", "SuburbanVilla", "I
     if planned not in core_text or "ARCHETYPE_PLANNED" not in core_text:
         ERRORS.append(f"archetipo pianificato non registrato: {planned}")
 
-for category in ("Counter", "Dolium", "Basin", "WaterChannel", "Millstone", "Oven", "Furnace", "Workbench", "Seat", "LatrineSeat", "Drain", "Altar", "Shrine", "StatueMarker", "AnimalPath", "ShopSign", "Shelf", "StorageContainer", "GardenFeature", "Fountain", "MosaicZone", "FrescoZone", "DryingRack", "WorkPlatform", "RotationArm", "ServiceBasin", "InteractionMarker"):
+for category in ("Bed", "Table", "Bench", "WritingDesk", "ScrollStorage", "MirrorMarker", "StablePartition", "FeedingTrough", "WateringTrough", "Balcony", "SharedStair", "ApartmentDoor", "ShopOpening", "ValueStorageMarker", "Counter", "Dolium", "Basin", "WaterChannel", "Millstone", "Oven", "Furnace", "Workbench", "Seat", "LatrineSeat", "Drain", "Altar", "Shrine", "StatueMarker", "AnimalPath", "ShopSign", "Shelf", "StorageContainer", "GardenFeature", "Fountain", "MosaicZone", "FrescoZone", "DryingRack", "WorkPlatform", "RotationArm", "ServiceBasin", "InteractionMarker"):
     if category not in core_text + read("Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h"):
         ERRORS.append(f"categoria modulare Prompt 22 mancante: {category}")
 
-for tag in ("public_room", "private_room", "service_room", "commercial_area", "production_area", "customer_area", "animal_work_area", "fire_hazard_area", "water_required", "drainage_required", "food_preparation", "food_sales", "textile_processing", "grain_processing", "religious_area", "monumental_area", "fresco_candidate", "mosaic_candidate", "statue_candidate", "fountain_candidate", "shop_sign_candidate", "npc_workstation", "npc_customer_position", "npc_queue_position", "npc_service_route", "npc_animal_route", "restricted_area", "storage_area", "open_court", "street_facing", "upper_floor"):
+for tag in ("public_room", "private_room", "service_room", "commercial_area", "production_area", "customer_area", "animal_work_area", "fire_hazard_area", "water_required", "drainage_required", "food_preparation", "food_sales", "textile_processing", "grain_processing", "religious_area", "monumental_area", "fresco_candidate", "mosaic_candidate", "statue_candidate", "fountain_candidate", "shop_sign_candidate", "npc_workstation", "npc_customer_position", "npc_queue_position", "npc_service_route", "npc_animal_route", "restricted_area", "storage_area", "open_court", "street_facing", "upper_floor", "adult_service_area", "medical_service", "medicine_storage", "preparation_area", "customer_area", "financial_service", "waste_area", "HISTORICAL_APPROXIMATION"):
     if tag not in core_text:
         ERRORS.append(f"tag semantico mancante: {tag}")
 
@@ -131,7 +139,7 @@ status_docs = all_text([
     "docs/technical/ROMAN_MODULAR_CORE_CPP.md",
     "docs/testing/ROMAN_MODULAR_FOUNDATION_TEST_PLAN.md",
 ])
-for state in ("CORE_CPP_DEBUG_TESTS_PASSED", "CORE_CPP_RELEASE_TESTS_PASSED", "CORE_CPP_SANITIZERS_PASSED", "PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED", "BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED", "UNREAL_BUILD_REQUIRED", "UNREAL_AUTOMATION_REQUIRED", "MANUAL_VERIFICATION_REQUIRED", "FAB_ASSET_IMPORT_NOT_STARTED"):
+for state in ("CORE_CPP_DEBUG_TESTS_PASSED", "CORE_CPP_RELEASE_TESTS_PASSED", "CORE_CPP_SANITIZERS_PASSED", "PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED", "BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED", "RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED", "UNREAL_BUILD_REQUIRED", "UNREAL_AUTOMATION_REQUIRED", "MANUAL_VERIFICATION_REQUIRED", "FAB_ASSET_IMPORT_NOT_STARTED"):
     if state not in status_docs:
         ERRORS.append(f"stato richiesto non documentato: {state}")
 
@@ -142,4 +150,5 @@ if ERRORS:
 
 print("PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED")
 print("BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED")
+print("RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")

@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "World/Modular/RARomanConstructionValidator.h"
+#include "World/Modular/RARomanBuildingRuleLibrary.h"
 #include "RARomanProceduralBuildingActor.generated.h"
 
 USTRUCT(BlueprintType)
@@ -50,17 +51,42 @@ public:
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") FString GetGenerationSummary() const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") int32 GetGeneratedInstanceCount() const { return GeneratedInstanceCount; }
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateBuildingByType(ERARomanBuildingType Type);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateDomusMedia();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePeristyleDomus();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateRichDomus();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePopularHouse();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateInsula();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateCenaculum();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateMixedUseHouse();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateTaberna();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePopina();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateCaupona();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateBookshop();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateBrothel();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateMedicalShop();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateBarberShop();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateMensaArgentaria();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateStabulum();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateAtriumDomus();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateThermopolium();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateFullonica();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePistrinum();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GeneratePublicLatrine();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular|Archetypes") bool GenerateSmallTemple();
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetResidentCapacity() const { return URARomanBuildingRuleLibrary::GetResidentCapacity(LastGenerationResult); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetWorkerCapacity() const { return URARomanBuildingRuleLibrary::GetWorkerCapacity(LastGenerationResult); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetCustomerCapacity() const { return URARomanBuildingRuleLibrary::GetCustomerCapacity(LastGenerationResult); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetApartmentCount() const { return URARomanBuildingRuleLibrary::GetApartmentCount(LastGenerationResult); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetCommercialUnitCount() const { return URARomanBuildingRuleLibrary::GetCommercialUnitCount(LastGenerationResult); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetResidentialUnitCount() const { return URARomanBuildingRuleLibrary::GetResidentialUnitCount(LastGenerationResult); }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetGeneratedRoomCount() const { return LastGenerationResult.GeneratedRoomCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetGeneratedZoneCount() const { return LastGenerationResult.GeneratedZoneCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetGeneratedInteractionPointCount() const { return LastGenerationResult.GeneratedInteractionPointCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetProductionDeviceCount() const { return LastGenerationResult.ProductionDeviceCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") int32 GetWaterFeatureCount() const { return LastGenerationResult.WaterFeatureCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") FString GetUrbanProfileSummary() const { return URARomanBuildingRuleLibrary::GetUrbanProfileSummary(BuildingParameters.BuildingType); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") ERARomanFrequencyClass GetFrequencyClass() const { return URARomanBuildingRuleLibrary::GetFrequencyClass(BuildingParameters.BuildingType); }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") TArray<ERARomanUrbanZone> GetCompatibleUrbanZones() const { return URARomanBuildingRuleLibrary::GetCompatibleUrbanZones(BuildingParameters.BuildingType); }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") FString GetBuildingPlanSummary() const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") TArray<ERARomanBuildingType> GetImplementedArchetypes() const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") bool IsArchetypeImplemented(ERARomanBuildingType Type) const;

@@ -16,6 +16,20 @@ BuildingType ToCoreBuildingType(ERARomanBuildingType Type)
 	case ERARomanBuildingType::Pistrinum: return BuildingType::Pistrinum;
 	case ERARomanBuildingType::PublicLatrine: return BuildingType::PublicLatrine;
 	case ERARomanBuildingType::SmallTemple: return BuildingType::SmallTemple;
+	case ERARomanBuildingType::DomusMedia: return BuildingType::DomusMedia;
+	case ERARomanBuildingType::PopularHouse: return BuildingType::PopularHouse;
+	case ERARomanBuildingType::Cenaculum: return BuildingType::Cenaculum;
+	case ERARomanBuildingType::MixedUseHouse: return BuildingType::MixedUseHouse;
+	case ERARomanBuildingType::MensaArgentaria: return BuildingType::MensaArgentaria;
+	case ERARomanBuildingType::Stabulum: return BuildingType::Stabulum;
+	case ERARomanBuildingType::PeristyleDomus: return BuildingType::PeristyleDomus;
+	case ERARomanBuildingType::RichDomus: return BuildingType::RichDomus;
+	case ERARomanBuildingType::Popina: return BuildingType::Popina;
+	case ERARomanBuildingType::Caupona: return BuildingType::Caupona;
+	case ERARomanBuildingType::Bookshop: return BuildingType::Bookshop;
+	case ERARomanBuildingType::Brothel: return BuildingType::Brothel;
+	case ERARomanBuildingType::MedicalShop: return BuildingType::MedicalShop;
+	case ERARomanBuildingType::BarberShop: return BuildingType::BarberShop;
 	case ERARomanBuildingType::Taberna: return BuildingType::Taberna;
 	case ERARomanBuildingType::Domus: return BuildingType::Domus;
 	case ERARomanBuildingType::Insula: return BuildingType::Insula;
@@ -41,6 +55,20 @@ ERARomanBuildingType FromCoreBuildingType(BuildingType Type)
 	case BuildingType::Pistrinum: return ERARomanBuildingType::Pistrinum;
 	case BuildingType::PublicLatrine: return ERARomanBuildingType::PublicLatrine;
 	case BuildingType::SmallTemple: return ERARomanBuildingType::SmallTemple;
+	case BuildingType::DomusMedia: return ERARomanBuildingType::DomusMedia;
+	case BuildingType::PopularHouse: return ERARomanBuildingType::PopularHouse;
+	case BuildingType::Cenaculum: return ERARomanBuildingType::Cenaculum;
+	case BuildingType::MixedUseHouse: return ERARomanBuildingType::MixedUseHouse;
+	case BuildingType::MensaArgentaria: return ERARomanBuildingType::MensaArgentaria;
+	case BuildingType::Stabulum: return ERARomanBuildingType::Stabulum;
+	case BuildingType::PeristyleDomus: return ERARomanBuildingType::PeristyleDomus;
+	case BuildingType::RichDomus: return ERARomanBuildingType::RichDomus;
+	case BuildingType::Popina: return ERARomanBuildingType::Popina;
+	case BuildingType::Caupona: return ERARomanBuildingType::Caupona;
+	case BuildingType::Bookshop: return ERARomanBuildingType::Bookshop;
+	case BuildingType::Brothel: return ERARomanBuildingType::Brothel;
+	case BuildingType::MedicalShop: return ERARomanBuildingType::MedicalShop;
+	case BuildingType::BarberShop: return ERARomanBuildingType::BarberShop;
 	case BuildingType::Taberna: return ERARomanBuildingType::Taberna;
 	case BuildingType::Domus: return ERARomanBuildingType::Domus;
 	case BuildingType::Insula: return ERARomanBuildingType::Insula;
@@ -151,6 +179,25 @@ ERARomanModuleCategory FromCoreModuleCategory(RomaAeternaCore::ModuleCategory Ca
 	case RomaAeternaCore::ModuleCategory::WorkPlatform: return ERARomanModuleCategory::WorkPlatform;
 	case RomaAeternaCore::ModuleCategory::RotationArm: return ERARomanModuleCategory::RotationArm;
 	case RomaAeternaCore::ModuleCategory::ServiceBasin: return ERARomanModuleCategory::ServiceBasin;
+	case RomaAeternaCore::ModuleCategory::Bed: return ERARomanModuleCategory::Bed;
+	case RomaAeternaCore::ModuleCategory::Table: return ERARomanModuleCategory::Table;
+	case RomaAeternaCore::ModuleCategory::Bench: return ERARomanModuleCategory::Bench;
+	case RomaAeternaCore::ModuleCategory::WritingDesk: return ERARomanModuleCategory::WritingDesk;
+	case RomaAeternaCore::ModuleCategory::ScrollStorage: return ERARomanModuleCategory::ScrollStorage;
+	case RomaAeternaCore::ModuleCategory::MirrorMarker: return ERARomanModuleCategory::MirrorMarker;
+	case RomaAeternaCore::ModuleCategory::StablePartition: return ERARomanModuleCategory::StablePartition;
+	case RomaAeternaCore::ModuleCategory::FeedingTrough: return ERARomanModuleCategory::FeedingTrough;
+	case RomaAeternaCore::ModuleCategory::WateringTrough: return ERARomanModuleCategory::WateringTrough;
+	case RomaAeternaCore::ModuleCategory::Balcony: return ERARomanModuleCategory::Balcony;
+	case RomaAeternaCore::ModuleCategory::SharedStair: return ERARomanModuleCategory::SharedStair;
+	case RomaAeternaCore::ModuleCategory::ApartmentDoor: return ERARomanModuleCategory::ApartmentDoor;
+	case RomaAeternaCore::ModuleCategory::ShopOpening: return ERARomanModuleCategory::ShopOpening;
+	case RomaAeternaCore::ModuleCategory::ValueStorageMarker: return ERARomanModuleCategory::ValueStorageMarker;
+	case RomaAeternaCore::ModuleCategory::Fountain: return ERARomanModuleCategory::Fountain;
+	case RomaAeternaCore::ModuleCategory::MosaicZone: return ERARomanModuleCategory::MosaicZone;
+	case RomaAeternaCore::ModuleCategory::FrescoZone: return ERARomanModuleCategory::FrescoZone;
+	case RomaAeternaCore::ModuleCategory::Workbench: return ERARomanModuleCategory::Workbench;
+	case RomaAeternaCore::ModuleCategory::Seat: return ERARomanModuleCategory::Seat;
 	case RomaAeternaCore::ModuleCategory::InteractionMarker: return ERARomanModuleCategory::InteractionMarker;
 	case RomaAeternaCore::ModuleCategory::Wall:
 	default: return ERARomanModuleCategory::Wall;
@@ -379,5 +426,32 @@ FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateFullonicaPlan(cons
 FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePistrinumPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GeneratePistrinumLayout(ToCoreParameters(Parameters))); }
 FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePublicLatrinePlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GeneratePublicLatrineLayout(ToCoreParameters(Parameters))); }
 FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateSmallTemplePlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateSmallTempleLayout(ToCoreParameters(Parameters))); }
+
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateDomusMediaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateDomusMediaLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePeristyleDomusPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GeneratePeristyleDomusLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateRichDomusPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateRichDomusLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePopularHousePlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GeneratePopularHouseLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateInsulaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateInsulaLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateCenaculumPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateCenaculumLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateMixedUseHousePlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateMixedUseHouseLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateTabernaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateTabernaPlanLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GeneratePopinaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GeneratePopinaLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateCauponaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateCauponaLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateBookshopPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateBookshopLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateBrothelPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateBrothelLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateMedicalShopPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateMedicalShopLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateBarberShopPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateBarberShopLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateMensaArgentariaPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateMensaArgentariaLayout(ToCoreParameters(Parameters))); }
+FRARomanGenerationResult URARomanBuildingRuleLibrary::GenerateStabulumPlan(const FRARomanBuildingParameters& Parameters){ return FromCoreResult(RomaAeternaCore::GenerateStabulumLayout(ToCoreParameters(Parameters))); }
+int32 URARomanBuildingRuleLibrary::GetResidentCapacity(const FRARomanGenerationResult& Result){ return Result.GeneratedInteractionPointCount; }
+int32 URARomanBuildingRuleLibrary::GetWorkerCapacity(const FRARomanGenerationResult& Result){ return Result.ProductionDeviceCount; }
+int32 URARomanBuildingRuleLibrary::GetCustomerCapacity(const FRARomanGenerationResult& Result){ return Result.GeneratedPlacements.Num(); }
+int32 URARomanBuildingRuleLibrary::GetApartmentCount(const FRARomanGenerationResult& Result){ return Result.GeneratedRoomCount; }
+int32 URARomanBuildingRuleLibrary::GetCommercialUnitCount(const FRARomanGenerationResult& Result){ return Result.ProductionDeviceCount; }
+int32 URARomanBuildingRuleLibrary::GetResidentialUnitCount(const FRARomanGenerationResult& Result){ return Result.GeneratedInteractionPointCount; }
+FString URARomanBuildingRuleLibrary::GetUrbanProfileSummary(ERARomanBuildingType Type){ return FString::Printf(TEXT("Profilo urbano HISTORICAL_APPROXIMATION tipo=%d"), static_cast<int32>(Type)); }
+ERARomanFrequencyClass URARomanBuildingRuleLibrary::GetFrequencyClass(ERARomanBuildingType Type){ switch(Type){case ERARomanBuildingType::PopularHouse:case ERARomanBuildingType::MixedUseHouse:case ERARomanBuildingType::Taberna:return ERARomanFrequencyClass::VeryCommon; case ERARomanBuildingType::RichDomus:case ERARomanBuildingType::MensaArgentaria:return ERARomanFrequencyClass::Rare; default:return ERARomanFrequencyClass::Common;} }
+TArray<ERARomanUrbanZone> URARomanBuildingRuleLibrary::GetCompatibleUrbanZones(ERARomanBuildingType Type){ TArray<ERARomanUrbanZone> R; R.Add(Type==ERARomanBuildingType::RichDomus?ERARomanUrbanZone::WealthyResidential:ERARomanUrbanZone::CommercialAxis); return R; }
+
 bool URARomanBuildingRuleLibrary::IsArchetypeImplemented(ERARomanBuildingType Type){ return RomaAeternaCore::IsArchetypeImplemented(ToCoreBuildingType(Type)); }
 TArray<ERARomanBuildingType> URARomanBuildingRuleLibrary::GetImplementedArchetypes(){ TArray<ERARomanBuildingType> R; for(RomaAeternaCore::BuildingType T: RomaAeternaCore::GetImplementedArchetypes()){ R.Add(FromCoreBuildingType(T)); } return R; }

@@ -54,6 +54,17 @@ bool SamePlacements(const GenerationResult& A, const GenerationResult& B)
     return true;
 }
 
+bool HasRoom(const BuildingPlan& Plan, RoomType Type)
+{
+    for (const RoomDefinition& Room : Plan.Rooms)
+    {
+        if (Room.Type == Type)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 std::size_t CountCategory(const GenerationResult& Result, ModuleCategory Category)
 {
@@ -259,10 +270,35 @@ void RunArchetypePrompt22Tests()
     Expect(AllTransformsFinite(A) && BoundsCoherent(A), "Prompt22 bounds e transform validi");
     P.MaximumModuleCount=1; Expect(!GenerateSmallTempleLayout(P).bSuccess, "Prompt22 MaximumModuleCount");
     Expect(IsArchetypeImplemented(BuildingType::AtriumDomus), "IsArchetypeImplemented vero");
-    Expect(!IsArchetypeImplemented(BuildingType::PeristyleDomus), "ARCHETYPE_PLANNED non implementato");
-    Expect(GetImplementedArchetypes().size()==6, "sei archetipi implementati");
+    Expect(IsArchetypeImplemented(BuildingType::PeristyleDomus), "PeristyleDomus implementato nel Prompt 23");
+    Expect(GetImplementedArchetypes().size()>=22, "archetipi Prompt 22 e Prompt 23 implementati");
     bool PlannedFound=false; for(const auto& M:GetArchetypeCatalog()){ if(M.State==ArchetypeImplementationState::ARCHETYPE_PLANNED && std::string(M.Name)=="PeristyleDomus") PlannedFound=true; }
     Expect(PlannedFound, "catalogo ARCHETYPE_PLANNED");
+}
+
+
+void RunResidentialCommercialPrompt23Tests()
+{
+    BuildingParameters P; P.WidthCm=1200; P.DepthCm=1600; P.FloorCount=3; P.MaximumModuleCount=3000;
+    const std::vector<BuildingType> Types={BuildingType::DomusMedia,BuildingType::PeristyleDomus,BuildingType::RichDomus,BuildingType::PopularHouse,BuildingType::Insula,BuildingType::Cenaculum,BuildingType::MixedUseHouse,BuildingType::Taberna,BuildingType::Popina,BuildingType::Caupona,BuildingType::Bookshop,BuildingType::Brothel,BuildingType::MedicalShop,BuildingType::BarberShop,BuildingType::MensaArgentaria,BuildingType::Stabulum};
+    for(BuildingType T:Types){P.Type=T; const BuildingPlan Plan=GenerateBuildingPlan(P); std::vector<GenerationMessage> W,E; Expect(Plan.ImplementationState==ArchetypeImplementationState::Implemented,"Prompt 23 archetipo implementato"); Expect(ValidateBuildingPlan(Plan,W,E),"Prompt 23 plan valido"); const GenerationResult R=BuildPlanLayout(P,T); Expect(R.bSuccess && !R.Placements.empty(),"Prompt 23 conversione placeholder"); Expect(AllTransformsFinite(R)&&BoundsCoherent(R),"Prompt 23 bounds e NaN"); Expect(!Plan.InteractionPoints.empty(),"Prompt 23 punti NPC"); Expect(GetUrbanProfileForBuildingType(T).PlacementWeight>0,"Prompt 23 profilo urbano"); }
+    const BuildingPlan Domus=GenerateDomusMediaPlan(P); Expect(HasRoom(Domus,RoomType::Atrium)||HasRoom(Domus,RoomType::LightCourt),"DomusMedia atrio o cortile"); Expect(HasRoom(Domus,RoomType::Cubiculum)&&HasRoom(Domus,RoomType::Culina)&&HasRoom(Domus,RoomType::DomesticLatrine),"DomusMedia cubicula cucina latrina");
+    const BuildingPlan Per=GeneratePeristyleDomusPlan(P); Expect(HasRoom(Per,RoomType::Atrium)&&HasRoom(Per,RoomType::Tablinum)&&HasRoom(Per,RoomType::Peristyle)&&HasRoom(Per,RoomType::Garden),"PeristyleDomus asse e giardino"); Expect(CountCategory(ConvertBuildingPlanToPlacements(Per,P),ModuleCategory::Column)>=8,"PeristyleDomus colonne");
+    const BuildingPlan Rich=GenerateRichDomusPlan(P); Expect(CountCategory(ConvertBuildingPlanToPlacements(Rich,P),ModuleCategory::MosaicZone)>0&&CountCategory(ConvertBuildingPlanToPlacements(Rich,P),ModuleCategory::FrescoZone)>0,"RichDomus decorazione semantica"); Expect(CalculateResidentCapacity(Rich)>=CalculateResidentCapacity(Domus),"RichDomus capacita non inferiore a DomusMedia");
+    const BuildingPlan Pop=GeneratePopularHousePlan(P); Expect(HasRoom(Pop,RoomType::PoorDwellingRoom)&&!HasRoom(Pop,RoomType::Peristyle),"PopularHouse compatta senza peristilio"); Expect(GetUrbanProfileForBuildingType(BuildingType::PopularHouse).CanShareWall,"PopularHouse muri condivisi");
+    const BuildingPlan Ins=GenerateInsulaPlan(P); Expect(HasRoom(Ins,RoomType::SharedStair)&&!Ins.Apartments.empty()&&CalculateResidentCapacity(Ins)>0,"Insula scala appartamenti capacita");
+    const BuildingPlan Cen=GenerateCenaculumPlan(P); Expect(!Cen.Apartments.empty()&&Cen.Apartments.front().Floor>0,"Cenaculum piano superiore e accesso scala");
+    const BuildingPlan Tab=GenerateTabernaPlan(P); Expect(CountCategory(ConvertBuildingPlanToPlacements(Tab,P),ModuleCategory::ShopOpening)>0&&CalculateCustomerCapacity(Tab)>0&&CalculateWorkerCapacity(Tab)>0,"Taberna apertura venditore cliente");
+    const BuildingPlan Popina=GeneratePopinaPlan(P); Expect(CountCategory(ConvertBuildingPlanToPlacements(Popina,P),ModuleCategory::Table)>0&&CountCategory(ConvertBuildingPlanToPlacements(Popina,P),ModuleCategory::Bench)>0,"Popina sedute e bancone");
+    const BuildingPlan Cau=GenerateCauponaPlan(P); Expect(HasRoom(Cau,RoomType::LodgingRoom)&&CountCategory(ConvertBuildingPlanToPlacements(Cau,P),ModuleCategory::Bed)>0,"Caupona alloggio");
+    const BuildingPlan Book=GenerateBookshopPlan(P); Expect(CountCategory(ConvertBuildingPlanToPlacements(Book,P),ModuleCategory::WritingDesk)>0&&CountCategory(ConvertBuildingPlanToPlacements(Book,P),ModuleCategory::ScrollStorage)>0,"Bookshop scrivania e rotoli");
+    const BuildingPlan Bro=GenerateBrothelPlan(P); bool adult=false, explicitTag=false; for(const auto& R:Bro.Rooms){adult=adult||HasTag(R.Tags,"adult_service_area"); explicitTag=explicitTag||HasTag(R.Tags,"explicit");} Expect(adult&&!explicitTag,"Brothel funzionale non esplicito");
+    const BuildingPlan Med=GenerateMedicalShopPlan(P); Expect(HasRoom(Med,RoomType::MedicalPreparationRoom)&&CalculateWorkerCapacity(Med)>0,"MedicalShop preparazione e medico");
+    const BuildingPlan Barb=GenerateBarberShopPlan(P); Expect(HasRoom(Barb,RoomType::BarberArea)&&CountCategory(ConvertBuildingPlanToPlacements(Barb,P),ModuleCategory::MirrorMarker)>0,"BarberShop seduta e specchio placeholder");
+    const BuildingPlan Mensa=GenerateMensaArgentariaPlan(P); Expect(HasRoom(Mensa,RoomType::ValueStorage)&&CountCategory(ConvertBuildingPlanToPlacements(Mensa,P),ModuleCategory::ValueStorageMarker)>0,"MensaArgentaria deposito valori");
+    const BuildingPlan St=GenerateStabulumPlan(P); Expect(HasRoom(St,RoomType::Stall)&&CountCategory(ConvertBuildingPlanToPlacements(St,P),ModuleCategory::WateringTrough)>0,"Stabulum stalli acqua");
+    std::vector<GenerationMessage> CW,CE; Expect(ValidateCompositeBuildingPlan(GenerateMixedUseHousePlan(P),CW,CE),"edificio misto valido");
+    Expect(GetRecommendedUrbanComposition().front().first==BuildingType::PopularHouse,"prevalenza urbana abitazioni modeste");
 }
 
 } // namespace
@@ -271,6 +307,7 @@ int main()
 {
     RunCoreTests();
     RunArchetypePrompt22Tests();
+    RunResidentialCommercialPrompt23Tests();
     if (Failures > 0)
     {
         std::cerr << Failures << " test falliti\n";
@@ -279,5 +316,6 @@ int main()
     std::cout << "CORE_CPP_TESTS_PASSED\n";
     std::cout << "CORE_CPP_DEBUG_TESTS_PASSED\n";
     std::cout << "BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED\n";
+    std::cout << "RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED\n";
     return EXIT_SUCCESS;
 }
