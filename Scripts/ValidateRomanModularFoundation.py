@@ -74,6 +74,7 @@ REQUIRED_FILES = [
     "docs/assets/ROMAN_ASSET_NAMING_CONVENTION.md",
     "docs/assets/ROMAN_ASSET_VISUAL_CATALOG_MAPPING.md",
     "docs/assets/ROMAN_ASSET_GIT_STRATEGY.md",
+    "docs/assets/ROMAN_LOCAL_ASSET_INSTALLATION.md",
     "docs/testing/ROMAN_ASSET_AUDIT_TEST_PLAN.md",
     "docs/audits/PROMPT_26_IMPLEMENTATION_REPORT.md",
 ]
@@ -270,7 +271,8 @@ asset_prompt26_text = all_text(asset_prompt26_files)
 for token in (
     "ASSET_REQUIREMENTS_COMPLETED", "FAB_RESEARCH_COMPLETED", "ASSET_CANDIDATES_VERIFIED",
     "ASSET_SHORTLIST_COMPLETED", "ASSET_IMPORT_PLAN_COMPLETED", "ASSET_LICENSE_REVIEW_REQUIRED",
-    "FAB_ASSET_IMPORT_NOT_STARTED", "MANUAL_ACQUISITION_REQUIRED", "GIT_LFS_RECOMMENDED",
+    "FAB_ASSET_IMPORT_NOT_STARTED", "MANUAL_ACQUISITION_REQUIRED", "LOCAL_ASSET_ONLY_STRATEGY",
+    "GIT_LFS_NOT_USED", "EXTERNAL_ASSETS_NOT_VERSIONED",
     "NOT_VERIFIED", "RA-FAB-ARCH-004", "Content/ThirdParty", "URARomanVisualCatalog",
 ):
     if token not in asset_prompt26_text + read("IMPLEMENTATION_STATUS.md"):
@@ -298,15 +300,29 @@ for candidate in asset_candidates:
 
 asset_audit_script = read("Scripts/AuditRomanAssets.py")
 asset_audit_tests = read("Scripts/tests/test_audit_roman_assets.py")
-for token in ("ASSET_AUDIT_", "roman_asset_audit.json", "roman_asset_audit.md", "--check-only", "Content/ThirdParty", "provenienza mancante"):
+for token in ("ASSET_AUDIT_", "roman_asset_audit.json", "roman_asset_audit.md", "--check-only", "Content/ThirdParty", "provenienza mancante", "git", "ls-files", "Asset esterno locale tracciato da Git"):
     if token not in asset_audit_script:
         ERRORS.append(f"AuditRomanAssets incompleto: {token}")
-for token in ("test_parsing_catalogo", "test_rileva_categoria_mancante", "test_rileva_naming_errato", "test_rileva_file_grande", "test_rileva_provenienza_mancante", "test_report_deterministico", "test_funzione_audit_non_scrive"):
+for token in ("test_parsing_catalogo", "test_rileva_categoria_mancante", "test_rileva_naming_errato", "test_rileva_file_grande", "test_rileva_provenienza_mancante", "test_report_deterministico", "test_funzione_audit_non_scrive", "test_asset_esterno_locale_non_tracciato_ammesso", "test_asset_esterno_locale_tracciato_rifiutato"):
     if token not in asset_audit_tests:
         ERRORS.append(f"test AuditRomanAssets mancante: {token}")
 for rel in ("Scripts/AuditRomanAssets.py", "Scripts/tests/test_audit_roman_assets.py"):
     if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
         ERRORS.append(f"percorso assoluto hardcoded nel Prompt 26: {rel}")
+
+gitignore_text = read(".gitignore")
+for ignored_local_asset_path in (
+    "Content/ThirdParty/Fab/", "Content/ThirdParty/Megascans/",
+    "Content/ThirdParty/Marketplace/", "Content/ThirdParty/External/",
+    "Content/LocalAssets/", "Content/ImportedAssets/",
+):
+    if ignored_local_asset_path not in gitignore_text:
+        ERRORS.append(f"cartella asset locale non ignorata: {ignored_local_asset_path}")
+for required_tracked_path in ("Content/Technical/", "Content/Maps/RomaAeternaVerticalSlice.umap"):
+    if required_tracked_path in gitignore_text:
+        ERRORS.append(f"asset tecnico necessario escluso per errore: {required_tracked_path}")
+if "GIT_LFS_" + "RECOMMENDED" in asset_prompt26_text + read("IMPLEMENTATION_STATUS.md"):
+    ERRORS.append("strategia Git LFS obsoleta ancora documentata")
 
 free_register = read("docs/assets/FREE_ASSET_REGISTER.md")
 for idx in range(27, 37):

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -33,6 +34,11 @@ SCORE_KEYS = {
     "HistoricalScore", "IntegrationScore", "PriorityScore",
 }
 IGNORED_PARTS = {".git", "Binaries", "DerivedDataCache", "Intermediate", "Saved"}
+LOCAL_EXTERNAL_ROOTS = (
+    "Content/ThirdParty/Fab/", "Content/ThirdParty/Megascans/",
+    "Content/ThirdParty/Marketplace/", "Content/ThirdParty/External/",
+    "Content/LocalAssets/", "Content/ImportedAssets/",
+)
 
 
 def load_catalog(path: Path) -> dict:
@@ -43,7 +49,10 @@ def load_catalog(path: Path) -> dict:
     return raw
 
 
-def audit_catalog(catalog: dict, root: Path, registry_text: str, large_limit: int) -> dict:
+def audit_catalog(
+    catalog: dict, root: Path, registry_text: str, large_limit: int,
+    tracked_paths: set[str] | None = None,
+) -> dict:
     """Restituisce un report deterministico e non modifica il filesystem."""
     errors: list[str] = []
     warnings: list[str] = []
@@ -84,6 +93,8 @@ def audit_catalog(catalog: dict, root: Path, registry_text: str, large_limit: in
 
     large_files: list[dict] = []
     unauthorized: list[str] = []
+    local_external: list[str] = []
+    tracked_paths = tracked_paths or set()
     content = root / "Content"
     if content.exists():
         for path in sorted(content.rglob("*")):
@@ -94,9 +105,11 @@ def audit_catalog(catalog: dict, root: Path, registry_text: str, large_limit: in
             if size > large_limit:
                 large_files.append({"path": relative, "size_bytes": size})
                 warnings.append(f"File oltre soglia: {relative} ({size} byte)")
-            if relative.startswith("Content/ThirdParty/"):
-                unauthorized.append(relative)
-                errors.append(f"Asset esterno non autorizzato: {relative}")
+            if relative.startswith(LOCAL_EXTERNAL_ROOTS):
+                local_external.append(relative)
+                if relative in tracked_paths:
+                    unauthorized.append(relative)
+                    errors.append(f"Asset esterno locale tracciato da Git: {relative}")
 
     return {
         "status": "PASSED" if not errors else "FAILED",
@@ -104,6 +117,7 @@ def audit_catalog(catalog: dict, root: Path, registry_text: str, large_limit: in
         "category_counts": dict(sorted(category_counts.items())),
         "duplicate_ids": duplicate_ids,
         "large_files": large_files,
+        "local_external_files": local_external,
         "unauthorized_files": unauthorized,
         "errors": sorted(set(errors)),
         "warnings": sorted(set(warnings)),
@@ -141,8 +155,11 @@ def main(argv: list[str] | None = None) -> int:
     try:
         catalog = load_catalog(args.catalog)
         registry = args.registry.read_text(encoding="utf-8")
-        report = audit_catalog(catalog, ROOT, registry, args.large_limit_mib * 1024 * 1024)
-    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        tracked = set(subprocess.run(
+            ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
+        ).stdout.splitlines())
+        report = audit_catalog(catalog, ROOT, registry, args.large_limit_mib * 1024 * 1024, tracked)
+    except (OSError, ValueError, json.JSONDecodeError, subprocess.CalledProcessError) as exc:
         print(f"ASSET_AUDIT_FAILED: {exc}")
         return 1
 

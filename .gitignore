@@ -26,3 +26,11 @@ Plugins/**/Intermediate/
 # Rider and local editor state
 *.DotSettings.user
 Config/DefaultEditorPerProjectUserSettings.local.ini
+
+# Asset esterni esclusivamente locali: non versionare pacchetti o import
+Content/ThirdParty/Fab/
+Content/ThirdParty/Megascans/
+Content/ThirdParty/Marketplace/
+Content/ThirdParty/External/
+Content/LocalAssets/
+Content/ImportedAssets/

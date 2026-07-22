@@ -67,6 +67,29 @@ class AuditRomanAssetsTests(unittest.TestCase):
             AUDIT.audit_catalog({"candidates": [candidate()]}, root, "RA-FAB-ARCH-001", 100)
             self.assertEqual(before, list(root.rglob("*")))
 
+    def test_asset_esterno_locale_non_tracciato_ammesso(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            asset = root / "Content/ThirdParty/Fab/Vendor/Test.uasset"
+            asset.parent.mkdir(parents=True)
+            asset.write_bytes(b"local")
+            report = AUDIT.audit_catalog({"candidates": [candidate()]}, root, "RA-FAB-ARCH-001", 100)
+            self.assertIn("Content/ThirdParty/Fab/Vendor/Test.uasset", report["local_external_files"])
+            self.assertFalse(report["unauthorized_files"])
+
+    def test_asset_esterno_locale_tracciato_rifiutato(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            relative = "Content/ThirdParty/Fab/Vendor/Test.uasset"
+            asset = root / relative
+            asset.parent.mkdir(parents=True)
+            asset.write_bytes(b"tracked")
+            report = AUDIT.audit_catalog(
+                {"candidates": [candidate()]}, root, "RA-FAB-ARCH-001", 100,
+                tracked_paths={relative},
+            )
+            self.assertEqual(report["unauthorized_files"], [relative])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -179,6 +179,10 @@ Vertical slice consolidata con due fronti urbani, dieci archetipi, strada romana
 - `ASSET_CATALOG_STATIC_CHECKS_PASSED`
 - `FAB_ASSET_IMPORT_NOT_STARTED`
 - `MANUAL_ACQUISITION_REQUIRED`
-- `GIT_LFS_RECOMMENDED`
+- `LOCAL_ASSET_ONLY_STRATEGY`
+- `GIT_LFS_NOT_USED`
+- `EXTERNAL_ASSETS_NOT_VERSIONED`
 
 Catalogati 26 candidati reali Fab/Epic e definite shortlist gratuita, valore e alta qualità. Nessun acquisto, download, import, `.uasset` o `.umap` è stato effettuato; prezzi, disponibilità e dati `NOT_VERIFIED` richiedono conferma manuale. La build Unreal non è richiesta perché il Prompt 26 modifica soltanto documentazione e automazione Python.
+
+Strategia asset temporanea: gli asset esterni rimangono esclusivamente locali nelle cartelle ignorate; il repository conserva codice, configurazione, script, documentazione, cataloghi, registri, mapping testuali, `.uproject` e gli asset tecnici già autorizzati. Git LFS non viene usato.

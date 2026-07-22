@@ -13,4 +13,4 @@ Content/ThirdParty/
   Other/<Vendor>/<Package>/
 ```
 
-`Content/ThirdParty` conserva struttura e nomi originali per aggiornamenti e tracciabilità; ownership del vendor. `Content/RomaAeterna` contiene solo wrapper, istanze materiali, Data Asset e adattamenti creati dal progetto; ownership Roma Aeterna. Le mappe restano separate e non incorporano riferimenti hard obbligatori: il visual catalog usa soft reference e fallback. Migrazioni si fanno dall'Editor, mai con Explorer. Cache, `Binaries`, `DerivedDataCache`, `Intermediate` e `Saved` non sono versionate.
+`Content/ThirdParty`, `Content/LocalAssets` e `Content/ImportedAssets` sono esclusivamente locali e ignorati da Git; conservano struttura e nomi vendor per ricostruzione e aggiornamenti. `Content/RomaAeterna` può contenere soltanto configurazione o asset di proprietà del progetto esplicitamente autorizzati, non copie di asset esterni. Le mappe non incorporano riferimenti hard obbligatori: il visual catalog usa soft reference e fallback. `Content/Technical` e la vertical slice tecnica esistente restano versionati. Cache, `Binaries`, `DerivedDataCache`, `Intermediate` e `Saved` non sono versionati.
