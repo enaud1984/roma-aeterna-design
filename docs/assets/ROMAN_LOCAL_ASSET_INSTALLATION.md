@@ -27,7 +27,15 @@ Nessun pacchetto è installato alla data di creazione del registro.
 
 | Pacchetto | Fonte | Versione | Cartella locale di importazione | Data acquisizione | Licenza | Asset effettivamente utilizzati | Passaggi manuali | Dipendenze | Controlli post-importazione |
 |---|---|---|---|---|---|---|---|---|---|
-| `NOT_INSTALLED` | `NOT_VERIFIED` | `NOT_VERIFIED` | `NOT_ASSIGNED` | `NOT_ACQUIRED` | `MANUAL_REVIEW_REQUIRED` | Nessuno | Nessuna acquisizione eseguita | `NOT_VERIFIED` | Nessuno |
+| Plastered Wall 03 | Poly Haven | 2K | `Content/ThirdParty/External/PolyHaven/PlasteredWall03` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | import, tiling, shader |
+| Bricks 066 | ambientCG | 2K-JPG | `Content/ThirdParty/External/AmbientCG/Bricks066` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | import, scala tessitura |
+| Cobblestone 05 | Poly Haven | 2K | `Content/ThirdParty/External/PolyHaven/Cobblestone05` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | uso solo secondario |
+| Roofing Tiles 013 A | ambientCG | 2K-JPG | `Content/ThirdParty/External/AmbientCG/RoofingTiles013A` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | verifica tegole |
+| Bricks 042 | ambientCG | 2K-JPG | `Content/ThirdParty/External/AmbientCG/Bricks042` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | scala laterizi |
+| Wood Planks Grey | Poly Haven | 2K | `Content/ThirdParty/External/PolyHaven/WoodPlanksGrey` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | tinta e larghezza |
+| Ground 039 | ambientCG | 2K-JPG | `Content/ThirdParty/External/AmbientCG/Ground039` | 2026-07-22 | CC0 | Color, Normal DX, Roughness, AO | estrazione ZIP | nessuna | verifica terreno |
+
+Gli archivi non includono un file licenza separato: conservare con il registro gli URL ufficiali `https://polyhaven.com/license` e `https://docs.ambientcg.com/license/`. Entrambi dichiarano CC0 e non richiedono attribuzione; registrare comunque fonte e autore quando disponibile.
 
 ## Procedura manuale per ogni pacchetto
 

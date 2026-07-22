@@ -28,3 +28,9 @@ Categorie prioritarie: Wall, WallWithDoor, WallWithWindow, Column, Arch, Roof, F
 Il catalogo machine-readable è `docs/assets/roman_asset_catalog.json`; il registro fonti è il gate legale/provenienza, mentre `ROMAN_ASSET_VISUAL_CATALOG_MAPPING.md` propone gli alias senza cambiare il runtime. La pipeline approvata è: scoperta → verifica scheda → shortlist → approvazione utente → cattura licenza/account → staging UE 5.8 → audit scala/pivot/collisione/LOD/materiali → wrapper Roma Aeterna → soft reference nel catalogo → build e test → commit atomico.
 
 Gli asset vendor restano esclusivamente locali sotto le cartelle ignorate `Content/ThirdParty/<Fonte>/<Vendor>` senza rename. Il repository conserva soltanto cataloghi, registri, mapping/configurazioni testuali e i fallback tecnici già autorizzati. Il fallback non viene rimosso e il progetto deve funzionare senza librerie locali. L'importazione si arresta se compatibilità, licenza o provenienza non sono verificate. Stati: `LOCAL_ASSET_ONLY_STRATEGY`, `GIT_LFS_NOT_USED`, `EXTERNAL_ASSETS_NOT_VERSIONED`.
+
+## Loader locale Prompt 27
+
+`URARomanVisualCatalog::LoadLocalCatalog` cerca esclusivamente il Soft Object Path `/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1`. L’assenza è intenzionale nel CI e produce `LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS`, senza errori di package mancanti. Il catalogo presente produce `LOCAL_ASSET_CATALOG_LOADED`. F7 modifica uno stato runtime transitorio, aggiorna i generatori e non salva riferimenti nella mappa versionata.
+
+Il template JSON è condivisibile ma non obbligatorio. Texture, materiali, Data Asset e preview sono generati sotto percorsi ignorati. La strategia mantiene `Soft Object Reference`, fallback sicuro e assemblaggio procedurale; non usa Git LFS.

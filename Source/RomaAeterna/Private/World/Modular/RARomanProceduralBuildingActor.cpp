@@ -27,13 +27,25 @@ ARARomanProceduralBuildingActor::ARARomanProceduralBuildingActor()
 void ARARomanProceduralBuildingActor::BeginPlay()
 {
 	Super::BeginPlay();
+	RefreshVisualCatalogFromLocalAssets();
 	if (bGenerateOnBeginPlay) { GenerateBuilding(); }
 }
 
 void ARARomanProceduralBuildingActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+	if (!VisualCatalog) { RefreshVisualCatalogFromLocalAssets(); }
 	if (bAutoRebuildInEditor && !GetWorld()->IsGameWorld()) { GenerateBuilding(); }
+}
+
+void ARARomanProceduralBuildingActor::RefreshVisualCatalogFromLocalAssets()
+{
+	VisualCatalog = URARomanVisualCatalog::LoadLocalCatalog(false);
+}
+
+bool ARARomanProceduralBuildingActor::IsUsingLocalAssetCatalog() const
+{
+	return VisualCatalog && VisualCatalog->GetPathName() == URARomanVisualCatalog::GetLocalCatalogPath().ToString();
 }
 
 TArray<FRARomanPlaceholderVisualRule> ARARomanProceduralBuildingActor::CreateDefaultVisualRules() const

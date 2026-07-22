@@ -53,6 +53,7 @@ public:
 	bool AreCollisionBoundsVisible() const { return bCollisionBoundsVisible; }
 	bool AreInteractionPointsVisible() const { return bInteractionPointsVisible; }
 	bool AreUtilityNodesVisible() const { return bUtilityNodesVisible; }
+	bool AreLocalAssetsEnabled() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -69,6 +70,7 @@ private:
 	void ToggleCollisionBounds();
 	void ToggleInteractionPoints();
 	void ToggleUtilityNodes();
+	void ToggleLocalAssets();
 	void RebuildRomanBuildings();
 
 	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Camera")
@@ -122,6 +124,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleInteractionPointsAction;
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> RebuildBuildingsAction;
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleUtilityNodesAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleLocalAssetsAction;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bTechnicalHudVisible = true;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bBuildingLabelsVisible = true;

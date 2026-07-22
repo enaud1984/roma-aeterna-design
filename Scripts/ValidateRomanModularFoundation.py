@@ -3,6 +3,7 @@
 from pathlib import Path
 import json
 import re
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -10,6 +11,9 @@ ERRORS = []
 CONFLICT_MARKERS = ("<" * 7, "=" * 7, ">" * 7)
 FORBIDDEN_CODE_TOKENS = ("UnrealEd", "GEditor", "AssetTools", "SavePackage", "/workspace/", "C:\\")
 BASIC_SHAPES = ("/Engine/BasicShapes/Cube.Cube", "/Engine/BasicShapes/Cylinder.Cylinder", "/Engine/BasicShapes/Sphere.Sphere", "/Engine/BasicShapes/Cone.Cone")
+LOCAL_EXTERNAL_ROOTS = (
+    "Content/ThirdParty/", "Content/LocalAssets/", "Content/ImportedAssets/",
+)
 
 REQUIRED_FILES = [
     "Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h",
@@ -77,6 +81,16 @@ REQUIRED_FILES = [
     "docs/assets/ROMAN_LOCAL_ASSET_INSTALLATION.md",
     "docs/testing/ROMAN_ASSET_AUDIT_TEST_PLAN.md",
     "docs/audits/PROMPT_26_IMPLEMENTATION_REPORT.md",
+    "Scripts/ImportRomanAssetBatch1.py",
+    "Scripts/TestRomanLocalAssetIntegration.ps1",
+    "Source/RomaAeterna/Private/Tests/RALocalAssetIntegrationTests.cpp",
+    "Config/LocalAssets/RomanAssetBatch1.template.json",
+    "docs/assets/ROMAN_ASSET_BATCH_1_IMPORT_REPORT.md",
+    "docs/assets/ROMAN_ASSET_BATCH_1_LOCAL_MAPPING.md",
+    "docs/assets/ROMAN_ASSET_BATCH_1_TECHNICAL_AUDIT.md",
+    "docs/assets/ROMAN_ASSET_BATCH_1_HISTORICAL_REVIEW.md",
+    "docs/testing/ROMAN_LOCAL_ASSET_INTEGRATION_TEST_PLAN.md",
+    "docs/audits/PROMPT_27_IMPLEMENTATION_REPORT.md",
 ]
 
 
@@ -216,6 +230,8 @@ authorized_binary_assets.update({
 for binary_asset in ROOT.joinpath("Content").rglob("*"):
     if binary_asset.is_file() and binary_asset.suffix.lower() in {".uasset", ".umap"}:
         relative_asset = binary_asset.relative_to(ROOT).as_posix()
+        if relative_asset.startswith(LOCAL_EXTERNAL_ROOTS):
+            continue
         if relative_asset not in authorized_binary_assets:
             ERRORS.append(f"asset binario Unreal non autorizzato: {relative_asset}")
 
@@ -310,6 +326,65 @@ for rel in ("Scripts/AuditRomanAssets.py", "Scripts/tests/test_audit_roman_asset
     if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
         ERRORS.append(f"percorso assoluto hardcoded nel Prompt 26: {rel}")
 
+prompt27_files = [
+    "Scripts/ImportRomanAssetBatch1.py",
+    "Scripts/TestRomanLocalAssetIntegration.ps1",
+    "Source/RomaAeterna/Public/World/Modular/RARomanVisualCatalog.h",
+    "Source/RomaAeterna/Private/World/Modular/RARomanVisualCatalog.cpp",
+    "Source/RomaAeterna/Private/Tests/RALocalAssetIntegrationTests.cpp",
+    "Config/LocalAssets/RomanAssetBatch1.template.json",
+    "docs/assets/ROMAN_ASSET_BATCH_1_IMPORT_REPORT.md",
+    "docs/assets/ROMAN_ASSET_BATCH_1_LOCAL_MAPPING.md",
+    "docs/assets/ROMAN_ASSET_BATCH_1_TECHNICAL_AUDIT.md",
+    "docs/assets/ROMAN_ASSET_BATCH_1_HISTORICAL_REVIEW.md",
+    "docs/testing/ROMAN_LOCAL_ASSET_INTEGRATION_TEST_PLAN.md",
+    "docs/audits/PROMPT_27_IMPLEMENTATION_REPORT.md",
+]
+prompt27_text = all_text(prompt27_files) + read("IMPLEMENTATION_STATUS.md")
+for token in (
+    "--local-import-audit", "--batch", "--report-json", "--report-markdown",
+    "ASSET_BATCH_1_LOCAL_AUDIT_PASSED", "LOCAL_ASSET_BATCH_NOT_INSTALLED",
+    "LOCAL_ASSET_CATALOG_LOADED", "LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS",
+    "RomaAeterna.Prompt27.LocalAssetIntegration", "DA_RA_VisualCatalog_Batch1",
+    "RomaAeternaAssetBatch1Preview", "F7", "Soft Object", "HISTORICAL_APPROXIMATION",
+    "LOCAL_ASSET_ONLY_STRATEGY_CONFIRMED", "GIT_LFS_NOT_USED", "EXTERNAL_ASSETS_NOT_VERSIONED",
+):
+    if token not in asset_audit_script + prompt27_text:
+        ERRORS.append(f"integrazione locale Prompt 27 incompleta: {token}")
+for token in (
+    "HistoricalGrade", "DistrictCompatibility", "WealthTiers", "VariationWeight",
+    "ScaleCorrection", "RotationCorrection", "CollisionProfile", "bPreferNanite",
+    "MaterialOverrides", "SourcePackage", "LicenseRegistryId", "GetLocalCatalogPath",
+    "LoadLocalCatalog", "AreLocalAssetsEnabled",
+):
+    if token not in visual_catalog:
+        ERRORS.append(f"metadato catalogo locale mancante: {token}")
+for token in (
+    "PlasteredWall03", "Bricks066", "Cobblestone05", "RoofingTiles013A",
+    "Bricks042", "WoodPlanksGrey", "Ground039", "ASSET_BATCH_1_LOCAL_IMPORT_PASSED",
+):
+    if token not in read("Scripts/ImportRomanAssetBatch1.py"):
+        ERRORS.append(f"import Batch 1 incompleto: {token}")
+for rel in ("Scripts/ImportRomanAssetBatch1.py", "Scripts/TestRomanLocalAssetIntegration.ps1", "Config/LocalAssets/RomanAssetBatch1.template.json"):
+    if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
+        ERRORS.append(f"percorso assoluto hardcoded nel Prompt 27: {rel}")
+
+try:
+    tracked_files = subprocess.run(
+        ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
+    ).stdout.splitlines()
+    external_tracked = [path for path in tracked_files if path.startswith(LOCAL_EXTERNAL_ROOTS)]
+    if external_tracked:
+        ERRORS.append(f"asset esterni tracciati: {', '.join(external_tracked)}")
+    changed_files = subprocess.run(
+        ["git", "diff", "--name-only", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True,
+    ).stdout.splitlines()
+    for protected_map in ("Content/Maps/RomaAeternaVerticalSlice.umap", "Content/RA/Dev/Maps/TechnicalSandbox.umap"):
+        if protected_map in changed_files:
+            ERRORS.append(f"mappa versionata modificata dal Prompt 27: {protected_map}")
+except subprocess.CalledProcessError as exc:
+    ERRORS.append(f"verifica Git Prompt 27 fallita: {exc}")
+
 gitignore_text = read(".gitignore")
 for ignored_local_asset_path in (
     "Content/ThirdParty/Fab/", "Content/ThirdParty/Megascans/",
@@ -366,4 +441,5 @@ print("UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED")
 print("VERTICAL_SLICE_STATIC_CHECKS_PASSED")
 print("VISUAL_CONSOLIDATION_STATIC_CHECKS_PASSED")
 print("ASSET_CATALOG_STATIC_CHECKS_PASSED")
+print("LOCAL_ASSET_INTEGRATION_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")

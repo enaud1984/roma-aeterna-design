@@ -39,6 +39,53 @@ LOCAL_EXTERNAL_ROOTS = (
     "Content/ThirdParty/Marketplace/", "Content/ThirdParty/External/",
     "Content/LocalAssets/", "Content/ImportedAssets/",
 )
+LOCAL_BATCH_1 = {
+    "PlasteredWall03": (
+        "Content/ThirdParty/External/PolyHaven/PlasteredWall03",
+        "textures/plastered_wall_03_diff_2k.jpg",
+        "textures/plastered_wall_03_nor_dx_2k.jpg",
+        "textures/plastered_wall_03_rough_2k.exr",
+    ),
+    "Bricks066": (
+        "Content/ThirdParty/External/AmbientCG/Bricks066",
+        "Bricks066_2K-JPG_Color.jpg",
+        "Bricks066_2K-JPG_NormalDX.jpg",
+        "Bricks066_2K-JPG_Roughness.jpg",
+    ),
+    "Cobblestone05": (
+        "Content/ThirdParty/External/PolyHaven/Cobblestone05",
+        "textures/cobblestone_05_diff_2k.jpg",
+        "textures/cobblestone_05_nor_dx_2k.jpg",
+        "textures/cobblestone_05_rough_2k.exr",
+    ),
+    "RoofingTiles013A": (
+        "Content/ThirdParty/External/AmbientCG/RoofingTiles013A",
+        "RoofingTiles013A_2K-JPG_Color.jpg",
+        "RoofingTiles013A_2K-JPG_NormalDX.jpg",
+        "RoofingTiles013A_2K-JPG_Roughness.jpg",
+    ),
+    "Bricks042": (
+        "Content/ThirdParty/External/AmbientCG/Bricks042",
+        "Bricks042_2K-JPG_Color.jpg",
+        "Bricks042_2K-JPG_NormalDX.jpg",
+        "Bricks042_2K-JPG_Roughness.jpg",
+    ),
+    "WoodPlanksGrey": (
+        "Content/ThirdParty/External/PolyHaven/WoodPlanksGrey",
+        "textures/wood_planks_grey_diff_2k.jpg",
+        "textures/wood_planks_grey_nor_dx_2k.jpg",
+        "textures/wood_planks_grey_rough_2k.exr",
+    ),
+    "Ground039": (
+        "Content/ThirdParty/External/AmbientCG/Ground039",
+        "Ground039_2K-JPG_Color.jpg",
+        "Ground039_2K-JPG_NormalDX.jpg",
+        "Ground039_2K-JPG_Roughness.jpg",
+    ),
+}
+LOCAL_MAPPING_PATH = "Saved/LocalAssetConfig/roman_asset_batch_1.json"
+LOCAL_CATALOG_PATH = "Content/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1.uasset"
+LOCAL_PREVIEW_PATH = "Content/LocalAssets/RomaAeterna/Maps/RomaAeternaAssetBatch1Preview.umap"
 
 
 def load_catalog(path: Path) -> dict:
@@ -143,6 +190,113 @@ def render_markdown(report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def audit_local_batch(root: Path, batch: int, tracked_paths: set[str]) -> dict:
+    """Verifica in sola lettura sorgenti, import locale, mapping e isolamento Git."""
+    errors: list[str] = []
+    warnings: list[str] = []
+    if batch != 1:
+        return {
+            "status": "FAILED", "batch": batch, "installed": False,
+            "packages": [], "file_count": 0, "size_bytes": 0,
+            "errors": [f"Batch non supportato: {batch}"], "warnings": [],
+        }
+
+    packages = []
+    all_roots_absent = True
+    total_files = 0
+    total_size = 0
+    for name, values in sorted(LOCAL_BATCH_1.items()):
+        relative_root, *required_files = values
+        package_root = root / relative_root
+        present = package_root.is_dir()
+        all_roots_absent &= not present
+        package_files = sorted(path for path in package_root.rglob("*") if path.is_file()) if present else []
+        package_size = sum(path.stat().st_size for path in package_files)
+        missing = [item for item in required_files if not (package_root / item).is_file()]
+        if present and missing:
+            errors.append(f"{name}: file richiesti mancanti: {', '.join(missing)}")
+        if not present:
+            warnings.append(f"{name}: pacchetto locale non installato")
+        for path in package_files:
+            relative = path.relative_to(root).as_posix()
+            if relative in tracked_paths:
+                errors.append(f"Asset esterno tracciato da Git: {relative}")
+        total_files += len(package_files)
+        total_size += package_size
+        packages.append({
+            "name": name,
+            "path": relative_root,
+            "present": present,
+            "file_count": len(package_files),
+            "size_bytes": package_size,
+            "missing_required_files": missing,
+        })
+
+    installed = not all_roots_absent
+    mapping_path = root / LOCAL_MAPPING_PATH
+    catalog_path = root / LOCAL_CATALOG_PATH
+    preview_path = root / LOCAL_PREVIEW_PATH
+    mapping = None
+    if installed:
+        if not mapping_path.is_file():
+            errors.append(f"Mapping locale mancante: {LOCAL_MAPPING_PATH}")
+        else:
+            try:
+                mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                errors.append(f"Mapping locale non valido: {exc}")
+            if mapping and mapping.get("batch") != 1:
+                errors.append("Mapping locale riferito a un batch diverso da 1")
+            if mapping and ABSOLUTE_PATTERN.search(json.dumps(mapping, ensure_ascii=False)):
+                errors.append("Mapping locale contiene un percorso assoluto")
+        if not catalog_path.is_file():
+            errors.append(f"Catalogo Unreal locale mancante: {LOCAL_CATALOG_PATH}")
+        if not preview_path.is_file():
+            errors.append(f"Mappa preview locale mancante: {LOCAL_PREVIEW_PATH}")
+
+    for relative in (LOCAL_CATALOG_PATH, LOCAL_PREVIEW_PATH):
+        if relative in tracked_paths:
+            errors.append(f"Output locale tracciato da Git: {relative}")
+
+    if all_roots_absent:
+        status = "NOT_INSTALLED"
+    else:
+        status = "PASSED" if not errors and all(item["present"] for item in packages) else "FAILED"
+    return {
+        "status": status,
+        "batch": batch,
+        "installed": installed,
+        "packages": packages,
+        "file_count": total_files,
+        "size_bytes": total_size,
+        "mapping_path": LOCAL_MAPPING_PATH,
+        "catalog_path": LOCAL_CATALOG_PATH,
+        "preview_path": LOCAL_PREVIEW_PATH,
+        "errors": sorted(set(errors)),
+        "warnings": sorted(set(warnings)),
+    }
+
+
+def render_local_markdown(report: dict) -> str:
+    lines = [
+        "# Audit locale Asset Batch 1",
+        "",
+        f"Stato: **{report['status']}**",
+        f"File sorgente: **{report['file_count']}**",
+        f"Dimensione sorgenti: **{report['size_bytes']} byte**",
+        "",
+        "| Pacchetto | Presente | File | Byte | Mancanze |",
+        "|---|---|---:|---:|---|",
+    ]
+    for item in report["packages"]:
+        missing = ", ".join(item["missing_required_files"]) or "nessuna"
+        lines.append(f"| {item['name']} | {item['present']} | {item['file_count']} | {item['size_bytes']} | {missing} |")
+    for title, key in (("Errori", "errors"), ("Avvisi", "warnings")):
+        lines.extend(["", f"## {title}", ""])
+        lines.extend(f"- {item}" for item in report[key]) if report[key] else lines.append("- Nessuno.")
+    return "\n".join(lines) + "\n"
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, default=ROOT / "docs/assets/roman_asset_catalog.json")
@@ -150,6 +304,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-dir", type=Path, default=ROOT / "Saved/AssetAudit")
     parser.add_argument("--large-limit-mib", type=int, default=50)
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--local-import-audit", action="store_true")
+    parser.add_argument("--batch", type=int, default=1)
+    parser.add_argument("--report-json", action="store_true")
+    parser.add_argument("--report-markdown", action="store_true")
     args = parser.parse_args(argv)
 
     try:
@@ -158,17 +316,38 @@ def main(argv: list[str] | None = None) -> int:
         tracked = set(subprocess.run(
             ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
         ).stdout.splitlines())
-        report = audit_catalog(catalog, ROOT, registry, args.large_limit_mib * 1024 * 1024, tracked)
+        report = audit_local_batch(ROOT, args.batch, tracked) if args.local_import_audit else audit_catalog(
+            catalog, ROOT, registry, args.large_limit_mib * 1024 * 1024, tracked
+        )
     except (OSError, ValueError, json.JSONDecodeError, subprocess.CalledProcessError) as exc:
         print(f"ASSET_AUDIT_FAILED: {exc}")
         return 1
 
     if not args.check_only:
         args.output_dir.mkdir(parents=True, exist_ok=True)
-        (args.output_dir / "roman_asset_audit.json").write_text(
+        json_name = "roman_asset_batch_1_local_audit.json" if args.local_import_audit else "roman_asset_audit.json"
+        markdown_name = "roman_asset_batch_1_local_audit.md" if args.local_import_audit else "roman_asset_audit.md"
+        write_both = not args.report_json and not args.report_markdown
+        if write_both or args.report_json:
+            (args.output_dir / json_name).write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-        )
-        (args.output_dir / "roman_asset_audit.md").write_text(render_markdown(report), encoding="utf-8")
+            )
+        if write_both or args.report_markdown:
+            renderer = render_local_markdown if args.local_import_audit else render_markdown
+            (args.output_dir / markdown_name).write_text(renderer(report), encoding="utf-8")
+
+    if args.local_import_audit:
+        if report["status"] == "NOT_INSTALLED":
+            print("LOCAL_ASSET_BATCH_NOT_INSTALLED")
+            return 0
+        if report["status"] == "PASSED":
+            print("ASSET_BATCH_1_LOCAL_AUDIT_PASSED")
+            print(f"LOCAL_ASSET_BATCH_SIZE_BYTES={report['size_bytes']}")
+            return 0
+        print("ASSET_BATCH_1_LOCAL_AUDIT_FAILED")
+        for error in report["errors"]:
+            print(f"ERROR: {error}")
+        return 1
 
     print(f"ASSET_AUDIT_{report['status']}: {report['candidate_count']} candidati")
     for error in report["errors"]:

@@ -1,5 +1,18 @@
 # Registro fonti, licenze e provenienza
 
+## Asset Batch 1 CC0 acquisiti localmente
+
+| AssetId | Asset | Autore/editore | Fonte | URL asset | Licenza | URL licenza | Uso commerciale | Attribuzione | Acquisizione |
+|---|---|---|---|---|---|---|---|---|---|
+| RA-CC0-PH-PLASTERED-WALL-03 | Plastered Wall 03 | Rob Tuytel | Poly Haven | https://polyhaven.com/a/plastered_wall_03 | CC0 | https://polyhaven.com/license | consentito | non richiesta | 2026-07-22 |
+| RA-CC0-ACG-BRICKS-066 | Bricks 066 | ambientCG | ambientCG | https://ambientcg.com/view?id=Bricks066 | CC0 1.0 | https://docs.ambientcg.com/license/ | consentito | non richiesta | 2026-07-22 |
+| RA-CC0-PH-COBBLESTONE-05 | Cobblestone 05 | Rob Tuytel | Poly Haven | https://polyhaven.com/a/cobblestone_05 | CC0 | https://polyhaven.com/license | consentito | non richiesta | 2026-07-22 |
+| RA-CC0-ACG-ROOFING-TILES-013A | Roofing Tiles 013 A | ambientCG | ambientCG | https://ambientcg.com/view?id=RoofingTiles013A | CC0 1.0 | https://docs.ambientcg.com/license/ | consentito | non richiesta | 2026-07-22 |
+| RA-CC0-ACG-BRICKS-042 | Bricks 042 | ambientCG | ambientCG | https://ambientcg.com/view?id=Bricks042 | CC0 1.0 | https://docs.ambientcg.com/license/ | consentito | non richiesta | 2026-07-22 |
+| RA-CC0-PH-WOOD-PLANKS-GREY | Wood Planks Grey | Rob Tuytel | Poly Haven | https://polyhaven.com/a/wood_planks_grey | CC0 | https://polyhaven.com/license | consentito | non richiesta | 2026-07-22 |
+| RA-CC0-ACG-GROUND-039 | Ground 039 | ambientCG | ambientCG | https://ambientcg.com/view?id=Ground039 | CC0 1.0 | https://docs.ambientcg.com/license/ | consentito | non richiesta | 2026-07-22 |
+
+I file licenza non erano inclusi negli archivi scaricati; il registro conserva la prova testuale tramite URL ufficiale. Gli originali non vengono redistribuiti né versionati.
 Il registro è preparatorio: data/account di acquisizione e file di licenza restano vuoti fino all'azione manuale dell'utente. `Fab Standard License` riporta soltanto quanto dichiarato nella scheda; la verifica del tier, dei termini vigenti e delle restrizioni è obbligatoria prima dell'import. Questo documento non costituisce parere legale.
 
 Campi comuni a tutte le righe: acquisizione futura `NOT_ACQUIRED`; account `NOT_RECORDED`; file licenza `NOT_CAPTURED`; stato `MANUAL_REVIEW_REQUIRED`; redistribuzione standalone `NOT_ALLOWED` ove si applichi Fab Standard, altrimenti `NOT_VERIFIED`; uso commerciale e attribuzione `NOT_VERIFIED` finché non viene catturata la licenza applicabile.

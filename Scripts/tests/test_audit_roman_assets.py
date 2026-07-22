@@ -90,6 +90,55 @@ class AuditRomanAssetsTests(unittest.TestCase):
             )
             self.assertEqual(report["unauthorized_files"], [relative])
 
+    def test_batch_locale_assente_non_fallisce(self):
+        with tempfile.TemporaryDirectory() as directory:
+            report = AUDIT.audit_local_batch(Path(directory), 1, set())
+            self.assertEqual(report["status"], "NOT_INSTALLED")
+            self.assertFalse(report["installed"])
+
+    def test_batch_locale_completo_e_deterministico(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for values in AUDIT.LOCAL_BATCH_1.values():
+                relative_root, *files = values
+                package_root = root / relative_root
+                package_root.mkdir(parents=True)
+                for filename in files:
+                    path = package_root / filename
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes(b"asset")
+            mapping = root / AUDIT.LOCAL_MAPPING_PATH
+            mapping.parent.mkdir(parents=True)
+            mapping.write_text(json.dumps({"batch": 1, "catalog": "/Game/LocalAssets/Test"}), encoding="utf-8")
+            for relative in (AUDIT.LOCAL_CATALOG_PATH, AUDIT.LOCAL_PREVIEW_PATH):
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"local")
+            first = AUDIT.audit_local_batch(root, 1, set())
+            second = AUDIT.audit_local_batch(root, 1, set())
+            self.assertEqual(first, second)
+            self.assertEqual(first["status"], "PASSED")
+
+    def test_batch_locale_rifiuta_mapping_assoluto(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for values in AUDIT.LOCAL_BATCH_1.values():
+                relative_root, *files = values
+                for filename in files:
+                    path = root / relative_root / filename
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes(b"asset")
+            mapping = root / AUDIT.LOCAL_MAPPING_PATH
+            mapping.parent.mkdir(parents=True)
+            absolute_source = "C:" + "\\Users\\Test"
+            mapping.write_text(json.dumps({"batch": 1, "source": absolute_source}), encoding="utf-8")
+            for relative in (AUDIT.LOCAL_CATALOG_PATH, AUDIT.LOCAL_PREVIEW_PATH):
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"local")
+            report = AUDIT.audit_local_batch(root, 1, set())
+            self.assertTrue(any("percorso assoluto" in error for error in report["errors"]))
+
 
 if __name__ == "__main__":
     unittest.main()

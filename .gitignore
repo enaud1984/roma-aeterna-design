@@ -2,6 +2,8 @@
 docs/export/_generated/qa/
 docs/export/__pycache__/
 docs/export/~$*.docx
+__pycache__/
+*.pyc
 
 # Unreal Engine generated output
 Binaries/

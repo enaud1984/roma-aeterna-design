@@ -1,5 +1,8 @@
 #include "World/Modular/RARomanVisualCatalog.h"
 
+#include "Misc/PackageName.h"
+#include "RomaAeterna.h"
+
 namespace
 {
 const TCHAR* Cube = TEXT("/Engine/BasicShapes/Cube.Cube");
@@ -16,6 +19,9 @@ const TCHAR* Water = TEXT("/Game/Technical/Materials/MI_RA_Water.MI_RA_Water");
 const TCHAR* Metal = TEXT("/Game/Technical/Materials/MI_RA_Metal.MI_RA_Metal");
 const TCHAR* Vegetation = TEXT("/Game/Technical/Materials/MI_RA_Vegetation.MI_RA_Vegetation");
 const TCHAR* Hazard = TEXT("/Game/Technical/Materials/MI_RA_Hazard.MI_RA_Hazard");
+const TCHAR* LocalCatalogPackage = TEXT("/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1");
+const TCHAR* LocalCatalogObject = TEXT("/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1.DA_RA_VisualCatalog_Batch1");
+bool bLocalAssetsEnabled = true;
 }
 
 bool URARomanVisualCatalog::FindEntry(const ERARomanModuleCategory Category, FRARomanVisualCatalogEntry& OutEntry) const
@@ -103,4 +109,56 @@ FSoftObjectPath URARomanVisualCatalog::GetTechnicalMaterialPath(const ERARomanMo
 	default:
 		return FSoftObjectPath(Stone);
 	}
+}
+
+FSoftObjectPath URARomanVisualCatalog::GetLocalCatalogPath()
+{
+	return FSoftObjectPath(LocalCatalogObject);
+}
+
+URARomanVisualCatalog* URARomanVisualCatalog::LoadLocalCatalog(const bool bWriteLog)
+{
+	if (!bLocalAssetsEnabled)
+	{
+		if (bWriteLog)
+		{
+			UE_LOG(LogRomaAeterna, Display, TEXT("LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS: integrazione locale disattivata"));
+		}
+		return nullptr;
+	}
+
+	FString PackageFilename;
+	if (!FPackageName::DoesPackageExist(LocalCatalogPackage, &PackageFilename))
+	{
+		if (bWriteLog)
+		{
+			UE_LOG(LogRomaAeterna, Display, TEXT("LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS"));
+		}
+		return nullptr;
+	}
+
+	URARomanVisualCatalog* Catalog = LoadObject<URARomanVisualCatalog>(nullptr, LocalCatalogObject);
+	if (bWriteLog)
+	{
+		UE_LOG(LogRomaAeterna, Display, TEXT("%s"), Catalog
+			? TEXT("LOCAL_ASSET_CATALOG_LOADED")
+			: TEXT("LOCAL_ASSET_CATALOG_NOT_FOUND_USING_FALLBACKS"));
+	}
+	return Catalog;
+}
+
+bool URARomanVisualCatalog::IsLocalCatalogAvailable()
+{
+	FString PackageFilename;
+	return FPackageName::DoesPackageExist(LocalCatalogPackage, &PackageFilename);
+}
+
+bool URARomanVisualCatalog::AreLocalAssetsEnabled()
+{
+	return bLocalAssetsEnabled;
+}
+
+void URARomanVisualCatalog::SetLocalAssetsEnabled(const bool bEnabled)
+{
+	bLocalAssetsEnabled = bEnabled;
 }

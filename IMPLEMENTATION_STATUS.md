@@ -186,3 +186,19 @@ Vertical slice consolidata con due fronti urbani, dieci archetipi, strada romana
 Catalogati 26 candidati reali Fab/Epic e definite shortlist gratuita, valore e alta qualità. Nessun acquisto, download, import, `.uasset` o `.umap` è stato effettuato; prezzi, disponibilità e dati `NOT_VERIFIED` richiedono conferma manuale. La build Unreal non è richiesta perché il Prompt 26 modifica soltanto documentazione e automazione Python.
 
 Strategia asset temporanea: gli asset esterni rimangono esclusivamente locali nelle cartelle ignorate; il repository conserva codice, configurazione, script, documentazione, cataloghi, registri, mapping testuali, `.uproject` e gli asset tecnici già autorizzati. Git LFS non viene usato.
+
+## Prompt 27 — Integrazione locale Asset Batch 1
+
+- `ASSET_BATCH_1_FREE_ACQUIRED`
+- `LOCAL_ASSET_ONLY_STRATEGY_CONFIRMED`
+- `GIT_LFS_NOT_USED`
+- `EXTERNAL_ASSETS_NOT_VERSIONED`
+- `HISTORICAL_REVIEW_REQUIRED`
+- `ASSET_BATCH_1_LOCAL_AUDIT_PASSED`
+- `LOCAL_ASSET_INTEGRATION_STATIC_CHECKS_PASSED`
+- `LOCAL_ASSET_CATALOG_LOADED`
+- `UNREAL_BUILD_PASSED`
+- `UNREAL_AUTOMATION_PASSED`
+- `LOCAL_ASSET_PREVIEW_PASSED`
+
+Sette materiali PBR CC0 2K (150,96 MiB sorgenti) sono presenti esclusivamente sotto `Content/ThirdParty/External`. Il loader locale, il toggle F7, il template, gli script di import/audit, la preview ignorata e l’Automation Test dual-mode sono stati verificati in UE 5.8. Import: 0 errori/0 warning; Automation: 1 test Success; preview reale: Map Check 0 errori/0 avvisi. Gli output Unreal locali (36 `.uasset`, una `.umap`, 85,39 MiB) rimangono ignorati e non versionati.

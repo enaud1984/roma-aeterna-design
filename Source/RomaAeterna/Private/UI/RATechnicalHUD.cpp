@@ -5,6 +5,7 @@
 #include "EngineUtils.h"
 #include "Player/RACharacter.h"
 #include "World/Modular/RARomanProceduralBuildingActor.h"
+#include "World/Modular/RARomanVisualCatalog.h"
 
 void ARATechnicalHUD::DrawHUD()
 {
@@ -45,7 +46,10 @@ void ARATechnicalHUD::DrawHUD()
 	DrawPrototypeLine(TEXT("Shift  Corsa"), X, Y, FLinearColor::White);
 	DrawPrototypeLine(TEXT("Spazio  Salto"), X, Y, FLinearColor::White);
 	DrawPrototypeLine(TEXT("F1 HUD | F2 Label | F3 Bounds | F4 Interazioni"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
-	DrawPrototypeLine(TEXT("F5 Rigenera | F6 Utilities | F9 Visuale"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
+	DrawPrototypeLine(TEXT("F5 Rigenera | F6 Utilities | F7 Asset locali | F9 Visuale"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
+	const bool bLocalActive = Character && Character->AreLocalAssetsEnabled() && URARomanVisualCatalog::IsLocalCatalogAvailable();
+	DrawPrototypeLine(bLocalActive ? TEXT("LOCAL ASSETS ACTIVE") : TEXT("PLACEHOLDER FALLBACK ACTIVE"), X, Y,
+		bLocalActive ? FLinearColor(0.35f, 0.95f, 0.45f) : FLinearColor(0.95f, 0.72f, 0.30f));
 	if (Character)
 	{
 		DrawPrototypeLine(FString::Printf(TEXT("Debug: label=%s bounds=%s interazioni=%s utilities=%s"),

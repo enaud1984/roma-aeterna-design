@@ -18,6 +18,7 @@
 #include "RomaAeterna.h"
 #include "UObject/ConstructorHelpers.h"
 #include "World/Modular/RARomanProceduralBuildingActor.h"
+#include "World/Modular/RARomanVisualCatalog.h"
 
 ARACharacter::ARACharacter()
 {
@@ -111,6 +112,7 @@ ARACharacter::ARACharacter()
 	ToggleInteractionPointsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleInteractionPoints"));
 	RebuildBuildingsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_RebuildBuildings"));
 	ToggleUtilityNodesAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleUtilityNodes"));
+	ToggleLocalAssetsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleLocalAssets"));
 	PlayerMappingContext = CreateDefaultSubobject<UInputMappingContext>(TEXT("IMC_Player"));
 	ConfigureInputMappings();
 
@@ -166,6 +168,7 @@ void ARACharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	EnhancedInput->BindAction(ToggleInteractionPointsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleInteractionPoints);
 	EnhancedInput->BindAction(RebuildBuildingsAction, ETriggerEvent::Started, this, &ARACharacter::RebuildRomanBuildings);
 	EnhancedInput->BindAction(ToggleUtilityNodesAction, ETriggerEvent::Started, this, &ARACharacter::ToggleUtilityNodes);
+	EnhancedInput->BindAction(ToggleLocalAssetsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleLocalAssets);
 }
 
 void ARACharacter::ConfigureInputMappings()
@@ -190,6 +193,7 @@ void ARACharacter::ConfigureInputMappings()
 	PlayerMappingContext->MapKey(ToggleInteractionPointsAction, EKeys::F4);
 	PlayerMappingContext->MapKey(RebuildBuildingsAction, EKeys::F5);
 	PlayerMappingContext->MapKey(ToggleUtilityNodesAction, EKeys::F6);
+	PlayerMappingContext->MapKey(ToggleLocalAssetsAction, EKeys::F7);
 }
 
 void ARACharacter::HandleMove(const FInputActionValue& Value)
@@ -271,7 +275,7 @@ bool ARACharacter::HasValidPlayableFoundation() const
 	return ThirdPersonSpringArm && ThirdPersonCamera && FirstPersonCamera && PlaceholderBody && PlaceholderHead
 		&& PlaceholderLeftArm && PlaceholderRightArm && PlaceholderLeftLeg && PlaceholderRightLeg
 		&& PlayerMappingContext && MoveAction && LookAction && JumpAction && SprintAction && ToggleViewAction
-		&& ToggleHudAction && ToggleLabelsAction && ToggleBoundsAction && ToggleInteractionPointsAction && RebuildBuildingsAction && ToggleUtilityNodesAction
+		&& ToggleHudAction && ToggleLabelsAction && ToggleBoundsAction && ToggleInteractionPointsAction && RebuildBuildingsAction && ToggleUtilityNodesAction && ToggleLocalAssetsAction
 		&& WalkSpeed > 0.0f && SprintSpeed > WalkSpeed && JumpVelocity > 0.0f;
 }
 
@@ -305,4 +309,23 @@ void ARACharacter::ToggleUtilityNodes()
 void ARACharacter::RebuildRomanBuildings()
 {
 	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) It->RebuildBuilding();
+}
+
+bool ARACharacter::AreLocalAssetsEnabled() const
+{
+	return URARomanVisualCatalog::AreLocalAssetsEnabled();
+}
+
+void ARACharacter::ToggleLocalAssets()
+{
+	const bool bEnable = !URARomanVisualCatalog::AreLocalAssetsEnabled();
+	URARomanVisualCatalog::SetLocalAssetsEnabled(bEnable);
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		It->RefreshVisualCatalogFromLocalAssets();
+		It->RebuildBuilding();
+	}
+	UE_LOG(LogRomaAeterna, Display, TEXT("%s"), bEnable && URARomanVisualCatalog::IsLocalCatalogAvailable()
+		? TEXT("LOCAL_ASSETS_ACTIVE")
+		: TEXT("PLACEHOLDER_FALLBACK_ACTIVE"));
 }

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "batch": 1,
+  "enabled": true,
+  "catalog": "/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Batch1.DA_RA_VisualCatalog_Batch1",
+  "preview_map": "/Game/LocalAssets/RomaAeterna/Maps/RomaAeternaAssetBatch1Preview",
+  "fallback_policy": "ENGINE_PRIMITIVES_AND_TECHNICAL_MATERIALS",
+  "entries": [
+    {
+      "category": "Wall",
+      "material": "/Game/LocalAssets/RomaAeterna/Materials/Batch1/M_RA_Local_PlasteredWall03.M_RA_Local_PlasteredWall03",
+      "historical_grade": "B",
+      "district_compatibility": ["AllUrban"],
+      "wealth_tiers": ["Poor", "Modest", "Comfortable", "Wealthy"],
+      "variation_weight": 5.0,
+      "scale_correction": [1.0, 1.0, 1.0],
+      "rotation_correction": [0.0, 0.0, 0.0],
+      "collision_profile": "BlockAll",
+      "nanite_preference": false,
+      "source_package": "PlasteredWall03",
+      "license_registry_id": "RA-CC0-PH-PLASTERED-WALL-03"
+    }
+  ]
+}

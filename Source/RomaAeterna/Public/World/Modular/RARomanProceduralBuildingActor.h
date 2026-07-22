@@ -124,6 +124,8 @@ public:
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular|Archetypes") bool IsArchetypeImplemented(ERARomanBuildingType Type) const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") int32 GetInstanceCountByCategory(ERARomanModuleCategory Category) const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") bool HasGeneratedBuilding() const { return GeneratedInstanceCount > 0 && LastGenerationResult.bSuccess; }
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Visual|Local") void RefreshVisualCatalogFromLocalAssets();
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") bool IsUsingLocalAssetCatalog() const;
 
 private:
 	UPROPERTY(Transient) TMap<ERARomanModuleCategory, TObjectPtr<UInstancedStaticMeshComponent>> CategoryInstanceComponents;
