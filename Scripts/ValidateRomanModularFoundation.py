@@ -43,6 +43,15 @@ REQUIRED_FILES = [
     "docs/technical/ROMAN_UTILITY_CONNECTIONS.md",
     "docs/testing/ROMAN_UTILITIES_PRODUCTION_TEST_PLAN.md",
     "docs/audits/PROMPT_24_IMPLEMENTATION_REPORT.md",
+    "Content/Maps/RomaAeternaVerticalSlice.umap",
+    "Scripts/CreateRomaAeternaVerticalSlice.py",
+    "Scripts/TestRomaAeternaVerticalSlice.ps1",
+    "Source/RomaAeterna/Public/Game/RAVerticalSliceGameMode.h",
+    "Source/RomaAeterna/Private/Game/RAVerticalSliceGameMode.cpp",
+    "Source/RomaAeterna/Private/Tests/RAVerticalSliceTests.cpp",
+    "docs/technical/ROMA_AETERNA_VERTICAL_SLICE.md",
+    "docs/testing/ROMA_AETERNA_VERTICAL_SLICE_TEST_PLAN.md",
+    "docs/audits/PROMPT_24_BIS_IMPLEMENTATION_REPORT.md",
 ]
 
 
@@ -140,6 +149,46 @@ for prompt24_category in ("AqueductArch", "AqueductChannel", "SewerChannel", "Ma
     if prompt24_category not in core_text + read("Source/RomaAeterna/Public/World/Modular/RARomanModularTypes.h"):
         ERRORS.append(f"categoria placeholder Prompt 24 mancante: {prompt24_category}")
 
+vertical_character = read("Source/RomaAeterna/Public/Player/RACharacter.h") + read("Source/RomaAeterna/Private/Player/RACharacter.cpp")
+vertical_game_mode = read("Source/RomaAeterna/Public/Game/RAVerticalSliceGameMode.h") + read("Source/RomaAeterna/Private/Game/RAVerticalSliceGameMode.cpp")
+vertical_test = read("Source/RomaAeterna/Private/Tests/RAVerticalSliceTests.cpp")
+vertical_script = read("Scripts/TestRomaAeternaVerticalSlice.ps1")
+vertical_generator = read("Scripts/CreateRomaAeternaVerticalSlice.py")
+engine_config = read("Config/DefaultEngine.ini")
+
+for token in ("ACharacter", "ThirdPersonSpringArm", "ThirdPersonCamera", "CharacterMovement", "IA_Move", "IA_Look", "IA_Jump", "IA_Sprint", "IMC_Player", "UEnhancedInputLocalPlayerSubsystem"):
+    if token not in vertical_character:
+        ERRORS.append(f"fondazione Character vertical slice mancante: {token}")
+for token in ("ARAVerticalSliceGameMode", "DefaultPawnClass", "ARACharacter", "ARAPlayerController"):
+    if token not in vertical_game_mode:
+        ERRORS.append(f"GameMode vertical slice incompleto: {token}")
+for token in ("RomaAeterna.Prompt24Bis.VerticalSlice", "AutomationOpenMap", "RA_RESIDENTIAL", "RA_COMMERCIAL", "RA_BATH", "RA_WATER", "RA_PRODUCTIVE", "RA_UTILITY", "RebuildBuilding", "QueryAndPhysics"):
+    if token not in vertical_test:
+        ERRORS.append(f"Automation Test vertical slice incompleto: {token}")
+for token in ("RunUAT.bat", "BuildTarget", "RomaAeternaEditor", "Prompt24Bis.VerticalSlice", "Test Completed. Result={Success}", "MANUAL_PIE_VERIFICATION_REQUIRED"):
+    if token not in vertical_script:
+        ERRORS.append(f"script locale vertical slice incompleto: {token}")
+for token in ("RA_PlayerStart_VerticalSlice", "RA_RomanRoad", "generate_popular_house", "generate_taberna", "generate_bath_complex", "generate_public_fountain", "generate_metal_workshop", "generate_aqueduct_section"):
+    if token not in vertical_generator:
+        ERRORS.append(f"generatore mappa vertical slice incompleto: {token}")
+for token in ("/Game/Maps/RomaAeternaVerticalSlice", "/Script/RomaAeterna.RAVerticalSliceGameMode"):
+    if token not in engine_config:
+        ERRORS.append(f"configurazione vertical slice mancante: {token}")
+
+authorized_binary_assets = {
+    "Content/RA/Dev/Maps/TechnicalSandbox.umap",
+    "Content/Maps/RomaAeternaVerticalSlice.umap",
+}
+for binary_asset in ROOT.joinpath("Content").rglob("*"):
+    if binary_asset.is_file() and binary_asset.suffix.lower() in {".uasset", ".umap"}:
+        relative_asset = binary_asset.relative_to(ROOT).as_posix()
+        if relative_asset not in authorized_binary_assets:
+            ERRORS.append(f"asset binario Unreal non autorizzato: {relative_asset}")
+
+for rel, text in (("Scripts/TestRomaAeternaVerticalSlice.ps1", vertical_script), ("Scripts/CreateRomaAeternaVerticalSlice.py", vertical_generator)):
+    if re.search(r"[A-Za-z]:[\\/]", text):
+        ERRORS.append(f"percorso assoluto hardcoded nello script vertical slice: {rel}")
+
 free_register = read("docs/assets/FREE_ASSET_REGISTER.md")
 for idx in range(27, 37):
     if f"FREE-{idx:03d}" not in free_register:
@@ -179,4 +228,5 @@ print("PLACEHOLDER_RUNTIME_STATIC_CHECKS_PASSED")
 print("BUILDING_ARCHETYPE_STATIC_CHECKS_PASSED")
 print("RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED")
 print("UTILITIES_PRODUCTION_STATIC_CHECKS_PASSED")
+print("VERTICAL_SLICE_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")

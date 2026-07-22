@@ -45,6 +45,7 @@ public:
 	float GetConfiguredWalkSpeed() const { return WalkSpeed; }
 	float GetConfiguredSprintSpeed() const { return SprintSpeed; }
 	const UInputMappingContext* GetPlayerMappingContext() const { return PlayerMappingContext; }
+	const USpringArmComponent* GetThirdPersonSpringArm() const { return ThirdPersonSpringArm; }
 	const UCameraComponent* GetFirstPersonCamera() const { return FirstPersonCamera; }
 	const UCameraComponent* GetThirdPersonCamera() const { return ThirdPersonCamera; }
 

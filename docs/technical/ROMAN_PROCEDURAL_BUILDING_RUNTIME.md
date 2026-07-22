@@ -48,3 +48,6 @@ Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, Popul
 # Runtime Prompt 24
 
 Il runtime espone venti generatori Blueprint e conteggi per utilities, pericoli, stadi produttivi e capacità. Le categorie senza asset dedicato usano primitive placeholder.
+# Integrazione vertical slice Prompt 24-BIS
+
+La mappa `/Game/Maps/RomaAeternaVerticalSlice` usa direttamente `ARARomanProceduralBuildingActor` per sei archetipi dei Prompt 23–24. Ogni actor conserva un seed esplicito, genera a `BeginPlay` e supporta `ClearGeneratedBuilding` e `RebuildBuilding`. Le istanze placeholder hanno collisione `QueryAndPhysics` e bloccano il canale Pawn; la strada resta libera perché i generatori sono disposti sui lati.

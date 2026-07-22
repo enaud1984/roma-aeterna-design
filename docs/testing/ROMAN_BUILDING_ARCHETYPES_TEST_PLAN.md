@@ -15,3 +15,6 @@ Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, Popul
 # Regressione Prompt 24
 
 La suite mantiene i controlli Prompt 22–23 e aggiunge venti archetipi utilities/produttivi in core e Unreal locale.
+# Estensione Prompt 24-BIS
+
+`RomaAeterna.Prompt24Bis.VerticalSlice` carica la mappa giocabile e verifica la presenza e la rigenerazione di PopularHouse, Taberna, BathComplex, PublicFountain, MetalWorkshop e AqueductSection. Il test controlla moduli positivi, determinismo del conteggio e collisioni Pawn, oltre alla fondazione Character/GameMode. La percorrenza fisica completa resta `MANUAL_PIE_VERIFICATION_REQUIRED`.

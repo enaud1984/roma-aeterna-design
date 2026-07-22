@@ -167,6 +167,8 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component->SetupAttachment(RootComponent);
 			Component->SetStaticMesh(Mesh);
 			Component->SetMobility(EComponentMobility::Movable);
+			Component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			Component->SetCollisionResponseToAllChannels(ECR_Block);
 			Component->SetNumCustomDataFloats(4);
 			Component->RegisterComponent();
 			GeneratedInstanceComponents.Add(Component);

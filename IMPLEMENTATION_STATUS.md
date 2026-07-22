@@ -139,3 +139,16 @@ Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, Popul
 - MANUAL_VERIFICATION_REQUIRED
 - FAB_ASSET_IMPORT_NOT_STARTED
 - Build e Automation Tests eseguiti localmente con Unreal Engine 5.8; PIE non dichiarato.
+
+## Prompt 24-BIS — Vertical slice giocabile
+
+- `CORE_CPP_DEBUG_TESTS_PASSED`
+- `CORE_CPP_RELEASE_TESTS_PASSED`
+- `VERTICAL_SLICE_STATIC_CHECKS_PASSED`
+- `UNREAL_BUILD_PASSED`
+- `UNREAL_AUTOMATION_PASSED`
+- `MANUAL_PIE_VERIFICATION_REQUIRED`
+- `PLACEHOLDER_VISUALS_ONLY`
+- `FAB_ASSET_IMPORT_NOT_STARTED`
+
+La mappa `/Game/Maps/RomaAeternaVerticalSlice` contiene PlayerStart, strada tecnica di 200 metri, illuminazione e sei generatori runtime Prompt 23–24. Character, Enhanced Input e camera sono C++; nessun asset esterno è stato importato. La verifica automatica non viene presentata come prova fisica PIE.
