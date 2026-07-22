@@ -6,7 +6,7 @@
 #include "RARomanModularTypes.generated.h"
 
 UENUM(BlueprintType)
-enum class ERARomanBuildingType : uint8 { SimpleHouse, Domus, AtriumDomus, PeristyleDomus, RichDomus, UrbanVilla, SuburbanVilla, Insula, UpperFloorApartment, Taberna, Thermopolium, Popina, Caupona, BakeryShop, MarketStall, Bookshop, ArtisanShop, Warehouse, Horrea, Macellum, Market, Fullonica, Pistrinum, Winery, OilWorkshop, DyeWorkshop, PotteryWorkshop, MetalWorkshop, TextileWorkshop, MillingWorkshop, BakeryProduction, PressingWorkshop, Forum, Basilica, Curia, Comitium, AdministrativeBuilding, PublicLatrine, PublicFountain, BathComplex, Palaestra, Theatre, Odeon, Amphitheatre, Portico, PublicGarden, SmallTemple, Temple, Sanctuary, Shrine, Lararium, Sacellum, ImperialCultBuilding, Brothel, Tavern, Inn, Stable, MedicalShop, BarberShop, School, Library, MonumentalArch, CityGate, CityWall, WatchTower, AqueductSection, StreetSection, Plaza, StatueBase, Monument, FountainMonument, ForumSection };
+enum class ERARomanBuildingType : uint8 { SimpleHouse, Domus, AtriumDomus, PeristyleDomus, RichDomus, UrbanVilla, SuburbanVilla, Insula, UpperFloorApartment, Taberna, Thermopolium, Popina, Caupona, BakeryShop, MarketStall, Bookshop, ArtisanShop, Warehouse, Horrea, Macellum, Market, Fullonica, Pistrinum, Winery, OilWorkshop, DyeWorkshop, PotteryWorkshop, MetalWorkshop, TextileWorkshop, MillingWorkshop, BakeryProduction, PressingWorkshop, Forum, Basilica, Curia, Comitium, AdministrativeBuilding, PublicLatrine, PublicFountain, BathComplex, Palaestra, Theatre, Odeon, Amphitheatre, Portico, PublicGarden, SmallTemple, Temple, Sanctuary, Shrine, Lararium, Sacellum, ImperialCultBuilding, Brothel, Tavern, Inn, Stable, MedicalShop, BarberShop, School, Library, MonumentalArch, CityGate, CityWall, WatchTower, AqueductSection, StreetSection, Plaza, StatueBase, Monument, FountainMonument, ForumSection, DomusMedia, PopularHouse, Cenaculum, MixedUseHouse, MensaArgentaria, Stabulum };
 UENUM(BlueprintType)
 enum class ERARomanWallType : uint8 { Plaster UMETA(DisplayName="Intonaco"), Stone UMETA(DisplayName="Pietra"), Brick UMETA(DisplayName="Mattone"), OpusReticulatum UMETA(DisplayName="Opus reticulatum"), OpusIncertum UMETA(DisplayName="Opus incertum"), OpusLatericium UMETA(DisplayName="Opus latericium"), OpusMixtum UMETA(DisplayName="Opus mixtum") };
 UENUM(BlueprintType)
@@ -22,11 +22,55 @@ enum class ERARomanAccessType : uint8 { StreetAccess, SecondaryAccess, ServiceAc
 UENUM(BlueprintType)
 enum class ERARomanZoneFunction : uint8 { Public, Private, Service, Commercial, Productive, Religious, Sanitary, Hydraulic, Circulation, Storage, AnimalWork, OpenSpace };
 UENUM(BlueprintType)
-enum class ERARomanRoomType : uint8 { Fauces, Vestibulum, Atrium, Impluvium, Ala, Cubiculum, Tablinum, Triclinium, Oecus, Exedra, Culina, DomesticLatrine, Corridor, Stair, Peristyle, Hortus, ServiceRoom, Storage, UpperRoom, Shopfront, CounterArea, DiningArea, KitchenArea, CustomerArea, BackRoom, StreetPortico, CommercialStorage, WorkshopArea, MillingArea, OvenArea, PressArea, WashingArea, DryingArea, DyeingArea, AnimalDriveArea, FurnaceArea, RawMaterialStorage, FinishedGoodsStorage, PreparationArea, Nave, Aisle, Tribunal, CouncilHall, AssemblyArea, BathHall, Apodyterium, Frigidarium, Tepidarium, Calidarium, Laconicum, PalaestraRoom, Auditorium, Cavea, Orchestra, Scaena, Arena, Vomitorium, PublicLatrineHall, Cella, Pronaos, PodiumRoom, AltarArea, SacredCourt, ProcessionalArea, ForumPlaza, MarketCourt, PorticoRoom, FountainCourt, MonumentCourt, Garden, Street, Alley, ServiceYard };
+enum class ERARomanRoomType : uint8 { Fauces, Vestibulum, Atrium, Impluvium, Ala, Cubiculum, Tablinum, Triclinium, Oecus, Exedra, Culina, DomesticLatrine, Corridor, Stair, Peristyle, Hortus, ServiceRoom, Storage, UpperRoom, Shopfront, CounterArea, DiningArea, KitchenArea, CustomerArea, BackRoom, StreetPortico, CommercialStorage, WorkshopArea, MillingArea, OvenArea, PressArea, WashingArea, DryingArea, DyeingArea, AnimalDriveArea, FurnaceArea, RawMaterialStorage, FinishedGoodsStorage, PreparationArea, Nave, Aisle, Tribunal, CouncilHall, AssemblyArea, BathHall, Apodyterium, Frigidarium, Tepidarium, Calidarium, Laconicum, PalaestraRoom, Auditorium, Cavea, Orchestra, Scaena, Arena, Vomitorium, PublicLatrineHall, Cella, Pronaos, PodiumRoom, AltarArea, SacredCourt, ProcessionalArea, ForumPlaza, MarketCourt, PorticoRoom, FountainCourt, MonumentCourt, Garden, Street, Alley, ServiceYard, Apartment, SharedHall, SharedStair, LightCourt, GuestRoom, LodgingRoom, StableHall, Stall, WritingRoom, CopyingRoom, MedicalPreparationRoom, BarberArea, FinancialCounterArea, ValueStorage, CommonRoom, PoorDwellingRoom };
 UENUM(BlueprintType)
-enum class ERARomanInteractionPointType : uint8 { Entrance, Exit, WorkerPosition, CustomerPosition, QueuePosition, VendorPosition, ServicePosition, StoragePosition, WorshipPosition, SeatingPosition, AnimalPathPoint, RestrictedPosition, InteractionPosition };
+enum class ERARomanInteractionPointType : uint8 { Entrance, Exit, WorkerPosition, CustomerPosition, QueuePosition, VendorPosition, ServicePosition, StoragePosition, WorshipPosition, SeatingPosition, AnimalPathPoint, RestrictedPosition, InteractionPosition, ResidentPosition, SleepingPosition, CookingPosition, DiningPosition, ShopkeeperPosition, ScribePosition, MedicalWorkerPosition, BarberPosition, BankerPosition, GuestPosition, StableWorkerPosition, AnimalPosition, FeedingPosition, WateringPosition, SecurityPosition };
 UENUM(BlueprintType)
-enum class ERARomanModuleCategory : uint8 { Wall, Door, Window, Corner, Column, Capital, Base, Arch, Beam, Floor, Roof, Stair, Podium, Portico, Prop, Vegetation, Decoration, Counter, Dolium, Basin, WaterChannel, Millstone, Oven, Furnace, Workbench, Seat, LatrineSeat, Drain, Altar, Shrine, StatueMarker, AnimalPath, ShopSign, Shelf, StorageContainer, GardenFeature, Fountain, MosaicZone, FrescoZone, DryingRack, WorkPlatform, RotationArm, ServiceBasin, InteractionMarker };
+enum class ERARomanModuleCategory : uint8 { Wall, Door, Window, Corner, Column, Capital, Base, Arch, Beam, Floor, Roof, Stair, Podium, Portico, Prop, Vegetation, Decoration, Counter, Dolium, Basin, WaterChannel, Millstone, Oven, Furnace, Workbench, Seat, LatrineSeat, Drain, Altar, Shrine, StatueMarker, AnimalPath, ShopSign, Shelf, StorageContainer, GardenFeature, Fountain, MosaicZone, FrescoZone, DryingRack, WorkPlatform, RotationArm, ServiceBasin, InteractionMarker, Bed, Table, Bench, WritingDesk, ScrollStorage, MirrorMarker, StablePartition, FeedingTrough, WateringTrough, Balcony, SharedStair, ApartmentDoor, ShopOpening, ValueStorageMarker };
+
+UENUM(BlueprintType)
+enum class ERARomanFrequencyClass : uint8 { VeryCommon, Common, Uncommon, Rare, Unique };
+UENUM(BlueprintType)
+enum class ERARomanUrbanZone : uint8 { CivicCenter, ReligiousCenter, CommercialAxis, WealthyResidential, MediumResidential, PopularResidential, ProductiveDistrict, EntertainmentDistrict, PortDistrict, PeripheralDistrict, NearCityWall, Suburb, ExtraUrban, NecropolisZone };
+UENUM(BlueprintType)
+enum class ERARomanStreetClass : uint8 { MainRoad, SecondaryRoad, Alley, ForumEdge, MarketStreet, PortRoad, ExtraUrbanRoad };
+UENUM(BlueprintType)
+enum class ERARomanImpactLevel : uint8 { None, Low, Medium, High, VeryHigh };
+
+USTRUCT(BlueprintType)
+struct ROMAETERNA_API FRARomanBuildingUrbanProfile { GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanBuildingType BuildingType = ERARomanBuildingType::SimpleHouse;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanBuildingFunction BuildingFunction = ERARomanBuildingFunction::Residential;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanBuildingScale BuildingScale = ERARomanBuildingScale::Small;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanFrequencyClass FrequencyClass = ERARomanFrequencyClass::Common;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") TArray<ERARomanUrbanZone> UrbanZoneCompatibility;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") TArray<ERARomanStreetClass> PreferredStreetClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bRequiresStreetFrontage=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bRequiresServiceAccess=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bRequiresWater=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bRequiresDrainage=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel FireRisk=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel NoiseLevel=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel OdorLevel=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel PrestigeLevel=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel CustomerTraffic=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel WorkerDensity=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanImpactLevel ResidentCapacity=ERARomanImpactLevel::Low;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") int32 TypicalFloorCount=1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") float MinimumPlotWidthCm=300.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") float MinimumPlotDepthCm=300.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") float MaximumPlotWidthCm=3000.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") float MaximumPlotDepthCm=5000.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bCanShareWall=true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bCanHaveUpperFloor=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bCanContainShop=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bCanContainResidence=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bCanContainCourtyard=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") bool bCanExistOutsideWalls=false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") float PlacementWeight=1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") TArray<FName> Tags;
+};
+
 UENUM(BlueprintType)
 enum class ERARomanWealthLevel : uint8 { Poor, Modest, Comfortable, Wealthy, Elite, Monumental };
 UENUM(BlueprintType)

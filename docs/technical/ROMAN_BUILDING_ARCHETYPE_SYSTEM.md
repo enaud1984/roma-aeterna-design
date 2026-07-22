@@ -20,3 +20,8 @@ Gli archetipi non implementati sono registrati nel catalogo con `ARCHETYPE_PLANN
 ## Limiti
 
 Le regole marcate `HISTORICAL_APPROXIMATION` sono plausibili ma semplificate. I placeholder usano primitive Engine temporanee e non sostituiscono asset artistici finali.
+
+
+## Prompt 23 — Tessuto residenziale, commerciale e misto
+
+Aggiunti sedici archetipi ordinari (DomusMedia, PeristyleDomus, RichDomus, PopularHouse, Insula, Cenaculum, MixedUseHouse, Taberna, Popina, Caupona, Bookshop, Brothel, MedicalShop, BarberShop, MensaArgentaria, Stabulum), profili RomanBuildingUrbanProfile, pesi GetRecommendedUrbanComposition e stati CORE_CPP_DEBUG_TESTS_PASSED, CORE_CPP_RELEASE_TESTS_PASSED, CORE_CPP_SANITIZERS_PASSED, RESIDENTIAL_COMMERCIAL_STATIC_CHECKS_PASSED, UNREAL_BUILD_REQUIRED, UNREAL_AUTOMATION_REQUIRED, MANUAL_VERIFICATION_REQUIRED, FAB_ASSET_IMPORT_NOT_STARTED. Le ricostruzioni ordinarie sono HISTORICAL_APPROXIMATION e usano placeholder, senza .uasset/.umap.

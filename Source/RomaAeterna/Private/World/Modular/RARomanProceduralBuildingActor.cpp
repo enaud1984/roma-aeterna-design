@@ -73,6 +73,19 @@ TArray<FRARomanPlaceholderVisualRule> ARARomanProceduralBuildingActor::CreateDef
 		{ERARomanModuleCategory::WorkPlatform, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(120,90,25), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Gray},
 		{ERARomanModuleCategory::RotationArm, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(170,18,18), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Gray},
 		{ERARomanModuleCategory::ServiceBasin, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(90,70,45), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::Bed, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(180,80,45), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::Table, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(120,80,70), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::Bench, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(140,35,45), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::WritingDesk, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(120,60,80), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::ScrollStorage, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CylinderPath)), FVector(60,60,120), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::MirrorMarker, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(60,8,100), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::FeedingTrough, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(160,45,40), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Green},
+		{ERARomanModuleCategory::WateringTrough, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(160,45,40), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Blue},
+		{ERARomanModuleCategory::Balcony, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(140,60,18), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::White},
+		{ERARomanModuleCategory::SharedStair, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(100,90,35), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::ApartmentDoor, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(85,18,205), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::ShopOpening, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(180,18,230), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Yellow},
+		{ERARomanModuleCategory::ValueStorageMarker, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(CubePath)), FVector(90,90,90), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::Red},
 		{ERARomanModuleCategory::InteractionMarker, TSoftObjectPtr<UStaticMesh>(FSoftObjectPath(SpherePath)), FVector(35,35,35), FVector::ZeroVector, FRotator::ZeroRotator, FLinearColor::White}
 	};
 }
@@ -110,7 +123,8 @@ bool ARARomanProceduralBuildingActor::GenerateBuilding()
 	case ERARomanBuildingType::Pistrinum: NewResult = URARomanBuildingRuleLibrary::GeneratePistrinumPlan(BuildingParameters); break;
 	case ERARomanBuildingType::PublicLatrine: NewResult = URARomanBuildingRuleLibrary::GeneratePublicLatrinePlan(BuildingParameters); break;
 	case ERARomanBuildingType::SmallTemple: NewResult = URARomanBuildingRuleLibrary::GenerateSmallTemplePlan(BuildingParameters); break;
-	case ERARomanBuildingType::Taberna: NewResult = URARomanBuildingRuleLibrary::BuildTabernaLayout(BuildingParameters); break;
+	case ERARomanBuildingType::DomusMedia: NewResult = URARomanBuildingRuleLibrary::GenerateBuildingByType(BuildingParameters); break;
+	case ERARomanBuildingType::Taberna: NewResult = URARomanBuildingRuleLibrary::GenerateTabernaPlan(BuildingParameters); break;
 	case ERARomanBuildingType::Temple: NewResult = URARomanBuildingRuleLibrary::BuildTempleLayout(BuildingParameters); break;
 	case ERARomanBuildingType::StreetSection: NewResult = URARomanBuildingRuleLibrary::BuildStreetSectionLayout(BuildingParameters); break;
 	default: NewResult = URARomanBuildingRuleLibrary::BuildSimpleHouseLayout(BuildingParameters); break;
@@ -208,6 +222,22 @@ FString ARARomanProceduralBuildingActor::GetGenerationSummary() const
 }
 
 bool ARARomanProceduralBuildingActor::GenerateBuildingByType(ERARomanBuildingType Type){ BuildingParameters.BuildingType = Type; return GenerateBuilding(); }
+bool ARARomanProceduralBuildingActor::GenerateDomusMedia(){ return GenerateBuildingByType(ERARomanBuildingType::DomusMedia); }
+bool ARARomanProceduralBuildingActor::GeneratePeristyleDomus(){ return GenerateBuildingByType(ERARomanBuildingType::PeristyleDomus); }
+bool ARARomanProceduralBuildingActor::GenerateRichDomus(){ return GenerateBuildingByType(ERARomanBuildingType::RichDomus); }
+bool ARARomanProceduralBuildingActor::GeneratePopularHouse(){ return GenerateBuildingByType(ERARomanBuildingType::PopularHouse); }
+bool ARARomanProceduralBuildingActor::GenerateInsula(){ return GenerateBuildingByType(ERARomanBuildingType::Insula); }
+bool ARARomanProceduralBuildingActor::GenerateCenaculum(){ return GenerateBuildingByType(ERARomanBuildingType::Cenaculum); }
+bool ARARomanProceduralBuildingActor::GenerateMixedUseHouse(){ return GenerateBuildingByType(ERARomanBuildingType::MixedUseHouse); }
+bool ARARomanProceduralBuildingActor::GenerateTaberna(){ return GenerateBuildingByType(ERARomanBuildingType::Taberna); }
+bool ARARomanProceduralBuildingActor::GeneratePopina(){ return GenerateBuildingByType(ERARomanBuildingType::Popina); }
+bool ARARomanProceduralBuildingActor::GenerateCaupona(){ return GenerateBuildingByType(ERARomanBuildingType::Caupona); }
+bool ARARomanProceduralBuildingActor::GenerateBookshop(){ return GenerateBuildingByType(ERARomanBuildingType::Bookshop); }
+bool ARARomanProceduralBuildingActor::GenerateBrothel(){ return GenerateBuildingByType(ERARomanBuildingType::Brothel); }
+bool ARARomanProceduralBuildingActor::GenerateMedicalShop(){ return GenerateBuildingByType(ERARomanBuildingType::MedicalShop); }
+bool ARARomanProceduralBuildingActor::GenerateBarberShop(){ return GenerateBuildingByType(ERARomanBuildingType::BarberShop); }
+bool ARARomanProceduralBuildingActor::GenerateMensaArgentaria(){ return GenerateBuildingByType(ERARomanBuildingType::MensaArgentaria); }
+bool ARARomanProceduralBuildingActor::GenerateStabulum(){ return GenerateBuildingByType(ERARomanBuildingType::Stabulum); }
 bool ARARomanProceduralBuildingActor::GenerateAtriumDomus(){ return GenerateBuildingByType(ERARomanBuildingType::AtriumDomus); }
 bool ARARomanProceduralBuildingActor::GenerateThermopolium(){ return GenerateBuildingByType(ERARomanBuildingType::Thermopolium); }
 bool ARARomanProceduralBuildingActor::GenerateFullonica(){ return GenerateBuildingByType(ERARomanBuildingType::Fullonica); }
