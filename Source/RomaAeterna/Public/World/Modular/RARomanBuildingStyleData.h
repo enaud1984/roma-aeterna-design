@@ -1,10 +1,10 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "Engine/PrimaryDataAsset.h"
+#include "Engine/DataAsset.h"
 #include "World/Modular/RARomanModularTypes.h"
 #include "RARomanBuildingStyleData.generated.h"
 UCLASS(BlueprintType)
-class ROMAETERNA_API URARomanBuildingStyleData : public UPrimaryDataAsset { GENERATED_BODY()
+class ROMAAETERNA_API URARomanBuildingStyleData : public UPrimaryDataAsset { GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Style") FName StyleId=NAME_None;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Style") FText DisplayName;

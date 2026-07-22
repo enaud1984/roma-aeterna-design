@@ -121,7 +121,8 @@ for idx in range(27, 37):
 
 tracked_binary_names = [line for line in (ROOT / ".git").exists() and [] or []]
 for path in ROOT.rglob("*"):
-    if ".git" in path.parts or path.is_dir():
+    relative_parts = path.relative_to(ROOT).parts
+    if any(part in {".git", "Binaries", "Intermediate", "Saved"} for part in relative_parts) or path.is_dir():
         continue
     rel = str(path.relative_to(ROOT))
     if path.suffix in {".uasset", ".umap"} and path.stat().st_mtime_ns > 0:

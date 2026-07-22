@@ -4,7 +4,7 @@
 #include "World/Modular/RARomanModuleCatalog.h"
 #include "RARomanBuildingRuleLibrary.generated.h"
 UCLASS()
-class ROMAETERNA_API URARomanBuildingRuleLibrary : public UBlueprintFunctionLibrary { GENERATED_BODY()
+class ROMAAETERNA_API URARomanBuildingRuleLibrary : public UBlueprintFunctionLibrary { GENERATED_BODY()
 public:
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") static bool ValidateBuildingParameters(const FRARomanBuildingParameters& Parameters,TArray<FRARomanGenerationMessage>& OutWarnings,TArray<FRARomanGenerationMessage>& OutErrors);
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") static FRARomanBuildingParameters NormalizeBuildingParameters(const FRARomanBuildingParameters& Parameters);

@@ -38,7 +38,7 @@ UENUM(BlueprintType)
 enum class ERARomanImpactLevel : uint8 { None, Low, Medium, High, VeryHigh };
 
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanBuildingUrbanProfile { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanBuildingUrbanProfile { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanBuildingType BuildingType = ERARomanBuildingType::SimpleHouse;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanBuildingFunction BuildingFunction = ERARomanBuildingFunction::Residential;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Urban") ERARomanBuildingScale BuildingScale = ERARomanBuildingScale::Small;
@@ -77,7 +77,7 @@ UENUM(BlueprintType)
 enum class ERARomanDegradationLevel : uint8 { New, Maintained, Weathered, Damaged, Ruined };
 
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanModuleDimensions { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanModuleDimensions { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") float WidthCm = 100.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") float DepthCm = 20.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") float HeightCm = 300.f;
@@ -86,7 +86,7 @@ struct ROMAETERNA_API FRARomanModuleDimensions { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") float RotationStepDegrees = 90.f;
 };
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanModuleDefinition { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanModuleDefinition { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName ModuleId = NAME_None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FText DisplayName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") ERARomanModuleCategory Category = ERARomanModuleCategory::Wall;
@@ -101,7 +101,7 @@ struct ROMAETERNA_API FRARomanModuleDefinition { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName SourceAssetId = NAME_None;
 };
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanBuildingParameters { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanBuildingParameters { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") ERARomanBuildingType BuildingType = ERARomanBuildingType::SimpleHouse;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") float WidthCm = 800.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") float DepthCm = 600.f;
@@ -138,7 +138,7 @@ struct ROMAETERNA_API FRARomanBuildingParameters { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular|Archetypes") int32 MaximumRoomCount = 64;
 };
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanModulePlacement { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanModulePlacement { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName ModuleId = NAME_None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FTransform Transform = FTransform::Identity;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") ERARomanModuleCategory Category = ERARomanModuleCategory::Wall;
@@ -148,7 +148,7 @@ struct ROMAETERNA_API FRARomanModulePlacement { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TArray<FName> PlacementTags;
 };
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanBuildingInteractionPoint { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanBuildingInteractionPoint { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName PointId = NAME_None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") ERARomanInteractionPointType Type = ERARomanInteractionPointType::InteractionPosition;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FVector Position = FVector::ZeroVector;
@@ -161,13 +161,13 @@ struct ROMAETERNA_API FRARomanBuildingInteractionPoint { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FString Role;
 };
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanGenerationMessage { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanGenerationMessage { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FName Code = NAME_None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") FString Message;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bIsError = false;
 };
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanGenerationResult { GENERATED_BODY()
+struct ROMAAETERNA_API FRARomanGenerationResult { GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bSuccess = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TArray<FRARomanModulePlacement> GeneratedPlacements;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") TArray<FRARomanGenerationMessage> Warnings;

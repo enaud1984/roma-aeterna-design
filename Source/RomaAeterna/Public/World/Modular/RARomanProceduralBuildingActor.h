@@ -8,7 +8,7 @@
 #include "RARomanProceduralBuildingActor.generated.h"
 
 USTRUCT(BlueprintType)
-struct ROMAETERNA_API FRARomanPlaceholderVisualRule
+struct ROMAAETERNA_API FRARomanPlaceholderVisualRule
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") ERARomanModuleCategory Category = ERARomanModuleCategory::Wall;
@@ -20,7 +20,7 @@ struct ROMAETERNA_API FRARomanPlaceholderVisualRule
 };
 
 UCLASS(Blueprintable)
-class ROMAETERNA_API ARARomanProceduralBuildingActor : public AActor
+class ROMAAETERNA_API ARARomanProceduralBuildingActor : public AActor
 {
 	GENERATED_BODY()
 public:
@@ -38,7 +38,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bShowDebugBounds = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Modular") bool bShowDebugLabels = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") int32 GeneratedInstanceCount = 0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") TArray<TObjectPtr<UInstancedStaticMeshComponent>> InstanceComponents;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") TArray<TObjectPtr<UInstancedStaticMeshComponent>> GeneratedInstanceComponents;
 
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") bool GenerateBuilding();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") void ClearGeneratedBuilding();
@@ -99,5 +99,5 @@ private:
 	FRARomanPlaceholderVisualRule GetVisualRule(ERARomanModuleCategory Category, const FRARomanBuildingParameters& Parameters) const;
 	bool BuildVisualInstances(const FRARomanGenerationResult& Result);
 	void ClearVisualInstances();
-	void DrawRuntimeDebug() const;
+	void DrawRuntimeDebug();
 };

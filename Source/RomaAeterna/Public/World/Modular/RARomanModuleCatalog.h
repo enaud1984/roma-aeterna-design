@@ -1,10 +1,10 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "Engine/PrimaryDataAsset.h"
+#include "Engine/DataAsset.h"
 #include "World/Modular/RARomanModularTypes.h"
 #include "RARomanModuleCatalog.generated.h"
 UCLASS(BlueprintType)
-class ROMAETERNA_API URARomanModuleCatalog : public UPrimaryDataAsset { GENERATED_BODY()
+class ROMAAETERNA_API URARomanModuleCatalog : public UPrimaryDataAsset { GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") TArray<FRARomanModuleDefinition> Modules;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Modular") bool FindModuleById(FName ModuleId, FRARomanModuleDefinition& OutModule) const;

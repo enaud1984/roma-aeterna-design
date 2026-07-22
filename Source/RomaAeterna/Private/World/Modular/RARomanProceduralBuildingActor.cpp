@@ -178,7 +178,7 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component->SetMobility(EComponentMobility::Movable);
 			Component->SetNumCustomDataFloats(4);
 			Component->RegisterComponent();
-			InstanceComponents.Add(Component);
+			GeneratedInstanceComponents.Add(Component);
 		}
 		FTransform VisualTransform = Placement.Transform;
 		VisualTransform.ConcatenateRotation(Rule.ExtraRotation.Quaternion());
@@ -196,11 +196,11 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 
 void ARARomanProceduralBuildingActor::ClearVisualInstances()
 {
-	for (TObjectPtr<UInstancedStaticMeshComponent> Component : InstanceComponents)
+	for (TObjectPtr<UInstancedStaticMeshComponent> Component : GeneratedInstanceComponents)
 	{
 		if (Component) { Component->ClearInstances(); Component->DestroyComponent(); }
 	}
-	InstanceComponents.Empty(); CategoryInstanceComponents.Empty(); GeneratedInstanceCount = 0;
+	GeneratedInstanceComponents.Empty(); CategoryInstanceComponents.Empty(); GeneratedInstanceCount = 0;
 }
 
 int32 ARARomanProceduralBuildingActor::GetInstanceCountByCategory(ERARomanModuleCategory Category) const
@@ -209,7 +209,7 @@ int32 ARARomanProceduralBuildingActor::GetInstanceCountByCategory(ERARomanModule
 	return Component && *Component ? (*Component)->GetInstanceCount() : 0;
 }
 
-void ARARomanProceduralBuildingActor::DrawRuntimeDebug() const
+void ARARomanProceduralBuildingActor::DrawRuntimeDebug()
 {
 	if (!GetWorld()) return;
 	if (bShowDebugBounds && LastGenerationResult.Bounds.IsValid) DrawDebugBox(GetWorld(), LastGenerationResult.Bounds.GetCenter(), LastGenerationResult.Bounds.GetExtent(), FColor::Cyan, false, 5.f);
