@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "styles": [
+    "FirstStyleInspired",
+    "SecondStyleInspired",
+    "ThirdStyleInspired",
+    "FourthStyleInspired",
+    "PlainPlaster",
+    "ServicePlaster"
+  ],
+  "floor_types": [
+    "OpusSigninum",
+    "GeometricMosaic",
+    "SimplePolychromeMosaic",
+    "OpusSectileInspired",
+    "BrickFloor",
+    "StoneFloor",
+    "PackedEarth",
+    "ProductiveFloor",
+    "ThermalFloor"
+  ],
+  "palettes": [
+    "PompeianRedTechnical",
+    "Ochre",
+    "Yellow",
+    "Black",
+    "White",
+    "Cream",
+    "DarkGreen",
+    "LimitedBlue",
+    "Brick",
+    "StoneGrey"
+  ],
+  "accessible_archetypes": [
+    "PopularHouse",
+    "DomusMedia",
+    "Taberna",
+    "Thermopolium",
+    "BathComplex",
+    "MetalWorkshop"
+  ],
+  "tags": [
+    "HISTORICAL_APPROXIMATION",
+    "FIGURATIVE_FRESCO_ART_NOT_STARTED"
+  ]
+}

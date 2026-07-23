@@ -69,6 +69,30 @@ def populate_material_replacement(root: Path):
     )), encoding="utf-8")
 
 
+def populate_decorated_interiors(root: Path):
+    profile = root / "Config/LocalAssets/RomanDecorationProfiles.json"
+    profile.parent.mkdir(parents=True, exist_ok=True)
+    profile.write_text(json.dumps({
+        "styles": [
+            "FirstStyleInspired", "SecondStyleInspired", "ThirdStyleInspired",
+            "FourthStyleInspired", "PlainPlaster", "ServicePlaster",
+        ],
+        "floor_types": [
+            "OpusSigninum", "GeometricMosaic", "SimplePolychromeMosaic",
+            "OpusSectileInspired", "BrickFloor", "StoneFloor", "PackedEarth",
+            "ProductiveFloor", "ThermalFloor",
+        ],
+        "tags": ["HISTORICAL_APPROXIMATION", "FIGURATIVE_FRESCO_ART_NOT_STARTED"],
+    }), encoding="utf-8")
+    for name in AUDIT.LOCAL_DECORATION_INSTANCES:
+        path = root / AUDIT.LOCAL_DECORATION_ROOT / "Materials" / f"{name}.uasset"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"local")
+    preview = root / AUDIT.LOCAL_DECORATION_PREVIEW
+    preview.parent.mkdir(parents=True, exist_ok=True)
+    preview.write_bytes(b"local")
+
+
 class AuditRomanAssetsTests(unittest.TestCase):
     def test_parsing_catalogo_materializza_default(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -208,6 +232,34 @@ class AuditRomanAssetsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             report = AUDIT.audit_material_replacement(Path(directory), 1, set())
             self.assertEqual(report["status"], "NOT_INSTALLED")
+
+    def test_interni_decorati_completi(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            populate_decorated_interiors(root)
+            report = AUDIT.audit_decorated_interiors(root, set())
+            self.assertEqual(report["status"], "PASSED", report["errors"])
+            self.assertEqual(report["material_instance_count"], len(AUDIT.LOCAL_DECORATION_INSTANCES))
+
+    def test_interni_decorati_rifiutano_asset_tracciato(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            populate_decorated_interiors(root)
+            relative = f"{AUDIT.LOCAL_DECORATION_ROOT}Materials/{AUDIT.LOCAL_DECORATION_INSTANCES[0]}.uasset"
+            report = AUDIT.audit_decorated_interiors(root, {relative})
+            self.assertEqual(report["status"], "FAILED")
+            self.assertTrue(any("tracciata da Git" in error for error in report["errors"]))
+
+    def test_interni_decorati_rifiutano_mapping_assoluto(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            populate_decorated_interiors(root)
+            profile = root / "Config/LocalAssets/RomanDecorationProfiles.json"
+            data = json.loads(profile.read_text(encoding="utf-8"))
+            data["source"] = "C:" + "\\Users\\Test"
+            profile.write_text(json.dumps(data), encoding="utf-8")
+            report = AUDIT.audit_decorated_interiors(root, set())
+            self.assertTrue(any("percorsi assoluti" in error for error in report["errors"]))
 
 
 if __name__ == "__main__":

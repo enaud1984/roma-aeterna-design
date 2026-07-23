@@ -113,6 +113,11 @@ ARACharacter::ARACharacter()
 	RebuildBuildingsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_RebuildBuildings"));
 	ToggleUtilityNodesAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleUtilityNodes"));
 	ToggleLocalAssetsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleLocalAssets"));
+	DecorationVariantAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_DecorationVariant"));
+	ToggleRoofsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleAccessibleRoofs"));
+	ToggleDecorationFallbackAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleDecorationFallback"));
+	ToggleRoomLabelsAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_ToggleRoomLabels"));
+	InteractAction = CreateDefaultSubobject<UInputAction>(TEXT("IA_Interact"));
 	PlayerMappingContext = CreateDefaultSubobject<UInputMappingContext>(TEXT("IMC_Player"));
 	ConfigureInputMappings();
 
@@ -169,6 +174,11 @@ void ARACharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	EnhancedInput->BindAction(RebuildBuildingsAction, ETriggerEvent::Started, this, &ARACharacter::RebuildRomanBuildings);
 	EnhancedInput->BindAction(ToggleUtilityNodesAction, ETriggerEvent::Started, this, &ARACharacter::ToggleUtilityNodes);
 	EnhancedInput->BindAction(ToggleLocalAssetsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleLocalAssets);
+	EnhancedInput->BindAction(DecorationVariantAction, ETriggerEvent::Started, this, &ARACharacter::CycleDecorationVariant);
+	EnhancedInput->BindAction(ToggleRoofsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleAccessibleRoofs);
+	EnhancedInput->BindAction(ToggleDecorationFallbackAction, ETriggerEvent::Started, this, &ARACharacter::ToggleDecorationFallback);
+	EnhancedInput->BindAction(ToggleRoomLabelsAction, ETriggerEvent::Started, this, &ARACharacter::ToggleRoomLabels);
+	EnhancedInput->BindAction(InteractAction, ETriggerEvent::Started, this, &ARACharacter::InteractWithNearestAccess);
 }
 
 void ARACharacter::ConfigureInputMappings()
@@ -194,6 +204,11 @@ void ARACharacter::ConfigureInputMappings()
 	PlayerMappingContext->MapKey(RebuildBuildingsAction, EKeys::F5);
 	PlayerMappingContext->MapKey(ToggleUtilityNodesAction, EKeys::F6);
 	PlayerMappingContext->MapKey(ToggleLocalAssetsAction, EKeys::F7);
+	PlayerMappingContext->MapKey(DecorationVariantAction, EKeys::F8);
+	PlayerMappingContext->MapKey(ToggleRoofsAction, EKeys::F10);
+	PlayerMappingContext->MapKey(ToggleDecorationFallbackAction, EKeys::F11);
+	PlayerMappingContext->MapKey(ToggleRoomLabelsAction, EKeys::F12);
+	PlayerMappingContext->MapKey(InteractAction, EKeys::E);
 }
 
 void ARACharacter::HandleMove(const FInputActionValue& Value)
@@ -276,6 +291,7 @@ bool ARACharacter::HasValidPlayableFoundation() const
 		&& PlaceholderLeftArm && PlaceholderRightArm && PlaceholderLeftLeg && PlaceholderRightLeg
 		&& PlayerMappingContext && MoveAction && LookAction && JumpAction && SprintAction && ToggleViewAction
 		&& ToggleHudAction && ToggleLabelsAction && ToggleBoundsAction && ToggleInteractionPointsAction && RebuildBuildingsAction && ToggleUtilityNodesAction && ToggleLocalAssetsAction
+		&& DecorationVariantAction && ToggleRoofsAction && ToggleDecorationFallbackAction && ToggleRoomLabelsAction && InteractAction
 		&& WalkSpeed > 0.0f && SprintSpeed > WalkSpeed && JumpVelocity > 0.0f;
 }
 
@@ -328,4 +344,61 @@ void ARACharacter::ToggleLocalAssets()
 	UE_LOG(LogRomaAeterna, Display, TEXT("%s"), bEnable && URARomanVisualCatalog::IsLocalCatalogAvailable()
 		? TEXT("LOCAL_ASSETS_ACTIVE")
 		: TEXT("PLACEHOLDER_FALLBACK_ACTIVE"));
+}
+
+void ARACharacter::CycleDecorationVariant()
+{
+	DecorationVariant = (DecorationVariant + 1) % 16;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		It->SetDecorationVariant(DecorationVariant);
+	}
+}
+
+void ARACharacter::ToggleAccessibleRoofs()
+{
+	bAccessibleRoofsVisible = !bAccessibleRoofsVisible;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		It->SetRoofVisibility(bAccessibleRoofsVisible);
+	}
+}
+
+void ARACharacter::ToggleDecorationFallback()
+{
+	bDecorationFallbacksForced = !bDecorationFallbacksForced;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		It->SetDecorationFallbackEnabled(bDecorationFallbacksForced);
+	}
+}
+
+void ARACharacter::ToggleRoomLabels()
+{
+	bRoomLabelsVisible = !bRoomLabelsVisible;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		It->SetRoomLabelsVisible(bRoomLabelsVisible);
+	}
+}
+
+void ARACharacter::InteractWithNearestAccess()
+{
+	ARARomanProceduralBuildingActor* Nearest = nullptr;
+	double BestDistanceSquared = FMath::Square(450.0);
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		if (!It->IsAccessibleInteriorArchetype()) continue;
+		const double DistanceSquared = FVector::DistSquared(GetActorLocation(), It->GetActorLocation());
+		if (DistanceSquared < BestDistanceSquared)
+		{
+			BestDistanceSquared = DistanceSquared;
+			Nearest = *It;
+		}
+	}
+	if (Nearest)
+	{
+		Nearest->SetRoofVisibility(false);
+		UE_LOG(LogRomaAeterna, Display, TEXT("Accesso tecnico aperto: %s"), *Nearest->GetName());
+	}
 }

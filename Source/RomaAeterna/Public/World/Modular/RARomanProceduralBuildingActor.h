@@ -5,6 +5,7 @@
 #include "Components/InstancedStaticMeshComponent.h"
 #include "World/Modular/RARomanConstructionValidator.h"
 #include "World/Modular/RARomanBuildingRuleLibrary.h"
+#include "World/Modular/RARomanDecorationTypes.h"
 #include "World/Modular/RARomanVisualCatalog.h"
 #include "RARomanProceduralBuildingActor.generated.h"
 
@@ -51,6 +52,20 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 LocallyResolvedCategoryCount = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 FallbackCategoryCount = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") TArray<FName> ActiveMaterialVariants;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Decoration") bool bDecorationEnabled = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Decoration") bool bForceDecorationFallback = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Decoration") int32 DecorationVariant = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") bool bRoofsVisible = true;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") bool bRoomLabelsVisible = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") int32 AccessibleRoomCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") int32 DecorationPanelCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") int32 DecorationFallbackCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") ERAPompeianDecorativeStyle CurrentDecorativeStyle = ERAPompeianDecorativeStyle::PlainPlaster;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") ERARomanFloorDecorationType CurrentFloorDecoration = ERARomanFloorDecorationType::PackedEarth;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") FName CurrentRoomName = TEXT("Ingresso");
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") TArray<TObjectPtr<UInstancedStaticMeshComponent>> InteriorInstanceComponents;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Decoration") TArray<TObjectPtr<UInstancedStaticMeshComponent>> RoofInstanceComponents;
+	UPROPERTY(Transient) TArray<TObjectPtr<UActorComponent>> InteriorAuxiliaryComponents;
 
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") bool GenerateBuilding();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Modular") void ClearGeneratedBuilding();
@@ -137,12 +152,29 @@ public:
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetFallbackCategoryCount() const { return FallbackCategoryCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetActiveMaterialVariantCount() const { return ActiveMaterialVariants.Num(); }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") FString GetActiveMaterialSummary() const;
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") bool GenerateRoomDecoration();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void ClearRoomDecoration();
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") bool RebuildRoomDecoration();
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") ERAPompeianDecorativeStyle GetDecorativeStyle() const { return CurrentDecorativeStyle; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") int32 GetDecorationPanelCount() const { return DecorationPanelCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") ERARomanFloorDecorationType GetFloorDecorationType() const { return CurrentFloorDecoration; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") int32 GetDecorationFallbackCount() const { return DecorationFallbackCount; }
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetDecorationEnabled(bool bEnabled);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetDecorationVariant(int32 Variant);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetDecorationFallbackEnabled(bool bFallback);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetRoofVisibility(bool bVisible);
+	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetRoomLabelsVisible(bool bVisible) { bRoomLabelsVisible = bVisible; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") int32 GetAccessibleRoomCount() const { return AccessibleRoomCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") bool IsAccessibleInteriorArchetype() const;
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") bool IsUsingLocalDecorationAssets() const;
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") FString GetDecorationSummary() const;
 
 private:
 	UPROPERTY(Transient) TMap<ERARomanModuleCategory, TObjectPtr<UInstancedStaticMeshComponent>> CategoryInstanceComponents;
 	TArray<FRARomanPlaceholderVisualRule> CreateDefaultVisualRules() const;
 	FRARomanPlaceholderVisualRule GetVisualRule(ERARomanModuleCategory Category, const FRARomanBuildingParameters& Parameters) const;
 	bool BuildVisualInstances(const FRARomanGenerationResult& Result);
+	bool BuildAccessibleInterior();
 	void ClearVisualInstances();
 	void DrawRuntimeDebug();
 };

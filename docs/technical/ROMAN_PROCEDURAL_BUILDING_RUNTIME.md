@@ -53,3 +53,6 @@ Il runtime espone venti generatori Blueprint e conteggi per utilities, pericoli,
 La mappa `/Game/Maps/RomaAeternaVerticalSlice` usa direttamente `ARARomanProceduralBuildingActor` per sei archetipi dei Prompt 23–24. Ogni actor conserva un seed esplicito, genera a `BeginPlay` e supporta `ClearGeneratedBuilding` e `RebuildBuilding`. Le istanze placeholder hanno collisione `QueryAndPhysics` e bloccano il canale Pawn; la strada resta libera perché i generatori sono disposti sui lati.
 
 Prompt 25 introduce `URARomanVisualCatalog`: mesh e materiali diventano sostituibili tramite soft reference, mentre i fallback restano sicuri. La mappa consolidata usa dieci generatori e il runtime applica materiali tecnici per categoria senza duplicare gli algoritmi del core.
+## Estensione interni Prompt 29
+
+`ARARomanProceduralBuildingActor` costruisce gusci accessibili, decorazioni e pavimenti in componenti ISMC riutilizzati. La generazione avviene una volta, non usa `Tick` e conserva i fallback tecnici.

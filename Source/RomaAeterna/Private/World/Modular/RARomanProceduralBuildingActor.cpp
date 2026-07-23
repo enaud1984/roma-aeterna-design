@@ -1,7 +1,9 @@
 #include "World/Modular/RARomanProceduralBuildingActor.h"
 
 #include "Components/SceneComponent.h"
+#include "Components/PointLightComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Materials/MaterialInterface.h"
 
 namespace
 {
@@ -31,6 +33,39 @@ FName GetDistrictForArchetype(const ERARomanBuildingType Type)
 	case ERARomanBuildingType::AqueductSection: return TEXT("PeripheralDistrict");
 	case ERARomanBuildingType::UrbanGarden: return TEXT("MediumResidential");
 	default: return NAME_None;
+	}
+}
+
+bool IsPrompt29AccessibleType(const ERARomanBuildingType Type)
+{
+	return Type == ERARomanBuildingType::PopularHouse || Type == ERARomanBuildingType::DomusMedia
+		|| Type == ERARomanBuildingType::Taberna || Type == ERARomanBuildingType::Thermopolium
+		|| Type == ERARomanBuildingType::BathComplex || Type == ERARomanBuildingType::MetalWorkshop;
+}
+
+const TCHAR* DecorationMaterialPath(const ERAPompeianDecorativeStyle Style, const int32 Variant)
+{
+	if (Style == ERAPompeianDecorativeStyle::ServicePlaster) return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_ServicePlaster.MI_RA_Decoration_ServicePlaster");
+	if (Style == ERAPompeianDecorativeStyle::PlainPlaster) return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_PlainPlaster.MI_RA_Decoration_PlainPlaster");
+	switch (FMath::Abs(Variant) % 3)
+	{
+	case 0: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_PompeianRed.MI_RA_Decoration_PompeianRed");
+	case 1: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_Ochre.MI_RA_Decoration_Ochre");
+	default: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_BlackPanel.MI_RA_Decoration_BlackPanel");
+	}
+}
+
+const TCHAR* FloorMaterialPath(const ERARomanFloorDecorationType Type)
+{
+	switch (Type)
+	{
+	case ERARomanFloorDecorationType::OpusSigninum: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_OpusSigninum.MI_RA_Decoration_OpusSigninum");
+	case ERARomanFloorDecorationType::GeometricMosaic: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_GeometricMosaic.MI_RA_Decoration_GeometricMosaic");
+	case ERARomanFloorDecorationType::SimplePolychromeMosaic: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_PolychromeMosaic.MI_RA_Decoration_PolychromeMosaic");
+	case ERARomanFloorDecorationType::OpusSectileInspired: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_OpusSectile.MI_RA_Decoration_OpusSectile");
+	case ERARomanFloorDecorationType::ThermalFloor: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_ThermalFloor.MI_RA_Decoration_ThermalFloor");
+	case ERARomanFloorDecorationType::ProductiveFloor: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_ProductiveFloor.MI_RA_Decoration_ProductiveFloor");
+	default: return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_BrickFloor.MI_RA_Decoration_BrickFloor");
 	}
 }
 }
@@ -186,8 +221,9 @@ bool ARARomanProceduralBuildingActor::GenerateBuilding()
 	ClearVisualInstances();
 	LastGenerationResult = NewResult;
 	const bool bBuilt = BuildVisualInstances(LastGenerationResult);
+	const bool bInteriorBuilt = !IsAccessibleInteriorArchetype() || BuildAccessibleInterior();
 	DrawRuntimeDebug();
-	return bBuilt;
+	return bBuilt && bInteriorBuilt;
 }
 
 void ARARomanProceduralBuildingActor::ClearGeneratedBuilding(){ ClearVisualInstances(); LastGenerationResult = FRARomanGenerationResult(); }
@@ -226,8 +262,12 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component->SetStaticMesh(Mesh);
 			if (UMaterialInterface* Material = Rule.Material.LoadSynchronous()) Component->SetMaterial(0, Material);
 			Component->SetMobility(EComponentMobility::Movable);
-			Component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			Component->SetCollisionResponseToAllChannels(ECR_Block);
+			const bool bPassageCategory = Placement.Category == ERARomanModuleCategory::Door
+				|| Placement.Category == ERARomanModuleCategory::ShopOpening
+				|| Placement.Category == ERARomanModuleCategory::ApartmentDoor;
+			const bool bReplacedAccessibleWall = IsAccessibleInteriorArchetype() && Placement.Category == ERARomanModuleCategory::Wall;
+			Component->SetCollisionEnabled(bPassageCategory || bReplacedAccessibleWall ? ECollisionEnabled::NoCollision : ECollisionEnabled::QueryAndPhysics);
+			Component->SetCollisionResponseToAllChannels(bPassageCategory || bReplacedAccessibleWall ? ECR_Ignore : ECR_Block);
 			Component->SetNumCustomDataFloats(4);
 			Component->RegisterComponent();
 			GeneratedInstanceComponents.Add(Component);
@@ -257,8 +297,229 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 	return bAllMeshesLoaded && GeneratedInstanceCount > 0;
 }
 
+bool ARARomanProceduralBuildingActor::IsAccessibleInteriorArchetype() const
+{
+	return IsPrompt29AccessibleType(BuildingParameters.BuildingType);
+}
+
+bool ARARomanProceduralBuildingActor::IsUsingLocalDecorationAssets() const
+{
+	return bDecorationEnabled && !bForceDecorationFallback
+		&& FSoftObjectPath(DecorationMaterialPath(CurrentDecorativeStyle, DecorationVariant)).ResolveObject() != nullptr;
+}
+
+bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
+{
+	if (!IsAccessibleInteriorArchetype()) return true;
+	UStaticMesh* Cube = LoadObject<UStaticMesh>(nullptr, CubePath);
+	if (!Cube) return false;
+
+	switch (BuildingParameters.BuildingType)
+	{
+	case ERARomanBuildingType::PopularHouse:
+		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::PlainPlaster;
+		CurrentFloorDecoration = ERARomanFloorDecorationType::PackedEarth;
+		break;
+	case ERARomanBuildingType::DomusMedia:
+		CurrentDecorativeStyle = FMath::Abs(DecorationVariant) % 2 == 0 ? ERAPompeianDecorativeStyle::ThirdStyleInspired : ERAPompeianDecorativeStyle::FourthStyleInspired;
+		CurrentFloorDecoration = FMath::Abs(DecorationVariant) % 2 == 0 ? ERARomanFloorDecorationType::OpusSigninum : ERARomanFloorDecorationType::GeometricMosaic;
+		break;
+	case ERARomanBuildingType::Taberna:
+		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::PlainPlaster;
+		CurrentFloorDecoration = ERARomanFloorDecorationType::BrickFloor;
+		break;
+	case ERARomanBuildingType::Thermopolium:
+		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::FirstStyleInspired;
+		CurrentFloorDecoration = ERARomanFloorDecorationType::OpusSigninum;
+		break;
+	case ERARomanBuildingType::BathComplex:
+		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::FirstStyleInspired;
+		CurrentFloorDecoration = ERARomanFloorDecorationType::ThermalFloor;
+		break;
+	default:
+		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::ServicePlaster;
+		CurrentFloorDecoration = ERARomanFloorDecorationType::ProductiveFloor;
+		break;
+	}
+
+	AccessibleRoomCount = BuildingParameters.BuildingType == ERARomanBuildingType::BathComplex ? 3 : 2;
+	CurrentRoomName = BuildingParameters.BuildingType == ERARomanBuildingType::BathComplex ? TEXT("Apodyterium") : TEXT("Ingresso");
+	DecorationPanelCount = 0;
+	DecorationFallbackCount = 0;
+
+	auto MakeComponent = [&](const TCHAR* Name, const TCHAR* RequestedMaterial, const TCHAR* FallbackMaterial, const bool bCollision)
+	{
+		UInstancedStaticMeshComponent* Component = NewObject<UInstancedStaticMeshComponent>(this, FName(Name), RF_Transient);
+		Component->SetupAttachment(RootComponent);
+		Component->SetStaticMesh(Cube);
+		UMaterialInterface* Material = nullptr;
+		if (bDecorationEnabled && !bForceDecorationFallback)
+		{
+			Material = LoadObject<UMaterialInterface>(nullptr, RequestedMaterial);
+		}
+		if (!Material)
+		{
+			Material = LoadObject<UMaterialInterface>(nullptr, FallbackMaterial);
+			++DecorationFallbackCount;
+		}
+		if (Material) Component->SetMaterial(0, Material);
+		Component->SetMobility(EComponentMobility::Movable);
+		Component->SetCollisionEnabled(bCollision ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
+		Component->SetCollisionResponseToAllChannels(bCollision ? ECR_Block : ECR_Ignore);
+		Component->RegisterComponent();
+		InteriorInstanceComponents.Add(Component);
+		GeneratedInstanceComponents.Add(Component);
+		return Component;
+	};
+	auto AddBox = [&](UInstancedStaticMeshComponent* Component, const FVector& Location, const FVector& Size, const FRotator& Rotation = FRotator::ZeroRotator)
+	{
+		const int32 Index = Component->AddInstance(FTransform(Rotation, Location, Size / EngineBasicShapeSizeCm));
+		++GeneratedInstanceCount;
+		return Index;
+	};
+
+	UInstancedStaticMeshComponent* Shell = MakeComponent(
+		TEXT("RAAccessibleShell"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Light.MI_RA_Local_Plaster_Light"),
+		TEXT("/Game/Technical/Materials/MI_RA_PlasterLight.MI_RA_PlasterLight"), true);
+	UInstancedStaticMeshComponent* Floor = MakeComponent(
+		TEXT("RAAccessibleFloor"), FloorMaterialPath(CurrentFloorDecoration),
+		TEXT("/Game/Technical/Materials/MI_RA_Ground.MI_RA_Ground"), true);
+	UInstancedStaticMeshComponent* Painted = MakeComponent(
+		TEXT("RAPaintedPanels"), DecorationMaterialPath(CurrentDecorativeStyle, DecorationVariant),
+		TEXT("/Game/Technical/Materials/MI_RA_PlasterColor.MI_RA_PlasterColor"), false);
+	UInstancedStaticMeshComponent* Frame = MakeComponent(
+		TEXT("RADecorationFrames"), TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_Frame.MI_RA_Decoration_Frame"),
+		TEXT("/Game/Technical/Materials/MI_RA_RoughMasonry.MI_RA_RoughMasonry"), false);
+	UInstancedStaticMeshComponent* Roof = MakeComponent(
+		TEXT("RAAccessibleRoof"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Roof_Terracotta.MI_RA_Local_Roof_Terracotta"),
+		TEXT("/Game/Technical/Materials/MI_RA_RoofTile.MI_RA_RoofTile"), false);
+	RoofInstanceComponents.Add(Roof);
+
+	const float Width = FMath::Clamp(BuildingParameters.WidthCm * 0.75f, 720.f, 1100.f);
+	const float Depth = FMath::Clamp(BuildingParameters.DepthCm * 0.48f, 760.f, 1200.f);
+	const float Height = FMath::Clamp(BuildingParameters.FloorHeightCm, 290.f, 360.f);
+	const float WallThickness = 28.f;
+	const float EntranceWidth = BuildingParameters.BuildingType == ERARomanBuildingType::Taberna
+		|| BuildingParameters.BuildingType == ERARomanBuildingType::Thermopolium ? 260.f : 180.f;
+	const float FrontSegment = (Width - EntranceWidth) * 0.5f;
+	AddBox(Shell, FVector(-(EntranceWidth + FrontSegment) * .25f, -Depth * .5f, Height * .5f), FVector(FrontSegment, WallThickness, Height));
+	AddBox(Shell, FVector((EntranceWidth + FrontSegment) * .25f, -Depth * .5f, Height * .5f), FVector(FrontSegment, WallThickness, Height));
+	AddBox(Shell, FVector(0, -Depth * .5f, Height - 28.f), FVector(EntranceWidth, WallThickness, 56.f));
+	AddBox(Shell, FVector(0, Depth * .5f, Height * .5f), FVector(Width, WallThickness, Height));
+	AddBox(Shell, FVector(-Width * .5f, 0, Height * .5f), FVector(WallThickness, Depth, Height));
+	AddBox(Shell, FVector(Width * .5f, 0, Height * .5f), FVector(WallThickness, Depth, Height));
+	const float PassageWidth = 150.f;
+	AddBox(Shell, FVector(-(PassageWidth + (Width - PassageWidth) * .5f) * .5f, 0, Height * .5f), FVector((Width - PassageWidth) * .5f, WallThickness, Height));
+	AddBox(Shell, FVector((PassageWidth + (Width - PassageWidth) * .5f) * .5f, 0, Height * .5f), FVector((Width - PassageWidth) * .5f, WallThickness, Height));
+	AddBox(Shell, FVector(0, 0, Height - 28.f), FVector(PassageWidth, WallThickness, 56.f));
+
+	AddBox(Floor, FVector(0, -Depth * .25f, -2.f), FVector(Width, Depth * .5f, 12.f));
+	AddBox(Floor, FVector(0, Depth * .25f, -2.f), FVector(Width, Depth * .5f, 12.f));
+	AddBox(Roof, FVector(0, -Depth * .25f, Height + 24.f), FVector(Width + 30.f, Depth * .5f + 20.f, 34.f), FRotator(0, 0, 5.f));
+	AddBox(Roof, FVector(0, Depth * .25f, Height + 24.f), FVector(Width + 30.f, Depth * .5f + 20.f, 34.f), FRotator(0, 0, -5.f));
+	Roof->SetVisibility(bRoofsVisible, true);
+
+	if (bDecorationEnabled)
+	{
+		const float PanelZ = Height * .55f;
+		const float PanelHeight = Height * .38f;
+		const float PanelWidth = FMath::Max(120.f, Width * .22f);
+		for (int32 Index = -1; Index <= 1; ++Index)
+		{
+			AddBox(Painted, FVector(Index * Width * .27f, Depth * .5f - WallThickness, PanelZ), FVector(PanelWidth, 6.f, PanelHeight));
+			++DecorationPanelCount;
+		}
+		AddBox(Frame, FVector(0, Depth * .5f - WallThickness - 2.f, Height * .24f), FVector(Width - 50.f, 8.f, 16.f));
+		AddBox(Frame, FVector(0, Depth * .5f - WallThickness - 2.f, Height * .84f), FVector(Width - 50.f, 8.f, 14.f));
+		AddBox(Painted, FVector(-Width * .5f + WallThickness, -Depth * .23f, PanelZ), FVector(6.f, Depth * .32f, PanelHeight));
+		AddBox(Painted, FVector(Width * .5f - WallThickness, Depth * .23f, PanelZ), FVector(6.f, Depth * .32f, PanelHeight));
+		DecorationPanelCount += 2;
+	}
+
+	for (int32 LightIndex = 0; LightIndex < AccessibleRoomCount; ++LightIndex)
+	{
+		UPointLightComponent* Light = NewObject<UPointLightComponent>(this, NAME_None, RF_Transient);
+		Light->SetupAttachment(RootComponent);
+		Light->SetRelativeLocation(FVector(0, (LightIndex - (AccessibleRoomCount - 1) * .5f) * Depth / AccessibleRoomCount, Height * .72f));
+		Light->SetIntensity(350.f);
+		Light->SetAttenuationRadius(FMath::Max(Width, Depth) * .65f);
+		Light->SetLightColor(FLinearColor(1.f, .76f, .52f));
+		Light->SetMobility(EComponentMobility::Movable);
+		Light->RegisterComponent();
+		InteriorAuxiliaryComponents.Add(Light);
+	}
+	return AccessibleRoomCount >= 2 && Shell->GetInstanceCount() >= 9 && Floor->GetInstanceCount() == 2;
+}
+
+bool ARARomanProceduralBuildingActor::GenerateRoomDecoration()
+{
+	if (!IsAccessibleInteriorArchetype()) return false;
+	ClearRoomDecoration();
+	return BuildAccessibleInterior();
+}
+
+void ARARomanProceduralBuildingActor::ClearRoomDecoration()
+{
+	for (UInstancedStaticMeshComponent* Component : InteriorInstanceComponents)
+	{
+		if (Component)
+		{
+			GeneratedInstanceCount = FMath::Max(0, GeneratedInstanceCount - Component->GetInstanceCount());
+			GeneratedInstanceComponents.Remove(Component);
+			Component->ClearInstances();
+			Component->DestroyComponent();
+		}
+	}
+	for (UActorComponent* Component : InteriorAuxiliaryComponents) if (Component) Component->DestroyComponent();
+	InteriorInstanceComponents.Reset();
+	RoofInstanceComponents.Reset();
+	InteriorAuxiliaryComponents.Reset();
+	AccessibleRoomCount = 0;
+	DecorationPanelCount = 0;
+	DecorationFallbackCount = 0;
+}
+
+bool ARARomanProceduralBuildingActor::RebuildRoomDecoration()
+{
+	ClearRoomDecoration();
+	return BuildAccessibleInterior();
+}
+
+void ARARomanProceduralBuildingActor::SetDecorationEnabled(const bool bEnabled)
+{
+	bDecorationEnabled = bEnabled;
+	if (IsAccessibleInteriorArchetype()) RebuildRoomDecoration();
+}
+
+void ARARomanProceduralBuildingActor::SetDecorationVariant(const int32 Variant)
+{
+	DecorationVariant = FMath::Abs(Variant) % 16;
+	if (IsAccessibleInteriorArchetype()) RebuildRoomDecoration();
+}
+
+void ARARomanProceduralBuildingActor::SetDecorationFallbackEnabled(const bool bFallback)
+{
+	bForceDecorationFallback = bFallback;
+	if (IsAccessibleInteriorArchetype()) RebuildRoomDecoration();
+}
+
+void ARARomanProceduralBuildingActor::SetRoofVisibility(const bool bVisible)
+{
+	bRoofsVisible = bVisible;
+	for (UInstancedStaticMeshComponent* Component : RoofInstanceComponents) if (Component) Component->SetVisibility(bVisible, true);
+}
+
+FString ARARomanProceduralBuildingActor::GetDecorationSummary() const
+{
+	return FString::Printf(TEXT("stanze=%d pannelli=%d stile=%d pavimento=%d fallback=%d seed=%d"),
+		AccessibleRoomCount, DecorationPanelCount, static_cast<int32>(CurrentDecorativeStyle),
+		static_cast<int32>(CurrentFloorDecoration), DecorationFallbackCount,
+		BuildingParameters.RandomSeed + DecorationVariant);
+}
+
 void ARARomanProceduralBuildingActor::ClearVisualInstances()
 {
+	ClearRoomDecoration();
 	for (TObjectPtr<UInstancedStaticMeshComponent> Component : GeneratedInstanceComponents)
 	{
 		if (Component) { Component->ClearInstances(); Component->DestroyComponent(); }

@@ -54,6 +54,11 @@ public:
 	bool AreInteractionPointsVisible() const { return bInteractionPointsVisible; }
 	bool AreUtilityNodesVisible() const { return bUtilityNodesVisible; }
 	bool AreLocalAssetsEnabled() const;
+	bool AreDecorationsEnabled() const { return bDecorationsEnabled; }
+	bool AreDecorationFallbacksForced() const { return bDecorationFallbacksForced; }
+	bool AreAccessibleRoofsVisible() const { return bAccessibleRoofsVisible; }
+	bool AreRoomLabelsVisible() const { return bRoomLabelsVisible; }
+	int32 GetDecorationVariant() const { return DecorationVariant; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -71,6 +76,11 @@ private:
 	void ToggleInteractionPoints();
 	void ToggleUtilityNodes();
 	void ToggleLocalAssets();
+	void CycleDecorationVariant();
+	void ToggleAccessibleRoofs();
+	void ToggleDecorationFallback();
+	void ToggleRoomLabels();
+	void InteractWithNearestAccess();
 	void RebuildRomanBuildings();
 
 	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Camera")
@@ -125,12 +135,22 @@ private:
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> RebuildBuildingsAction;
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleUtilityNodesAction;
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleLocalAssetsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> DecorationVariantAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleRoofsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleDecorationFallbackAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> ToggleRoomLabelsAction;
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Roma Aeterna|Input") TObjectPtr<UInputAction> InteractAction;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bTechnicalHudVisible = true;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bBuildingLabelsVisible = true;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bCollisionBoundsVisible = false;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bInteractionPointsVisible = false;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Debug") bool bUtilityNodesVisible = false;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") bool bDecorationsEnabled = true;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") bool bDecorationFallbacksForced = false;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") bool bAccessibleRoofsVisible = true;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") bool bRoomLabelsVisible = false;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") int32 DecorationVariant = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Roma Aeterna|Movement", meta = (ClampMin = "1.0"))
 	float WalkSpeed = 300.0f;

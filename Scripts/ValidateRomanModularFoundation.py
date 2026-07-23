@@ -412,6 +412,49 @@ for token in ("test_material_replacement_completo", "test_material_replacement_r
     if token not in asset_audit_tests:
         ERRORS.append(f"test audit Prompt 28 mancante: {token}")
 
+prompt29_files = [
+    "Config/LocalAssets/RomanDecorationProfiles.json",
+    "Scripts/CreateRomanDecorationAssets.py",
+    "Scripts/TestRomanDecoratedInteriors.ps1",
+    "Source/RomaAeterna/Public/World/Modular/RARomanDecorationTypes.h",
+    "Source/RomaAeterna/Private/Tests/RADecoratedInteriorsTests.cpp",
+    "docs/technical/ROMAN_INTERIOR_GENERATION_SYSTEM.md",
+    "docs/technical/ROMAN_POMPEIAN_DECORATION_SYSTEM.md",
+    "docs/technical/ROMAN_FLOOR_DECORATION_SYSTEM.md",
+    "docs/technical/ROMAN_ACCESSIBLE_BUILDINGS.md",
+    "docs/testing/ROMAN_DECORATED_INTERIORS_TEST_PLAN.md",
+    "docs/audits/PROMPT_29_IMPLEMENTATION_REPORT.md",
+]
+prompt29_text = all_text(prompt29_files) + read("Source/RomaAeternaCore/include/RARomanModularCore.h") + read("Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h") + read("Source/RomaAeterna/Private/Player/RACharacter.cpp") + read("IMPLEMENTATION_STATUS.md")
+for token in (
+    "ERARomanRoomDecorType", "ERAPompeianDecorativeStyle", "ERARomanFloorDecorationType",
+    "RomanDecorationPlan", "RomanRoomDecorationPlan", "RomanWallDecorationPlan",
+    "RomanFloorDecorationPlan", "RomanDecorationPanel", "RomanDecorationBand",
+    "RomanDecorationPalette", "RomanDecorationValidationResult",
+    "GenerateRomanRoomDecoration", "GenerateRomanWallDecoration", "GenerateRomanFloorDecoration",
+    "SelectDecorativeStyle", "SelectDecorationPalette", "ValidateRoomDecoration",
+    "CalculateDecorationComplexity", "CalculateDecorationModuleCount",
+    "GenerateRoomDecoration", "ClearRoomDecoration", "RebuildRoomDecoration",
+    "GetDecorativeStyle", "GetDecorationPanelCount", "GetFloorDecorationType",
+    "GetDecorationFallbackCount", "SetDecorationEnabled", "SetDecorationVariant",
+    "SetRoofVisibility", "GetAccessibleRoomCount",
+    "RomaAeterna.Prompt29.DecoratedInteriors", "RomaAeterna.Prompt29.InteriorTraversal",
+    "--decoration-audit", "--interior-audit", "DECORATED_INTERIORS_ASSET_AUDIT_PASSED",
+    "DECORATED_INTERIORS_STATIC_CHECKS_PASSED", "FIGURATIVE_FRESCO_ART_NOT_STARTED",
+    "MANUAL_GAMEPLAY_TRAVERSAL_REQUIRED", "HISTORICAL_APPROXIMATION",
+):
+    if token not in prompt29_text + asset_audit_script:
+        ERRORS.append(f"integrazione Prompt 29 incompleta: {token}")
+for token in (
+    "F8", "F10", "F11", "F12", "E", "PopularHouse", "DomusMedia",
+    "Taberna", "Thermopolium", "BathComplex", "MetalWorkshop",
+):
+    if token not in prompt29_text:
+        ERRORS.append(f"controllo o archetipo Prompt 29 mancante: {token}")
+for rel in ("Scripts/CreateRomanDecorationAssets.py", "Scripts/TestRomanDecoratedInteriors.ps1", "Config/LocalAssets/RomanDecorationProfiles.json"):
+    if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
+        ERRORS.append(f"percorso assoluto hardcoded nel Prompt 29: {rel}")
+
 try:
     tracked_files = subprocess.run(
         ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
@@ -486,4 +529,5 @@ print("VISUAL_CONSOLIDATION_STATIC_CHECKS_PASSED")
 print("ASSET_CATALOG_STATIC_CHECKS_PASSED")
 print("LOCAL_ASSET_INTEGRATION_STATIC_CHECKS_PASSED")
 print("ARCHITECTURAL_MATERIAL_REPLACEMENT_STATIC_CHECKS_PASSED")
+print("DECORATED_INTERIORS_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")

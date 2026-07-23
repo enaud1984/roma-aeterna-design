@@ -336,15 +336,64 @@ void RunArchitecturalMaterialPrompt28CoreTests()
     Expect(Seen.size() == 2, "Prompt 28 variazione controllata tra seed");
 }
 
+void RunDecoratedInteriorsPrompt29CoreTests()
+{
+    const std::vector<RoomDecorType> RoomTypes = {
+        RoomDecorType::PopularDomestic, RoomDecorType::MediumDomestic, RoomDecorType::WealthyDomestic,
+        RoomDecorType::Commercial, RoomDecorType::Productive, RoomDecorType::ThermalCold,
+        RoomDecorType::ThermalWarm, RoomDecorType::ThermalHot, RoomDecorType::PlainService};
+    const std::vector<WealthTier> WealthLevels = {
+        WealthTier::Poor, WealthTier::Popular, WealthTier::Medium, WealthTier::Wealthy, WealthTier::Monumental};
+    const std::vector<WeatheringLevel> WeatheringLevels = {
+        WeatheringLevel::New, WeatheringLevel::Light, WeatheringLevel::Medium, WeatheringLevel::Heavy, WeatheringLevel::Ruined};
+    for (const RoomDecorType Type : RoomTypes)
+    {
+        for (const WealthTier Wealth : WealthLevels)
+        {
+            for (const WeatheringLevel Weathering : WeatheringLevels)
+            {
+                const RomanRoomDecorationPlan Room = GenerateRomanRoomDecoration(
+                    "prompt29_room", 720.0, 840.0, 320.0, Type, Wealth, Weathering, 2901, true);
+                const RomanDecorationValidationResult Validation = ValidateRoomDecoration(Room, 256);
+                Expect(Validation.bValid, "Prompt 29 piano decorativo valido per funzione ricchezza e usura");
+                Expect(Room.Walls.size() == 4 && !Room.Floor.RoomId.empty(), "Prompt 29 quattro pareti e pavimento");
+                Expect(CalculateDecorationModuleCount(Room) > 0 && IsFinite(CalculateDecorationComplexity(Room)), "Prompt 29 complessita e conteggio validi");
+            }
+        }
+    }
+    const RomanRoomDecorationPlan A = GenerateRomanRoomDecoration("deterministic", 900, 700, 320, RoomDecorType::MediumDomestic, WealthTier::Wealthy, WeatheringLevel::Medium, 2929);
+    const RomanRoomDecorationPlan B = GenerateRomanRoomDecoration("deterministic", 900, 700, 320, RoomDecorType::MediumDomestic, WealthTier::Wealthy, WeatheringLevel::Medium, 2929);
+    const RomanRoomDecorationPlan C = GenerateRomanRoomDecoration("deterministic", 900, 700, 320, RoomDecorType::MediumDomestic, WealthTier::Wealthy, WeatheringLevel::Medium, 2930);
+    Expect(A.Style == B.Style && A.Palette.Id == B.Palette.Id && A.Walls.front().Panels.size() == B.Walls.front().Panels.size(), "Prompt 29 determinismo stesso seed");
+    Expect(A.Palette.Id != C.Palette.Id || A.Style != C.Style, "Prompt 29 variazione controllata seed diverso");
+    Expect(SelectFloorDecoration(RoomDecorType::Productive, WealthTier::Wealthy) == FloorDecorationType::ProductiveFloor, "Prompt 29 pavimento produttivo");
+    Expect(SelectFloorDecoration(RoomDecorType::ThermalHot, WealthTier::Monumental) == FloorDecorationType::ThermalFloor, "Prompt 29 pavimento termale");
+    Expect(SelectFloorDecoration(RoomDecorType::MediumDomestic, WealthTier::Medium) == FloorDecorationType::OpusSigninum, "Prompt 29 opus signinum");
+    Expect(SelectFloorDecoration(RoomDecorType::WealthyDomestic, WealthTier::Wealthy) == FloorDecorationType::GeometricMosaic, "Prompt 29 mosaico geometrico");
+    Expect(SelectFloorDecoration(RoomDecorType::WealthyDomestic, WealthTier::Monumental) == FloorDecorationType::OpusSectileInspired, "Prompt 29 opus sectile tecnico");
+    RomanRoomDecorationPlan Invalid = GenerateRomanRoomDecoration("invalid", 900, 700, 320, RoomDecorType::MediumDomestic, WealthTier::Wealthy, WeatheringLevel::Medium, 2929);
+    Invalid.Walls.at(1).Panels.front().OffsetCm = -1000.0;
+    Expect(!ValidateRoomDecoration(Invalid).bValid, "Prompt 29 pannello fuori bounds rifiutato");
+    Expect(!ValidateRoomDecoration(A, 1).bValid, "Prompt 29 MaximumModuleCount");
+}
+
 } // namespace
 
 int main()
 {
+    std::cerr << "RUN Core\n";
     RunCoreTests();
+    std::cerr << "RUN Prompt22\n";
     RunArchetypePrompt22Tests();
+    std::cerr << "RUN Prompt23\n";
     RunResidentialCommercialPrompt23Tests();
+    std::cerr << "RUN Prompt24\n";
     RunUtilitiesProductionPrompt24Tests();
+    std::cerr << "RUN Prompt28\n";
     RunArchitecturalMaterialPrompt28CoreTests();
+    std::cerr << "RUN Prompt29\n";
+    RunDecoratedInteriorsPrompt29CoreTests();
+    std::cerr << "RUN Complete\n";
     if (Failures > 0)
     {
         std::cerr << Failures << " test falliti\n";

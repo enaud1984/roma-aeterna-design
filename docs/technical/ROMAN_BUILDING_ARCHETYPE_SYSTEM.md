@@ -31,3 +31,6 @@ Il catalogo include terme, reti idriche/fognarie e strutture produttive ordinari
 # Lettura visuale Prompt 25
 
 PopularHouse, DomusMedia, BathComplex, MetalWorkshop, UrbanGarden, Taberna, Thermopolium, PublicFountain, AqueductSection e ServiceYard sono riuniti in due fronti urbani. Il catalogo visuale associa categorie modulari a fallback sostituibili; planimetrie, seed e validazione restano nel core Prompt 22–24.
+## Accessibilità Prompt 29
+
+PopularHouse, DomusMedia, Taberna, Thermopolium, BathComplex e MetalWorkshop sono classificati come archetipi accessibili nella vertical slice. Funzione, ricchezza e usura guidano stile e pavimento.

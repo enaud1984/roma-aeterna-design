@@ -31,6 +31,10 @@ enum class ZoneFunction : std::uint8_t { Public, Private, Service, Commercial, P
 enum class SurfaceRole : std::uint8_t { ExteriorWall, InteriorWall, StructuralBrick, RoadSurface, SecondaryPaving, Sidewalk, Kerb, Roof, Timber, Ground, Courtyard, ProductiveFloor, ServiceArea, WaterEdge, UtilitySurface };
 enum class WeatheringLevel : std::uint8_t { New, Light, Medium, Heavy, Ruined };
 enum class WealthTier : std::uint8_t { Poor, Popular, Medium, Wealthy, Monumental };
+enum class RoomDecorType : std::uint8_t { None, PlainService, PopularDomestic, MediumDomestic, WealthyDomestic, Commercial, Productive, ThermalCold, ThermalWarm, ThermalHot, ReligiousSimple, PublicSimple, Courtyard, Garden, Storage };
+enum class PompeianDecorativeStyle : std::uint8_t { FirstStyleInspired, SecondStyleInspired, ThirdStyleInspired, FourthStyleInspired, PlainPlaster, ServicePlaster };
+enum class FloorDecorationType : std::uint8_t { OpusSigninum, GeometricMosaic, SimplePolychromeMosaic, OpusSectileInspired, BrickFloor, StoneFloor, PackedEarth, ProductiveFloor, ThermalFloor };
+enum class WallDecorationZone : std::uint8_t { LowerDado, MiddleBand, CentralPanel, SidePanel, UpperFrame, Frieze, UpperWall, FigurativePlaceholder };
 
 enum class RoofType : std::uint8_t
 {
@@ -78,6 +82,81 @@ struct Vector3
     double X = 0.0;
     double Y = 0.0;
     double Z = 0.0;
+};
+
+struct RomanDecorationPalette
+{
+    std::string Id;
+    Vector3 BaseColor{0.72, 0.55, 0.35};
+    Vector3 AccentColor{0.42, 0.12, 0.08};
+    Vector3 BorderColor{0.10, 0.09, 0.08};
+    double Saturation = 0.75;
+    std::vector<std::string> Tags{"HISTORICAL_APPROXIMATION"};
+};
+
+struct RomanDecorationBand
+{
+    WallDecorationZone Zone = WallDecorationZone::MiddleBand;
+    double StartHeightCm = 0.0;
+    double HeightCm = 30.0;
+    Vector3 Color;
+};
+
+struct RomanDecorationPanel
+{
+    std::string Id;
+    WallDecorationZone Zone = WallDecorationZone::CentralPanel;
+    double OffsetCm = 0.0;
+    double BottomCm = 0.0;
+    double WidthCm = 100.0;
+    double HeightCm = 100.0;
+    bool bFigurativePlaceholder = false;
+    std::vector<std::string> Tags;
+};
+
+struct RomanWallDecorationPlan
+{
+    std::string WallId;
+    double WidthCm = 100.0;
+    double HeightCm = 300.0;
+    bool bHasDoor = false;
+    bool bHasWindow = false;
+    double OpeningCenterCm = 0.0;
+    double OpeningWidthCm = 0.0;
+    PompeianDecorativeStyle Style = PompeianDecorativeStyle::PlainPlaster;
+    RomanDecorationPalette Palette;
+    std::vector<RomanDecorationBand> Bands;
+    std::vector<RomanDecorationPanel> Panels;
+};
+
+struct RomanFloorDecorationPlan
+{
+    std::string RoomId;
+    FloorDecorationType Type = FloorDecorationType::PackedEarth;
+    double WidthCm = 100.0;
+    double DepthCm = 100.0;
+    std::int32_t PatternDensity = 1;
+    RomanDecorationPalette Palette;
+};
+
+struct RomanRoomDecorationPlan
+{
+    std::string RoomId;
+    RoomDecorType DecorType = RoomDecorType::None;
+    PompeianDecorativeStyle Style = PompeianDecorativeStyle::PlainPlaster;
+    WealthTier Wealth = WealthTier::Popular;
+    WeatheringLevel Weathering = WeatheringLevel::Medium;
+    RomanDecorationPalette Palette;
+    std::vector<RomanWallDecorationPlan> Walls;
+    RomanFloorDecorationPlan Floor;
+    bool bAccessible = false;
+};
+
+struct RomanDecorationPlan
+{
+    std::int32_t Seed = 0;
+    std::vector<RomanRoomDecorationPlan> Rooms;
+    std::vector<std::string> Tags{"HISTORICAL_APPROXIMATION", "FIGURATIVE_FRESCO_ART_NOT_STARTED"};
 };
 
 struct Transform
@@ -150,6 +229,13 @@ struct GenerationMessage
     std::string Code;
     std::string Message;
     bool bIsError = false;
+};
+
+struct RomanDecorationValidationResult
+{
+    bool bValid = true;
+    std::vector<GenerationMessage> Warnings;
+    std::vector<GenerationMessage> Errors;
 };
 
 struct GenerationResult
@@ -592,5 +678,136 @@ case BuildingType::DomusMedia:return GenerateDomusMediaPlan(P);case BuildingType
 inline BuildingPlanResult GenerateBuildingPlanResult(const BuildingParameters& P){BuildingPlanResult R; R.Plan=GenerateBuildingPlan(P); ValidateBuildingPlan(R.Plan,R.Warnings,R.Errors); R.Placements=ConvertBuildingPlanToPlacements(R.Plan,P).Placements; R.bSuccess=R.Errors.empty()&&R.Plan.ImplementationState==ArchetypeImplementationState::Implemented; return R;}
 inline GenerationResult BuildPlanLayout(BuildingParameters P, BuildingType T){P.Type=T; auto Plan=GenerateBuildingPlan(P); std::vector<GenerationMessage> W,E; ValidateBuildingPlan(Plan,W,E); Plan.Warnings.insert(Plan.Warnings.end(),W.begin(),W.end()); Plan.Errors.insert(Plan.Errors.end(),E.begin(),E.end()); return ConvertBuildingPlanToPlacements(Plan,P);}
 inline GenerationResult GenerateDomusMediaLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::DomusMedia);} inline GenerationResult GeneratePeristyleDomusLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::PeristyleDomus);} inline GenerationResult GenerateRichDomusLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::RichDomus);} inline GenerationResult GeneratePopularHouseLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::PopularHouse);} inline GenerationResult GenerateInsulaLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Insula);} inline GenerationResult GenerateCenaculumLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Cenaculum);} inline GenerationResult GenerateMixedUseHouseLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::MixedUseHouse);} inline GenerationResult GenerateTabernaPlanLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Taberna);} inline GenerationResult GeneratePopinaLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Popina);} inline GenerationResult GenerateCauponaLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Caupona);} inline GenerationResult GenerateBookshopLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Bookshop);} inline GenerationResult GenerateBrothelLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Brothel);} inline GenerationResult GenerateMedicalShopLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::MedicalShop);} inline GenerationResult GenerateBarberShopLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::BarberShop);} inline GenerationResult GenerateMensaArgentariaLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::MensaArgentaria);} inline GenerationResult GenerateStabulumLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Stabulum);} inline GenerationResult GenerateAtriumDomusLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::AtriumDomus);} inline GenerationResult GenerateThermopoliumLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Thermopolium);} inline GenerationResult GenerateFullonicaLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Fullonica);} inline GenerationResult GeneratePistrinumLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::Pistrinum);} inline GenerationResult GeneratePublicLatrineLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::PublicLatrine);} inline GenerationResult GenerateSmallTempleLayout(const BuildingParameters& P){return BuildPlanLayout(P,BuildingType::SmallTemple);}
+
+inline PompeianDecorativeStyle SelectDecorativeStyle(const RoomDecorType Type, const WealthTier Wealth, const std::int32_t Seed)
+{
+    if (Type == RoomDecorType::PlainService || Type == RoomDecorType::Productive || Type == RoomDecorType::Storage) return PompeianDecorativeStyle::ServicePlaster;
+    if (Wealth == WealthTier::Poor || Type == RoomDecorType::PopularDomestic) return PompeianDecorativeStyle::PlainPlaster;
+    if (Type == RoomDecorType::ThermalCold || Type == RoomDecorType::ThermalWarm || Type == RoomDecorType::ThermalHot) return PompeianDecorativeStyle::FirstStyleInspired;
+    if (Wealth == WealthTier::Monumental) return SeedVariantOffset(Seed, 2) == 0 ? PompeianDecorativeStyle::SecondStyleInspired : PompeianDecorativeStyle::FourthStyleInspired;
+    if (Wealth == WealthTier::Wealthy) return SeedVariantOffset(Seed, 2) == 0 ? PompeianDecorativeStyle::ThirdStyleInspired : PompeianDecorativeStyle::FourthStyleInspired;
+    return SeedVariantOffset(Seed, 2) == 0 ? PompeianDecorativeStyle::FirstStyleInspired : PompeianDecorativeStyle::ThirdStyleInspired;
+}
+
+inline RomanDecorationPalette SelectDecorationPalette(const RoomDecorType Type, const WealthTier Wealth, const WeatheringLevel Weathering, const std::int32_t Seed)
+{
+    RomanDecorationPalette P;
+    const std::int32_t Variant = SeedVariantOffset(Seed, 5);
+    P.Id = "palette_" + std::to_string(Variant);
+    const Vector3 Bases[5] = {{0.55,0.13,0.08},{0.68,0.42,0.12},{0.72,0.62,0.42},{0.12,0.12,0.10},{0.74,0.72,0.64}};
+    P.BaseColor = Bases[Variant];
+    P.AccentColor = Wealth == WealthTier::Wealthy || Wealth == WealthTier::Monumental ? Vector3{0.12,0.24,0.16} : Vector3{0.42,0.15,0.08};
+    P.BorderColor = Type == RoomDecorType::ThermalCold ? Vector3{0.16,0.23,0.27} : Vector3{0.10,0.09,0.08};
+    const double Wear = static_cast<double>(static_cast<std::uint8_t>(Weathering)) * 0.08;
+    P.Saturation = std::max(0.35, 0.82 - Wear);
+    return P;
+}
+
+inline FloorDecorationType SelectFloorDecoration(const RoomDecorType Type, const WealthTier Wealth)
+{
+    if (Type == RoomDecorType::Productive) return FloorDecorationType::ProductiveFloor;
+    if (Type == RoomDecorType::ThermalCold || Type == RoomDecorType::ThermalWarm || Type == RoomDecorType::ThermalHot) return FloorDecorationType::ThermalFloor;
+    if (Wealth == WealthTier::Poor) return FloorDecorationType::PackedEarth;
+    if (Wealth == WealthTier::Popular) return FloorDecorationType::BrickFloor;
+    if (Wealth == WealthTier::Medium) return FloorDecorationType::OpusSigninum;
+    if (Wealth == WealthTier::Wealthy) return FloorDecorationType::GeometricMosaic;
+    return FloorDecorationType::OpusSectileInspired;
+}
+
+inline RomanWallDecorationPlan GenerateRomanWallDecoration(
+    std::string WallId, const double WidthCm, const double HeightCm, const PompeianDecorativeStyle Style,
+    const RomanDecorationPalette& Palette, const std::int32_t Seed, const bool bHasDoor = false, const bool bHasWindow = false)
+{
+    RomanWallDecorationPlan Wall;
+    Wall.WallId = std::move(WallId); Wall.WidthCm = WidthCm; Wall.HeightCm = HeightCm; Wall.Style = Style;
+    Wall.Palette = Palette; Wall.bHasDoor = bHasDoor; Wall.bHasWindow = bHasWindow;
+    Wall.OpeningCenterCm = WidthCm * 0.5; Wall.OpeningWidthCm = bHasDoor ? std::min(180.0, WidthCm * 0.32) : bHasWindow ? std::min(120.0, WidthCm * 0.25) : 0.0;
+    Wall.Bands = {
+        {WallDecorationZone::LowerDado, 0.0, std::min(75.0, HeightCm * 0.25), Palette.BorderColor},
+        {WallDecorationZone::MiddleBand, HeightCm * 0.25, std::min(18.0, HeightCm * 0.08), Palette.AccentColor},
+        {WallDecorationZone::UpperFrame, HeightCm * 0.82, std::min(16.0, HeightCm * 0.06), Palette.BorderColor}
+    };
+    const std::int32_t Count = Style == PompeianDecorativeStyle::FourthStyleInspired ? 3 : Style == PompeianDecorativeStyle::PlainPlaster || Style == PompeianDecorativeStyle::ServicePlaster ? 1 : 2;
+    const double Slot = WidthCm / static_cast<double>(Count);
+    for (std::int32_t Index = 0; Index < Count; ++Index)
+    {
+        RomanDecorationPanel Panel;
+        Panel.Id = Wall.WallId + "_panel_" + std::to_string(Index);
+        Panel.Zone = Count == 1 ? WallDecorationZone::CentralPanel : WallDecorationZone::SidePanel;
+        Panel.OffsetCm = Slot * (Index + 0.5); Panel.BottomCm = HeightCm * 0.33;
+        Panel.WidthCm = std::max(30.0, Slot * 0.72); Panel.HeightCm = HeightCm * (0.36 + 0.03 * SeedVariantOffset(Seed + Index, 3));
+        const double Left = Panel.OffsetCm - Panel.WidthCm * 0.5;
+        const double Right = Panel.OffsetCm + Panel.WidthCm * 0.5;
+        const double OpeningLeft = Wall.OpeningCenterCm - Wall.OpeningWidthCm * 0.5;
+        const double OpeningRight = Wall.OpeningCenterCm + Wall.OpeningWidthCm * 0.5;
+        if (Wall.OpeningWidthCm > 0.0 && Right > OpeningLeft && Left < OpeningRight) continue;
+        Panel.Tags = {"geometric_panel", "HISTORICAL_APPROXIMATION"};
+        Wall.Panels.push_back(Panel);
+    }
+    return Wall;
+}
+
+inline RomanFloorDecorationPlan GenerateRomanFloorDecoration(
+    std::string RoomId, const double WidthCm, const double DepthCm, const RoomDecorType Type,
+    const WealthTier Wealth, const RomanDecorationPalette& Palette, const std::int32_t Seed)
+{
+    RomanFloorDecorationPlan Floor;
+    Floor.RoomId = std::move(RoomId); Floor.WidthCm = WidthCm; Floor.DepthCm = DepthCm;
+    Floor.Type = SelectFloorDecoration(Type, Wealth); Floor.Palette = Palette;
+    Floor.PatternDensity = 1 + SeedVariantOffset(Seed, Wealth == WealthTier::Wealthy || Wealth == WealthTier::Monumental ? 5 : 3);
+    return Floor;
+}
+
+inline RomanRoomDecorationPlan GenerateRomanRoomDecoration(
+    std::string RoomId, const double WidthCm, const double DepthCm, const double HeightCm,
+    const RoomDecorType Type, const WealthTier Wealth, const WeatheringLevel Weathering,
+    const std::int32_t Seed, const bool bAccessible = true)
+{
+    RomanRoomDecorationPlan Room;
+    Room.RoomId = std::move(RoomId); Room.DecorType = Type; Room.Wealth = Wealth; Room.Weathering = Weathering; Room.bAccessible = bAccessible;
+    Room.Style = SelectDecorativeStyle(Type, Wealth, Seed);
+    Room.Palette = SelectDecorationPalette(Type, Wealth, Weathering, Seed);
+    Room.Walls.push_back(GenerateRomanWallDecoration(Room.RoomId + "_front", WidthCm, HeightCm, Room.Style, Room.Palette, Seed, true, false));
+    Room.Walls.push_back(GenerateRomanWallDecoration(Room.RoomId + "_back", WidthCm, HeightCm, Room.Style, Room.Palette, Seed + 1, false, false));
+    Room.Walls.push_back(GenerateRomanWallDecoration(Room.RoomId + "_left", DepthCm, HeightCm, Room.Style, Room.Palette, Seed + 2, false, true));
+    Room.Walls.push_back(GenerateRomanWallDecoration(Room.RoomId + "_right", DepthCm, HeightCm, Room.Style, Room.Palette, Seed + 3, false, false));
+    Room.Floor = GenerateRomanFloorDecoration(Room.RoomId, WidthCm, DepthCm, Type, Wealth, Room.Palette, Seed);
+    return Room;
+}
+
+inline std::int32_t CalculateDecorationModuleCount(const RomanRoomDecorationPlan& Room)
+{
+    std::int32_t Count = 1;
+    for (const auto& Wall : Room.Walls) Count += static_cast<std::int32_t>(Wall.Bands.size() + Wall.Panels.size());
+    return Count;
+}
+
+inline double CalculateDecorationComplexity(const RomanRoomDecorationPlan& Room)
+{
+    return static_cast<double>(CalculateDecorationModuleCount(Room)) * (1.0 + static_cast<double>(static_cast<std::uint8_t>(Room.Style)) * 0.2);
+}
+
+inline RomanDecorationValidationResult ValidateRoomDecoration(const RomanRoomDecorationPlan& Room, const std::int32_t MaximumModuleCount = 256)
+{
+    RomanDecorationValidationResult Result;
+    if (Room.RoomId.empty()) AddMessage(Result.Errors, "DecorationMissingRoomId", "Decorazione senza identificatore stanza.", true);
+    if (Room.Walls.empty()) AddMessage(Result.Errors, "DecorationMissingWalls", "Stanza senza pareti decorative.", true);
+    if (!IsFinite(Room.Floor.WidthCm) || !IsFinite(Room.Floor.DepthCm) || Room.Floor.WidthCm <= 0.0 || Room.Floor.DepthCm <= 0.0) AddMessage(Result.Errors, "DecorationInvalidFloor", "Pavimento decorativo non valido.", true);
+    for (const auto& Wall : Room.Walls)
+    {
+        if (!IsFinite(Wall.WidthCm) || !IsFinite(Wall.HeightCm) || Wall.WidthCm <= 0.0 || Wall.HeightCm <= 0.0) AddMessage(Result.Errors, "DecorationInvalidWall", "Parete decorativa non valida.", true);
+        for (const auto& Panel : Wall.Panels)
+        {
+            if (!IsFinite(Panel.OffsetCm) || !IsFinite(Panel.BottomCm) || !IsFinite(Panel.WidthCm) || !IsFinite(Panel.HeightCm) || Panel.WidthCm <= 0.0 || Panel.HeightCm <= 0.0 || Panel.OffsetCm - Panel.WidthCm * 0.5 < 0.0 || Panel.OffsetCm + Panel.WidthCm * 0.5 > Wall.WidthCm || Panel.BottomCm < 0.0 || Panel.BottomCm + Panel.HeightCm > Wall.HeightCm) AddMessage(Result.Errors, "DecorationPanelOutOfBounds", Panel.Id + " fuori bounds.", true);
+            const double OpeningLeft = Wall.OpeningCenterCm - Wall.OpeningWidthCm * 0.5;
+            const double OpeningRight = Wall.OpeningCenterCm + Wall.OpeningWidthCm * 0.5;
+            if (Wall.OpeningWidthCm > 0.0 && Panel.OffsetCm + Panel.WidthCm * 0.5 > OpeningLeft && Panel.OffsetCm - Panel.WidthCm * 0.5 < OpeningRight) AddMessage(Result.Errors, "DecorationPanelOverOpening", Panel.Id + " sovrapposto ad apertura.", true);
+        }
+    }
+    if (CalculateDecorationModuleCount(Room) > MaximumModuleCount) AddMessage(Result.Errors, "DecorationMaximumModuleCount", "Limite moduli decorativi superato.", true);
+    if (!Room.bAccessible) AddMessage(Result.Warnings, "DecorationRoomNotAccessible", "Stanza decorata non marcata accessibile.", false);
+    Result.bValid = Result.Errors.empty();
+    return Result;
+}
 
 } // namespace RomaAeternaCore

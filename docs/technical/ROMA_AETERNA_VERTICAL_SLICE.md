@@ -41,3 +41,6 @@ La mappa rappresenta ora un isolato con due fronti, dieci archetipi, basolato, m
 ## Materiali locali Prompt 28
 
 La vertical slice risolve a runtime PopularHouse, DomusMedia, Taberna, Thermopolium, BathComplex, PublicFountain, MetalWorkshop, AqueductSection, UrbanGarden e ServiceYard. `F7` alterna catalogo locale e fallback senza salvare la mappa. L'HUD mostra conteggi delle categorie risolte e delle varianti. La mappa versionata non contiene riferimenti hard a `/Game/LocalAssets/`.
+## Interni decorati Prompt 29
+
+Sei edifici generano a runtime interni accessibili senza hard reference ad asset locali. I controlli aggiuntivi sono `E` accesso tecnico, `F8` variante, `F10` coperture, `F11` decorazioni/fallback e `F12` label stanza. La prova fisica resta `MANUAL_GAMEPLAY_TRAVERSAL_REQUIRED`.

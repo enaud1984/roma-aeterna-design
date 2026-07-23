@@ -17,3 +17,6 @@ La sostituzione futura segue `categoria -> voce catalogo -> asset reale`, senza 
 ## Fallback selettivo Prompt 28
 
 La presenza del catalogo locale non disabilita la palette tecnica: ogni categoria non compatibile continua a usare `GetTechnicalMaterialPath`. In questo modo PublicFountain conserva vasca/acqua tecniche, AqueductSection mantiene la pietra principale e gli edifici monumentali non simulano marmo con texture inadatte.
+## Decorazioni procedurali
+
+Pannelli, cornici, zoccolature e pavimenti restano placeholder geometrici parametrizzati. Gli asset locali sono ignorati e il fallback usa i materiali tecnici versionati.

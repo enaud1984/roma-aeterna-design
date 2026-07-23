@@ -108,6 +108,17 @@ PROMPT_28_SURFACE_ROLES = {
     "EXTERIOR_WALL", "STRUCTURAL_BRICK", "SECONDARY_PAVING", "ROOF", "TIMBER",
     "GROUND", "PRODUCTIVE_FLOOR", "UTILITY_SURFACE",
 }
+LOCAL_DECORATION_ROOT = "Content/LocalAssets/RomaAeterna/Decoration/"
+LOCAL_DECORATION_PREVIEW = "Content/LocalAssets/RomaAeterna/Maps/RomaAeternaDecorationPreview.umap"
+LOCAL_DECORATION_INSTANCES = (
+    "MI_RA_Decoration_PompeianRed", "MI_RA_Decoration_Ochre",
+    "MI_RA_Decoration_BlackPanel", "MI_RA_Decoration_PlainPlaster",
+    "MI_RA_Decoration_ServicePlaster", "MI_RA_Decoration_Frame",
+    "MI_RA_Decoration_OpusSigninum", "MI_RA_Decoration_GeometricMosaic",
+    "MI_RA_Decoration_PolychromeMosaic", "MI_RA_Decoration_OpusSectile",
+    "MI_RA_Decoration_ThermalFloor", "MI_RA_Decoration_ProductiveFloor",
+    "MI_RA_Decoration_BrickFloor",
+)
 
 
 def load_catalog(path: Path) -> dict:
@@ -319,6 +330,22 @@ def render_local_markdown(report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def render_decoration_markdown(report: dict) -> str:
+    lines = [
+        "# Audit interni decorati",
+        "",
+        f"Stato: **{report['status']}**",
+        f"Material Instance locali: **{report['material_instance_count']}**",
+        f"Stili: **{report['style_count']}**",
+        f"Pavimenti: **{report['floor_type_count']}**",
+        "",
+        "## Errori",
+        "",
+    ]
+    lines.extend(f"- {item}" for item in report["errors"]) if report["errors"] else lines.append("- Nessuno.")
+    return "\n".join(lines) + "\n"
+
+
 def audit_material_replacement(root: Path, batch: int, tracked_paths: set[str]) -> dict:
     """Estende l'audit locale con istanze, mapping, licenze e protezioni Prompt 28."""
     report = audit_local_batch(root, batch, tracked_paths)
@@ -407,6 +434,77 @@ def audit_material_replacement(root: Path, batch: int, tracked_paths: set[str]) 
     return report
 
 
+def audit_decorated_interiors(root: Path, tracked_paths: set[str]) -> dict:
+    """Verifica decorazioni locali, mapping testuale, fallback e isolamento Git."""
+    errors: list[str] = []
+    warnings: list[str] = []
+    profile_path = root / "Config/LocalAssets/RomanDecorationProfiles.json"
+    if not profile_path.is_file():
+        errors.append("Profili decorativi testuali mancanti")
+        profile = {}
+    else:
+        try:
+            profile = json.loads(profile_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"Profili decorativi non validi: {exc}")
+            profile = {}
+    required_styles = {
+        "FirstStyleInspired", "SecondStyleInspired", "ThirdStyleInspired",
+        "FourthStyleInspired", "PlainPlaster", "ServicePlaster",
+    }
+    required_floors = {
+        "OpusSigninum", "GeometricMosaic", "SimplePolychromeMosaic",
+        "OpusSectileInspired", "BrickFloor", "StoneFloor", "PackedEarth",
+        "ProductiveFloor", "ThermalFloor",
+    }
+    if not required_styles.issubset(set(profile.get("styles", []))):
+        errors.append("Famiglie decorative Prompt 29 incomplete")
+    if not required_floors.issubset(set(profile.get("floor_types", []))):
+        errors.append("Pavimenti Prompt 29 incompleti")
+    if ABSOLUTE_PATTERN.search(json.dumps(profile, ensure_ascii=False)):
+        errors.append("Profili decorativi contengono percorsi assoluti")
+    if "HISTORICAL_APPROXIMATION" not in profile.get("tags", []):
+        errors.append("Profili decorativi privi di HISTORICAL_APPROXIMATION")
+    if "FIGURATIVE_FRESCO_ART_NOT_STARTED" not in profile.get("tags", []):
+        errors.append("Stato arte figurativa mancante")
+
+    missing_instances = []
+    for name in LOCAL_DECORATION_INSTANCES:
+        relative = f"{LOCAL_DECORATION_ROOT}Materials/{name}.uasset"
+        if not (root / relative).is_file():
+            missing_instances.append(name)
+        if relative in tracked_paths:
+            errors.append(f"Material Instance decorativa tracciata da Git: {relative}")
+    if missing_instances:
+        errors.append(f"Material Instance decorative mancanti: {', '.join(missing_instances)}")
+    if not (root / LOCAL_DECORATION_PREVIEW).is_file():
+        errors.append("Preview decorativa locale mancante")
+    if LOCAL_DECORATION_PREVIEW in tracked_paths:
+        errors.append("Preview decorativa locale tracciata da Git")
+    tracked_local = sorted(path for path in tracked_paths if path.startswith(LOCAL_EXTERNAL_ROOTS))
+    if tracked_local:
+        errors.append(f"Asset esterni tracciati: {', '.join(tracked_local)}")
+    for forbidden_pack in ("RomanTempleRuins", "RomeEmpireCharacterPack", "Roman Temple Ruins", "Rome Empire Character Pack"):
+        matches = [
+            path.relative_to(root).as_posix()
+            for path in root.glob(f"Content/**/{forbidden_pack}*")
+            if path.is_file()
+        ]
+        if matches:
+            errors.append(f"Pack Fab vietato importato: {forbidden_pack}")
+    attributes = (root / ".gitattributes").read_text(encoding="utf-8") if (root / ".gitattributes").is_file() else ""
+    if "filter=lfs" in attributes.replace(" ", "").lower():
+        errors.append("Git LFS rilevato")
+    return {
+        "status": "PASSED" if not errors else "FAILED",
+        "material_instance_count": len(LOCAL_DECORATION_INSTANCES) - len(missing_instances),
+        "style_count": len(required_styles),
+        "floor_type_count": len(required_floors),
+        "errors": sorted(set(errors)),
+        "warnings": sorted(set(warnings)),
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, default=ROOT / "docs/assets/roman_asset_catalog.json")
@@ -416,6 +514,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check-only", action="store_true")
     parser.add_argument("--local-import-audit", action="store_true")
     parser.add_argument("--material-replacement-audit", action="store_true")
+    parser.add_argument("--decoration-audit", action="store_true")
+    parser.add_argument("--interior-audit", action="store_true")
     parser.add_argument("--batch", type=int, default=1)
     parser.add_argument("--report-json", action="store_true")
     parser.add_argument("--report-markdown", action="store_true")
@@ -427,7 +527,9 @@ def main(argv: list[str] | None = None) -> int:
         tracked = set(subprocess.run(
             ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
         ).stdout.splitlines())
-        if args.material_replacement_audit:
+        if args.decoration_audit or args.interior_audit:
+            report = audit_decorated_interiors(ROOT, tracked)
+        elif args.material_replacement_audit:
             report = audit_material_replacement(ROOT, args.batch, tracked)
         elif args.local_import_audit:
             report = audit_local_batch(ROOT, args.batch, tracked)
@@ -439,17 +541,27 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.check_only:
         args.output_dir.mkdir(parents=True, exist_ok=True)
-        local_mode = args.local_import_audit or args.material_replacement_audit
-        json_name = "roman_architectural_material_replacement_audit.json" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.json" if args.local_import_audit else "roman_asset_audit.json")
-        markdown_name = "roman_architectural_material_replacement_audit.md" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.md" if args.local_import_audit else "roman_asset_audit.md")
+        local_mode = args.local_import_audit or args.material_replacement_audit or args.decoration_audit or args.interior_audit
+        json_name = "roman_decorated_interiors_audit.json" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.json" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.json" if args.local_import_audit else "roman_asset_audit.json"))
+        markdown_name = "roman_decorated_interiors_audit.md" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.md" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.md" if args.local_import_audit else "roman_asset_audit.md"))
         write_both = not args.report_json and not args.report_markdown
         if write_both or args.report_json:
             (args.output_dir / json_name).write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
             )
         if write_both or args.report_markdown:
-            renderer = render_local_markdown if local_mode else render_markdown
+            renderer = render_decoration_markdown if args.decoration_audit or args.interior_audit else (render_local_markdown if local_mode else render_markdown)
             (args.output_dir / markdown_name).write_text(renderer(report), encoding="utf-8")
+
+    if args.decoration_audit or args.interior_audit:
+        if report["status"] == "PASSED":
+            print("DECORATED_INTERIORS_ASSET_AUDIT_PASSED")
+            print(f"LOCAL_DECORATION_MATERIAL_INSTANCE_COUNT={report['material_instance_count']}")
+            return 0
+        print("DECORATED_INTERIORS_ASSET_AUDIT_FAILED")
+        for error in report["errors"]:
+            print(f"ERROR: {error}")
+        return 1
 
     if args.material_replacement_audit:
         if report["status"] == "NOT_INSTALLED":

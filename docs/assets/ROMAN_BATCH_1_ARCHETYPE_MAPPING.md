@@ -26,3 +26,6 @@
 `Cobblestone05` è ammesso per `SecondaryPaving`, vicoli, cortili e fronti commerciali. La strada principale conserva geometria e materiale tecnico: il pacchetto non è dichiarato basolato romano.
 
 La vertical slice riceve i materiali esclusivamente a runtime. `RomaAeternaVerticalSlice.umap` non contiene riferimenti hard al catalogo locale e non deve essere salvata dopo l'attivazione.
+## Estensione interni Prompt 29
+
+Il Batch 1 resta la base per intonaco, laterizio, legno, tetti e terreno. Le decorazioni locali aggiungono Material Instance parametriche senza introdurre nuove fonti esterne o licenze.
