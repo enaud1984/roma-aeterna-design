@@ -25,6 +25,14 @@ void ARATechnicalHUD::DrawHUD()
 	int32 GeneratedModules = 0;
 	int32 LocalCategories = 0;
 	int32 FallbackCategories = 0;
+	int32 ResidentialCount = 0;
+	int32 CommercialCount = 0;
+	int32 ProductiveCount = 0;
+	int32 CivicCount = 0;
+	int32 OneStoreyCount = 0;
+	int32 TwoStoreyCount = 0;
+	int32 DecoratedPanels = 0;
+	int32 AccessibleInteriors = 0;
 	FString Seeds;
 	const ARARomanProceduralBuildingActor* NearestAccessible = nullptr;
 	double NearestDistanceSquared = TNumericLimits<double>::Max();
@@ -36,6 +44,20 @@ void ARATechnicalHUD::DrawHUD()
 			GeneratedModules += It->GetGeneratedInstanceCount();
 			LocalCategories += It->GetLocalMaterialBindingCount();
 			FallbackCategories += It->GetFallbackMaterialBindingCount();
+			DecoratedPanels += It->GetDecorationPanelCount();
+			if (It->GetAccessibleRoomCount() > 0) ++AccessibleInteriors;
+			if (It->BuildingParameters.FloorCount > 1) ++TwoStoreyCount; else ++OneStoreyCount;
+			switch (It->BuildingParameters.BuildingType)
+			{
+			case ERARomanBuildingType::PopularHouse:
+			case ERARomanBuildingType::DomusMedia: ++ResidentialCount; break;
+			case ERARomanBuildingType::Taberna:
+			case ERARomanBuildingType::Thermopolium: ++CommercialCount; break;
+			case ERARomanBuildingType::Pistrinum:
+			case ERARomanBuildingType::MetalWorkshop:
+			case ERARomanBuildingType::ServiceYard: ++ProductiveCount; break;
+			default: ++CivicCount; break;
+			}
 			if (BuildingCount <= 5) Seeds += FString::Printf(TEXT("%s%d"), BuildingCount > 1 ? TEXT(", ") : TEXT(""), It->BuildingParameters.RandomSeed);
 			if (Character && It->IsAccessibleInteriorArchetype())
 			{
@@ -58,6 +80,10 @@ void ARATechnicalHUD::DrawHUD()
 		Character && Character->AreAccessibleRoofsVisible() ? TEXT("visibili") : TEXT("nascosti"),
 		Character && Character->AreDecorationsEnabled() ? TEXT("attive") : TEXT("disattive")),
 		X, Y, FLinearColor(0.72f, 0.86f, 0.92f));
+	DrawPrototypeLine(FString::Printf(TEXT("Tessuto: res %d | comm %d | prod %d | civico/verde %d"),
+		ResidentialCount, CommercialCount, ProductiveCount, CivicCount), X, Y, FLinearColor(0.83f, 0.77f, 0.62f));
+	DrawPrototypeLine(FString::Printf(TEXT("Altezze: 1 piano %d | 2 piani %d | interni %d | pannelli %d"),
+		OneStoreyCount, TwoStoreyCount, AccessibleInteriors, DecoratedPanels), X, Y, FLinearColor(0.78f, 0.84f, 0.70f));
 	DrawPrototypeLine(TEXT("WASD/Mouse | Shift | Spazio | E accesso | F1 nasconde HUD"), X, Y, FLinearColor(0.82f, 0.84f, 0.86f));
 	DrawPrototypeLine(TEXT("F5 rebuild | F7 materiali | F9 camera | F10 tetti | F11 decorazioni"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
 	if (Character)

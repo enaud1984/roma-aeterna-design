@@ -60,3 +60,7 @@ Prompt 25 introduce `URARomanVisualCatalog`: mesh e materiali diventano sostitui
 ## Correzione Prompt 29-BIS
 
 `BuildVisualInstances` ricentra il piano sui bounds, valida trasformazioni e impedisce che i placeholder astratti coprano gli interni accessibili. Ogni assegnazione materiale verifica la compatibilità ISMC. I conteggi distinguono binding locali e fallback, mentre cache hit/miss, invalidazioni e path irrisolti sono esposti nel riepilogo diagnostico.
+
+## Composizione Prompt 30
+
+Il guscio accessibile rispetta `FloorCount` fino a due piani e differenzia apertura commerciale, ingresso residenziale, finestre superiori, balconi, fasce e coperture. Pistrinum entra nell’insieme accessibile e aggiunge forno e area di lavoro; Taberna, Thermopolium e DomusMedia espongono arredi semantici verificabili. La rappresentazione resta transient e non duplica la generazione planimetrica del core.

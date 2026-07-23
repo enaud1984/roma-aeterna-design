@@ -25,7 +25,8 @@ FName GetDistrictForArchetype(const ERARomanBuildingType Type)
 	case ERARomanBuildingType::PopularHouse: return TEXT("PopularResidential");
 	case ERARomanBuildingType::DomusMedia: return TEXT("MediumResidential");
 	case ERARomanBuildingType::Taberna:
-	case ERARomanBuildingType::Thermopolium: return TEXT("CommercialAxis");
+	case ERARomanBuildingType::Thermopolium:
+	case ERARomanBuildingType::Pistrinum: return TEXT("CommercialAxis");
 	case ERARomanBuildingType::BathComplex:
 	case ERARomanBuildingType::PublicFountain: return TEXT("CivicCenter");
 	case ERARomanBuildingType::MetalWorkshop:
@@ -40,7 +41,8 @@ bool IsPrompt29AccessibleType(const ERARomanBuildingType Type)
 {
 	return Type == ERARomanBuildingType::PopularHouse || Type == ERARomanBuildingType::DomusMedia
 		|| Type == ERARomanBuildingType::Taberna || Type == ERARomanBuildingType::Thermopolium
-		|| Type == ERARomanBuildingType::BathComplex || Type == ERARomanBuildingType::MetalWorkshop;
+		|| Type == ERARomanBuildingType::Pistrinum || Type == ERARomanBuildingType::BathComplex
+		|| Type == ERARomanBuildingType::MetalWorkshop;
 }
 
 ERARomanWealthLevel GetEffectiveWealth(const ERARomanBuildingType Type, const ERARomanWealthLevel Configured)
@@ -65,6 +67,7 @@ const TCHAR* AccessibleWallMaterialPath(const ERARomanBuildingType Type)
 	case ERARomanBuildingType::PopularHouse:
 	case ERARomanBuildingType::Taberna: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Ochre.MI_RA_Local_Plaster_Ochre");
 	case ERARomanBuildingType::Thermopolium: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Red.MI_RA_Local_Plaster_Red");
+	case ERARomanBuildingType::Pistrinum: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Thermal.MI_RA_Local_Brick_Thermal");
 	case ERARomanBuildingType::MetalWorkshop: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Thermal.MI_RA_Local_Brick_Thermal");
 	default: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Light.MI_RA_Local_Plaster_Light");
 	}
@@ -72,7 +75,7 @@ const TCHAR* AccessibleWallMaterialPath(const ERARomanBuildingType Type)
 
 const TCHAR* AccessibleBrickMaterialPath(const ERARomanBuildingType Type)
 {
-	return Type == ERARomanBuildingType::BathComplex || Type == ERARomanBuildingType::MetalWorkshop
+	return Type == ERARomanBuildingType::BathComplex || Type == ERARomanBuildingType::MetalWorkshop || Type == ERARomanBuildingType::Pistrinum
 		? TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Thermal.MI_RA_Local_Brick_Thermal")
 		: TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Popular.MI_RA_Local_Brick_Popular");
 }
@@ -353,6 +356,9 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 		VisualTransform.SetScale3D(Rule.SizeCm / EngineBasicShapeSizeCm);
 		if (!ValidateVisualTransform(Placement.Category, VisualTransform, Rule.SizeCm))
 		{
+			UE_LOG(LogTemp, Warning, TEXT("RA_REJECTED_TRANSFORM type=%d category=%d size=%s transform=%s"),
+				static_cast<int32>(BuildingParameters.BuildingType), static_cast<int32>(Placement.Category),
+				*Rule.SizeCm.ToCompactString(), *VisualTransform.ToHumanReadableString());
 			++RejectedTransformCount;
 			bAllMeshesLoaded = false;
 			continue;
@@ -406,6 +412,10 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::FirstStyleInspired;
 		CurrentFloorDecoration = ERARomanFloorDecorationType::OpusSigninum;
 		break;
+	case ERARomanBuildingType::Pistrinum:
+		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::ServicePlaster;
+		CurrentFloorDecoration = ERARomanFloorDecorationType::ProductiveFloor;
+		break;
 	case ERARomanBuildingType::BathComplex:
 		CurrentDecorativeStyle = ERAPompeianDecorativeStyle::FirstStyleInspired;
 		CurrentFloorDecoration = ERARomanFloorDecorationType::ThermalFloor;
@@ -416,8 +426,20 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		break;
 	}
 
-	AccessibleRoomCount = BuildingParameters.BuildingType == ERARomanBuildingType::BathComplex ? 3 : 2;
-	CurrentRoomName = BuildingParameters.BuildingType == ERARomanBuildingType::BathComplex ? TEXT("Apodyterium") : TEXT("Ingresso");
+	const bool bCommercial = BuildingParameters.BuildingType == ERARomanBuildingType::Taberna
+		|| BuildingParameters.BuildingType == ERARomanBuildingType::Thermopolium
+		|| BuildingParameters.BuildingType == ERARomanBuildingType::Pistrinum;
+	const bool bThermopolium = BuildingParameters.BuildingType == ERARomanBuildingType::Thermopolium;
+	const bool bPistrinum = BuildingParameters.BuildingType == ERARomanBuildingType::Pistrinum;
+	const bool bDomus = BuildingParameters.BuildingType == ERARomanBuildingType::DomusMedia;
+	const bool bTwoStorey = BuildingParameters.FloorCount > 1;
+	AccessibleRoomCount = BuildingParameters.BuildingType == ERARomanBuildingType::BathComplex ? 3
+		: bDomus ? 3 : 2;
+	CurrentRoomName = BuildingParameters.BuildingType == ERARomanBuildingType::BathComplex ? TEXT("Apodyterium")
+		: bPistrinum ? TEXT("Area di panificazione")
+		: bThermopolium ? TEXT("Sala del thermopolium")
+		: BuildingParameters.BuildingType == ERARomanBuildingType::Taberna ? TEXT("Bottega")
+		: bDomus ? TEXT("Atrio") : TEXT("Ingresso");
 	DecorationPanelCount = 0;
 	DecorationFallbackCount = 0;
 
@@ -491,35 +513,103 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		TEXT("RAAccessibleRoof"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Roof_Terracotta.MI_RA_Local_Roof_Terracotta"),
 		TEXT("/Game/Technical/Materials/MI_RA_RoofTile.MI_RA_RoofTile"), false);
 	RoofInstanceComponents.Add(Roof);
+	UInstancedStaticMeshComponent* Furnishing = MakeComponent(
+		TEXT("RAUrbanFurnishing"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Wood_Dark.MI_RA_Local_Wood_Dark"),
+		TEXT("/Game/Technical/Materials/MI_RA_Wood.MI_RA_Wood"), false);
+	Furnishing->ComponentTags.Add(TEXT("RA_ACTIVE_INTERIOR"));
 
-	const float Width = FMath::Clamp(BuildingParameters.WidthCm * 0.75f, 720.f, 1100.f);
-	const float Depth = FMath::Clamp(BuildingParameters.DepthCm * 0.48f, 760.f, 1200.f);
+	const float Width = FMath::Clamp(BuildingParameters.WidthCm * 1.35f, 820.f, 1100.f);
+	const float Depth = FMath::Clamp(BuildingParameters.DepthCm * 1.30f, 760.f, 1050.f);
 	const float Height = FMath::Clamp(BuildingParameters.FloorHeightCm, 290.f, 360.f);
+	const float Storeys = bTwoStorey ? 2.f : 1.f;
+	const float TotalHeight = Height * Storeys;
 	const float WallThickness = 28.f;
-	const float EntranceWidth = BuildingParameters.BuildingType == ERARomanBuildingType::Taberna
-		|| BuildingParameters.BuildingType == ERARomanBuildingType::Thermopolium ? 260.f : 180.f;
+	const float EntranceWidth = bCommercial ? 330.f : 170.f;
 	const float FrontSegment = (Width - EntranceWidth) * 0.5f;
-	AddBox(Shell, FVector(-(EntranceWidth + FrontSegment) * .25f, -Depth * .5f, Height * .5f), FVector(FrontSegment, WallThickness, Height));
-	AddBox(Shell, FVector((EntranceWidth + FrontSegment) * .25f, -Depth * .5f, Height * .5f), FVector(FrontSegment, WallThickness, Height));
+	const float FrontSegmentCenter = EntranceWidth * .5f + FrontSegment * .5f;
+	AddBox(Shell, FVector(-FrontSegmentCenter, -Depth * .5f, Height * .5f), FVector(FrontSegment, WallThickness, Height));
+	AddBox(Shell, FVector(FrontSegmentCenter, -Depth * .5f, Height * .5f), FVector(FrontSegment, WallThickness, Height));
 	AddBox(Shell, FVector(0, -Depth * .5f, Height - 28.f), FVector(EntranceWidth, WallThickness, 56.f));
-	AddBox(Shell, FVector(0, Depth * .5f, Height * .5f), FVector(Width, WallThickness, Height));
-	AddBox(Shell, FVector(-Width * .5f, 0, Height * .5f), FVector(WallThickness, Depth, Height));
-	AddBox(Shell, FVector(Width * .5f, 0, Height * .5f), FVector(WallThickness, Depth, Height));
+	AddBox(Shell, FVector(0, Depth * .5f, TotalHeight * .5f), FVector(Width, WallThickness, TotalHeight));
+	AddBox(Shell, FVector(-Width * .5f, 0, TotalHeight * .5f), FVector(WallThickness, Depth, TotalHeight));
+	AddBox(Shell, FVector(Width * .5f, 0, TotalHeight * .5f), FVector(WallThickness, Depth, TotalHeight));
 	const float PassageWidth = 150.f;
 	AddBox(Shell, FVector(-(PassageWidth + (Width - PassageWidth) * .5f) * .5f, 0, Height * .5f), FVector((Width - PassageWidth) * .5f, WallThickness, Height));
 	AddBox(Shell, FVector((PassageWidth + (Width - PassageWidth) * .5f) * .5f, 0, Height * .5f), FVector((Width - PassageWidth) * .5f, WallThickness, Height));
 	AddBox(Shell, FVector(0, 0, Height - 28.f), FVector(PassageWidth, WallThickness, 56.f));
-	AddBox(Brick, FVector(0, Depth * .5f - WallThickness * .55f, 42.f), FVector(Width - 56.f, 12.f, 84.f));
+	AddBox(Brick, FVector(0, Depth * .5f - WallThickness * .55f, 42.f), FVector(Width - 56.f, 16.f, 84.f));
 	AddBox(Timber, FVector(-EntranceWidth * .5f - 10.f, -Depth * .5f + 12.f, 120.f), FVector(20.f, 24.f, 240.f));
 	AddBox(Timber, FVector(EntranceWidth * .5f + 10.f, -Depth * .5f + 12.f, 120.f), FVector(20.f, 24.f, 240.f));
 
-	AddBox(Floor, FVector(0, -Depth * .25f, 2.f), FVector(Width - 24.f, Depth * .5f - 12.f, 10.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
-	AddBox(Floor, FVector(0, Depth * .25f, 2.f), FVector(Width - 24.f, Depth * .5f - 12.f, 10.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
+	AddBox(Floor, FVector(0, -Depth * .25f, 4.f), FVector(Width - 24.f, Depth * .5f - 12.f, 16.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
+	AddBox(Floor, FVector(0, Depth * .25f, 4.f), FVector(Width - 24.f, Depth * .5f - 12.f, 16.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
+	if (bTwoStorey)
+	{
+		const float WindowWidth = FMath::Clamp(Width * .18f, 125.f, 180.f);
+		const float WindowHeight = Height * .44f;
+		const float WindowCenterZ = Height + Height * .55f;
+		const float SideWidth = (Width - WindowWidth * 2.f) / 3.f;
+		for (int32 Segment = 0; Segment < 3; ++Segment)
+		{
+			const float X = -Width * .5f + SideWidth * (Segment + .5f) + WindowWidth * Segment;
+			AddBox(Shell, FVector(X, -Depth * .5f, Height + Height * .5f), FVector(SideWidth, WallThickness, Height));
+		}
+		for (int32 Window = 0; Window < 2; ++Window)
+		{
+			const float X = (Window == 0 ? -1.f : 1.f) * (SideWidth + WindowWidth) * .5f;
+			AddBox(Shell, FVector(X, -Depth * .5f, Height + 24.f), FVector(WindowWidth, WallThickness, 48.f));
+			AddBox(Shell, FVector(X, -Depth * .5f, TotalHeight - 24.f), FVector(WindowWidth, WallThickness, 48.f));
+			AddBox(Timber, FVector(X, -Depth * .5f - 4.f, WindowCenterZ), FVector(WindowWidth - 22.f, 12.f, 12.f));
+		}
+		AddBox(Floor, FVector(0, 0, Height + 4.f), FVector(Width - 20.f, Depth - 20.f, 16.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
+		if (FMath::Abs(DecorationVariant) % 2 == 0 || bCommercial)
+		{
+			Timber->ComponentTags.Add(TEXT("RA_URBAN_BALCONY"));
+			AddBox(Timber, FVector(0, -Depth * .5f - 72.f, Height + 12.f), FVector(Width * .62f, 125.f, 18.f));
+			AddBox(Timber, FVector(-Width * .27f, -Depth * .5f - 112.f, Height + 92.f), FVector(18.f, 18.f, 165.f));
+			AddBox(Timber, FVector(Width * .27f, -Depth * .5f - 112.f, Height + 92.f), FVector(18.f, 18.f, 165.f));
+			AddBox(Timber, FVector(0, -Depth * .5f - 112.f, Height + 170.f), FVector(Width * .58f, 18.f, 18.f));
+		}
+	}
 	constexpr float RoofPitch = 8.f;
 	const float RoofRise = FMath::Tan(FMath::DegreesToRadians(RoofPitch)) * Depth * .25f;
-	AddBox(Roof, FVector(0, -Depth * .25f, Height + 24.f + RoofRise * .5f), FVector(Width + 30.f, Depth * .5f + 20.f, 26.f), FRotator(0, 0, RoofPitch), ERARomanModuleCategory::Roof);
-	AddBox(Roof, FVector(0, Depth * .25f, Height + 24.f + RoofRise * .5f), FVector(Width + 30.f, Depth * .5f + 20.f, 26.f), FRotator(0, 0, -RoofPitch), ERARomanModuleCategory::Roof);
+	AddBox(Roof, FVector(0, -Depth * .25f, TotalHeight + 24.f + RoofRise * .5f), FVector(Width + 30.f, Depth * .5f + 20.f, 26.f), FRotator(0, 0, RoofPitch), ERARomanModuleCategory::Roof);
+	AddBox(Roof, FVector(0, Depth * .25f, TotalHeight + 24.f + RoofRise * .5f), FVector(Width + 30.f, Depth * .5f + 20.f, 26.f), FRotator(0, 0, -RoofPitch), ERARomanModuleCategory::Roof);
 	Roof->SetVisibility(bRoofsVisible, true);
+
+	// Identità leggibili dalla strada e interni minimi visitabili.
+	if (BuildingParameters.BuildingType == ERARomanBuildingType::Taberna)
+	{
+		Furnishing->ComponentTags.Add(TEXT("RA_SHOP_INTERIOR"));
+		AddBox(Furnishing, FVector(-Width * .24f, -Depth * .18f, 55.f), FVector(Width * .38f, 80.f, 110.f));
+		AddBox(Furnishing, FVector(Width * .25f, Depth * .25f, 85.f), FVector(Width * .35f, 42.f, 170.f));
+	}
+	else if (bThermopolium)
+	{
+		Furnishing->ComponentTags.Add(TEXT("RA_THERMOPOLIUM_COUNTER"));
+		AddBox(Brick, FVector(-Width * .18f, -Depth * .24f, 52.f), FVector(Width * .48f, 105.f, 104.f));
+		for (int32 Dolium = 0; Dolium < 3; ++Dolium)
+		{
+			AddBox(Furnishing, FVector(-Width * .32f + Dolium * 92.f, -Depth * .30f, 110.f), FVector(58.f, 58.f, 22.f));
+		}
+		AddBox(Furnishing, FVector(Width * .27f, Depth * .20f, 48.f), FVector(150.f, 150.f, 96.f));
+	}
+	else if (bPistrinum)
+	{
+		Brick->ComponentTags.Add(TEXT("RA_PISTRINUM_OVEN"));
+		AddBox(Brick, FVector(-Width * .25f, Depth * .28f, 85.f), FVector(70.f, 210.f, 170.f));
+		AddBox(Brick, FVector(Width * .25f, Depth * .28f, 85.f), FVector(70.f, 210.f, 170.f));
+		AddBox(Brick, FVector(0, Depth * .28f, 185.f), FVector(Width * .58f, 210.f, 40.f));
+		AddBox(Furnishing, FVector(0, -Depth * .05f, 55.f), FVector(210.f, 210.f, 110.f));
+		AddBox(Furnishing, FVector(0, -Depth * .05f, 145.f), FVector(110.f, 110.f, 70.f));
+	}
+	else if (bDomus)
+	{
+		Furnishing->ComponentTags.Add(TEXT("RA_DOMUS_ATRIUM"));
+		AddBox(Brick, FVector(0, Depth * .20f, 10.f), FVector(230.f, 185.f, 16.f));
+		AddBox(Furnishing, FVector(-Width * .30f, Depth * .27f, 45.f), FVector(120.f, 58.f, 90.f));
+		AddBox(Furnishing, FVector(Width * .30f, Depth * .27f, 45.f), FVector(120.f, 58.f, 90.f));
+	}
 
 	if (bDecorationEnabled)
 	{
@@ -536,6 +626,10 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		AddBox(Painted, FVector(-Width * .5f + WallThickness, -Depth * .23f, PanelZ), FVector(6.f, Depth * .32f, PanelHeight));
 		AddBox(Painted, FVector(Width * .5f - WallThickness, Depth * .23f, PanelZ), FVector(6.f, Depth * .32f, PanelHeight));
 		DecorationPanelCount += 2;
+		AddBox(Painted, FVector(-Width * .33f, -Depth * .5f - 4.f, Height * .34f), FVector(FrontSegment * .72f, 7.f, Height * .34f));
+		AddBox(Painted, FVector(Width * .33f, -Depth * .5f - 4.f, Height * .34f), FVector(FrontSegment * .72f, 7.f, Height * .34f));
+		AddBox(Frame, FVector(0, -Depth * .5f - 7.f, Height * .68f), FVector(Width - 48.f, 16.f, 16.f));
+		DecorationPanelCount += 2;
 	}
 
 	for (int32 LightIndex = 0; LightIndex < AccessibleRoomCount; ++LightIndex)
@@ -550,7 +644,7 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		Light->RegisterComponent();
 		InteriorAuxiliaryComponents.Add(Light);
 	}
-	return AccessibleRoomCount >= 2 && Shell->GetInstanceCount() >= 9 && Floor->GetInstanceCount() == 2;
+	return AccessibleRoomCount >= 2 && Shell->GetInstanceCount() >= 9 && Floor->GetInstanceCount() >= 2;
 }
 
 bool ARARomanProceduralBuildingActor::GenerateRoomDecoration()

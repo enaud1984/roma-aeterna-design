@@ -78,7 +78,11 @@ def create_technical_materials():
 
 
 def spawn_block(actor_subsystem, mesh, label, location, scale, material, rotation=(0.0, 0.0, 0.0), tags=(), collision=True):
-    actor = actor_subsystem.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(*location), unreal.Rotator(*rotation))
+    actor = actor_subsystem.spawn_actor_from_class(
+        unreal.StaticMeshActor,
+        unreal.Vector(*location),
+        unreal.Rotator(pitch=rotation[0], yaw=rotation[1], roll=rotation[2]),
+    )
     if not actor:
         raise RuntimeError(f"Impossibile creare il modulo tecnico: {label}")
     actor.set_actor_label(label)
@@ -94,7 +98,11 @@ def spawn_block(actor_subsystem, mesh, label, location, scale, material, rotatio
 
 
 def spawn_label(actor_subsystem, text, location, rotation=(0.0, 90.0, 0.0)):
-    actor = actor_subsystem.spawn_actor_from_class(unreal.TextRenderActor, unreal.Vector(*location), unreal.Rotator(*rotation))
+    actor = actor_subsystem.spawn_actor_from_class(
+        unreal.TextRenderActor,
+        unreal.Vector(*location),
+        unreal.Rotator(pitch=rotation[0], yaw=rotation[1], roll=rotation[2]),
+    )
     actor.set_actor_label(f"RA_Label_{text}")
     actor.tags = [unreal.Name(SLICE_TAG), unreal.Name("RA_TECHNICAL_LABEL")]
     actor.text_render.set_editor_property("text", text)
@@ -102,12 +110,36 @@ def spawn_label(actor_subsystem, text, location, rotation=(0.0, 90.0, 0.0)):
     return actor
 
 
-def spawn_generated_building(actor_subsystem, label, role_tag, front_tag, generator_name, seed, location, rotation=(0.0, 0.0, 0.0), floors=1):
-    actor = actor_subsystem.spawn_actor_from_class(unreal.RARomanProceduralBuildingActor, unreal.Vector(*location), unreal.Rotator(*rotation))
+def spawn_generated_building(
+    actor_subsystem,
+    label,
+    role_tag,
+    front_tag,
+    generator_name,
+    seed,
+    location,
+    rotation=(0.0, 0.0, 0.0),
+    floors=1,
+    width_cm=None,
+    depth_cm=None,
+):
+    actor = actor_subsystem.spawn_actor_from_class(
+        unreal.RARomanProceduralBuildingActor,
+        unreal.Vector(*location),
+        unreal.Rotator(pitch=rotation[0], yaw=rotation[1], roll=rotation[2]),
+    )
     if not actor:
         raise RuntimeError(f"Impossibile creare il generatore: {label}")
     actor.set_actor_label(label)
-    actor.tags = [unreal.Name(SLICE_TAG), unreal.Name(role_tag), unreal.Name(front_tag), unreal.Name(label)]
+    storey_tag = "RA_TWO_STOREY" if floors > 1 else "RA_ONE_STOREY"
+    actor.tags = [
+        unreal.Name(SLICE_TAG),
+        unreal.Name(role_tag),
+        unreal.Name(front_tag),
+        unreal.Name(storey_tag),
+        unreal.Name("RA_CONTINUOUS_FACADE"),
+        unreal.Name(label),
+    ]
     actor.set_editor_property("generate_on_begin_play", True)
     actor.set_editor_property("auto_rebuild_in_editor", False)
     actor.set_editor_property("show_debug_labels", False)
@@ -115,12 +147,35 @@ def spawn_generated_building(actor_subsystem, label, role_tag, front_tag, genera
     parameters.set_editor_property("random_seed", seed)
     parameters.set_editor_property("maximum_module_count", 768)
     parameters.set_editor_property("floor_count", floors)
+    if width_cm is not None:
+        parameters.set_editor_property("width_cm", width_cm)
+    if depth_cm is not None:
+        parameters.set_editor_property("depth_cm", depth_cm)
     actor.set_editor_property("building_parameters", parameters)
-    if not getattr(actor, generator_name)() or actor.get_generated_instance_count() <= 0:
-        raise RuntimeError(f"Generazione fallita per {label}")
+    actor.set_editor_property("decoration_variant", seed % 7)
+    generation_succeeded = getattr(actor, generator_name)()
+    if not generation_succeeded or actor.get_generated_instance_count() <= 0:
+        result = actor.get_editor_property("last_generation_result")
+        errors = result.get_editor_property("errors")
+        details = "; ".join(
+            f"{item.get_editor_property('code')}: {item.get_editor_property('message')}"
+            for item in errors
+        )
+        components = ", ".join(
+            f"{component.get_name()}={component.get_instance_count()}"
+            for component in actor.get_editor_property("generated_instance_components")
+            if component
+        )
+        raise RuntimeError(
+            f"Generazione fallita per {label}; success={generation_succeeded}; "
+            f"instances={actor.get_generated_instance_count()}; "
+            f"rooms={actor.get_accessible_room_count()}; "
+            f"rejected={actor.get_rejected_transform_count()}; errors={details}; "
+            f"components={components}"
+        )
     actor.clear_generated_building()
-    label_y = location[1] - 120 if location[1] > 0 else location[1] + 120
-    spawn_label(actor_subsystem, label.removeprefix("RA_"), (location[0] + 300, label_y, 390), (0.0, 90.0 if location[1] < 0 else -90.0, 0.0))
+    label_y = location[1] - 520 if location[1] > 0 else location[1] + 520
+    spawn_label(actor_subsystem, label.removeprefix("RA_"), (location[0] + 260, label_y, 265), (0.0, 90.0 if location[1] < 0 else -90.0, 0.0))
     return actor
 
 
@@ -135,23 +190,23 @@ def build_roman_street(actor_subsystem, cube, materials):
     # Basoli modulari: due corsie, giunti sfalsati e leggere irregolarità deterministiche.
     for index, x in enumerate(range(-8000, 8001, 400)):
         offset = 12 if index % 3 == 0 else -8 if index % 3 == 1 else 0
-        for lane, y in enumerate((-255, 255)):
-            spawn_block(actor_subsystem, cube, f"RA_RoadStone_{index}_{lane}", (x + (lane * 18), y + offset, 0), (3.8, 4.7, 0.18), materials["RoadStone"], rotation=(0.0, (index % 5 - 2) * 0.45, 0.0), tags=("RA_ROMAN_ROAD", "RA_RomanRoad"))
-    for y, suffix in ((-610, "South"), (610, "North")):
+        for lane, y in enumerate((-205, 205)):
+            spawn_block(actor_subsystem, cube, f"RA_RoadStone_{index}_{lane}", (x + (lane * 18), y + offset, 0), (3.8, 3.7, 0.18), materials["RoadStone"], rotation=(0.0, (index % 5 - 2) * 0.45, 0.0), tags=("RA_ROMAN_ROAD", "RA_RomanRoad"))
+    for y, suffix in ((-475, "South"), (475, "North")):
         spawn_block(actor_subsystem, cube, f"RA_Curb_{suffix}", (0, y, 28), (165, 0.45, 0.55), materials["Stone"], tags=("RA_CURB",))
-        sidewalk_y = -815 if y < 0 else 815
-        spawn_block(actor_subsystem, cube, f"RA_Sidewalk_{suffix}", (0, sidewalk_y, 40), (165, 3.6, 0.42), materials["Sidewalk"], tags=("RA_SIDEWALK",))
-        channel_y = -535 if y < 0 else 535
+        sidewalk_y = -620 if y < 0 else 620
+        spawn_block(actor_subsystem, cube, f"RA_Sidewalk_{suffix}", (0, sidewalk_y, 40), (165, 2.4, 0.42), materials["Sidewalk"], tags=("RA_SIDEWALK",))
+        channel_y = -430 if y < 0 else 430
         spawn_block(actor_subsystem, cube, f"RA_DrainageChannel_{suffix}", (0, channel_y, 5), (165, 0.32, 0.12), materials["Water"], tags=("RA_DRAINAGE",), collision=False)
 
     for index, y in enumerate(range(-420, 421, 210)):
         spawn_block(actor_subsystem, cube, f"RA_CrossingStone_{index}", (-2650, y, 42), (1.35, 1.1, 0.42), materials["Sidewalk"], tags=("RA_CROSSING_STONE",))
 
     # Vicolo laterale e slargo riconoscibile.
-    spawn_block(actor_subsystem, cube, "RA_Alley", (800, 2250, 2), (5.0, 28, 0.16), materials["RoadStone"], tags=("RA_ALLEY",))
-    spawn_block(actor_subsystem, cube, "RA_AlleySidewalk_West", (420, 2250, 35), (1.8, 28, 0.35), materials["Sidewalk"], tags=("RA_SIDEWALK", "RA_ALLEY"))
-    spawn_block(actor_subsystem, cube, "RA_AlleySidewalk_East", (1180, 2250, 35), (1.8, 28, 0.35), materials["Sidewalk"], tags=("RA_SIDEWALK", "RA_ALLEY"))
-    spawn_block(actor_subsystem, cube, "RA_SmallPlaza", (-1800, -1800, 5), (18, 15, 0.18), materials["Stone"], tags=("RA_PLAZA",))
+    spawn_block(actor_subsystem, cube, "RA_Alley", (250, 2200, 2), (4.5, 28, 0.16), materials["RoadStone"], tags=("RA_ALLEY",))
+    spawn_block(actor_subsystem, cube, "RA_AlleySidewalk_West", (-105, 2200, 35), (1.6, 28, 0.35), materials["Sidewalk"], tags=("RA_SIDEWALK", "RA_ALLEY"))
+    spawn_block(actor_subsystem, cube, "RA_AlleySidewalk_East", (605, 2200, 35), (1.6, 28, 0.35), materials["Sidewalk"], tags=("RA_SIDEWALK", "RA_ALLEY"))
+    spawn_block(actor_subsystem, cube, "RA_SmallPlaza", (250, -1500, 5), (15, 11, 0.18), materials["Stone"], tags=("RA_PLAZA",))
     spawn_block(actor_subsystem, cube, "RA_SewerEntrance", (3150, 500, 18), (1.6, 1.1, 0.22), materials["Metal"], tags=("RA_SEWER_VISIBLE",))
 
 
@@ -180,26 +235,60 @@ def build_scene():
     player_start.set_actor_label("RA_PlayerStart_VerticalSlice")
     player_start.tags = [unreal.Name(SLICE_TAG), unreal.Name("RA_PLAYER_START")]
 
-    # Due fronti urbani compatti con dieci archetipi e seed espliciti.
+    # Due fronti urbani addossati, con una sola interruzione intenzionale
+    # in corrispondenza del vicolo e dello slargo della fontana.
     north = (0.0, 0.0, 0.0)
     south = (0.0, 180.0, 0.0)
-    spawn_generated_building(actor_subsystem, "RA_PopularHouse", "RA_RESIDENTIAL", "RA_URBAN_FRONT_NORTH", "generate_popular_house", 25001, (-6900, 1050, 45), north, 2)
-    spawn_generated_building(actor_subsystem, "RA_DomusMedia", "RA_RESIDENTIAL", "RA_URBAN_FRONT_NORTH", "generate_domus_media", 25002, (-5000, 1050, 45), north, 1)
-    spawn_generated_building(actor_subsystem, "RA_BathComplex", "RA_BATH", "RA_URBAN_FRONT_NORTH", "generate_bath_complex", 25003, (-2600, 1050, 45), north, 1)
-    spawn_generated_building(actor_subsystem, "RA_MetalWorkshop", "RA_PRODUCTIVE", "RA_URBAN_FRONT_NORTH", "generate_metal_workshop", 25004, (1500, 1050, 45), north, 2)
-    spawn_generated_building(actor_subsystem, "RA_UrbanGarden", "RA_GARDEN", "RA_URBAN_FRONT_NORTH", "generate_urban_garden", 25005, (5000, 1050, 45), north, 1)
-    spawn_generated_building(actor_subsystem, "RA_Taberna", "RA_COMMERCIAL", "RA_URBAN_FRONT_SOUTH", "generate_taberna", 25006, (-6900, -1050, 45), south, 1)
-    spawn_generated_building(actor_subsystem, "RA_Thermopolium", "RA_COMMERCIAL", "RA_URBAN_FRONT_SOUTH", "generate_thermopolium", 25007, (-5000, -1050, 45), south, 2)
-    spawn_generated_building(actor_subsystem, "RA_PublicFountain", "RA_WATER", "RA_URBAN_FRONT_SOUTH", "generate_public_fountain", 25008, (-900, -1050, 45), south, 1)
-    spawn_generated_building(actor_subsystem, "RA_AqueductSection", "RA_UTILITY", "RA_URBAN_FRONT_SOUTH", "generate_aqueduct_section", 25009, (2700, -1050, 45), south, 1)
-    spawn_generated_building(actor_subsystem, "RA_ServiceYard", "RA_SERVICE", "RA_URBAN_FRONT_SOUTH", "generate_service_yard", 25010, (5800, -1050, 45), south, 1)
+    north_buildings = (
+        ("PopularHouse_N1", "RA_RESIDENTIAL", "generate_popular_house", 30001, -6900, 2),
+        ("DomusMedia_N1", "RA_RESIDENTIAL", "generate_domus_media", 30002, -5800, 2),
+        ("Taberna_N1", "RA_COMMERCIAL", "generate_taberna", 30003, -4700, 2),
+        ("Pistrinum", "RA_PRODUCTIVE", "generate_pistrinum", 30004, -3600, 1),
+        ("PopularHouse_N2", "RA_RESIDENTIAL", "generate_popular_house", 30005, -2500, 1),
+        ("DomusMedia_N2", "RA_RESIDENTIAL", "generate_domus_media", 30006, -1400, 2),
+        ("Taberna_N2", "RA_COMMERCIAL", "generate_taberna", 30007, 1350, 1),
+        ("PopularHouse_N3", "RA_RESIDENTIAL", "generate_popular_house", 30008, 2450, 2),
+        ("BathComplex", "RA_BATH", "generate_bath_complex", 30009, 3550, 1),
+        ("DomusMedia_N3", "RA_RESIDENTIAL", "generate_domus_media", 30010, 4650, 2),
+        ("UrbanGarden", "RA_GARDEN", "generate_urban_garden", 30011, 5900, 1),
+    )
+    south_buildings = (
+        ("Taberna_S1", "RA_COMMERCIAL", "generate_taberna", 30101, -6900, 1),
+        ("Thermopolium", "RA_COMMERCIAL", "generate_thermopolium", 30102, -5800, 2),
+        ("PopularHouse_S1", "RA_RESIDENTIAL", "generate_popular_house", 30103, -4700, 2),
+        ("DomusMedia_S1", "RA_RESIDENTIAL", "generate_domus_media", 30104, -3600, 1),
+        ("Taberna_S2", "RA_COMMERCIAL", "generate_taberna", 30105, -2500, 2),
+        ("PopularHouse_S2", "RA_RESIDENTIAL", "generate_popular_house", 30106, -1400, 1),
+        ("DomusMedia_S2", "RA_RESIDENTIAL", "generate_domus_media", 30107, 1900, 2),
+        ("Taberna_S3", "RA_COMMERCIAL", "generate_taberna", 30108, 3000, 1),
+        ("PopularHouse_S3", "RA_RESIDENTIAL", "generate_popular_house", 30109, 4100, 2),
+        ("MetalWorkshop", "RA_PRODUCTIVE", "generate_metal_workshop", 30110, 5200, 1),
+        ("ServiceYard", "RA_SERVICE", "generate_service_yard", 30111, 6400, 1),
+    )
+    for name, role, generator, seed, x, floors in north_buildings:
+        spawn_generated_building(actor_subsystem, f"RA_{name}", role, "RA_URBAN_FRONT_NORTH", generator, seed, (x, 1110, 45), north, floors)
+    for name, role, generator, seed, x, floors in south_buildings:
+        spawn_generated_building(actor_subsystem, f"RA_{name}", role, "RA_URBAN_FRONT_SOUTH", generator, seed, (x, -1110, 45), south, floors)
+    fountain = spawn_generated_building(
+        actor_subsystem, "RA_PublicFountain", "RA_WATER", "RA_URBAN_PLAZA",
+        "generate_public_fountain", 30200, (250, -1450, 45), south, 1
+    )
+    fountain.tags = [*fountain.tags, unreal.Name("RA_PLAZA_FOCAL_POINT")]
+    spawn_generated_building(
+        actor_subsystem, "RA_AqueductSection", "RA_UTILITY", "RA_INFRASTRUCTURE_EDGE",
+        "generate_aqueduct_section", 30201, (7050, 2350, 45), north, 1
+    )
 
-    for x in (-6900, -5000, -2600, 1500, 5000, -900, 2700, 5800):
-        side = 1 if x in (-6900, -5000, -2600, 1500, 5000) else -1
-        spawn_block(actor_subsystem, cube, f"RA_Threshold_{x}", (x + 220, side * 665, 48), (1.8, 1.1, 0.18), materials["Stone"], tags=("RA_BUILDING_ENTRANCE",))
+    for side, y in ((1, 690), (-1, -690)):
+        for index, x in enumerate((-6900, -5800, -4700, -3600, -2500, -1400, 1350, 2450, 3550, 4650)):
+            spawn_block(actor_subsystem, cube, f"RA_Threshold_{side}_{index}", (x, y, 48), (1.55, 0.75, 0.18), materials["Stone"], tags=("RA_BUILDING_ENTRANCE",))
 
     build_environment(actor_subsystem, cube, cylinder, sphere, materials)
-    directional = actor_subsystem.spawn_actor_from_class(unreal.DirectionalLight, unreal.Vector(0, 0, 1800), unreal.Rotator(-42.0, -32.0, 0.0))
+    directional = actor_subsystem.spawn_actor_from_class(
+        unreal.DirectionalLight,
+        unreal.Vector(0, 0, 1800),
+        unreal.Rotator(pitch=-42.0, yaw=-32.0, roll=0.0),
+    )
     directional.set_actor_label("RA_DirectionalLight_Dynamic")
     directional.tags = [unreal.Name(SLICE_TAG), unreal.Name("RA_DYNAMIC_LIGHT")]
     directional.light_component.set_mobility(unreal.ComponentMobility.MOVABLE)
@@ -221,7 +310,7 @@ def build_scene():
     post.set_actor_label("RA_PostProcess_AutoExposure")
     post.tags = [unreal.Name(SLICE_TAG), unreal.Name("RA_DYNAMIC_LIGHTING")]
     post.set_editor_property("unbound", True)
-    title = spawn_label(actor_subsystem, "ROMA AETERNA - ISOLATO URBANO TECNICO", (-7200, -720, 360))
+    title = spawn_label(actor_subsystem, "ROMA AETERNA - STRADA POMPEIANA COMPATTA", (-7200, -520, 360))
     title.text_render.set_editor_property("world_size", 64.0)
 
     world = level_editor.get_current_level().get_outer()

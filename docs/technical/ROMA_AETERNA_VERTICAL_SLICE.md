@@ -48,3 +48,7 @@ Sei edifici generano a runtime interni accessibili senza hard reference ad asset
 ## Correzione visuale Prompt 29-BIS
 
 Le coordinate dei piani sono ricentrate sul pivot di ciascun attore e i gusci accessibili sostituiscono i blocchi astratti sovrapposti. I materiali locali e decorativi sono compatibili con ISMC; F5 rigenera senza accumulo, F7 alterna local/fallback anche per strada e terreno, F9 cambia camera, F10 controlla tutte le coperture e F11 ricostruisce le decorazioni senza accumulare contatori. L’HUD compatto mostra binding reali e messaggi temporanei. Lumen usa software ray tracing con Mesh Distance Fields, senza richiedere hardware ray tracing.
+
+## Composizione urbana Prompt 30
+
+La strada è ora un fronte pompeiano compatto: edifici addossati su entrambi i lati, alternanza di uno e due piani, botteghe con aperture ampie, abitazioni con porte e finestre più contenute, balconi lignei, fasce dipinte e tetti variati. Vicolo e slargo interrompono intenzionalmente la continuità. Taberna, thermopolium, pistrinum e domus media dispongono di interni tecnici riconoscibili; l’HUD riepiloga composizione, altezze, interni e fallback.

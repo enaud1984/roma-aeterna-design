@@ -541,6 +541,43 @@ def audit_visual_slice_correction(root: Path, tracked_paths: set[str]) -> dict:
     return report
 
 
+def audit_compact_pompeian_street(root: Path, tracked_paths: set[str]) -> dict:
+    """Verifica composizione urbana Prompt 30 e isolamento degli asset locali."""
+    report = audit_visual_slice_correction(root, tracked_paths)
+    errors = list(report.get("errors", []))
+    required_text = {
+        "Scripts/CreateRomaAeternaVerticalSlice.py": (
+            "RA_CONTINUOUS_FACADE", "RA_URBAN_FRONT_NORTH", "RA_URBAN_FRONT_SOUTH",
+            "generate_popular_house", "generate_domus_media", "generate_taberna",
+            "generate_thermopolium", "generate_pistrinum", "generate_public_fountain",
+            "generate_urban_garden", "generate_service_yard",
+        ),
+        "Source/RomaAeterna/Private/World/Modular/RARomanProceduralBuildingActor.cpp": (
+            "RA_URBAN_BALCONY", "RA_SHOP_INTERIOR", "RA_THERMOPOLIUM_COUNTER",
+            "RA_PISTRINUM_OVEN", "RA_DOMUS_ATRIUM",
+        ),
+        "Source/RomaAeterna/Private/Tests/RACompactPompeianStreetTests.cpp": (
+            "RomaAeterna.Prompt30.CompactPompeianComposition",
+            "RomaAeterna.Prompt30.FacadesAndInteriors",
+            "RomaAeterna.Prompt30.RuntimeStability",
+        ),
+    }
+    for relative, tokens in required_text.items():
+        path = root / relative
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        for token in tokens:
+            if token not in text:
+                errors.append(f"{relative}: requisito Prompt 30 mancante: {token}")
+        if ABSOLUTE_PATTERN.search(text):
+            errors.append(f"{relative}: percorso assoluto hardcoded")
+    report.update({
+        "status": "PASSED" if not errors else "FAILED",
+        "errors": sorted(set(errors)),
+        "compact_pompeian_street": True,
+    })
+    return report
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, default=ROOT / "docs/assets/roman_asset_catalog.json")
@@ -555,6 +592,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--visual-slice-audit", action="store_true")
     parser.add_argument("--material-runtime-audit", action="store_true")
     parser.add_argument("--transform-audit", action="store_true")
+    parser.add_argument("--compact-urban-audit", action="store_true")
     parser.add_argument("--batch", type=int, default=1)
     parser.add_argument("--report-json", action="store_true")
     parser.add_argument("--report-markdown", action="store_true")
@@ -566,7 +604,9 @@ def main(argv: list[str] | None = None) -> int:
         tracked = set(subprocess.run(
             ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
         ).stdout.splitlines())
-        if args.visual_slice_audit or args.material_runtime_audit or args.transform_audit:
+        if args.compact_urban_audit:
+            report = audit_compact_pompeian_street(ROOT, tracked)
+        elif args.visual_slice_audit or args.material_runtime_audit or args.transform_audit:
             report = audit_visual_slice_correction(ROOT, tracked)
         elif args.decoration_audit or args.interior_audit:
             report = audit_decorated_interiors(ROOT, tracked)
@@ -582,7 +622,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.check_only:
         args.output_dir.mkdir(parents=True, exist_ok=True)
-        visual_mode = args.visual_slice_audit or args.material_runtime_audit or args.transform_audit
+        visual_mode = args.visual_slice_audit or args.material_runtime_audit or args.transform_audit or args.compact_urban_audit
         local_mode = args.local_import_audit or args.material_replacement_audit or args.decoration_audit or args.interior_audit or visual_mode
         json_name = "roman_visual_slice_correction_audit.json" if visual_mode else ("roman_decorated_interiors_audit.json" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.json" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.json" if args.local_import_audit else "roman_asset_audit.json")))
         markdown_name = "roman_visual_slice_correction_audit.md" if visual_mode else ("roman_decorated_interiors_audit.md" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.md" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.md" if args.local_import_audit else "roman_asset_audit.md")))
@@ -594,6 +634,15 @@ def main(argv: list[str] | None = None) -> int:
         if write_both or args.report_markdown:
             renderer = render_decoration_markdown if args.decoration_audit or args.interior_audit else (render_local_markdown if local_mode else render_markdown)
             (args.output_dir / markdown_name).write_text(renderer(report), encoding="utf-8")
+
+    if args.compact_urban_audit:
+        if report["status"] == "PASSED":
+            print("COMPACT_POMPEIAN_STREET_AUDIT_PASSED")
+            return 0
+        print("COMPACT_POMPEIAN_STREET_AUDIT_FAILED")
+        for error in report["errors"]:
+            print(f"ERROR: {error}")
+        return 1
 
     if args.visual_slice_audit or args.material_runtime_audit or args.transform_audit:
         if report["status"] == "PASSED":

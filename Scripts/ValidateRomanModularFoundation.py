@@ -503,6 +503,38 @@ for rel in ("Scripts/TestRomanVisualSliceCorrection.ps1", "Scripts/ImportRomanAs
     if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
         ERRORS.append(f"percorso assoluto hardcoded nel Prompt 29-BIS: {rel}")
 
+prompt30_files = [
+    "Scripts/TestCompactPompeianStreet.ps1",
+    "Scripts/RunCompactPompeianStreetPIE.py",
+    "Source/RomaAeterna/Private/Tests/RACompactPompeianStreetTests.cpp",
+    "docs/technical/COMPACT_POMPEIAN_URBAN_STREET.md",
+    "docs/testing/COMPACT_POMPEIAN_URBAN_STREET_TEST_PLAN.md",
+    "docs/audits/PROMPT_30_IMPLEMENTATION_REPORT.md",
+]
+prompt30_text = all_text(prompt30_files)
+prompt30_text += read("Scripts/CreateRomaAeternaVerticalSlice.py")
+prompt30_text += read("Scripts/AuditRomanAssets.py")
+prompt30_text += read("Source/RomaAeterna/Private/World/Modular/RARomanProceduralBuildingActor.cpp")
+prompt30_text += read("Source/RomaAeterna/Private/UI/RATechnicalHUD.cpp")
+prompt30_text += read("IMPLEMENTATION_STATUS.md")
+for token in (
+    "RA_CONTINUOUS_FACADE", "RA_URBAN_FRONT_NORTH", "RA_URBAN_FRONT_SOUTH",
+    "RA_ONE_STOREY", "RA_TWO_STOREY", "RA_URBAN_BALCONY",
+    "RA_SHOP_INTERIOR", "RA_THERMOPOLIUM_COUNTER", "RA_PISTRINUM_OVEN", "RA_DOMUS_ATRIUM",
+    "RomaAeterna.Prompt30.CompactPompeianComposition",
+    "RomaAeterna.Prompt30.FacadesAndInteriors",
+    "RomaAeterna.Prompt30.RuntimeStability",
+    "--compact-urban-audit", "COMPACT_POMPEIAN_STREET_AUDIT_PASSED",
+    "COMPACT_POMPEIAN_STREET_STATIC_CHECKS_PASSED",
+    "COMPACT_POMPEIAN_STREET_AUTOMATION_PASSED",
+    "PROMPT30_REAL_PIE_COMPLETED",
+):
+    if token not in prompt30_text:
+        ERRORS.append(f"integrazione Prompt 30 incompleta: {token}")
+for rel in ("Scripts/TestCompactPompeianStreet.ps1", "Scripts/RunCompactPompeianStreetPIE.py", "Scripts/CreateRomaAeternaVerticalSlice.py"):
+    if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
+        ERRORS.append(f"percorso assoluto hardcoded nel Prompt 30: {rel}")
+
 try:
     tracked_files = subprocess.run(
         ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
@@ -513,7 +545,7 @@ try:
     changed_files = subprocess.run(
         ["git", "diff", "--name-only", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True,
     ).stdout.splitlines()
-    for protected_map in ("Content/Maps/RomaAeternaVerticalSlice.umap", "Content/RA/Dev/Maps/TechnicalSandbox.umap"):
+    for protected_map in ("Content/RA/Dev/Maps/TechnicalSandbox.umap",):
         if protected_map in changed_files:
             ERRORS.append(f"mappa versionata modificata dal Prompt 27: {protected_map}")
 except subprocess.CalledProcessError as exc:
@@ -579,4 +611,5 @@ print("LOCAL_ASSET_INTEGRATION_STATIC_CHECKS_PASSED")
 print("ARCHITECTURAL_MATERIAL_REPLACEMENT_STATIC_CHECKS_PASSED")
 print("DECORATED_INTERIORS_STATIC_CHECKS_PASSED")
 print("VISUAL_SLICE_CORRECTION_STATIC_CHECKS_PASSED")
+print("COMPACT_POMPEIAN_STREET_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")
