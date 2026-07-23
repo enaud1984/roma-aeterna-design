@@ -21,3 +21,7 @@ Il catalogo atteso è `/Game/LocalAssets/RomaAeterna/Data/DA_RA_VisualCatalog_Ba
 ## Estensione Prompt 28
 
 Il mapping non è più una relazione uno-a-uno. Le voci includono `BuildingArchetypes`, `SurfaceRole`, `MaterialVariant`, `WeatheringLevels`, `UVScale`, `UVRotation`, `ColorTint`, moltiplicatori PBR e `FallbackMaterial`. Undici Material Instance condivise rappresentano ricchezza e usura senza duplicare texture o creare istanze dinamiche per modulo. La selezione è pesata, deterministica per seed e cacheata.
+
+## Compatibilità ISMC Prompt 29-BIS
+
+I sette parent material locali vengono ricompilati con `used_with_instanced_static_meshes=True`. Gli undici object path rimangono `/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_<Nome>.MI_RA_Local_<Nome>`. Il catalogo viene invalidato dopo import, F5 e F7; un fallimento iniziale non resta quindi memorizzato.

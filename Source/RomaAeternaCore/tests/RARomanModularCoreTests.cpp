@@ -377,6 +377,60 @@ void RunDecoratedInteriorsPrompt29CoreTests()
     Expect(!ValidateRoomDecoration(A, 1).bValid, "Prompt 29 MaximumModuleCount");
 }
 
+void RunVisualCorrectionPrompt29BisCoreTests()
+{
+    ModulePlacement ValidWall;
+    ValidWall.ModuleId = "wall_valid";
+    ValidWall.Category = ModuleCategory::Wall;
+    ValidWall.TransformValue = {{100.0, 200.0, 150.0}, {0.0, 90.0, 0.0}, {4.0, 0.4, 3.0}};
+    ModulePlacement ValidFloor;
+    ValidFloor.ModuleId = "floor_valid";
+    ValidFloor.Category = ModuleCategory::Floor;
+    ValidFloor.TransformValue = {{0.0, 0.0, 10.0}, {0.0, 0.0, 0.0}, {6.0, 8.0, 0.2}};
+    ModulePlacement ValidRoof;
+    ValidRoof.ModuleId = "roof_valid";
+    ValidRoof.Category = ModuleCategory::Roof;
+    ValidRoof.TransformValue = {{0.0, 0.0, 350.0}, {18.0, 0.0, 0.0}, {6.0, 4.0, 0.2}};
+    std::vector<GenerationMessage> Warnings;
+    std::vector<GenerationMessage> Errors;
+    Expect(ValidatePlacements({ValidWall, ValidFloor, ValidRoof}, 10, Warnings, Errors),
+        "Prompt 29-BIS transform visuali plausibili accettati");
+
+    auto MustReject = [](ModulePlacement Placement, const char* Message)
+    {
+        std::vector<GenerationMessage> LocalWarnings;
+        std::vector<GenerationMessage> LocalErrors;
+        Expect(!ValidatePlacements({Placement}, 10, LocalWarnings, LocalErrors), Message);
+    };
+    ModulePlacement InvalidWall = ValidWall;
+    InvalidWall.TransformValue.RotationDegrees.X = 45.0;
+    MustReject(InvalidWall, "Prompt 29-BIS parete quasi orizzontale rifiutata");
+    ModulePlacement InvalidFloor = ValidFloor;
+    InvalidFloor.TransformValue.RotationDegrees.Z = 40.0;
+    MustReject(InvalidFloor, "Prompt 29-BIS pavimento inclinato rifiutato");
+    ModulePlacement InvalidRoof = ValidRoof;
+    InvalidRoof.TransformValue.RotationDegrees.X = 50.0;
+    MustReject(InvalidRoof, "Prompt 29-BIS tetto implausibile rifiutato");
+    ModulePlacement InvalidScale = ValidWall;
+    InvalidScale.TransformValue.Scale = {100.0, 0.01, 0.01};
+    MustReject(InvalidScale, "Prompt 29-BIS rapporto assi patologico rifiutato");
+    ModulePlacement InvalidExtent = ValidWall;
+    InvalidExtent.TransformValue.Location.X = 100001.0;
+    MustReject(InvalidExtent, "Prompt 29-BIS modulo oltre estensione rifiutato");
+    ModulePlacement InvalidFinite = ValidWall;
+    InvalidFinite.TransformValue.Location.Z = std::numeric_limits<double>::infinity();
+    MustReject(InvalidFinite, "Prompt 29-BIS Infinity rifiutato");
+
+    BuildingParameters Parameters;
+    Parameters.Type = BuildingType::DomusMedia;
+    Parameters.RandomSeed = 292901;
+    const GenerationResult First = BuildPlanLayout(Parameters, Parameters.Type);
+    const GenerationResult Second = BuildPlanLayout(Parameters, Parameters.Type);
+    Expect(First.bSuccess && Second.bSuccess, "Prompt 29-BIS regressione generazione DomusMedia");
+    Expect(First.Placements.size() == Second.Placements.size(), "Prompt 29-BIS determinismo conteggio");
+    Expect(AllTransformsFinite(First) && BoundsCoherent(First), "Prompt 29-BIS nessun NaN e bounds coerenti");
+}
+
 } // namespace
 
 int main()
@@ -393,6 +447,8 @@ int main()
     RunArchitecturalMaterialPrompt28CoreTests();
     std::cerr << "RUN Prompt29\n";
     RunDecoratedInteriorsPrompt29CoreTests();
+    std::cerr << "RUN Prompt29Bis\n";
+    RunVisualCorrectionPrompt29BisCoreTests();
     std::cerr << "RUN Complete\n";
     if (Failures > 0)
     {

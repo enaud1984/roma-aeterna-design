@@ -91,6 +91,13 @@ REQUIRED_FILES = [
     "docs/assets/ROMAN_ASSET_BATCH_1_HISTORICAL_REVIEW.md",
     "docs/testing/ROMAN_LOCAL_ASSET_INTEGRATION_TEST_PLAN.md",
     "docs/audits/PROMPT_27_IMPLEMENTATION_REPORT.md",
+    "Scripts/RunRomanVisualSlicePIE.py",
+    "Scripts/TestRomanVisualSliceCorrection.ps1",
+    "Source/RomaAeterna/Private/Tests/RAVisualSliceCorrectionTests.cpp",
+    "docs/audits/PROMPT_29_BIS_VISUAL_CORRECTION_REPORT.md",
+    "docs/testing/ROMAN_VISUAL_SLICE_CORRECTION_TEST_PLAN.md",
+    "docs/technical/ROMAN_RUNTIME_MATERIAL_RESOLUTION.md",
+    "docs/technical/ROMAN_TRANSFORM_VALIDATION.md",
 ]
 
 
@@ -424,6 +431,12 @@ prompt29_files = [
     "docs/technical/ROMAN_ACCESSIBLE_BUILDINGS.md",
     "docs/testing/ROMAN_DECORATED_INTERIORS_TEST_PLAN.md",
     "docs/audits/PROMPT_29_IMPLEMENTATION_REPORT.md",
+    "Scripts/TestRomanVisualSliceCorrection.ps1",
+    "Source/RomaAeterna/Private/Tests/RAVisualSliceCorrectionTests.cpp",
+    "docs/audits/PROMPT_29_BIS_VISUAL_CORRECTION_REPORT.md",
+    "docs/testing/ROMAN_VISUAL_SLICE_CORRECTION_TEST_PLAN.md",
+    "docs/technical/ROMAN_RUNTIME_MATERIAL_RESOLUTION.md",
+    "docs/technical/ROMAN_TRANSFORM_VALIDATION.md",
 ]
 prompt29_text = all_text(prompt29_files) + read("Source/RomaAeternaCore/include/RARomanModularCore.h") + read("Source/RomaAeterna/Public/World/Modular/RARomanProceduralBuildingActor.h") + read("Source/RomaAeterna/Private/Player/RACharacter.cpp") + read("IMPLEMENTATION_STATUS.md")
 for token in (
@@ -454,6 +467,41 @@ for token in (
 for rel in ("Scripts/CreateRomanDecorationAssets.py", "Scripts/TestRomanDecoratedInteriors.ps1", "Config/LocalAssets/RomanDecorationProfiles.json"):
     if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
         ERRORS.append(f"percorso assoluto hardcoded nel Prompt 29: {rel}")
+
+prompt29bis_files = [
+    "Scripts/TestRomanVisualSliceCorrection.ps1",
+    "Source/RomaAeterna/Private/Tests/RAVisualSliceCorrectionTests.cpp",
+    "docs/audits/PROMPT_29_BIS_VISUAL_CORRECTION_REPORT.md",
+    "docs/testing/ROMAN_VISUAL_SLICE_CORRECTION_TEST_PLAN.md",
+    "docs/technical/ROMAN_RUNTIME_MATERIAL_RESOLUTION.md",
+    "docs/technical/ROMAN_TRANSFORM_VALIDATION.md",
+]
+prompt29bis_text = all_text(prompt29bis_files) + read("Source/RomaAeternaCore/include/RARomanModularCore.h")
+prompt29bis_text += read("Source/RomaAeterna/Private/World/Modular/RARomanProceduralBuildingActor.cpp")
+prompt29bis_text += read("Source/RomaAeterna/Private/Player/RACharacter.cpp")
+prompt29bis_text += read("Scripts/AuditRomanAssets.py") + read("Config/DefaultEngine.ini")
+for token in (
+    "PathologicalScale", "WallNotVertical", "FloorNotHorizontal", "ImplausibleRoofPitch",
+    "ResolveUsableMaterial", "MATUSAGE_InstancedStaticMeshes", "PlanCenter",
+    "LocalMaterialBindingCount", "FallbackMaterialBindingCount", "ClearResolutionCache",
+    "F5 REBUILD EXECUTED", "F7 LOCAL MATERIALS ACTIVE", "F7 FALLBACK MATERIALS ACTIVE",
+    "F10 ROOFS HIDDEN", "F10 ROOFS VISIBLE", "GetActiveTechnicalMessage",
+    "RomaAeterna.Prompt29Bis.VisualSliceCorrection",
+    "RomaAeterna.Prompt29Bis.BuildingTransformValidation",
+    "RomaAeterna.Prompt29Bis.MaterialResolution",
+    "RomaAeterna.Prompt29Bis.RuntimeMaterialApplication",
+    "RomaAeterna.Prompt29Bis.InputBindings",
+    "RomaAeterna.Prompt29Bis.PlayerSpawnValidation",
+    "RomaAeterna.Prompt29Bis.DecorationVisibility",
+    "--visual-slice-audit", "--material-runtime-audit", "--transform-audit",
+    "VISUAL_SLICE_CORRECTION_AUDIT_PASSED",
+    "r.GenerateMeshDistanceFields=True", "r.Lumen.HardwareRayTracing=0",
+):
+    if token not in prompt29bis_text:
+        ERRORS.append(f"integrazione Prompt 29-BIS incompleta: {token}")
+for rel in ("Scripts/TestRomanVisualSliceCorrection.ps1", "Scripts/ImportRomanAssetBatch1.py", "Scripts/CreateRomanDecorationAssets.py"):
+    if re.search(r"(?<![A-Za-z])[A-Za-z]:[\\/]", read(rel)):
+        ERRORS.append(f"percorso assoluto hardcoded nel Prompt 29-BIS: {rel}")
 
 try:
     tracked_files = subprocess.run(
@@ -530,4 +578,5 @@ print("ASSET_CATALOG_STATIC_CHECKS_PASSED")
 print("LOCAL_ASSET_INTEGRATION_STATIC_CHECKS_PASSED")
 print("ARCHITECTURAL_MATERIAL_REPLACEMENT_STATIC_CHECKS_PASSED")
 print("DECORATED_INTERIORS_STATIC_CHECKS_PASSED")
+print("VISUAL_SLICE_CORRECTION_STATIC_CHECKS_PASSED")
 print("PASSED_STATIC: validazione archetipi edilizi romani completata")

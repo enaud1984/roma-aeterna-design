@@ -504,6 +504,42 @@ def audit_decorated_interiors(root: Path, tracked_paths: set[str]) -> dict:
         "warnings": sorted(set(warnings)),
     }
 
+def audit_visual_slice_correction(root: Path, tracked_paths: set[str]) -> dict:
+    """Verifica in sola lettura materiali, mapping, transform e isolamento del Prompt 29-BIS."""
+    report = audit_material_replacement(root, 1, tracked_paths)
+    errors = list(report.get("errors", []))
+    required_text = {
+        "Source/RomaAeternaCore/include/RARomanModularCore.h": (
+            "PathologicalScale", "WallNotVertical", "FloorNotHorizontal", "ImplausibleRoofPitch"),
+        "Source/RomaAeterna/Private/World/Modular/RARomanProceduralBuildingActor.cpp": (
+            "PlanCenter", "ResolveUsableMaterial", "MATUSAGE_InstancedStaticMeshes",
+            "LocalMaterialBindingCount", "FallbackMaterialBindingCount"),
+        "Source/RomaAeterna/Private/Player/RACharacter.cpp": (
+            "F5 REBUILD EXECUTED", "F7 LOCAL MATERIALS ACTIVE",
+            "F7 FALLBACK MATERIALS ACTIVE", "F10 ROOFS HIDDEN", "F10 ROOFS VISIBLE"),
+        "Scripts/ImportRomanAssetBatch1.py": ("used_with_instanced_static_meshes",),
+        "Scripts/CreateRomanDecorationAssets.py": ("used_with_instanced_static_meshes",),
+    }
+    for relative, tokens in required_text.items():
+        path = root / relative
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        for token in tokens:
+            if token not in text:
+                errors.append(f"{relative}: requisito visuale mancante: {token}")
+        if ABSOLUTE_PATTERN.search(text):
+            errors.append(f"{relative}: percorso assoluto hardcoded")
+    tracked_local = sorted(path for path in tracked_paths if path.startswith(LOCAL_EXTERNAL_ROOTS))
+    if tracked_local:
+        errors.append(f"Asset esterni tracciati: {', '.join(tracked_local)}")
+    report.update({
+        "status": "PASSED" if not errors else "FAILED",
+        "errors": sorted(set(errors)),
+        "visual_slice": True,
+        "transform_validation": True,
+        "runtime_material_validation": True,
+    })
+    return report
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -516,6 +552,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--material-replacement-audit", action="store_true")
     parser.add_argument("--decoration-audit", action="store_true")
     parser.add_argument("--interior-audit", action="store_true")
+    parser.add_argument("--visual-slice-audit", action="store_true")
+    parser.add_argument("--material-runtime-audit", action="store_true")
+    parser.add_argument("--transform-audit", action="store_true")
     parser.add_argument("--batch", type=int, default=1)
     parser.add_argument("--report-json", action="store_true")
     parser.add_argument("--report-markdown", action="store_true")
@@ -527,7 +566,9 @@ def main(argv: list[str] | None = None) -> int:
         tracked = set(subprocess.run(
             ["git", "ls-files"], cwd=ROOT, check=True, capture_output=True, text=True,
         ).stdout.splitlines())
-        if args.decoration_audit or args.interior_audit:
+        if args.visual_slice_audit or args.material_runtime_audit or args.transform_audit:
+            report = audit_visual_slice_correction(ROOT, tracked)
+        elif args.decoration_audit or args.interior_audit:
             report = audit_decorated_interiors(ROOT, tracked)
         elif args.material_replacement_audit:
             report = audit_material_replacement(ROOT, args.batch, tracked)
@@ -541,9 +582,10 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.check_only:
         args.output_dir.mkdir(parents=True, exist_ok=True)
-        local_mode = args.local_import_audit or args.material_replacement_audit or args.decoration_audit or args.interior_audit
-        json_name = "roman_decorated_interiors_audit.json" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.json" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.json" if args.local_import_audit else "roman_asset_audit.json"))
-        markdown_name = "roman_decorated_interiors_audit.md" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.md" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.md" if args.local_import_audit else "roman_asset_audit.md"))
+        visual_mode = args.visual_slice_audit or args.material_runtime_audit or args.transform_audit
+        local_mode = args.local_import_audit or args.material_replacement_audit or args.decoration_audit or args.interior_audit or visual_mode
+        json_name = "roman_visual_slice_correction_audit.json" if visual_mode else ("roman_decorated_interiors_audit.json" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.json" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.json" if args.local_import_audit else "roman_asset_audit.json")))
+        markdown_name = "roman_visual_slice_correction_audit.md" if visual_mode else ("roman_decorated_interiors_audit.md" if args.decoration_audit or args.interior_audit else ("roman_architectural_material_replacement_audit.md" if args.material_replacement_audit else ("roman_asset_batch_1_local_audit.md" if args.local_import_audit else "roman_asset_audit.md")))
         write_both = not args.report_json and not args.report_markdown
         if write_both or args.report_json:
             (args.output_dir / json_name).write_text(
@@ -552,6 +594,16 @@ def main(argv: list[str] | None = None) -> int:
         if write_both or args.report_markdown:
             renderer = render_decoration_markdown if args.decoration_audit or args.interior_audit else (render_local_markdown if local_mode else render_markdown)
             (args.output_dir / markdown_name).write_text(renderer(report), encoding="utf-8")
+
+    if args.visual_slice_audit or args.material_runtime_audit or args.transform_audit:
+        if report["status"] == "PASSED":
+            print("VISUAL_SLICE_CORRECTION_AUDIT_PASSED")
+            print(f"LOCAL_MATERIAL_INSTANCE_COUNT={report.get('material_instance_count', 0)}")
+            return 0
+        print("VISUAL_SLICE_CORRECTION_AUDIT_FAILED")
+        for error in report["errors"]:
+            print(f"ERROR: {error}")
+        return 1
 
     if args.decoration_audit or args.interior_audit:
         if report["status"] == "PASSED":

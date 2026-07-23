@@ -56,3 +56,7 @@ Prompt 25 introduce `URARomanVisualCatalog`: mesh e materiali diventano sostitui
 ## Estensione interni Prompt 29
 
 `ARARomanProceduralBuildingActor` costruisce gusci accessibili, decorazioni e pavimenti in componenti ISMC riutilizzati. La generazione avviene una volta, non usa `Tick` e conserva i fallback tecnici.
+
+## Correzione Prompt 29-BIS
+
+`BuildVisualInstances` ricentra il piano sui bounds, valida trasformazioni e impedisce che i placeholder astratti coprano gli interni accessibili. Ogni assegnazione materiale verifica la compatibilità ISMC. I conteggi distinguono binding locali e fallback, mentre cache hit/miss, invalidazioni e path irrisolti sono esposti nel riepilogo diagnostico.

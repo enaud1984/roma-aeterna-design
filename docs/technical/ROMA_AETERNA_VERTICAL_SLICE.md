@@ -44,3 +44,7 @@ La vertical slice risolve a runtime PopularHouse, DomusMedia, Taberna, Thermopol
 ## Interni decorati Prompt 29
 
 Sei edifici generano a runtime interni accessibili senza hard reference ad asset locali. I controlli aggiuntivi sono `E` accesso tecnico, `F8` variante, `F10` coperture, `F11` decorazioni/fallback e `F12` label stanza. La prova fisica resta `MANUAL_GAMEPLAY_TRAVERSAL_REQUIRED`.
+
+## Correzione visuale Prompt 29-BIS
+
+Le coordinate dei piani sono ricentrate sul pivot di ciascun attore e i gusci accessibili sostituiscono i blocchi astratti sovrapposti. I materiali locali e decorativi sono compatibili con ISMC; F5 rigenera senza accumulo, F7 alterna local/fallback anche per strada e terreno, F9 cambia camera, F10 controlla tutte le coperture e F11 ricostruisce le decorazioni senza accumulare contatori. L’HUD compatto mostra binding reali e messaggi temporanei. Lumen usa software ray tracing con Mesh Distance Fields, senza richiedere hardware ray tracing.

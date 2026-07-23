@@ -59,6 +59,18 @@ public:
 	bool AreAccessibleRoofsVisible() const { return bAccessibleRoofsVisible; }
 	bool AreRoomLabelsVisible() const { return bRoomLabelsVisible; }
 	int32 GetDecorationVariant() const { return DecorationVariant; }
+	FString GetActiveTechnicalMessage() const;
+	int32 GetLastRebuildActorCount() const { return LastRebuildActorCount; }
+	int32 GetLastRebuildComponentCount() const { return LastRebuildComponentCount; }
+
+	UFUNCTION(BlueprintCallable, Category = "Roma Aeterna|Runtime")
+	void ExecuteRebuildCommand();
+	UFUNCTION(BlueprintCallable, Category = "Roma Aeterna|Runtime")
+	void ExecuteLocalMaterialToggle();
+	UFUNCTION(BlueprintCallable, Category = "Roma Aeterna|Runtime")
+	void ExecuteRoofToggle();
+	UFUNCTION(BlueprintCallable, Category = "Roma Aeterna|Runtime")
+	void ExecuteDecorationToggle();
 
 protected:
 	virtual void BeginPlay() override;
@@ -82,6 +94,8 @@ private:
 	void ToggleRoomLabels();
 	void InteractWithNearestAccess();
 	void RebuildRomanBuildings();
+	void RefreshEnvironmentMaterials(bool bUseLocalMaterials);
+	void SetTechnicalMessage(const FString& Message);
 
 	UPROPERTY(VisibleAnywhere, Category = "Roma Aeterna|Camera")
 	TObjectPtr<USpringArmComponent> ThirdPersonSpringArm;
@@ -151,6 +165,10 @@ private:
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") bool bAccessibleRoofsVisible = true;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") bool bRoomLabelsVisible = false;
 	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Decoration") int32 DecorationVariant = 0;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Runtime") FString LastTechnicalMessage;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Runtime") float TechnicalMessageExpiresAt = 0.0f;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Runtime") int32 LastRebuildActorCount = 0;
+	UPROPERTY(VisibleInstanceOnly, Category = "Roma Aeterna|Runtime") int32 LastRebuildComponentCount = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Roma Aeterna|Movement", meta = (ClampMin = "1.0"))
 	float WalkSpeed = 300.0f;
@@ -165,7 +183,7 @@ private:
 	float LookSensitivity = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Roma Aeterna|Camera", meta = (ClampMin = "100.0"))
-	float ThirdPersonCameraDistance = 350.0f;
+	float ThirdPersonCameraDistance = 300.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Roma Aeterna|Camera", meta = (ClampMin = "60.0", ClampMax = "120.0"))
 	float FirstPersonFieldOfView = 90.0f;

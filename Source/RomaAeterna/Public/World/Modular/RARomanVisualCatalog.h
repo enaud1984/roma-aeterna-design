@@ -120,6 +120,11 @@ public:
 	int32 CountResolvedCategories() const;
 	int32 CountMaterialVariants() const;
 	void ClearResolutionCache() const;
+	int32 GetCacheHitCount() const { return CacheHitCount; }
+	int32 GetCacheMissCount() const { return CacheMissCount; }
+	int32 GetLocalResolvedCount() const { return LocalResolvedCount; }
+	int32 GetInvalidationCount() const { return InvalidationCount; }
+	int32 GetUnresolvedCount() const { return UnresolvedCount; }
 	static ERARomanSurfaceRole GetDefaultSurfaceRole(ERARomanModuleCategory Category);
 	static ERARomanWeatheringLevel ConvertDegradationLevel(ERARomanDegradationLevel Level);
 	static FSoftObjectPath GetFallbackMeshPath(ERARomanModuleCategory Category);
@@ -132,4 +137,9 @@ public:
 
 private:
 	mutable TMap<uint32, int32> ResolutionCache;
+	mutable int32 CacheHitCount = 0;
+	mutable int32 CacheMissCount = 0;
+	mutable int32 LocalResolvedCount = 0;
+	mutable int32 InvalidationCount = 0;
+	mutable int32 UnresolvedCount = 0;
 };

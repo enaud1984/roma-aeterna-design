@@ -43,6 +43,40 @@ bool IsPrompt29AccessibleType(const ERARomanBuildingType Type)
 		|| Type == ERARomanBuildingType::BathComplex || Type == ERARomanBuildingType::MetalWorkshop;
 }
 
+ERARomanWealthLevel GetEffectiveWealth(const ERARomanBuildingType Type, const ERARomanWealthLevel Configured)
+{
+	if (Configured != ERARomanWealthLevel::Modest)
+	{
+		return Configured;
+	}
+	switch (Type)
+	{
+	case ERARomanBuildingType::PopularHouse: return ERARomanWealthLevel::Poor;
+	case ERARomanBuildingType::DomusMedia:
+	case ERARomanBuildingType::BathComplex: return ERARomanWealthLevel::Comfortable;
+	default: return Configured;
+	}
+}
+
+const TCHAR* AccessibleWallMaterialPath(const ERARomanBuildingType Type)
+{
+	switch (Type)
+	{
+	case ERARomanBuildingType::PopularHouse:
+	case ERARomanBuildingType::Taberna: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Ochre.MI_RA_Local_Plaster_Ochre");
+	case ERARomanBuildingType::Thermopolium: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Red.MI_RA_Local_Plaster_Red");
+	case ERARomanBuildingType::MetalWorkshop: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Thermal.MI_RA_Local_Brick_Thermal");
+	default: return TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Light.MI_RA_Local_Plaster_Light");
+	}
+}
+
+const TCHAR* AccessibleBrickMaterialPath(const ERARomanBuildingType Type)
+{
+	return Type == ERARomanBuildingType::BathComplex || Type == ERARomanBuildingType::MetalWorkshop
+		? TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Thermal.MI_RA_Local_Brick_Thermal")
+		: TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Popular.MI_RA_Local_Brick_Popular");
+}
+
 const TCHAR* DecorationMaterialPath(const ERAPompeianDecorativeStyle Style, const int32 Variant)
 {
 	if (Style == ERAPompeianDecorativeStyle::ServicePlaster) return TEXT("/Game/LocalAssets/RomaAeterna/Decoration/Materials/MI_RA_Decoration_ServicePlaster.MI_RA_Decoration_ServicePlaster");
@@ -168,7 +202,8 @@ FRARomanPlaceholderVisualRule ARARomanProceduralBuildingActor::GetVisualRule(ERA
 			FRARomanVisualCatalogEntry CatalogEntry;
 			int32 VariantIndex = 0;
 			if (VisualCatalog && VisualCatalog->ResolveEntry(Category, Parameters.BuildingType,
-				Parameters.WealthLevel, URARomanVisualCatalog::ConvertDegradationLevel(Parameters.DegradationLevel),
+				GetEffectiveWealth(Parameters.BuildingType, Parameters.WealthLevel),
+				URARomanVisualCatalog::ConvertDegradationLevel(Parameters.DegradationLevel),
 				GetDistrictForArchetype(Parameters.BuildingType), Parameters.RandomSeed, CatalogEntry, VariantIndex))
 			{
 				if (!CatalogEntry.Mesh.IsNull()) Rule.Mesh = CatalogEntry.Mesh;
@@ -247,9 +282,27 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 	LocallyResolvedCategoryCount = 0;
 	FallbackCategoryCount = 0;
 	ActiveMaterialVariants.Reset();
+	LocalMaterialBindingCount = 0;
+	FallbackMaterialBindingCount = 0;
+	RejectedTransformCount = 0;
 	bool bAllMeshesLoaded = true;
+	const FVector PlanCenter = Result.Bounds.IsValid
+		? FVector(Result.Bounds.GetCenter().X, Result.Bounds.GetCenter().Y, 0.0)
+		: FVector(BuildingParameters.WidthCm * 0.5f, BuildingParameters.DepthCm * 0.5f, 0.0f);
 	for (const FRARomanModulePlacement& Placement : Result.GeneratedPlacements)
 	{
+		const bool bAbstractAccessibleShell = IsAccessibleInteriorArchetype()
+			&& (Placement.Category == ERARomanModuleCategory::Wall
+				|| Placement.Category == ERARomanModuleCategory::Floor
+				|| Placement.Category == ERARomanModuleCategory::Roof
+				|| Placement.Category == ERARomanModuleCategory::Door
+				|| Placement.Category == ERARomanModuleCategory::ApartmentDoor
+				|| Placement.Category == ERARomanModuleCategory::ShopOpening);
+		const bool bHiddenDebugMarker = Placement.Category == ERARomanModuleCategory::InteractionMarker && !bShowInteractionPoints;
+		if (bAbstractAccessibleShell || bHiddenDebugMarker)
+		{
+			continue;
+		}
 		if (Placement.Transform.ContainsNaN() || Placement.Transform.GetScale3D().GetMin() <= 0.f) { bAllMeshesLoaded = false; continue; }
 		const FRARomanPlaceholderVisualRule Rule = GetVisualRule(Placement.Category, BuildingParameters);
 		UStaticMesh* Mesh = Rule.Mesh.LoadSynchronous();
@@ -260,7 +313,12 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component = NewObject<UInstancedStaticMeshComponent>(this, NAME_None, RF_Transient);
 			Component->SetupAttachment(RootComponent);
 			Component->SetStaticMesh(Mesh);
-			if (UMaterialInterface* Material = Rule.Material.LoadSynchronous()) Component->SetMaterial(0, Material);
+			bool bResolvedLocally = false;
+			if (UMaterialInterface* Material = ResolveUsableMaterial(Rule.Material, Placement.Category, bResolvedLocally))
+			{
+				Component->SetMaterial(0, Material);
+			}
+			Component->ComponentTags.Add(bResolvedLocally ? TEXT("RA_LOCAL_MATERIAL") : TEXT("RA_FALLBACK_MATERIAL"));
 			Component->SetMobility(EComponentMobility::Movable);
 			const bool bPassageCategory = Placement.Category == ERARomanModuleCategory::Door
 				|| Placement.Category == ERARomanModuleCategory::ShopOpening
@@ -271,6 +329,11 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			Component->SetNumCustomDataFloats(4);
 			Component->RegisterComponent();
 			GeneratedInstanceComponents.Add(Component);
+			if (Placement.Category == ERARomanModuleCategory::Roof)
+			{
+				RoofInstanceComponents.Add(Component);
+				Component->SetVisibility(bRoofsVisible, true);
+			}
 			if (Rule.bResolvedLocally)
 			{
 				++LocallyResolvedCategoryCount;
@@ -284,17 +347,28 @@ bool ARARomanProceduralBuildingActor::BuildVisualInstances(const FRARomanGenerat
 			}
 		}
 		FTransform VisualTransform = Placement.Transform;
+		VisualTransform.AddToTranslation(-PlanCenter);
 		VisualTransform.ConcatenateRotation(Rule.ExtraRotation.Quaternion());
 		VisualTransform.AddToTranslation(Rule.OffsetCm);
 		VisualTransform.SetScale3D(Rule.SizeCm / EngineBasicShapeSizeCm);
+		if (!ValidateVisualTransform(Placement.Category, VisualTransform, Rule.SizeCm))
+		{
+			++RejectedTransformCount;
+			bAllMeshesLoaded = false;
+			continue;
+		}
 		const int32 InstanceIndex = Component->AddInstance(VisualTransform);
 		Component->SetCustomDataValue(InstanceIndex, 0, Rule.DebugColor.R, false);
 		Component->SetCustomDataValue(InstanceIndex, 1, Rule.DebugColor.G, false);
 		Component->SetCustomDataValue(InstanceIndex, 2, Rule.DebugColor.B, false);
 		Component->SetCustomDataValue(InstanceIndex, 3, Rule.DebugColor.A, true);
 		++GeneratedInstanceCount;
+		if (Component->ComponentHasTag(TEXT("RA_LOCAL_MATERIAL"))) ++LocalMaterialBindingCount;
+		else ++FallbackMaterialBindingCount;
 	}
-	return bAllMeshesLoaded && GeneratedInstanceCount > 0;
+	// PopularHouse e DomusMedia possono essere descritti interamente dal guscio
+	// accessibile: in tal caso l'assenza di blocchi astratti è intenzionale.
+	return bAllMeshesLoaded && (GeneratedInstanceCount > 0 || IsAccessibleInteriorArchetype());
 }
 
 bool ARARomanProceduralBuildingActor::IsAccessibleInteriorArchetype() const
@@ -353,16 +427,23 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		Component->SetupAttachment(RootComponent);
 		Component->SetStaticMesh(Cube);
 		UMaterialInterface* Material = nullptr;
-		if (bDecorationEnabled && !bForceDecorationFallback)
+		bool bLocalMaterial = false;
+		if (bDecorationEnabled && !bForceDecorationFallback && URARomanVisualCatalog::AreLocalAssetsEnabled())
 		{
 			Material = LoadObject<UMaterialInterface>(nullptr, RequestedMaterial);
+			bLocalMaterial = Material != nullptr;
 		}
 		if (!Material)
 		{
 			Material = LoadObject<UMaterialInterface>(nullptr, FallbackMaterial);
 			++DecorationFallbackCount;
 		}
-		if (Material) Component->SetMaterial(0, Material);
+		if (Material)
+		{
+			Material->CheckMaterialUsage_Concurrent(MATUSAGE_InstancedStaticMeshes);
+			Component->SetMaterial(0, Material);
+		}
+		Component->ComponentTags.Add(bLocalMaterial ? TEXT("RA_LOCAL_MATERIAL") : TEXT("RA_FALLBACK_MATERIAL"));
 		Component->SetMobility(EComponentMobility::Movable);
 		Component->SetCollisionEnabled(bCollision ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
 		Component->SetCollisionResponseToAllChannels(bCollision ? ECR_Block : ECR_Ignore);
@@ -371,16 +452,32 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 		GeneratedInstanceComponents.Add(Component);
 		return Component;
 	};
-	auto AddBox = [&](UInstancedStaticMeshComponent* Component, const FVector& Location, const FVector& Size, const FRotator& Rotation = FRotator::ZeroRotator)
+	auto AddBox = [&](UInstancedStaticMeshComponent* Component, const FVector& Location, const FVector& Size,
+		const FRotator& Rotation = FRotator::ZeroRotator,
+		const ERARomanModuleCategory Category = ERARomanModuleCategory::Wall) -> int32
 	{
-		const int32 Index = Component->AddInstance(FTransform(Rotation, Location, Size / EngineBasicShapeSizeCm));
+		const FTransform Transform(Rotation, Location, Size / EngineBasicShapeSizeCm);
+		if (!ValidateVisualTransform(Category, Transform, Size))
+		{
+			++RejectedTransformCount;
+			return INDEX_NONE;
+		}
+		const int32 Index = Component->AddInstance(Transform);
 		++GeneratedInstanceCount;
+		if (Component->ComponentHasTag(TEXT("RA_LOCAL_MATERIAL"))) ++LocalMaterialBindingCount;
+		else ++FallbackMaterialBindingCount;
 		return Index;
 	};
 
 	UInstancedStaticMeshComponent* Shell = MakeComponent(
-		TEXT("RAAccessibleShell"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Plaster_Light.MI_RA_Local_Plaster_Light"),
+		TEXT("RAAccessibleShell"), AccessibleWallMaterialPath(BuildingParameters.BuildingType),
 		TEXT("/Game/Technical/Materials/MI_RA_PlasterLight.MI_RA_PlasterLight"), true);
+	UInstancedStaticMeshComponent* Brick = MakeComponent(
+		TEXT("RAAccessibleBrick"), AccessibleBrickMaterialPath(BuildingParameters.BuildingType),
+		TEXT("/Game/Technical/Materials/MI_RA_Brick.MI_RA_Brick"), true);
+	UInstancedStaticMeshComponent* Timber = MakeComponent(
+		TEXT("RAAccessibleTimber"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Wood_Dark.MI_RA_Local_Wood_Dark"),
+		TEXT("/Game/Technical/Materials/MI_RA_Wood.MI_RA_Wood"), false);
 	UInstancedStaticMeshComponent* Floor = MakeComponent(
 		TEXT("RAAccessibleFloor"), FloorMaterialPath(CurrentFloorDecoration),
 		TEXT("/Game/Technical/Materials/MI_RA_Ground.MI_RA_Ground"), true);
@@ -412,11 +509,16 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 	AddBox(Shell, FVector(-(PassageWidth + (Width - PassageWidth) * .5f) * .5f, 0, Height * .5f), FVector((Width - PassageWidth) * .5f, WallThickness, Height));
 	AddBox(Shell, FVector((PassageWidth + (Width - PassageWidth) * .5f) * .5f, 0, Height * .5f), FVector((Width - PassageWidth) * .5f, WallThickness, Height));
 	AddBox(Shell, FVector(0, 0, Height - 28.f), FVector(PassageWidth, WallThickness, 56.f));
+	AddBox(Brick, FVector(0, Depth * .5f - WallThickness * .55f, 42.f), FVector(Width - 56.f, 12.f, 84.f));
+	AddBox(Timber, FVector(-EntranceWidth * .5f - 10.f, -Depth * .5f + 12.f, 120.f), FVector(20.f, 24.f, 240.f));
+	AddBox(Timber, FVector(EntranceWidth * .5f + 10.f, -Depth * .5f + 12.f, 120.f), FVector(20.f, 24.f, 240.f));
 
-	AddBox(Floor, FVector(0, -Depth * .25f, -2.f), FVector(Width, Depth * .5f, 12.f));
-	AddBox(Floor, FVector(0, Depth * .25f, -2.f), FVector(Width, Depth * .5f, 12.f));
-	AddBox(Roof, FVector(0, -Depth * .25f, Height + 24.f), FVector(Width + 30.f, Depth * .5f + 20.f, 34.f), FRotator(0, 0, 5.f));
-	AddBox(Roof, FVector(0, Depth * .25f, Height + 24.f), FVector(Width + 30.f, Depth * .5f + 20.f, 34.f), FRotator(0, 0, -5.f));
+	AddBox(Floor, FVector(0, -Depth * .25f, 2.f), FVector(Width - 24.f, Depth * .5f - 12.f, 10.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
+	AddBox(Floor, FVector(0, Depth * .25f, 2.f), FVector(Width - 24.f, Depth * .5f - 12.f, 10.f), FRotator::ZeroRotator, ERARomanModuleCategory::Floor);
+	constexpr float RoofPitch = 8.f;
+	const float RoofRise = FMath::Tan(FMath::DegreesToRadians(RoofPitch)) * Depth * .25f;
+	AddBox(Roof, FVector(0, -Depth * .25f, Height + 24.f + RoofRise * .5f), FVector(Width + 30.f, Depth * .5f + 20.f, 26.f), FRotator(0, 0, RoofPitch), ERARomanModuleCategory::Roof);
+	AddBox(Roof, FVector(0, Depth * .25f, Height + 24.f + RoofRise * .5f), FVector(Width + 30.f, Depth * .5f + 20.f, 26.f), FRotator(0, 0, -RoofPitch), ERARomanModuleCategory::Roof);
 	Roof->SetVisibility(bRoofsVisible, true);
 
 	if (bDecorationEnabled)
@@ -429,8 +531,8 @@ bool ARARomanProceduralBuildingActor::BuildAccessibleInterior()
 			AddBox(Painted, FVector(Index * Width * .27f, Depth * .5f - WallThickness, PanelZ), FVector(PanelWidth, 6.f, PanelHeight));
 			++DecorationPanelCount;
 		}
-		AddBox(Frame, FVector(0, Depth * .5f - WallThickness - 2.f, Height * .24f), FVector(Width - 50.f, 8.f, 16.f));
-		AddBox(Frame, FVector(0, Depth * .5f - WallThickness - 2.f, Height * .84f), FVector(Width - 50.f, 8.f, 14.f));
+		AddBox(Frame, FVector(0, Depth * .5f - WallThickness - 2.f, Height * .24f), FVector(Width - 50.f, 14.f, 16.f));
+		AddBox(Frame, FVector(0, Depth * .5f - WallThickness - 2.f, Height * .84f), FVector(Width - 50.f, 14.f, 14.f));
 		AddBox(Painted, FVector(-Width * .5f + WallThickness, -Depth * .23f, PanelZ), FVector(6.f, Depth * .32f, PanelHeight));
 		AddBox(Painted, FVector(Width * .5f - WallThickness, Depth * .23f, PanelZ), FVector(6.f, Depth * .32f, PanelHeight));
 		DecorationPanelCount += 2;
@@ -464,7 +566,16 @@ void ARARomanProceduralBuildingActor::ClearRoomDecoration()
 	{
 		if (Component)
 		{
-			GeneratedInstanceCount = FMath::Max(0, GeneratedInstanceCount - Component->GetInstanceCount());
+			const int32 RemovedInstanceCount = Component->GetInstanceCount();
+			GeneratedInstanceCount = FMath::Max(0, GeneratedInstanceCount - RemovedInstanceCount);
+			if (Component->ComponentHasTag(TEXT("RA_LOCAL_MATERIAL")))
+			{
+				LocalMaterialBindingCount = FMath::Max(0, LocalMaterialBindingCount - RemovedInstanceCount);
+			}
+			else if (Component->ComponentHasTag(TEXT("RA_FALLBACK_MATERIAL")))
+			{
+				FallbackMaterialBindingCount = FMath::Max(0, FallbackMaterialBindingCount - RemovedInstanceCount);
+			}
 			GeneratedInstanceComponents.Remove(Component);
 			Component->ClearInstances();
 			Component->DestroyComponent();
@@ -509,6 +620,16 @@ void ARARomanProceduralBuildingActor::SetRoofVisibility(const bool bVisible)
 	for (UInstancedStaticMeshComponent* Component : RoofInstanceComponents) if (Component) Component->SetVisibility(bVisible, true);
 }
 
+int32 ARARomanProceduralBuildingActor::GetVisibleRoofInstanceCount() const
+{
+	int32 Count = 0;
+	for (const UInstancedStaticMeshComponent* Component : RoofInstanceComponents)
+	{
+		if (Component && Component->IsVisible()) Count += Component->GetInstanceCount();
+	}
+	return Count;
+}
+
 FString ARARomanProceduralBuildingActor::GetDecorationSummary() const
 {
 	return FString::Printf(TEXT("stanze=%d pannelli=%d stile=%d pavimento=%d fallback=%d seed=%d"),
@@ -525,7 +646,9 @@ void ARARomanProceduralBuildingActor::ClearVisualInstances()
 		if (Component) { Component->ClearInstances(); Component->DestroyComponent(); }
 	}
 	GeneratedInstanceComponents.Empty(); CategoryInstanceComponents.Empty(); GeneratedInstanceCount = 0;
-	LocallyResolvedCategoryCount = 0; FallbackCategoryCount = 0; ActiveMaterialVariants.Reset();
+	LocallyResolvedCategoryCount = 0; FallbackCategoryCount = 0;
+	LocalMaterialBindingCount = 0; FallbackMaterialBindingCount = 0; RejectedTransformCount = 0;
+	ActiveMaterialVariants.Reset();
 }
 
 FString ARARomanProceduralBuildingActor::GetActiveMaterialSummary() const
@@ -536,6 +659,61 @@ FString ARARomanProceduralBuildingActor::GetActiveMaterialSummary() const
 		Names.Add(Variant.ToString());
 	}
 	return Names.Num() > 0 ? FString::Join(Names, TEXT(", ")) : TEXT("solo fallback");
+}
+
+FString ARARomanProceduralBuildingActor::GetMaterialResolutionSummary() const
+{
+	const URARomanVisualCatalog* Catalog = VisualCatalog;
+	return FString::Printf(TEXT("binding locali=%d fallback=%d cache hit=%d miss=%d invalidazioni=%d irrisolti=%d"),
+		LocalMaterialBindingCount, FallbackMaterialBindingCount,
+		Catalog ? Catalog->GetCacheHitCount() : 0, Catalog ? Catalog->GetCacheMissCount() : 0,
+		Catalog ? Catalog->GetInvalidationCount() : 0, Catalog ? Catalog->GetUnresolvedCount() : 0);
+}
+
+bool ARARomanProceduralBuildingActor::ValidateVisualTransform(
+	const ERARomanModuleCategory Category, const FTransform& Transform, const FVector& SizeCm) const
+{
+	if (Transform.ContainsNaN() || Transform.GetScale3D().ContainsNaN() || Transform.GetScale3D().GetMin() <= 0.0f
+		|| SizeCm.ContainsNaN() || SizeCm.GetMin() < 2.0f || SizeCm.GetMax() > 5000.0f)
+	{
+		return false;
+	}
+	const float MinimumAxis = SizeCm.GetMin();
+	if (MinimumAxis <= UE_SMALL_NUMBER || SizeCm.GetMax() / MinimumAxis > 80.0f)
+	{
+		return false;
+	}
+	const FRotator Rotation = Transform.Rotator().GetNormalized();
+	if ((Category == ERARomanModuleCategory::Wall || Category == ERARomanModuleCategory::Floor)
+		&& (FMath::Abs(Rotation.Pitch) > 5.0f || FMath::Abs(Rotation.Roll) > 5.0f))
+	{
+		return false;
+	}
+	if (Category == ERARomanModuleCategory::Roof
+		&& (FMath::Abs(Rotation.Pitch) > 35.0f || FMath::Abs(Rotation.Roll) > 35.0f))
+	{
+		return false;
+	}
+	return Transform.GetLocation().GetAbsMax() <= 100000.0f;
+}
+
+UMaterialInterface* ARARomanProceduralBuildingActor::ResolveUsableMaterial(
+	const TSoftObjectPtr<UMaterialInterface>& Requested, const ERARomanModuleCategory Category, bool& bOutLocal) const
+{
+	bOutLocal = false;
+	UMaterialInterface* Material = Requested.LoadSynchronous();
+	if (Material)
+	{
+		Material->CheckMaterialUsage_Concurrent(MATUSAGE_InstancedStaticMeshes);
+		bOutLocal = Requested.ToSoftObjectPath().ToString().StartsWith(TEXT("/Game/LocalAssets/"));
+		return Material;
+	}
+	Material = Cast<UMaterialInterface>(URARomanVisualCatalog::GetTechnicalMaterialPath(Category).TryLoad());
+	if (Material)
+	{
+		Material->CheckMaterialUsage_Concurrent(MATUSAGE_InstancedStaticMeshes);
+	}
+	return Material;
 }
 
 int32 ARARomanProceduralBuildingActor::GetInstanceCountByCategory(ERARomanModuleCategory Category) const

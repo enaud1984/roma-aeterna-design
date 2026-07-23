@@ -60,6 +60,7 @@ bool URARomanVisualCatalog::ResolveEntry(const ERARomanModuleCategory Category, 
 	}
 	if (Candidates.IsEmpty())
 	{
+		++UnresolvedCount;
 		return false;
 	}
 
@@ -71,10 +72,12 @@ bool URARomanVisualCatalog::ResolveEntry(const ERARomanModuleCategory Category, 
 	int32 SelectedIndex = INDEX_NONE;
 	if (const int32* CachedIndex = ResolutionCache.Find(CacheKey); CachedIndex && Entries.IsValidIndex(*CachedIndex))
 	{
+		++CacheHitCount;
 		SelectedIndex = *CachedIndex;
 	}
 	else
 	{
+		++CacheMissCount;
 		std::vector<double> Weights;
 		Weights.reserve(Candidates.Num());
 		for (const int32 Candidate : Candidates) Weights.push_back(Entries[Candidate].VariationWeight);
@@ -99,6 +102,10 @@ bool URARomanVisualCatalog::ResolveEntry(const ERARomanModuleCategory Category, 
 	if (OutEntry.Material.IsNull() && !OutEntry.FallbackMaterial.IsNull())
 	{
 		OutEntry.Material = OutEntry.FallbackMaterial;
+	}
+	if (OutEntry.Material.ToSoftObjectPath().ToString().StartsWith(TEXT("/Game/LocalAssets/")))
+	{
+		++LocalResolvedCount;
 	}
 	return !OutEntry.Material.IsNull();
 }
@@ -129,6 +136,7 @@ int32 URARomanVisualCatalog::CountMaterialVariants() const
 void URARomanVisualCatalog::ClearResolutionCache() const
 {
 	ResolutionCache.Reset();
+	++InvalidationCount;
 }
 
 ERARomanSurfaceRole URARomanVisualCatalog::GetDefaultSurfaceRole(const ERARomanModuleCategory Category)
@@ -300,4 +308,8 @@ bool URARomanVisualCatalog::AreLocalAssetsEnabled()
 void URARomanVisualCatalog::SetLocalAssetsEnabled(const bool bEnabled)
 {
 	bLocalAssetsEnabled = bEnabled;
+	if (URARomanVisualCatalog* Catalog = LoadLocalCatalog(false))
+	{
+		Catalog->ClearResolutionCache();
+	}
 }

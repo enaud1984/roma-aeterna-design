@@ -9,3 +9,9 @@ Le pareti sono articolate in zoccolatura, fascia, pannelli, cornice e parte alta
 Gli asset locali sono creati sotto `Content/LocalAssets/RomaAeterna/Decoration/` e rimangono ignorati. In loro assenza vengono usati materiali tecnici versionati.
 
 Stati: `HISTORICAL_APPROXIMATION`, `FIGURATIVE_FRESCO_ART_NOT_STARTED`, `MANUAL_DECORATION_VISUAL_REVIEW_REQUIRED`.
+
+## Visibilità runtime Prompt 29-BIS
+
+I parent material decorativi dichiarano ora `InstancedStaticMeshes`; pannelli, zoccolature, cornici e pavimenti non ricadono più su WorldGridMaterial in PIE. Il pavimento base è abbassato e ristretto rispetto all’overlay, evitando Z-fighting. Le decorazioni sono applicate alla faccia interna del guscio e restano visibili quando F10 nasconde le coperture.
+
+La prova renderizzata Prompt 29-BIS ha confermato decorazioni e pavimenti nella DomusMedia: `DECORATIONS_VISUALLY_CONFIRMED`, `FLOORS_VISUALLY_CONFIRMED`. La revisione figurativa e storica di asset artistici futuri resta separata.

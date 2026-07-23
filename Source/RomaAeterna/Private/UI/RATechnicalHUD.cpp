@@ -25,9 +25,7 @@ void ARATechnicalHUD::DrawHUD()
 	int32 GeneratedModules = 0;
 	int32 LocalCategories = 0;
 	int32 FallbackCategories = 0;
-	int32 ActiveVariants = 0;
 	FString Seeds;
-	TArray<FString> MaterialSummaries;
 	const ARARomanProceduralBuildingActor* NearestAccessible = nullptr;
 	double NearestDistanceSquared = TNumericLimits<double>::Max();
 	if (UWorld* World = GetWorld())
@@ -36,13 +34,8 @@ void ARATechnicalHUD::DrawHUD()
 		{
 			++BuildingCount;
 			GeneratedModules += It->GetGeneratedInstanceCount();
-			LocalCategories += It->GetLocallyResolvedCategoryCount();
-			FallbackCategories += It->GetFallbackCategoryCount();
-			ActiveVariants += It->GetActiveMaterialVariantCount();
-			if (MaterialSummaries.Num() < 3 && It->GetActiveMaterialVariantCount() > 0)
-			{
-				MaterialSummaries.Add(It->GetActiveMaterialSummary());
-			}
+			LocalCategories += It->GetLocalMaterialBindingCount();
+			FallbackCategories += It->GetFallbackMaterialBindingCount();
 			if (BuildingCount <= 5) Seeds += FString::Printf(TEXT("%s%d"), BuildingCount > 1 ? TEXT(", ") : TEXT(""), It->BuildingParameters.RandomSeed);
 			if (Character && It->IsAccessibleInteriorArchetype())
 			{
@@ -56,44 +49,30 @@ void ARATechnicalHUD::DrawHUD()
 	constexpr float X = 32.0f;
 
 	DrawPrototypeLine(TEXT("ROMA AETERNA - CONSOLIDAMENTO VISUALE ROMANO"), X, Y, FLinearColor(0.93f, 0.75f, 0.32f));
-	DrawPrototypeLine(FString::Printf(TEXT("Visuale: %s"), *ViewMode), X, Y, FLinearColor::White);
-	DrawPrototypeLine(FString::Printf(TEXT("Edifici: %d  Moduli: %d"), BuildingCount, GeneratedModules), X, Y, FLinearColor::White);
-	DrawPrototypeLine(FString::Printf(TEXT("Seed iniziali: %s"), *Seeds), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
-	DrawPrototypeLine(TEXT("WASD  Movimento"), X, Y, FLinearColor::White);
-	DrawPrototypeLine(TEXT("Mouse  Visuale"), X, Y, FLinearColor::White);
-	DrawPrototypeLine(TEXT("Shift  Corsa"), X, Y, FLinearColor::White);
-	DrawPrototypeLine(TEXT("Spazio  Salto"), X, Y, FLinearColor::White);
-	DrawPrototypeLine(TEXT("F1 HUD | F2 Label | F3 Bounds | F4 Interazioni"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
-	DrawPrototypeLine(TEXT("F5 Rigenera | F6 Utilities | F7 Asset locali | F9 Visuale"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
-	DrawPrototypeLine(TEXT("F8 Variante | F10 Tetti | F11 Decor/Fallback | F12 Stanze | E Accesso"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
+	DrawPrototypeLine(FString::Printf(TEXT("%s | Edifici %d | Moduli %d | Seed %s"), *ViewMode, BuildingCount, GeneratedModules, *Seeds), X, Y, FLinearColor::White);
 	const bool bLocalActive = Character && Character->AreLocalAssetsEnabled() && URARomanVisualCatalog::IsLocalCatalogAvailable();
-	DrawPrototypeLine(bLocalActive ? TEXT("LOCAL ASSETS ACTIVE") : TEXT("PLACEHOLDER FALLBACK ACTIVE"), X, Y,
+	DrawPrototypeLine(bLocalActive ? TEXT("MATERIALI LOCALI ATTIVI") : TEXT("MATERIALI FALLBACK ATTIVI"), X, Y,
 		bLocalActive ? FLinearColor(0.35f, 0.95f, 0.45f) : FLinearColor(0.95f, 0.72f, 0.30f));
-	DrawPrototypeLine(FString::Printf(TEXT("Materiali: categorie locali=%d fallback=%d varianti=%d"),
-		LocalCategories, FallbackCategories, ActiveVariants), X, Y, FLinearColor(0.72f, 0.86f, 0.92f));
-	if (MaterialSummaries.Num() > 0)
-	{
-		DrawPrototypeLine(FString::Printf(TEXT("Attivi: %s"), *FString::Join(MaterialSummaries, TEXT(" | "))),
-			X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
-	}
+	DrawPrototypeLine(FString::Printf(TEXT("Binding locali %d | fallback %d | tetti %s | decorazioni %s"),
+		LocalCategories, FallbackCategories,
+		Character && Character->AreAccessibleRoofsVisible() ? TEXT("visibili") : TEXT("nascosti"),
+		Character && Character->AreDecorationsEnabled() ? TEXT("attive") : TEXT("disattive")),
+		X, Y, FLinearColor(0.72f, 0.86f, 0.92f));
+	DrawPrototypeLine(TEXT("WASD/Mouse | Shift | Spazio | E accesso | F1 nasconde HUD"), X, Y, FLinearColor(0.82f, 0.84f, 0.86f));
+	DrawPrototypeLine(TEXT("F5 rebuild | F7 materiali | F9 camera | F10 tetti | F11 decorazioni"), X, Y, FLinearColor(0.72f, 0.78f, 0.84f));
 	if (Character)
 	{
+		const FString Message = Character->GetActiveTechnicalMessage();
+		if (!Message.IsEmpty())
+		{
+			DrawPrototypeLine(Message, X, Y, FLinearColor(1.0f, 0.78f, 0.18f));
+		}
 		if (NearestAccessible)
 		{
 			DrawPrototypeLine(FString::Printf(TEXT("Vicino: %s | stanza=%s | %s"),
 				*NearestAccessible->GetName(), *NearestAccessible->CurrentRoomName.ToString(),
 				*NearestAccessible->GetDecorationSummary()), X, Y, FLinearColor(0.92f, 0.70f, 0.42f));
 		}
-		DrawPrototypeLine(FString::Printf(TEXT("Decorazioni=%s variante=%d coperture=%s fallback=%s label stanze=%s"),
-			Character->AreDecorationsEnabled() ? TEXT("on") : TEXT("off"), Character->GetDecorationVariant(),
-			Character->AreAccessibleRoofsVisible() ? TEXT("on") : TEXT("off"),
-			Character->AreDecorationFallbacksForced() ? TEXT("forzato") : TEXT("auto"),
-			Character->AreRoomLabelsVisible() ? TEXT("on") : TEXT("off")), X, Y, FLinearColor(0.74f, 0.86f, 0.66f));
-		DrawPrototypeLine(FString::Printf(TEXT("Debug: label=%s bounds=%s interazioni=%s utilities=%s"),
-			Character->AreBuildingLabelsVisible() ? TEXT("on") : TEXT("off"),
-			Character->AreCollisionBoundsVisible() ? TEXT("on") : TEXT("off"),
-			Character->AreInteractionPointsVisible() ? TEXT("on") : TEXT("off"),
-			Character->AreUtilityNodesVisible() ? TEXT("on") : TEXT("off")), X, Y, FLinearColor(0.60f, 0.85f, 0.65f));
 	}
 }
 

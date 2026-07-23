@@ -9,6 +9,8 @@
 #include "World/Modular/RARomanVisualCatalog.h"
 #include "RARomanProceduralBuildingActor.generated.h"
 
+class UMaterialInterface;
+
 USTRUCT(BlueprintType)
 struct ROMAAETERNA_API FRARomanPlaceholderVisualRule
 {
@@ -51,6 +53,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Modular") TArray<TObjectPtr<UInstancedStaticMeshComponent>> GeneratedInstanceComponents;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 LocallyResolvedCategoryCount = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 FallbackCategoryCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 LocalMaterialBindingCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") int32 FallbackMaterialBindingCount = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Transform") int32 RejectedTransformCount = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Roma Aeterna|Visual|Local") TArray<FName> ActiveMaterialVariants;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Decoration") bool bDecorationEnabled = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Roma Aeterna|Decoration") bool bForceDecorationFallback = false;
@@ -150,8 +155,12 @@ public:
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") bool IsUsingLocalAssetCatalog() const;
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetLocallyResolvedCategoryCount() const { return LocallyResolvedCategoryCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetFallbackCategoryCount() const { return FallbackCategoryCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetLocalMaterialBindingCount() const { return LocalMaterialBindingCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetFallbackMaterialBindingCount() const { return FallbackMaterialBindingCount; }
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetRejectedTransformCount() const { return RejectedTransformCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") int32 GetActiveMaterialVariantCount() const { return ActiveMaterialVariants.Num(); }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") FString GetActiveMaterialSummary() const;
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Visual|Local") FString GetMaterialResolutionSummary() const;
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") bool GenerateRoomDecoration();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void ClearRoomDecoration();
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") bool RebuildRoomDecoration();
@@ -163,6 +172,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetDecorationVariant(int32 Variant);
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetDecorationFallbackEnabled(bool bFallback);
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetRoofVisibility(bool bVisible);
+	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") int32 GetVisibleRoofInstanceCount() const;
 	UFUNCTION(BlueprintCallable, Category="Roma Aeterna|Decoration") void SetRoomLabelsVisible(bool bVisible) { bRoomLabelsVisible = bVisible; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") int32 GetAccessibleRoomCount() const { return AccessibleRoomCount; }
 	UFUNCTION(BlueprintPure, Category="Roma Aeterna|Decoration") bool IsAccessibleInteriorArchetype() const;
@@ -175,6 +185,8 @@ private:
 	FRARomanPlaceholderVisualRule GetVisualRule(ERARomanModuleCategory Category, const FRARomanBuildingParameters& Parameters) const;
 	bool BuildVisualInstances(const FRARomanGenerationResult& Result);
 	bool BuildAccessibleInterior();
+	bool ValidateVisualTransform(ERARomanModuleCategory Category, const FTransform& Transform, const FVector& SizeCm) const;
+	UMaterialInterface* ResolveUsableMaterial(const TSoftObjectPtr<UMaterialInterface>& Requested, ERARomanModuleCategory Category, bool& bOutLocal) const;
 	void ClearVisualInstances();
 	void DrawRuntimeDebug();
 };

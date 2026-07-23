@@ -43,8 +43,10 @@ def create_materials():
         roughness.set_editor_property("default_value", 0.9)
         unreal.MaterialEditingLibrary.connect_material_property(color, "", unreal.MaterialProperty.MP_BASE_COLOR)
         unreal.MaterialEditingLibrary.connect_material_property(roughness, "", unreal.MaterialProperty.MP_ROUGHNESS)
-        unreal.MaterialEditingLibrary.recompile_material(base)
-        unreal.EditorAssetLibrary.save_loaded_asset(base)
+    # Le fasce, i pannelli e i pavimenti decorativi sono componenti ISMC.
+    base.set_editor_property("used_with_instanced_static_meshes", True)
+    unreal.MaterialEditingLibrary.recompile_material(base)
+    unreal.EditorAssetLibrary.save_loaded_asset(base)
 
     instances = {}
     for name, (color, roughness) in PALETTE.items():

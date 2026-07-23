@@ -12,8 +12,10 @@
 #include "InputCoreTypes.h"
 #include "InputMappingContext.h"
 #include "InputModifiers.h"
+#include "Materials/MaterialInterface.h"
 #include "EngineUtils.h"
 #include "Engine/TextRenderActor.h"
+#include "Engine/StaticMeshActor.h"
 #include "Player/RAPlayerController.h"
 #include "RomaAeterna.h"
 #include "UObject/ConstructorHelpers.h"
@@ -43,7 +45,7 @@ ARACharacter::ARACharacter()
 	ThirdPersonSpringArm->bDoCollisionTest = true;
 	ThirdPersonSpringArm->ProbeSize = 12.0f;
 	ThirdPersonSpringArm->ProbeChannel = ECC_Camera;
-	ThirdPersonSpringArm->bEnableCameraLag = true;
+	ThirdPersonSpringArm->bEnableCameraLag = false;
 	ThirdPersonSpringArm->CameraLagSpeed = 14.0f;
 
 	ThirdPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
@@ -135,6 +137,7 @@ void ARACharacter::BeginPlay()
 	FirstPersonCamera->FieldOfView = FirstPersonFieldOfView;
 	ThirdPersonCamera->FieldOfView = ThirdPersonFieldOfView;
 	ApplyViewMode(true);
+	RefreshEnvironmentMaterials(URARomanVisualCatalog::AreLocalAssetsEnabled());
 }
 
 void ARACharacter::PawnClientRestart()
@@ -295,7 +298,11 @@ bool ARACharacter::HasValidPlayableFoundation() const
 		&& WalkSpeed > 0.0f && SprintSpeed > WalkSpeed && JumpVelocity > 0.0f;
 }
 
-void ARACharacter::ToggleTechnicalHud() { bTechnicalHudVisible = !bTechnicalHudVisible; }
+void ARACharacter::ToggleTechnicalHud()
+{
+	bTechnicalHudVisible = !bTechnicalHudVisible;
+	SetTechnicalMessage(bTechnicalHudVisible ? TEXT("F1 HUD VISIBLE") : TEXT("F1 HUD HIDDEN"));
+}
 
 void ARACharacter::ToggleBuildingLabels()
 {
@@ -324,7 +331,20 @@ void ARACharacter::ToggleUtilityNodes()
 
 void ARACharacter::RebuildRomanBuildings()
 {
-	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It) It->RebuildBuilding();
+	int32 ActorCount = 0;
+	int32 ComponentCount = 0;
+	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
+	{
+		It->RefreshVisualCatalogFromLocalAssets();
+		It->RebuildBuilding();
+		++ActorCount;
+		ComponentCount += It->GeneratedInstanceComponents.Num();
+	}
+	LastRebuildActorCount = ActorCount;
+	LastRebuildComponentCount = ComponentCount;
+	RefreshEnvironmentMaterials(URARomanVisualCatalog::AreLocalAssetsEnabled());
+	SetTechnicalMessage(TEXT("F5 REBUILD EXECUTED"));
+	UE_LOG(LogRomaAeterna, Display, TEXT("F5 REBUILD EXECUTED actors=%d components=%d"), ActorCount, ComponentCount);
 }
 
 bool ARACharacter::AreLocalAssetsEnabled() const
@@ -341,9 +361,12 @@ void ARACharacter::ToggleLocalAssets()
 		It->RefreshVisualCatalogFromLocalAssets();
 		It->RebuildBuilding();
 	}
-	UE_LOG(LogRomaAeterna, Display, TEXT("%s"), bEnable && URARomanVisualCatalog::IsLocalCatalogAvailable()
-		? TEXT("LOCAL_ASSETS_ACTIVE")
-		: TEXT("PLACEHOLDER_FALLBACK_ACTIVE"));
+	RefreshEnvironmentMaterials(bEnable);
+	const TCHAR* Message = bEnable && URARomanVisualCatalog::IsLocalCatalogAvailable()
+		? TEXT("F7 LOCAL MATERIALS ACTIVE")
+		: TEXT("F7 FALLBACK MATERIALS ACTIVE");
+	SetTechnicalMessage(Message);
+	UE_LOG(LogRomaAeterna, Display, TEXT("%s"), Message);
 }
 
 void ARACharacter::CycleDecorationVariant()
@@ -362,6 +385,9 @@ void ARACharacter::ToggleAccessibleRoofs()
 	{
 		It->SetRoofVisibility(bAccessibleRoofsVisible);
 	}
+	const TCHAR* Message = bAccessibleRoofsVisible ? TEXT("F10 ROOFS VISIBLE") : TEXT("F10 ROOFS HIDDEN");
+	SetTechnicalMessage(Message);
+	UE_LOG(LogRomaAeterna, Display, TEXT("%s"), Message);
 }
 
 void ARACharacter::ToggleDecorationFallback()
@@ -370,6 +396,53 @@ void ARACharacter::ToggleDecorationFallback()
 	for (TActorIterator<ARARomanProceduralBuildingActor> It(GetWorld()); It; ++It)
 	{
 		It->SetDecorationFallbackEnabled(bDecorationFallbacksForced);
+	}
+	SetTechnicalMessage(bDecorationFallbacksForced ? TEXT("F11 DECORATION FALLBACK ACTIVE") : TEXT("F11 DECORATIONS ACTIVE"));
+}
+
+void ARACharacter::ExecuteRebuildCommand() { RebuildRomanBuildings(); }
+void ARACharacter::ExecuteLocalMaterialToggle() { ToggleLocalAssets(); }
+void ARACharacter::ExecuteRoofToggle() { ToggleAccessibleRoofs(); }
+void ARACharacter::ExecuteDecorationToggle() { ToggleDecorationFallback(); }
+
+FString ARACharacter::GetActiveTechnicalMessage() const
+{
+	return GetWorld() && GetWorld()->GetTimeSeconds() <= TechnicalMessageExpiresAt ? LastTechnicalMessage : FString();
+}
+
+void ARACharacter::SetTechnicalMessage(const FString& Message)
+{
+	LastTechnicalMessage = Message;
+	TechnicalMessageExpiresAt = GetWorld() ? GetWorld()->GetTimeSeconds() + 3.0f : 3.0f;
+}
+
+void ARACharacter::RefreshEnvironmentMaterials(const bool bUseLocalMaterials)
+{
+	struct FEnvironmentRule
+	{
+		FName Tag;
+		const TCHAR* Local;
+		const TCHAR* Fallback;
+	};
+	static const FEnvironmentRule Rules[] = {
+		{TEXT("RA_RomanRoad"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Road_Secondary.MI_RA_Local_Road_Secondary"), TEXT("/Game/Technical/Materials/MI_RA_RoadStone.MI_RA_RoadStone")},
+		{TEXT("RA_SAFETY_FLOOR"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Ground_Dry.MI_RA_Local_Ground_Dry"), TEXT("/Game/Technical/Materials/MI_RA_Ground.MI_RA_Ground")},
+		{TEXT("RA_SIDEWALK"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Road_Secondary.MI_RA_Local_Road_Secondary"), TEXT("/Game/Technical/Materials/MI_RA_Sidewalk.MI_RA_Sidewalk")},
+		{TEXT("RA_CURB"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Brick_Popular.MI_RA_Local_Brick_Popular"), TEXT("/Game/Technical/Materials/MI_RA_Stone.MI_RA_Stone")},
+		{TEXT("RA_VEGETATION"), TEXT("/Game/LocalAssets/RomaAeterna/Materials/MI_RA_Local_Wood_Worn.MI_RA_Local_Wood_Worn"), TEXT("/Game/Technical/Materials/MI_RA_Wood.MI_RA_Wood")}
+	};
+	for (TActorIterator<AStaticMeshActor> It(GetWorld()); It; ++It)
+	{
+		for (const FEnvironmentRule& Rule : Rules)
+		{
+			if (!It->ActorHasTag(Rule.Tag)) continue;
+			const TCHAR* Path = bUseLocalMaterials ? Rule.Local : Rule.Fallback;
+			if (UMaterialInterface* Material = LoadObject<UMaterialInterface>(nullptr, Path))
+			{
+				It->GetStaticMeshComponent()->SetMaterial(0, Material);
+			}
+			break;
+		}
 	}
 }
 

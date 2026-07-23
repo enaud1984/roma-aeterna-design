@@ -198,6 +198,9 @@ def create_material(name: str, textures: dict[str, object], tiling: float):
     if not material:
         raise RuntimeError(f"Creazione materiale fallita: {asset_path}")
 
+    # I moduli runtime usano ISMC: senza questo flag UE sostituisce il materiale
+    # con WorldGridMaterial durante PIE anche se il path e la Material Instance sono validi.
+    material.set_editor_property("used_with_instanced_static_meshes", True)
     coordinates = unreal.MaterialEditingLibrary.create_material_expression(
         material, unreal.MaterialExpressionTextureCoordinate, -1100, 0
     )

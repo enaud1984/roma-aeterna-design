@@ -431,6 +431,12 @@ inline void AddPlacement(GenerationResult& Result, std::string ModuleId, ModuleC
 
 inline bool ValidatePlacements(const std::vector<ModulePlacement>& Placements, std::int32_t MaximumModuleCount, std::vector<GenerationMessage>& Warnings, std::vector<GenerationMessage>& Errors)
 {
+    constexpr double MinimumScale = 0.01;
+    constexpr double MaximumScale = 100.0;
+    constexpr double MaximumAspectRatio = 80.0;
+    constexpr double MaximumWorldExtentCm = 100000.0;
+    constexpr double MaximumRoofInclinationDegrees = 35.0;
+    constexpr double OrientationToleranceDegrees = 5.0;
     if (static_cast<std::int32_t>(Placements.size()) > MaximumModuleCount)
     {
         AddMessage(Errors, "ModuleLimitExceeded", "Placement oltre MaximumModuleCount.", true);
@@ -444,6 +450,33 @@ inline bool ValidatePlacements(const std::vector<ModulePlacement>& Placements, s
         if (!IsScaleValid(Placement.TransformValue.Scale))
         {
             AddMessage(Errors, "InvalidScale", "Scala nulla o negativa.", true);
+        }
+        const double MinimumAxis = std::min({Placement.TransformValue.Scale.X, Placement.TransformValue.Scale.Y, Placement.TransformValue.Scale.Z});
+        const double MaximumAxis = std::max({Placement.TransformValue.Scale.X, Placement.TransformValue.Scale.Y, Placement.TransformValue.Scale.Z});
+        if (MinimumAxis < MinimumScale || MaximumAxis > MaximumScale
+            || (MinimumAxis > 0.0 && MaximumAxis / MinimumAxis > MaximumAspectRatio))
+        {
+            AddMessage(Errors, "PathologicalScale", "Scala o rapporto tra assi oltre le soglie visuali.", true);
+        }
+        if (std::abs(Placement.TransformValue.Location.X) > MaximumWorldExtentCm
+            || std::abs(Placement.TransformValue.Location.Y) > MaximumWorldExtentCm
+            || std::abs(Placement.TransformValue.Location.Z) > MaximumWorldExtentCm)
+        {
+            AddMessage(Errors, "ModuleWorldExtentExceeded", "Modulo oltre l'estensione massima consentita.", true);
+        }
+        const double Pitch = std::abs(Placement.TransformValue.RotationDegrees.X);
+        const double Roll = std::abs(Placement.TransformValue.RotationDegrees.Z);
+        if (Placement.Category == ModuleCategory::Wall && (Pitch > OrientationToleranceDegrees || Roll > OrientationToleranceDegrees))
+        {
+            AddMessage(Errors, "WallNotVertical", "Parete fuori dalla tolleranza verticale.", true);
+        }
+        if (Placement.Category == ModuleCategory::Floor && (Pitch > OrientationToleranceDegrees || Roll > OrientationToleranceDegrees))
+        {
+            AddMessage(Errors, "FloorNotHorizontal", "Pavimento fuori dalla tolleranza orizzontale.", true);
+        }
+        if (Placement.Category == ModuleCategory::Roof && (Pitch > MaximumRoofInclinationDegrees || Roll > MaximumRoofInclinationDegrees))
+        {
+            AddMessage(Errors, "ImplausibleRoofPitch", "Inclinazione del tetto oltre la soglia configurata.", true);
         }
         if (Placement.ModuleId.empty())
         {

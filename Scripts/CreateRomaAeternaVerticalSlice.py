@@ -56,8 +56,10 @@ def create_technical_materials():
         unreal.MaterialEditingLibrary.connect_material_property(color, "", unreal.MaterialProperty.MP_BASE_COLOR)
         unreal.MaterialEditingLibrary.connect_material_property(roughness, "", unreal.MaterialProperty.MP_ROUGHNESS)
         unreal.MaterialEditingLibrary.connect_material_property(metallic, "", unreal.MaterialProperty.MP_METALLIC)
-        unreal.MaterialEditingLibrary.recompile_material(base)
-        unreal.EditorAssetLibrary.save_loaded_asset(base)
+    # Il fallback tecnico è applicato anche agli InstancedStaticMeshComponent.
+    base.set_editor_property("used_with_instanced_static_meshes", True)
+    unreal.MaterialEditingLibrary.recompile_material(base)
+    unreal.EditorAssetLibrary.save_loaded_asset(base)
 
     materials = {}
     for name, (rgba, roughness, metallic) in PALETTE.items():
